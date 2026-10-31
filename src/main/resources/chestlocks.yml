@@ -1,0 +1,63 @@
+# =====================================================================================
+#  Chatalyst - Candados de cofres (chestlocks.yml)
+#
+#  Shift + clic derecho a un cofre llevando CUALQUIER cartel en la mano: se cuelga el cartel y
+#  se abre su editor. Si se deja EN BLANCO, el cofre queda protegido a tu nombre (con Sign_Lines);
+#  si se escribe algo, es un cartel normal y el cofre NO lleva candado (p. ej. [shop]). Solo tu y la gente que agregues pueden abrirlo o romperlo, aunque
+#  compartan terreno o clan. El candado se guarda dentro del propio bloque.
+#
+#  /candado info               quien es el dueno y quien tiene acceso (mira al cofre)
+#  /candado agregar <jugador>  darle acceso
+#  /candado quitar <jugador>   quitarselo
+#  /candado eliminar           quitar el candado
+#  chatalyst.lock.bypass       abre, rompe y cambia cualquier candado (staff)
+# =====================================================================================
+
+Chest_Locks:
+  Enabled: false
+  # Mundos donde no se pueden poner candados.
+  Disabled_Worlds: []
+  # Solo se puede poner un candado DENTRO de una proteccion (region de WorldGuard o de
+  # ProtectionStones, que tambien lo son). Si despues quitan la proteccion, los candados de
+  # dentro dejan de valer y se borran la siguiente vez que alguien toque el cofre.
+  Require_Region: true
+  Command: candado
+  Command_Aliases: [lock, proteger]
+  # Lo que se puede proteger: nombre de material o *SUFIJO (*COPPER_CHEST = todos los cofres de cobre).
+  # Las cajas de shulker no van: al romperlas el candado viajaria con el objeto.
+  # Sin dispensadores ni soltadores: con redstone sueltan su contenido al mundo.
+  Lockable: [CHEST, TRAPPED_CHEST, "*COPPER_CHEST", BARREL, FURNACE, BLAST_FURNACE, SMOKER, HOPPER]
+  # Gastar el cartel al proteger (en creativo nunca se gasta).
+  Consume_Sign: true
+  # Colgar el letrero en la cara clicada (si es una pared libre) y decidir con su editor. Sin pared
+  # libre, o con esto en false, el candado se pone directo.
+  Place_Sign: true
+  Sign_Lines:
+    - "<#C44FE0><b>[Privado]</b>"
+    - "<#240046>{owner}"
+  # Las tolvas no sacan nada de un contenedor protegido (salvo hacia otro del mismo dueno).
+  Block_Hopper_Extraction: true
+  # Cuanta gente puede agregar el dueno a cada cofre.
+  Max_Trusted: 10
+  # Textos (MiniMessage). {owner} {player} {trusted} {max}
+  Messages:
+    Sign_Choice: "<#C0B3D9>Deja el cartel <#FBF2FF>en blanco<#C0B3D9> para ponerle candado al cofre, o escribe algo para que sea un cartel normal."
+    Sign_Only: "<#C0B3D9>Cartel puesto. El cofre no tiene candado."
+    Locked: "<#3DFFA8>Cofre protegido. Solo tú (y quien agregues con <#FBF2FF>/candado agregar<#3DFFA8>) puede abrirlo."
+    World_Disabled: "<#FF4D6D>Aquí no se pueden proteger cofres."
+    Need_Region: "<#FF4D6D>Solo puedes proteger cofres dentro de una protección (tu terreno)."
+    Already_Yours: "<#C0B3D9>Este cofre ya es tuyo. Usa <#FBF2FF>/candado info<#C0B3D9> para ver quién tiene acceso."
+    Denied: "<#FF4D6D>Este cofre está protegido por <#FBF2FF>{owner}<#FF4D6D>."
+    Denied_Break: "<#FF4D6D>No puedes romper un cofre protegido de <#FBF2FF>{owner}<#FF4D6D>."
+    Denied_Merge: "<#FF4D6D>No puedes poner un cofre junto al cofre protegido de <#FBF2FF>{owner}<#FF4D6D>."
+    Info: "<#C0B3D9>Dueño: <#FBF2FF>{owner}<#C0B3D9> · Con acceso: <#FBF2FF>{trusted}"
+    Not_Locked: "<#C0B3D9>Ese bloque no está protegido."
+    Not_Container: "<#FF4D6D>Mira a un cofre (u otro contenedor) a menos de 5 bloques."
+    Not_Owner: "<#FF4D6D>Solo el dueño puede cambiar este candado."
+    Added: "<#3DFFA8>{player} ya puede abrir este cofre."
+    Removed: "<#3DFFA8>{player} ya no puede abrir este cofre."
+    Unlocked: "<#3DFFA8>Candado quitado."
+    Unknown_Player: "<#FF4D6D>No conozco a <#FBF2FF>{player}<#FF4D6D> (tiene que haber entrado al servidor alguna vez)."
+    Too_Many: "<#FF4D6D>Este cofre ya tiene {max} personas con acceso."
+    Disabled: "<#FF4D6D>La protección de cofres está apagada."
+    Usage: "<#C0B3D9>Protege un cofre con <#FBF2FF>shift + clic derecho<#C0B3D9> llevando un cartel. <#FBF2FF>/candado info · agregar <jugador> · quitar <jugador> · eliminar"

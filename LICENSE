@@ -1,0 +1,44 @@
+Chatalyst Source-Available License
+Copyright (c) 2025-2026 DevKazuo. All rights reserved.
+
+This repository publishes part of the source code of Chatalyst ("the Software") so that
+anyone can READ it: to evaluate the plugin before buying it, to audit what it does on a
+server, and to integrate with its public API.
+
+1. Permitted
+   You may view and read the source code in this repository, and quote short excerpts
+   in discussions, bug reports or reviews, with attribution.
+
+2. Not permitted, without prior written permission from the copyright holder
+   a) compiling, building or packaging the Software, in whole or in part;
+   b) running any build of the Software that was not obtained from an official
+      Chatalyst store page;
+   c) copying, redistributing, publishing, sublicensing or selling the Software or any
+      substantial part of it, in source or binary form;
+   d) modifying the Software or creating derivative works from it, including porting
+      its code into other plugins or projects;
+   e) removing, bypassing or reimplementing the Software's licensing or protection
+      mechanisms.
+
+3. Plugins that only call the public API package (dev.chatalyst.api) are not derivative
+   works and may be written and distributed freely.
+
+4. A fork created by GitHub's own interface exists only because GitHub's Terms of
+   Service allow viewing and forking public repositories on GitHub. It grants no rights
+   beyond section 1.
+
+5. Purchasing a Chatalyst license grants the right to run the official build under the
+   terms of that purchase. It does not grant any of the rights withheld in section 2.
+
+6. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. IN NO EVENT SHALL THE
+   COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE
+   SOFTWARE OR ITS USE.
+
+Any use not expressly permitted above is prohibited. Violations may result in takedown
+requests (including DMCA notices) and legal action.
+
+---------------------------------------------------------------------------------------
+Resumen en espanol (el texto en ingles es el que vale):
+Puedes LEER este codigo. No puedes compilarlo, redistribuirlo, modificarlo, reutilizarlo
+en otros proyectos ni saltarte su sistema de licencias. Los plugins que solo usan la API
+publica (dev.chatalyst.api) son libres.

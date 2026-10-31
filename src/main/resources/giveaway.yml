@@ -1,0 +1,488 @@
+# =====================================================================================
+#  Chatalyst — giveaways (a live draw the whole server watches).
+#
+#  HOW ONE RUNS
+#  --------------------------------------------------------------------------------
+#   1) Staff opens /sorteo (a menu: pick the prize TYPE, then the prize, then start),
+#      or types /sorteo start <prize_id> [seconds] straight away.
+#
+#   2) WARM-UP. Everyone is told the draw is about to begin — chat line, title and a
+#      draining boss bar — with a countdown on the last seconds. Nothing is locked yet,
+#      so people can finish what they are doing and come back.
+#
+#   3) START. The roulette opens for EVERY eligible player at the same instant, and
+#      immunity is switched on: while the wheel spins nobody can be damaged, drown,
+#      burn or starve, because a player watching a menu cannot defend themselves.
+#
+#   4) THE SPIN. Heads scroll through the window and slow down, ticking as they go —
+#      the sound rises in pitch as the wheel loses speed.
+#
+#   5) THE WINNER. Picked at the very last step, uniformly at random among the players
+#      still online, and shown in the middle of the window with a title, a broadcast
+#      and a sound. Then the prize is handed over and immunity fades a few seconds
+#      later, so nobody is dropped back into a mob fight the instant the menu closes.
+#
+#  Every player-facing text you write here takes a parallel "_es" key that a Spanish
+#  client sees instead (Name/Name_es, Description/Description_es). A missing or blank
+#  translation falls back to the base key, so a half-translated file still reads as one
+#  language rather than a mix of both.
+# =====================================================================================
+Giveaway:
+  Enabled: true
+
+  # Command players and staff use. A label another plugin already owns is never taken
+  # over — it is skipped with a warning naming the owner — so pick a free name if yours
+  # is taken. /chatalyst:sorteo always works as a fallback.
+  Command: "sorteo"
+  Command_Aliases:
+    - "giveaway"
+    - "rifa"
+    - "raffle"
+
+  # Seconds between "a giveaway is about to start" and the wheel actually opening.
+  # This is the window people have to come back from the mine. 0 starts immediately.
+  Warmup_Seconds: 20
+
+  # Seconds shown at the top of the countdown, out of the warm-up. Only the marks that
+  # fit inside Warmup_Seconds are used, so a short warm-up simply skips the early ones.
+  Countdown_Marks: [30, 20, 10, 5, 4, 3, 2, 1]
+
+  # Once the menu is open, the pause before the wheel starts moving. It gives everyone
+  # a moment to read the prize instead of walking into a wheel already spinning.
+  Ready_Seconds: 3
+
+  # How long the wheel spins. It starts fast and decelerates on a curve, so a longer
+  # spin means more tension, not just more of the same speed.
+  Spin_Seconds: 9
+
+  # How long the winner stays on screen before the menu closes on its own.
+  Winner_Seconds: 6
+
+  # Reopen the roulette for anyone who closes it while the wheel is turning. This is
+  # what makes the draw a shared moment rather than a menu people click away. Set it to
+  # false if you would rather let players opt out by pressing escape.
+  Reopen_If_Closed: true
+
+  Immunity:
+    # Nobody in the draw can be hurt: no damage of any kind, no hunger, no burning.
+    # A player looking at an inventory cannot run, block or eat, so without this a
+    # giveaway is a free kill for anyone who stayed outside it.
+    Enabled: true
+    # Extra seconds of protection AFTER the winner is announced, so the menu closing
+    # does not drop everyone back into a creeper at once.
+    Extra_Seconds: 5
+    # Void damage is cancelled too. A player already falling out of the world keeps
+    # falling, so if your spawn sits over the void, set this to false and let the void
+    # win: an unhurt player stuck under the map is worse than a lost entry.
+    Cancel_Void: true
+
+  Participants:
+    # Permission a player must NOT have to take part. Give it to staff accounts you do
+    # not want winning their own giveaways; they still see the draw, they just cannot
+    # be drawn. Leave it blank to let literally everyone in.
+    Exempt_Permission: "chatalyst.giveaway.exempt"
+
+    # STAFF NEVER WIN. On by default, because "the admin won again" is the fastest way
+    # for a server to stop believing its own giveaways are real. Staff still watch the
+    # wheel and are still protected while it spins -- they are simply not in the draw.
+    #
+    # Three nets, because no single one is true on every server:
+    #   - operators, which always catches an owner testing on their own machine
+    #   - the permissions below, which work whatever permission plugin is installed
+    #   - the group names below, matched against a player's PRIMARY LuckPerms group
+    #
+    # Turn it off only if your staff are meant to compete with the players.
+    Exclude_Staff: true
+    Staff_Permissions:
+      - "chatalyst.admin"
+      - "chatalyst.staff.*"
+      - "chatalyst.command.giveaway.admin"
+      # Power that means "staff" on ANY server, whatever the rank is called. This is the
+      # part that works without knowing your ladder: a group that can kick, mute or ban
+      # is staff whether it is named "moderator", "centurion" or anything else.
+      #
+      # Chatalyst's own first, because those are the ones we can be sure of -- a rank
+      # holding them was deliberately given moderation power in THIS plugin:
+      - "chatalyst.command.kick"
+      - "chatalyst.command.mute"
+      - "chatalyst.command.ban"
+      - "chatalyst.command.staff"
+      - "chatalyst.channel.staff"
+      # Then vanilla and the moderation plugins most servers actually use, for a rank
+      # whose power lives entirely outside Chatalyst:
+      - "minecraft.command.ban"
+      - "minecraft.command.kick"
+      - "essentials.ban"
+      - "essentials.kick"
+      - "litebans.ban"
+      - "litebans.kick"
+    # A last net, for a staff rank that somehow holds none of the permissions above.
+    # These are English because the jar has to ship SOMETHING -- rename them to your own
+    # ladder. Only the group a player is actually SET to is matched here; groups they
+    # merely INHERIT are not, which is what the permissions above are for.
+    Staff_Groups:
+      - "owner"
+      - "admin"
+      - "administrator"
+      - "srmod"
+      - "seniormod"
+      - "mod"
+      - "moderator"
+      - "helper"
+      - "staff"
+      - "builder"
+      - "dev"
+      - "developer"
+
+    # Players in vanish are never entered (a hidden moderator winning in front of the
+    # server tells everyone they were watching) — they still see the wheel.
+    Exclude_Vanished: true
+    # Enter players who are marked AFK? Off by default: a giveaway should reward the
+    # people who are actually there.
+    Include_Afk: false
+    # Worlds whose players are neither entered nor shown the menu (a lobby, a build
+    # world, a staff world). Empty = the whole server takes part.
+    Excluded_Worlds: []
+    # Quien gano un sorteo hace menos de esto no entra en el siguiente, para que no gane
+    # siempre el mismo. Duraciones como 30m, 12h, 1d. "0" = sin espera.
+    Win_Cooldown: 12h
+
+  # Zona horaria de los sorteos programados. Vacio = la del servidor.
+  Time_Zone: America/Mexico_City
+
+  # Sorteos que se lanzan solos. Cada uno se dispara como mucho una vez por dia y hora.
+  #   Time: "HH:mm"   Days: [LUN, MAR, MIE, JUE, VIE, SAB, DOM] (vacio = todos los dias)
+  #   Prize: id de Giveaway_Prizes o de un premio personalizado (/sorteo personalizados)
+  #   Winners, Warmup_Seconds, Amount (solo dinero), Min_Players: opcionales.
+  # Configuralos SOLO en el servidor que deba lanzarlos (Lobby y Survival tienen cada uno
+  # su giveaway.yml): si los pones en los dos, cada uno lanzara el suyo.
+  Schedules:
+    ejemplo-finde:
+      Enabled: false
+      Time: "21:00"
+      Days: [SAB, DOM]
+      Prize: diamantes
+      Winners: 2
+      Warmup_Seconds: 60
+      Min_Players: 5
+
+  Sounds:
+    Enabled: true
+    # Played to everyone the moment the warm-up starts.
+    Start: "BLOCK_NOTE_BLOCK_BELL"
+    # One per countdown number.
+    Countdown: "BLOCK_NOTE_BLOCK_PLING"
+    # THE WHEEL. One tick per slot the reel moves, so the sound IS the animation: as
+    # the wheel slows down the ticks space out and the pitch climbs from Pitch_From to
+    # Pitch_To, which is what makes a roulette sound like it is running out of speed.
+    Tick: "BLOCK_NOTE_BLOCK_HAT"
+    # Swapped in for the last quarter of the spin, when every tick counts.
+    Tick_Final: "BLOCK_NOTE_BLOCK_PLING"
+    Pitch_From: 0.7
+    Pitch_To: 2.0
+    # The reveal.
+    Winner: "ENTITY_PLAYER_LEVELUP"
+    # Played only to the winner, on top of the one above.
+    Winner_Personal: "UI_TOAST_CHALLENGE_COMPLETE"
+
+  # A firework at the winner's feet. Pure decoration; it damages nobody.
+  Firework: true
+
+  # Los atajos de dinero del menu (hasta 6, ordenados). Lo que es un premio gordo depende
+  # de la economia de TU server: mira lo que cuesta algo en tu tienda y lo que tiene la
+  # gente en el banco antes de copiar estos numeros. Vacio = los de fabrica.
+  Amount_Presets: [1000, 5000, 10000, 25000, 50000, 100000]
+
+  # Announce the result in the private staff Discord channel (needs Discord.Staff).
+  Notify_Discord: true
+
+  # -----------------------------------------------------------------------------------
+  #  Ranks as prizes, without writing a catalogue entry for each one.
+  #
+  #  Almost every server calls its ranks some arrangement of vip / vip+ / mvp++, so rather
+  #  than asking you to describe them all over again here, the names below are matched
+  #  against the groups LuckPerms actually has and the matches are offered in the menu on
+  #  their own. A name no group answers to is simply not shown, so listing extras costs
+  #  nothing -- rename the list to whatever your ladder is really called.
+  #
+  #  This is only about DETECTION. A rank you already describe in Rank_Catalog
+  #  (integrations.yml) keeps working as a RANK prize whether or not it is named here.
+  # -----------------------------------------------------------------------------------
+  Ranks:
+    # Off = only the ranks you wrote by hand in Giveaway_Prizes are offered.
+    Auto_Detect: true
+    # Group names to look for, matched ignoring case. These are LuckPerms GROUP names,
+    # not display names: if the group is "vip" but shows as "VIP+", write "vip".
+    Names: ["vip", "vip+", "vip++", "mvp", "mvp+", "mvp++", "premium", "elite", "legend"]
+    # Never offered, whatever anything else says. Keep "default" on the list, since
+    # everybody already has it.
+    #
+    # You do NOT need to list your staff ladder here. Any group that grants one of the
+    # Participants.Staff_Permissions above is recognised as staff and refused on its own,
+    # whatever it is called -- which matters, because this list ships in English while
+    # real servers name their staff in their own language and their own theme. A server
+    # whose administrators are "arconte" and "centurion" is covered without writing a
+    # word here.
+    Never: ["owner", "admin", "administrator", "mod", "moderator", "helper", "staff",
+            "builder", "dev", "developer", "default"]
+    # How long a detected rank lasts when it is granted directly (that is, with no Tebex
+    # ledger in the middle). "permanent", or a duration such as 30d or 12h.
+    Duration: "permanent"
+
+# =====================================================================================
+#  Giveaway_Prizes — what can be given away. The YAML key is the prize id you type in
+#  /sorteo start <id>, so keep it short, lowercase and permanent.
+#
+#  Every prize has a Type, which is both what it hands over and how the menu groups it:
+#
+#    ITEMS     Items straight from this file. Same fields as the store catalog:
+#                Material, Amount, Name, Lore, Enchantments, Model_Data, Glow.
+#              Anything that does not fit the winner's inventory drops at their feet.
+#
+#    COMMANDS  Console commands. {player} is the winner's name and {uuid} their UUID.
+#              This is the escape hatch for anything another plugin owns: crate keys,
+#              pets, cosmetics, kits, permissions.
+#
+#    MONEY     Pays into the winner's balance through Vault. The one prize whose size is
+#              NOT written here: it is typed when the draw is launched, either in the
+#              chat from the Amount button on the start screen, or as the last argument
+#              of /sorteo start <id> [seconds] [amount]. A figure ("50000") or a band
+#              ("15000-35000") that is rolled fresh on every draw.
+#
+#              It works that way because "how much do we give away today" is not a
+#              property of the prize. An anniversary, an ordinary Tuesday and an apology
+#              for an outage do not pay the same, and editing this file and reloading for
+#              each of them turns a thirty-second decision into paperwork.
+#
+#              Put {amount} anywhere in Description and it is filled in with the figure,
+#              already formatted with your economy's symbol; while no amount has been
+#              typed it reads "not set yet" and the start button refuses, saying so.
+#
+#    STORE     Hands over a product you ALREADY sell, by its Store_Catalog id in
+#              store.yml — the real thing, not a copy that drifts when you edit the
+#              shop. This is how you give away "that special item from the store".
+#              Note it is handed over like a prize, not like a purchase: a winner with
+#              no room gets the overflow at their feet instead of a claim that waits.
+#              They are standing still and immune when it lands, so nothing is lost.
+#
+#    RANK      Grants a rank, and it works whether or not you sell ranks at all.
+#              With Tebex on and that rank's Tebex_Enabled true, the grant goes through
+#              the same ledger a purchase uses -- LuckPerms applies the group, the
+#              Discord role follows, and the expiry comes from its Tebex_Duration. That
+#              detour is not optional there: the reconciler repairs any group it has no
+#              receipt for, so a direct grant would be taken back within the minute.
+#              With Tebex off -- how a server looks while it is still being built -- the
+#              group is simply written to LuckPerms, and Giveaway.Ranks.Duration above
+#              decides how long it lasts. The right door is picked per draw.
+#
+#              The Rank field is a Rank_Catalog id (integrations.yml) when you have one;
+#              otherwise it is the LuckPerms group name itself. Ranks found by
+#              Giveaway.Ranks.Names need no entry here at all.
+#
+#    PERMISSION  Grants LuckPerms permission nodes, listed under Permissions. This is how
+#              you give away a perk that is not a whole rank: a week of /fly, a month of
+#              a cosmetic, access to a warp. Needs LuckPerms.
+#
+#  A prize may also carry extra Commands on top of its own type — they run for every
+#  type, so you can hand over a rank AND a celebration broadcast in one entry. The same
+#  goes for Permissions: a kit prize can come with flight included.
+#
+#  Permissions are granted through the LuckPerms API rather than by writing
+#  "lp user ... permission settemp" into Commands. A hand-written command depends on
+#  another plugin's syntax, says nothing when LuckPerms is missing, and gives no way to
+#  know whether it worked — and its duration would be a loose bit of text instead of the
+#  same Duration the rest of the prize uses.
+#
+#  EDITING THE PERMISSIONS LIST
+#
+#  Two ways, and they are the same list — whichever you use, the other one sees it:
+#
+#    In game   /sorteo → RIGHT-click the prize → add with the book, shift-click one to
+#              remove. Saving writes this very file, and these comments survive it.
+#
+#    By hand   the Permissions list below. After editing, run /cht reload.
+#
+#  A permission is a NODE, not a sentence: lowercase letters, digits, dots, dashes and *,
+#  with no spaces. "lp user Kazu parent set owner" is not a permission — it is a command,
+#  and it belongs in Commands. Anything that is not a node is dropped when the file is
+#  read, so writing one by hand would leave an entry that quietly disappears.
+#
+#  Only prizes WRITTEN in this file can be edited from the menu. A rank that was detected
+#  in LuckPerms has no entry here to save into; give it an entry first if you want to hang
+#  permissions on it.
+#
+#  Duration      How long the RANK and the PERMISSIONS of this prize last: "7d", "30d",
+#                "12h", or "permanent". Leave it out and the prize follows
+#                Giveaway.Ranks.Duration above, exactly as before. A duration nobody can
+#                read is not guessed at: it falls back to the global setting and says so
+#                in the console. The rank and the permissions of one prize always expire
+#                together — they are the same gift.
+#
+#  Optional presentation fields, all of them safe to leave out:
+#    Icon          the material shown in the menu and above the wheel (default per type)
+#    Glow          true for the enchanted glint
+#    Description   lines shown under the prize, in the menu and in the roulette
+# =====================================================================================
+# =====================================================================================
+#  Giveaway_Categories — how the menu is organised.
+#
+#  This is NOT the prize Type. The Type says how a prize is handed over (items, a
+#  command, money); the category says where you go looking for it, and they are
+#  different questions. Eight kits are all COMMANDS underneath, so grouping by Type
+#  piled them into one screen while "Money" held three things.
+#
+#  Each prize points at one with its Category field. A prize whose category does not
+#  exist here is not lost: it shows up under "Uncategorised", because a prize nobody
+#  can see is worse than one filed in the wrong drawer.
+#
+#  Order decides the order on the front page. An empty category is not shown at all —
+#  an icon that opens a blank screen looks like a broken plugin.
+# =====================================================================================
+#  Giveaway_Menu — como se reparte la pantalla de /sorteo.
+#
+#  Los slots se escriben EN BASE 1: la cuadricula es de 9 columnas por 6 filas, la
+#  primera casilla es la 1 y la ultima la 54. Se cuenta como se ve, de izquierda a
+#  derecha y de arriba abajo:
+#
+#         col  1  2  3  4  5  6  7  8  9
+#      fila 1   1  2  3  4  5  6  7  8  9
+#      fila 2  10 11 12 13 14 15 16 17 18
+#      fila 3  19 20 21 22 23 24 25 26 27
+#      fila 4  28 29 30 31 32 33 34 35 36
+#      fila 5  37 38 39 40 41 42 43 44 45
+#      fila 6  46 47 48 49 50 51 52 53 54
+#
+#  Las cartas NO se colocan una a una: se centran solas. Se dice cuantas columnas y
+#  cuantas filas ocupa la rejilla, y el sobrante se reparte a los lados y arriba y
+#  abajo, de modo que una fila a medias queda centrada en vez de arrimada al borde.
+#
+#  Con Columns: 7 se dejan libres la primera y la ultima columna, que es lo que hace
+#  que la pantalla respire. Ojo al techo: Columns x Rows es cuantos premios caben en
+#  una categoria; si una tiene mas, los de mas no se pueden elegir y sale un aviso en
+#  la consola al abrir el menu.
+# =====================================================================================
+Giveaway_Menu:
+  # Alto de la pantalla, en filas de 9 (entre 3 y 6).
+  Rows: 6
+
+  Grid:
+    # Columnas que ocupan las cartas. 7 deja un margen a cada lado.
+    Columns: 7
+    # Filas para las cartas. Por defecto, todas menos la de arriba y la de navegacion.
+    Rows: 4
+
+  # Botones de la fila de abajo.
+  Buttons:
+    Back: 46      # volver a la portada (solo dentro de una categoria)
+    Status: 50    # estado del sorteo, y cancelarlo si hay uno en marcha
+    Close: 54     # cerrar
+
+# =====================================================================================
+Giveaway_Categories:
+  personalizados:
+    Name: Personalizados
+    Name_es: Personalizados
+    Icon: SHULKER_BOX
+    Order: 6
+  kits:
+    Name: "Kits"
+    Icon: DIAMOND_CHESTPLATE
+    Order: 1
+  rangos:
+    Name: "Ranks"
+    Name_es: "Rangos"
+    Icon: NETHER_STAR
+    Order: 2
+  dinero:
+    Name: "Money"
+    Name_es: "Dinero"
+    Icon: GOLD_INGOT
+    Order: 3
+  perks:
+    Name: "Perks"
+    Name_es: "Ventajas"
+    Icon: FEATHER
+    Order: 4
+  objetos:
+    Name: "Items"
+    Name_es: "Objetos"
+    Icon: CHEST
+    Order: 5
+
+Giveaway_Prizes:
+  diamantes:
+    Name: "<gradient:#54A6FF:#B6F7D4><bold>Diamond stash</bold></gradient>"
+    Name_es: "<gradient:#54A6FF:#B6F7D4><bold>Alijo de diamantes</bold></gradient>"
+    Type: ITEMS
+    Icon: DIAMOND
+    Glow: true
+    Description:
+      - "<#C0B3D9>32 diamonds and a netherite ingot"
+    Description_es:
+      - "<#C0B3D9>32 diamantes y un lingote de netherita"
+    Items:
+      - Material: DIAMOND
+        Amount: 32
+      - Material: NETHERITE_INGOT
+        Amount: 1
+
+  bolsa-de-monedas:
+    Name: "<#FFD166><bold>Coin pouch</bold>"
+    Name_es: "<#FFD166><bold>Bolsa de monedas</bold>"
+    Type: MONEY
+    Icon: GOLD_INGOT
+    # No amount here on purpose: it is typed when the draw is launched. {amount} is
+    # replaced with whatever was typed, formatted with your economy's symbol.
+    Description:
+      - "<#FFD166><bold>{amount}</bold>"
+      - "<#C0B3D9>Paid straight into your balance"
+    Description_es:
+      - "<#FFD166><bold>{amount}</bold>"
+      - "<#C0B3D9>Directo a tu saldo"
+
+# Copy any of these under Giveaway_Prizes and edit them.
+#
+# Giveaway_Prizes:
+#   vuelo-una-semana:
+#     Name: "<#7BFFB0><bold>A week of flight</bold>"
+#     Name_es: "<#7BFFB0><bold>Una semana de vuelo</bold>"
+#     Type: PERMISSION
+#     Icon: FEATHER
+#     Permissions:
+#       - essentials.fly
+#     Duration: 7d
+#
+#   rango-un-mes:
+#     Name: "<#E4A8FF>A month of Legend"
+#     Type: RANK
+#     Rank: "legend"
+#     # Overrides Giveaway.Ranks.Duration for this prize only.
+#     Duration: 30d
+#
+# Giveaway_Prizes:
+#   llaves:
+#     Name: "<#E4A8FF>5 legendary keys"
+#     Name_es: "<#E4A8FF>5 llaves legendarias"
+#     Type: COMMANDS
+#     Icon: TRIPWIRE_HOOK
+#     Commands:
+#       - "crates give {player} legendary 5"
+#
+#   kit-de-la-tienda:
+#     Name: "<gradient:#FFD166:#FF9F1C><bold>Warrior kit</bold></gradient>"
+#     Name_es: "<gradient:#FFD166:#FF9F1C><bold>Kit Guerrero</bold></gradient>"
+#     Type: STORE
+#     # The product id from Store_Catalog in store.yml.
+#     Product: "starter-kit"
+#
+#   vip-un-mes:
+#     Name: "<gradient:#B56CFF:#E4A8FF><bold>VIP</bold></gradient>"
+#     Type: RANK
+#     Icon: NETHER_STAR
+#     Glow: true
+#     # The rank id from Rank_Catalog in integrations.yml. The duration is that rank's
+#     # Tebex_Duration, so a giveaway can never hand out a longer VIP than you sell.
+#     Rank: "vip"
+#     # Extra commands run for every prize type, whatever its own Type does.
+#     Commands:
+#       - "broadcast {player} just won a month of VIP!"

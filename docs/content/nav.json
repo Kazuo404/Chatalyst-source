@@ -1,0 +1,88 @@
+{
+  "_comment": "Wiki index. Order here = order in the sidebar and in Previous/Next. 'owner' says who writes the page (team split); the build ignores it. Generated pages are built from plugin.yml and have no .md file.",
+  "groups": [
+    {
+      "id": "general",
+      "title": { "en": "Getting started", "es": "Primeros pasos" },
+      "pages": [
+        { "slug": "overview", "title": { "en": "What is Chatalyst", "es": "Qué es Chatalyst" }, "owner": "cuenta1" },
+        { "slug": "license", "title": { "en": "Getting a license", "es": "Conseguir la licencia" }, "owner": "cuenta1" },
+        { "slug": "compatibility", "title": { "en": "Compatibility", "es": "Compatibilidad" }, "owner": "cuenta1" },
+        { "slug": "install", "title": { "en": "Installation", "es": "Instalación" }, "owner": "cuenta1" },
+        { "slug": "upgrading", "title": { "en": "Updating", "es": "Actualizar" }, "owner": "cuenta1" },
+        { "slug": "faq", "title": { "en": "FAQ", "es": "Preguntas frecuentes" }, "owner": "cuenta1" }
+      ]
+    },
+    {
+      "id": "setup",
+      "title": { "en": "Setup", "es": "Configuración" },
+      "pages": [
+        { "slug": "configuration", "title": { "en": "Configuration files", "es": "Archivos de configuración" }, "owner": "cuenta3" },
+        { "slug": "localization", "title": { "en": "Languages & messages", "es": "Idiomas y mensajes" }, "owner": "cuenta3" },
+        { "slug": "integrations", "title": { "en": "Integrations", "es": "Integraciones" }, "owner": "cuenta3" },
+        { "slug": "discord-bot", "title": { "en": "Discord bot", "es": "Bot de Discord" }, "owner": "cuenta3" },
+        { "slug": "store", "title": { "en": "Store, ranks & Tebex", "es": "Tienda, rangos y Tebex" }, "owner": "cuenta3" },
+        { "slug": "network", "title": { "en": "Proxy & Redis networks", "es": "Redes con proxy y Redis" }, "owner": "cuenta3" },
+        { "slug": "storage", "title": { "en": "Storage & database", "es": "Almacenamiento y base de datos" }, "owner": "cuenta3" }
+      ]
+    },
+    {
+      "id": "chat",
+      "title": { "en": "Chat", "es": "Chat" },
+      "pages": [
+        { "slug": "channels", "title": { "en": "Channels", "es": "Canales" }, "owner": "cuenta2" },
+        { "slug": "formats", "title": { "en": "Chat formats", "es": "Formatos de chat" }, "owner": "cuenta2" },
+        { "slug": "mentions", "title": { "en": "Mentions", "es": "Menciones" }, "owner": "cuenta2" },
+        { "slug": "private-messages", "title": { "en": "Private messages", "es": "Mensajes privados" }, "owner": "cuenta2" },
+        { "slug": "mail", "title": { "en": "Mail", "es": "Correo" }, "owner": "cuenta2" },
+        { "slug": "nicknames", "title": { "en": "Nicknames & colors", "es": "Apodos y colores" }, "owner": "cuenta2" },
+        { "slug": "tags", "title": { "en": "Tags, titles & effects", "es": "Tags, títulos y efectos" }, "owner": "cuenta2" },
+        { "slug": "nametags", "title": { "en": "Floating nametags", "es": "Nametags flotantes" }, "owner": "cuenta2" },
+        { "slug": "announcements", "title": { "en": "Announcements", "es": "Anuncios" }, "owner": "cuenta2" },
+        { "slug": "translation", "title": { "en": "Live translation", "es": "Traducción en vivo" }, "owner": "cuenta2" },
+        { "slug": "newcomers", "title": { "en": "Newcomers", "es": "Recién llegados" }, "owner": "cuenta2" },
+        { "slug": "placeholders", "title": { "en": "Placeholders", "es": "Placeholders" }, "owner": "cuenta2" }
+      ]
+    },
+    {
+      "id": "player",
+      "title": { "en": "Player features", "es": "Para los jugadores" },
+      "pages": [
+        { "slug": "player-tools", "title": { "en": "Player tools", "es": "Herramientas del jugador" }, "owner": "cuenta3" },
+        { "slug": "auto-responses", "title": { "en": "Auto responses", "es": "Respuestas automáticas" }, "owner": "cuenta3" },
+        { "slug": "books", "title": { "en": "Books & rules", "es": "Libros y normas" }, "owner": "cuenta3" },
+        { "slug": "economy", "title": { "en": "Balance top", "es": "Ranking de dinero" }, "owner": "cuenta2" },
+        { "slug": "market", "title": { "en": "Market & trading", "es": "Mercado e intercambios" }, "owner": "cuenta2" },
+        { "slug": "rentals", "title": { "en": "Rentals", "es": "Alquileres" }, "owner": "cuenta2" },
+        { "slug": "gifts", "title": { "en": "Gifts", "es": "Regalos" }, "owner": "cuenta2" },
+        { "slug": "giveaways", "title": { "en": "Giveaways", "es": "Sorteos" }, "owner": "cuenta2" },
+        { "slug": "marriage", "title": { "en": "Marriage", "es": "Matrimonios" }, "owner": "cuenta2" },
+        { "slug": "events", "title": { "en": "Scheduled events", "es": "Eventos programados" }, "owner": "cuenta2" }
+      ]
+    },
+    {
+      "id": "moderation",
+      "title": { "en": "Moderation", "es": "Moderación" },
+      "pages": [
+        { "slug": "rules-engine", "title": { "en": "Rules engine", "es": "Motor de reglas" }, "owner": "cuenta3" },
+        { "slug": "chat-filter", "title": { "en": "Filter, anti-spam & anti-bot", "es": "Filtro, antispam y antibot" }, "owner": "cuenta3" },
+        { "slug": "staff-suite", "title": { "en": "Staff suite", "es": "Suite de staff" }, "owner": "cuenta3" },
+        { "slug": "punishments", "title": { "en": "Punishments & warnings", "es": "Castigos y advertencias" }, "owner": "cuenta3" },
+        { "slug": "reports", "title": { "en": "Reports & support", "es": "Reportes y soporte" }, "owner": "cuenta3" },
+        { "slug": "spying", "title": { "en": "Spy, logs & combat log", "es": "Espía, registros y combate" }, "owner": "cuenta3" },
+        { "slug": "anonymous", "title": { "en": "Anonymous mode", "es": "Modo anónimo" }, "owner": "cuenta3" }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": { "en": "Reference", "es": "Referencia" },
+      "pages": [
+        { "slug": "commands", "title": { "en": "Commands", "es": "Comandos" }, "owner": "generated" },
+        { "slug": "permissions", "title": { "en": "Permissions", "es": "Permisos" }, "owner": "generated" },
+        { "slug": "performance", "title": { "en": "Performance", "es": "Rendimiento" }, "owner": "cuenta3" },
+        { "slug": "troubleshooting", "title": { "en": "Troubleshooting", "es": "Solución de problemas" }, "owner": "cuenta3" },
+        { "slug": "developer-api", "title": { "en": "Developer API", "es": "API para desarrolladores" }, "owner": "cuenta1" }
+      ]
+    }
+  ]
+}

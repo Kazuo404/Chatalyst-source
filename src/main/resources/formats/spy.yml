@@ -1,0 +1,17 @@
+# =====================================================================================
+#  Chatalyst - Private message spy format (staff /spy mode)
+#  Placeholders: {sender_name}, {receiver_name}, {message}
+# =====================================================================================
+
+Parts:
+
+  tag:
+    Message: "<#7B68A0>[<#C44FE0>Spy<#7B68A0>] <reset>"
+    Hover:
+      - "<#C77DFF>{$spy-intercepted}"
+
+  route:
+    Message: "<#FBF2FF>{sender_name} <#7B68A0>» <#FBF2FF>{receiver_name}<#7B68A0>: <reset>"
+
+  message:
+    Message: "<#C0B3D9>{message}"

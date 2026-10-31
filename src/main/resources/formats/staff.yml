@@ -1,0 +1,25 @@
+# =====================================================================================
+#  Chatalyst - Staff channel format
+#  Shows a channel prefix to tell it apart from global chat.
+# =====================================================================================
+
+Parts:
+
+  channel-tag:
+    Message: "<#7B68A0>[<#FF4D6D>Staff<#7B68A0>] <reset>"
+    Hover:
+      - "<#FF4D6D>Canal de staff"
+      - "<#C0B3D9>Solo lo ve el equipo."
+
+  player-name:
+    Message: "<#FF4D6D>{player_name}"
+    Hover:
+      - "<#C0B3D9>Mundo: <#FBF2FF>{world}"
+      - "<#C0B3D9>Ping: <#3DFFA8>{ping} ms"
+    Suggest_Command: "{msg_command}"
+
+  separator:
+    Message: " <#7B68A0>» <reset>"
+
+  message:
+    Message: "<#C0B3D9>{message}"

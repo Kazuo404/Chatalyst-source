@@ -1,0 +1,140 @@
+# =====================================================================================
+#  Chatalyst — holograms (floating signs made in-game by staff).
+#
+#  /cartel (also /holo, /holograma) creates and edits them; /cartel with no arguments
+#  opens the list menu. Every sign is saved PER SERVER in data/holograms.yml — not in the
+#  shared network database, because the Lobby and the Survival both have a world called
+#  "world" and a sign would show up in both places.
+#
+#  Each line is MiniMessage (<#B56CFF>, <gradient:...>, <bold>), a named style
+#  (<casino>BIG TEXT — the Fancy_Signs styles of players.yml work too), PlaceholderAPI
+#  (%server_online%, refreshed every "refresco" seconds, each player sees their own value)
+#  or an item: "item:diamond", "item:ia:namespace:id" for ItemsAdder.
+#
+#  The entities are never saved with the world: they are spawned when their chunk loads
+#  and removed when it unloads, so a crash or a reload can never leave duplicates.
+# =====================================================================================
+Holograms:
+  Enabled: true
+  # Command name and aliases. A label another plugin already owns (DecentHolograms,
+  # FancyHolograms...) is skipped, never taken; /chatalyst:cartel always works.
+  Command: cartel
+  Command_Aliases:
+  - holo
+  - holograma
+  - hologram
+  - carteles
+  # How often animated signs repaint (ticks). 2 = the /announce rhythm, 10 frames a second.
+  Update_Interval_Ticks: 2
+  # How often each sign checks who is near it (ticks). Only signs with a player within
+  # Activation_Range blocks are animated; the rest stay still and cost nothing.
+  Presence_Check_Ticks: 20
+  Activation_Range: 48
+  # What Bedrock (Geyser) players see by default for new signs: geyser, respaldo or ocultar.
+  #   geyser   - Geyser shows the text as a floating name (no scale, background or facing).
+  #   respaldo - an invisible armor stand per line, only for Bedrock players.
+  #   ocultar  - Bedrock players do not see the sign at all.
+  Default_Bedrock: geyser
+  # Seconds between clicks of the same player on a clickable sign.
+  Default_Click_Cooldown: 2
+  Max_Holograms: 500
+  # Images (no textures, no resource pack: only what the vanilla client can draw).
+  # Files go in plugins/Chatalyst/images/ (PNG, JPG or GIF, animated too).
+  #   /cartel mural <id> <image> <width>x<height> [ajustar|recortar|estirar] [brillo]
+  #       Map wall: item frames with maps, 128x128 pixels per block. Bedrock sees it too.
+  #   /cartel imagen <id> <image> [width]
+  #       Pixel art inside a floating hologram, made of coloured block characters.
+  Images:
+    # Biggest file accepted (local or downloaded), in KB.
+    Max_File_Kb: 5120
+    # Biggest original image side, in pixels (checked BEFORE decoding).
+    Max_Dimension: 2048
+    # GIF frames kept (the rest are ignored).
+    Max_Frames: 60
+    # https:// images, also needing chatalyst.hologram.image.url. Cached in images/cache/.
+    Allow_Urls: true
+    Pixel_Art:
+      Default_Width: 32
+      Max_Width: 96
+      # Colour precision per channel (3-8). Fewer bits = fewer text segments per row.
+      Color_Bits: 5
+      # Width of the pixel character and height of a text line in the game font, in font
+      # pixels. Only change them if a resource pack changes the font.
+      Pixel_Advance: 9
+      Line_Height: 10
+    Mural:
+      # Biggest side and total number of maps of one mural.
+      Max_Side: 8
+      Max_Maps: 48
+      # Floyd-Steinberg dithering by default (smoother gradients on the map palette).
+      Dither: true
+      # Animated GIF murals: frame changes per second at most, and how close a player must
+      # be for the animation to be sent to them.
+      Max_Fps: 5
+      Animation_Range: 64
+  # Extra named styles for sign text: <id>Text -> Format with {text}. Same idea as
+  # Fancy_Signs.Styles in players.yml (those are available here too).
+  Styles:
+    casino:
+      Format: <gradient:#FF4D6D:#FFD166:#FF4D6D><bold>{text}</bold></gradient>
+    violeta:
+      Format: <gradient:#7B2CBF:#B56CFF:#E4A8FF><bold>{text}</bold></gradient>
+    oro:
+      Format: <gradient:#FF9F1C:#FFD166:#FF9F1C><bold>{text}</bold></gradient>
+    neon:
+      Format: <#C77DFF><bold>{text}</bold>
+    aviso:
+      Format: <#FF4D6D><bold>⚠ {text}</bold>
+    suave:
+      Format: <#C0B3D9>{text}
+
+# Presets: a named set of /cartel opcion values (same option names). Apply with
+# /cartel preset <id> <preset> or from the editor menu.
+Hologram_Presets:
+  # The big two-sided facade sign (like the CASINO one): huge, flat, readable from both
+  # sides, no background, full brightness even at night.
+  fachada:
+    escala: 7
+    fondo: none
+    sombra: on
+    orientacion: fijo
+    doblecara: on
+    separacion: 0.03
+    brillo: 15
+    distancia: 160
+  # Neon sign: transparent, glowing, slow pulse.
+  neon:
+    fondo: none
+    sombra: off
+    brillo: 15
+    animacion: pulso
+    velocidad: 3
+  # A classic floating info board that always faces the player.
+  informacion:
+    escala: 1
+    fondo: default
+    orientacion: centro
+    alineacion: centro
+    distancia: 48
+  # Shop / NPC label: a bit bigger, gentle floating.
+  tienda:
+    escala: 1.5
+    fondo: none
+    sombra: on
+    flotar: suave
+    brillo: 15
+  # A slowly spinning flat sign with an item on top.
+  vitrina:
+    orientacion: fijo
+    doblecara: on
+    rotacion: 30
+    objeto: 1.5
+    fondo: none
+    brillo: 15
+  # Event title: big, wave colour animation.
+  evento:
+    escala: 3
+    fondo: none
+    animacion: ola
+    brillo: 15
+    distancia: 96

@@ -1,0 +1,983 @@
+# =====================================================================================
+#  Chatalyst — moderation & security: anti-spam/bot, filters, mute, warnings, logs, reports.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  Staff item audit & gamemode control. Off by default.
+#
+#  Answers "who pulled this out of nowhere, and whose hands did it end up in?":
+#    * Every item a staff member takes from the creative inventory (palette, middle-click
+#      clone, pick block) or receives from a give command (/give, /i, forced /kit, /loot...)
+#      is written to plugins/Chatalyst/logs/itemaudit-YYYY-MM-DD.log.
+#    * Those stacks get an ORIGIN MARK (short id, staff UUID and name, date) stored inside
+#      the item, so it stays traceable when it changes hands: picked up from the ground,
+#      taken from a chest/ender chest/marriage chest, taken off an armor stand.
+#    * Every gamemode change of every player is logged, and with Gamemode.Restrict a player
+#      can only STAY in a gamemode if they hold chatalyst.gamemode.<mode>.
+#    * Live alerts go to chatalyst.itemaudit.alerts (and optionally Discord); /itemaudit
+#      (alias /staffitems) reads the record.
+#
+#  Permissions: chatalyst.itemaudit.alerts (receive alerts), chatalyst.command.itemaudit
+#  (read the record), chatalyst.itemaudit.bypass (never audited: meant for the owner only),
+#  chatalyst.gamemode.survival / adventure (default: everyone) and creative / spectator
+#  (default: op). Grant them per rank in LuckPerms.
+#
+#    Enabled          Master switch. Can be turned on/off with /chatalyst reload.
+#    Retention_Days   Days of record kept on disk; older days are deleted automatically.
+#                     0 = keep everything.
+#    Page_Size        Lines per page in /itemaudit (3-20).
+# -------------------------------------------------------------------------------------
+Staff_Item_Audit:
+  Enabled: false
+  Retention_Days: 90
+  Page_Size: 8
+  #  Gamemode control ("who may be in each gamemode").
+  #    Restrict         true = a change (any command, plugin, console or API) to a gamemode
+  #                     the player has no chatalyst.gamemode.<mode> for is cancelled, and a
+  #                     player found in one (on join or on the periodic recheck) is sent back
+  #                     to Default_Mode. false = only log. Hardcore deaths are never blocked.
+  #    Default_Mode     Where a player in a forbidden gamemode is sent. Always allowed.
+  #    Exempt_Worlds    Worlds where any gamemode is allowed (e.g. a creative build world).
+  #    Recheck_Seconds  How often online players are re-checked, so removing a permission
+  #                     in LuckPerms takes effect without a relog. 0 = only on join.
+  #    Log_Changes      Log every gamemode change of every player.
+  #    Alert_Modes      Alert staff when someone switches INTO or OUT OF one of these.
+  #                     Refused and corrected changes are always alerted.
+  Gamemode:
+    Restrict: true
+    Default_Mode: SURVIVAL
+    Exempt_Worlds: []
+    Recheck_Seconds: 30
+    Log_Changes: true
+    Alert_Modes: [CREATIVE, SPECTATOR]
+  #  Creative inventory: items that appear in a slot without having left another one are
+  #  "taken from nothing". Moving your own items around is not.
+  #    Move_Window_Seconds  How long an item lifted from a slot counts as "being moved".
+  #                         Holding an item on the cursor longer than this and dropping it
+  #                         back is logged as taken; trashing an item and taking the same
+  #                         one again inside the window is not.
+  #    Ignore_Worlds        Worlds where creative is not audited (a plot/build world with
+  #                         its own inventories). Give commands are still audited there.
+  Creative:
+    Enabled: true
+    Move_Window_Seconds: 30
+    Ignore_Worlds: []
+  #  Give commands. One line per command, as "label [words] <placeholders>":
+  #    <player> who receives it (missing = whoever typed it), <item> the item,
+  #    <amount> how many, <any> one word that does not matter, <rest> everything else.
+  #    [brackets] = optional, only at the end. A label without a namespace also matches
+  #    /minecraft:give, /essentials:give... After the command runs, the receiver's inventory
+  #    is compared one tick later, so the record holds what REALLY arrived (material,
+  #    amount, enchantments) and those stacks get the origin mark.
+  #  Include_Console: also watch commands typed in the console, RCON and command blocks.
+  #  (Commands that other plugins run through the API, such as crate or vote rewards, are
+  #  not typed by anyone and are not caught here.)
+  Commands:
+    Enabled: true
+    Include_Console: true
+    Watch:
+      - "give <player> <item> [amount] [rest]"
+      - "egive <player> <item> [amount] [rest]"
+      - "i <item> [amount] [rest]"
+      - "item <item> [amount] [rest]"
+      - "eitem <item> [amount] [rest]"
+      - "kit <any> <player>"
+      - "ekit <any> <player>"
+      - "ak give <player> [rest]"
+      - "loot give <player> [rest]"
+  #  Origin mark stored in the item. Two stacks with different marks do not stack, so the
+  #  SAME staff member taking the SAME material within Reuse_Window_Seconds gets the very
+  #  same mark (same id and date) and all of it stacks together. 0 = a new mark every time.
+  #  Enabled: false = only log, never touch the items (then nothing can be traced once it
+  #  changes hands).
+  Marking:
+    Enabled: true
+    Reuse_Window_Seconds: 300
+  #  A marked item reaching ANOTHER player is logged and alerted. The same mark reaching
+  #  the same player again within Repeat_Minutes is not repeated.
+  Transfers:
+    Enabled: true
+    Repeat_Minutes: 10
+  #  Live alerts.
+  #    Burst_Seconds  Everything the same staff member takes or gives (to the same player)
+  #                   within this window becomes ONE summarised alert.
+  #    Everything     false = items a staff member takes for themselves only alert when
+  #                   they are valuable (below); the rest is only logged. Items handed to
+  #                   ANOTHER player and marked items changing hands always alert.
+  #    Discord        Also send alerts to the staff channel of the Discord bot, when it
+  #                   is configured with alerts on.
+  Alerts:
+    Burst_Seconds: 5
+    Everything: false
+    Discord: true
+  #  Valuable items: always alerted. Materials accept * wildcards ("*_ore") and item/block
+  #  tags with # ("#minecraft:logs").
+  #    Over_Enchanted  Any enchantment above its vanilla maximum (Sharpness 10...).
+  #    Any_Enchanted   Any enchanted item at all.
+  #    Custom_Name     Any item with a custom name.
+  #    Check_Contents  A shulker box or bundle holding something valuable counts as valuable.
+  Valuable:
+    Over_Enchanted: true
+    Any_Enchanted: false
+    Custom_Name: false
+    Check_Contents: true
+    Materials:
+      - "*_ore"
+      - ancient_debris
+      - "netherite_*"
+      - diamond
+      - diamond_block
+      - emerald
+      - emerald_block
+      - gold_block
+      - raw_gold_block
+      - elytra
+      - enchanted_book
+      - enchanted_golden_apple
+      - totem_of_undying
+      - beacon
+      - nether_star
+      - dragon_egg
+      - mace
+      - heavy_core
+      - trident
+      - spawner
+      - trial_spawner
+      - vault
+      - "*_spawn_egg"
+      - "*_head"
+      - "*_skull"
+      - "*command_block*"
+      - structure_block
+      - jigsaw
+      - barrier
+      - light
+      - debug_stick
+      - knowledge_book
+      - bedrock
+      - end_portal_frame
+      - reinforced_deepslate
+      - "*shulker_box"
+
+  # Example:
+  # List:
+  #   vip:
+  #     Format: chat-vip
+  #     Chat_Delay_Seconds: 0
+  #   default:
+  #     Chat_Delay_Seconds: 3
+
+# -------------------------------------------------------------------------------------
+#  Anti-spam: minimum delay between messages and blocking of repeated messages.
+#    Delay_Seconds  Seconds that must pass between two messages from the same player.
+#    Similarity     0..1; how similar a message must be to the previous one to block it
+#                   (1 = only blocks identical, 0.9 = nearly identical, etc.).
+#
+#  A repeated message is annoying when it arrives RIGHT AFTER the previous one. Twenty
+#  minutes later nobody notices, and the player writing it does not even remember saying it.
+#  These two keys are what keep a normal conversation out of the anti-spam:
+#
+#    Repeat_Seconds     How long the previous message is remembered for the repeat check.
+#                       0 = forever (the old behaviour: it lasted the whole session).
+#    Min_Repeat_Length  Messages shorter than this never count as repeats. "hola", "si",
+#                       "ok" and "gg" are how people talk; real spam — ads, links, walls of
+#                       text — is long, so a length floor does not let it through.
+#
+#  This is not only about a blocked line: a repeat also adds a warning towards the automatic
+#  mute below, so four greetings used to cost a player 15 minutes of silence.
+# -------------------------------------------------------------------------------------
+Anti_Spam:
+  Enabled: true
+  Delay_Seconds: 1.5
+  Similarity: 0.9
+  Repeat_Seconds: 30
+  Min_Repeat_Length: 5
+  Bypass_Permission: chatalyst.bypass.spam
+  # Escalating auto-punishment: spam adds warnings; after Warnings_Before_Mute the player is
+  # auto-muted, and each successive mute lasts longer (from the Escalation list).
+  Auto_Mute:
+    Enabled: true
+    Warnings_Before_Mute: 4
+    # Mute duration for the 1st, 2nd, 3rd... offense (10s, 5m, 1h, 1d, 1w, perm...).
+    Escalation:
+      - "15m"
+      - "30m"
+      - "1h"
+      - "5h"
+      - "12h"
+      - "1d"
+    # Seconds without spam before the warning counter resets.
+    Warning_Reset: 60
+    # Time without auto-mutes before the escalation level drops (so it isn't permanent).
+    Escalation_Reset: "6h"
+    # When auto-muting, delete the spammer's recent messages from everyone's chat.
+    # Chatalyst can retract each line for which Paper supplies a signed-message signature.
+    # This also works in compatible authentication setups such as nLogin (premium and
+    # non-premium sessions); enforce-secure-profile=true is not a Chatalyst requirement.
+    Delete_Messages: true
+    Delete_Count: 10
+    # Fallback for individual lines delivered without a usable signature or as system chat:
+    # push the visible chat up with blank lines on auto-mute. This wipes everyone's visible
+    # chat (except staff), not just the spammer's. Off by default (it's a blunt tool).
+    Clear_Chat: false
+
+# -------------------------------------------------------------------------------------
+#  Anti-bot: forces a wait of a few seconds after joining before chatting or using
+#  commands. Stops bots that join and spam instantly. Login commands (Allowed_Commands)
+#  are always permitted.
+# -------------------------------------------------------------------------------------
+Anti_Bot:
+  Enabled: false
+  Chat_Delay_After_Join: 3
+  Command_Delay_After_Join: 2
+  Bypass_Permission: chatalyst.bypass.antibot
+  Allowed_Commands:
+    - "/login"
+    - "/register"
+    - "/l"
+    - "/reg"
+
+# -------------------------------------------------------------------------------------
+#  Chat security: sanitizes messages before any other filter. Removes invisible/control
+#  characters (used to evade the swear filter, e.g. "p<zero-width>u<zero-width>to", and for
+#  RTL spoofing) and caps the length. Highly recommended to leave enabled.
+# -------------------------------------------------------------------------------------
+Chat_Security:
+  Enabled: true
+  Max_Length: 256
+  Strip_Control_Chars: true
+  Strip_Invisible: true
+  # Alert staff (chatalyst.notify.security) when someone uses hidden characters to evade filters.
+  Notify_Staff: true
+  Bypass_Permission: chatalyst.bypass.security
+
+# -------------------------------------------------------------------------------------
+#  Command blocker: safety net that blocks commands entirely (regardless of which plugin
+#  registered them). Each entry is a literal command ("/op") or a regex ("regex:...").
+#  Whoever has the bypass permission is not affected.
+# -------------------------------------------------------------------------------------
+Command_Blocker:
+  Enabled: true
+  Bypass_Permission: chatalyst.bypass.blocker
+  Blocked:
+    # Server info (plugins / version). The regex also covers namespaces like /bukkit:plugins.
+    - "regex:(?i)/(\\w+:)?(plugins|pl|version|ver|about|icanhasbukkit|help|\\?)(\\s.*)?"
+    # Performance / system info that could reveal setup.
+    - "regex:(?i)/(\\w+:)?(timings|tps|mspt|lag|gc|memory|entities|spark|health|sysinfo)(\\s.*)?"
+    # World info.
+    - "regex:(?i)/(\\w+:)?(seed|datapack)(\\s.*)?"
+  # Blocked for EVERYONE in game, operators and the bypass permission included: these can
+  # only be run from the server console. Same entry format as Blocked. Use it for what not
+  # even staff should launch from inside (e.g. "stop", "reload", "op", "deop").
+  Blocked_For_Everyone: []
+
+# -------------------------------------------------------------------------------------
+#  Mute scope: what a Chatalyst /mute blocks besides public chat. Soft mutes
+#  (/mute -s, shadow mute) are unaffected: they only hide the player's public chat.
+# -------------------------------------------------------------------------------------
+Mute:
+  Block_Mail: true       # muted players cannot send /inbox mail
+  Block_Signs: true      # muted players cannot place text on signs
+  Block_Books: true      # muted players cannot write/sign books
+  Block_Anvil: true      # muted players cannot give items a NEW name on an anvil (repairs still work)
+  # Commands a muted player cannot run (no leading slash; namespaced forms like
+  # "minecraft:me" are matched by their bare name automatically, and so is every alias of
+  # a listed command: "msg" also covers /whisper, /emsg... whatever plugin owns it).
+  # Private messages are here because a mute that still allows /msg is not a mute — keep
+  # them if PMs are handled by another plugin (EssentialsX, CMI...). /helpop is left out on
+  # purpose: a muted player must still be able to reach the staff.
+  Blocked_Commands: [me, say, msg, tell, w, whisper, m, r, reply, mail]
+
+# -------------------------------------------------------------------------------------
+#  Complete staff suite. All player-facing reason text supports standard Minecraft
+#  colors (&4&l), MiniMessage gradients/rainbow and the named styles configured under
+#  Fancy_Signs.Styles in players.yml. Example: <galaxy>Suspected client modification
+#  Visual tags are allowed; click/hover/command tags are stripped from reasons.
+#  OP is an unconditional superuser and, while Exempt_Ops is true, can never be punished
+#  or frozen.
+# -------------------------------------------------------------------------------------
+Staff_Moderation:
+  # The staff suite ships DISABLED so Chatalyst never competes with a staff plugin the
+  # server already loves (other moderation or staff plugins). While disabled, none of the
+  # staff commands (/staff, /kick, /ban, /freeze, /vanish, /invsee, /echest, /seen,
+  # /check, /tpto, /tphere) are even registered. Set to true to activate everything.
+  Enabled: false
+  # With the suite enabled, Chatalyst claims the plain command labels (/ban, /kick,
+  # /vanish...) even if another plugin registered them first, so ITS staff tools are the
+  # ones that answer. The displaced commands are remembered and restored if the module is
+  # disabled again on reload. Set to false to only take labels no other plugin owns
+  # (the /chatalyst:ban namespaced forms always work).
+  Command_Priority: true
+  # Operators are exempt from moderation by default: they cannot be punished or frozen,
+  # freeze does not restrict them, and the freeze disconnect ban skips them. Set to false
+  # on servers where OPs must still be moderatable (e.g. small servers where every
+  # trusted player keeps OP). Staff acting as OP or console can then affect them.
+  Exempt_Ops: true
+  Max_Reason_Length: 256
+  # Connection (IP) bans: /banip blocks the account AND its hashed connection, kicks
+  # everyone sharing it, and rejects future logins from it with the fancy ban screen.
+  # Honest note: Minecraft Java has no "hardware ban" (clients send no hardware id);
+  # a hashed-connection ban plus automatic alt-banning is the strongest a server can do.
+  Ip_Ban:
+    # New accounts that try to join through a banned connection are banned durably too,
+    # so switching IP afterwards no longer saves the alt. Staff is alerted either way.
+    Ban_New_Accounts: true
+  # Possible-alt detection for /check. For privacy the IP itself is NEVER stored: only its
+  # SHA-256 hash, enough to group names that join from the same connection. Staff see the
+  # hint with the chatalyst.staff.alts permission. Remember: siblings or a shared cafe also
+  # share a connection — it is a CLUE, not proof.
+  Track_Alts: true
+  # Days to keep connection data (IP addresses and their links to accounts) since each one was
+  # last seen. Older rows are deleted once a day. 0 keeps them forever. Name lookups stay.
+  Alts_Retention_Days: 365
+  # Preset reasons offered by the moderation GUIs (freeze / ban / kick), so staff never
+  # has to type commands. Colors, gradients and named styles are allowed, exactly like a
+  # reason typed in the command. "Custom reason" is always offered too: the staff types it
+  # in chat and it is captured privately (it never reaches public chat). Every choice ends
+  # in the audit log, so you always know why someone was frozen or banned.
+  Reason_Presets:
+    - "Hacks / modified client"
+    - "X-Ray"
+    - "Toxicity / harassment"
+    - "Advertising"
+    - "Griefing"
+    - "Punishment evasion"
+  Reason_Presets_es:
+    - "Hacks / cliente modificado"
+    - "Rayos X"
+    - "Toxicidad / acoso"
+    - "Publicidad"
+    - "Grifeo"
+    - "Evasión de sanción"
+  Vanish:
+    # Operators always see vanished staff by default. Set to false so only players with
+    # an explicitly granted chatalyst.seevanished permission see them (the node's
+    # "default: op" no longer counts); the console always sees vanished players.
+    Ops_See_Vanished: true
+    # Also hide Chatalyst-vanished players from the client's server list ping: the "x/y"
+    # player counter and the hover name sample. Other vanish plugins handle their own ping.
+    Hide_From_Ping: true
+    # Ghost mode. A vanished player who is ALSO disguised (Morphy / Lib's Disguises) keeps
+    # a visible body, so everyone just sees an ordinary mob walking around — but they stay
+    # out of the tab list, the player counter and every join/quit message, so nobody can
+    # tell they are online. Turn this off to make vanish always hide the body, even while
+    # disguised (in which case the disguise is invisible too).
+    Show_Body_When_Disguised: true
+    # Chests with the sound turned off. Opening a container for real lifts its lid, plays the
+    # sound and marks it "in use" for anyone walking past: it is the single fastest way to give
+    # a vanish away. So while vanished the right click never reaches the block — it is cancelled
+    # first — and what is inside is shown as a READ-ONLY copy instead. Chests, barrels, furnaces,
+    # hoppers, shulkers, ender chests, chest minecarts and pack animals included.
+    #
+    # Read-only for the same reason the mode exists: an item that vanishes from a chest nobody
+    # opened cannot be explained. What you see is a snapshot of the moment you opened it. To
+    # actually move items use the staff tools (/invsee, /echest), which leave a history entry.
+    #
+    # Turn this off and vanished players open containers the normal, noisy way (subject to
+    # Observer_Only.Interact below, which would then simply block them).
+    Silent_Containers: true
+    # VANISH IS FOR WATCHING. While invisible, nothing you do may leave a mark on the world.
+    #
+    # A block that breaks itself, a chest that opens with nobody in front of it or a mob that
+    # takes a hit out of nowhere gives the vanish away as fast as being seen does. But the
+    # real reason is the advantage: invisible you can mine inside somebody's base, empty a
+    # chest or finish off a fight, and none of it has an answer.
+    #
+    # Damage RECEIVED is deliberately untouched: an invulnerable vanish turns lava, the void
+    # and every trap into a free viewing platform. Walk in where you should not and you pay
+    # what anyone else would, death and dropped items included.
+    #
+    # Staff tools keep working — the staff-mode kit, Chatalyst menus and the invsee editor
+    # are how the watching is done, so they are never blocked. Neither is anything only you
+    # can see: your own inventory, your crafting grid and other plugins' GUIs (shop, kits).
+    # Containers are not blocked either, they are diverted — see Silent_Containers above.
+    Observer_Only:
+      Enabled: true
+      Blocks: true     # break and place
+      Attack: true     # hitting players, mobs and everything else
+      # Buttons, levers, doors, pressure plates — and eating or drinking. (Chests and the rest
+      # of the containers go through Silent_Containers above and are not blocked here; with
+      # that turned off, this is what stops them from opening.) Since you cannot eat, hunger
+      # stops draining while vanished too: it is not an advantage (there is nothing to gain
+      # from a frozen bar you could not refill anyway), it just stops a long watch from ending
+      # in death by starvation — with dropped items and a grave marking the exact spot you
+      # were watching from. Turn this off and eating comes back, and so does hunger.
+      Interact: true
+      # Dropping and picking up items, and moving things inside a container that has a place in
+      # the world. Your own backpack, your crafting grid and any plugin GUI (the shop, the kit
+      # menu, a Chatalyst menu) are yours alone — nobody else can see them, so they stay free.
+      Items: true
+  Kick:
+    Default_Reason: "Removed by the staff team"
+    Default_Reason_es: "Expulsado por el equipo de staff"
+    Screen:
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "<gradient:#240046:#9D4EDD:#E0AAFF><bold>✦ SESSION ENDED ✦</bold></gradient>"
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - ""
+      - "{player}"
+      - ""
+      - "<#C0B3D9>Reason <#7B68A0>» <#FBF2FF>{reason}"
+      - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+      - ""
+      - "<#E0AAFF>You may reconnect after reviewing the rules."
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    Screen_es:
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "<gradient:#240046:#9D4EDD:#E0AAFF><bold>✦ SESIÓN FINALIZADA ✦</bold></gradient>"
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - ""
+      - "{player}"
+      - ""
+      - "<#C0B3D9>Motivo <#7B68A0>» <#FBF2FF>{reason}"
+      - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+      - ""
+      - "<#E0AAFF>Puedes reconectarte después de revisar las reglas."
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  Ban:
+    Default_Reason: "Banned by the staff team"
+    Default_Reason_es: "Baneado por el equipo de staff"
+    # Duration choices offered by the ban composer GUI, cycled with a click (permanent is
+    # always offered first). Values use the same format as /tempban: 30m, 6h, 1d, 7d...
+    Gui_Durations: [1h, 6h, 1d, 7d, 30d]
+    # Placeholders: {player} {staff} {reason} {duration} (short form, "6d 4h"),
+    # {remaining} (full breakdown: years, months, days, hours, minutes — recalculated on
+    # every login attempt, a live countdown) and {expires} (exact date and time, or
+    # "never" when permanent).
+    Screen:
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "<gradient:#FF4D6D:#8B0000><bold>⛔ YOU ARE BANNED ⛔</bold></gradient>"
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - ""
+      - "{player}"
+      - ""
+      - "<#C0B3D9>Reason <#7B68A0>» <#FBF2FF>{reason}"
+      - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+      - ""
+      - "<#C0B3D9>Time left <#7B68A0>» <#E0AAFF>{remaining}"
+      - "<#C0B3D9>Unbanned on <#7B68A0>» <#B56CFF>{expires}"
+      - ""
+      - "<#C0B3D9>Think this is a mistake? <#E0AAFF>Contact the staff team."
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    Screen_es:
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "<gradient:#FF4D6D:#8B0000><bold>⛔ ESTÁS BANEADO ⛔</bold></gradient>"
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - ""
+      - "{player}"
+      - ""
+      - "<#C0B3D9>Motivo <#7B68A0>» <#FBF2FF>{reason}"
+      - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+      - ""
+      - "<#C0B3D9>Te queda <#7B68A0>» <#E0AAFF>{remaining}"
+      - "<#C0B3D9>Se levanta el <#7B68A0>» <#B56CFF>{expires}"
+      - ""
+      - "<#C0B3D9>¿Crees que es un error? <#E0AAFF>Contacta al equipo de staff."
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  Mute:
+    # Shown when the staff does not type a reason. Each viewer sees their own language.
+    Default_Reason: "Muted by the staff team"
+    Default_Reason_es: "Silenciado por el equipo de staff"
+    # Temporary durations offered by the mute composer GUI (permanent is always first).
+    Gui_Durations: [10m, 1h, 1d, 7d]
+    Screen:
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "<gradient:#240046:#9D4EDD:#E0AAFF><bold>✦ CHAT RESTRICTED ✦</bold></gradient>"
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - ""
+      - "{player}"
+      - ""
+      - "<#C0B3D9>Duration <#7B68A0>» <#FBF2FF>{duration}"
+      - "<#C0B3D9>Reason <#7B68A0>» <#FBF2FF>{reason}"
+      - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+      - ""
+      - "<#C0B3D9>Use this time to review the community rules."
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    Screen_es:
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "<gradient:#240046:#9D4EDD:#E0AAFF><bold>✦ CHAT RESTRINGIDO ✦</bold></gradient>"
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - ""
+      - "{player}"
+      - ""
+      - "<#C0B3D9>Duración <#7B68A0>» <#FBF2FF>{duration}"
+      - "<#C0B3D9>Motivo <#7B68A0>» <#FBF2FF>{reason}"
+      - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+      - ""
+      - "<#C0B3D9>Usa este tiempo para revisar las reglas de la comunidad."
+      - "<#5A4775>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  # Accumulated punishments: repeated kicks or warning points escalate to an automatic ban,
+  # announced to staff and recorded in the punishment history as "escalation-ban".
+  Escalation:
+    Enabled: true
+    # Kicks that trigger the automatic ban. Only kicks within Kick_Window count
+    # (durations like 12h, 30d; "perm" = every recorded kick counts). 0 disables.
+    Kicks_For_Ban: 3
+    Kick_Window: 30d
+    # Kicks by the SAME staff member closer than this count as one: a single person kicking
+    # three times in ten seconds is one episode, not repeat offending.
+    Kick_Merge_Minutes: 10
+    # Do kicks issued from the CONSOLE count towards that number? Off by default, because
+    # they are almost never typed by a person: an anticheat that punishes runs
+    # "kick <player> <reason>" from console, and if Chatalyst owns the /kick label those
+    # expulsions land here as if the staff had decided them. The result is a double
+    # punishment — the anticheat already has its own ladder — and an automatic ban nobody
+    # remembers setting. Turn it on only if your staff really does kick from the console.
+    Count_Console_Kicks: false
+    # Warning points that trigger the automatic ban (points decay on their own; see
+    # Warning_Points in config.yml). 0 disables. Points reset when the ban applies.
+    Warn_Points_For_Ban: 3
+    # Ban duration ladder: the 1st accumulation ban uses the 1st value, the 2nd repeat
+    # offender gets the 2nd, and so on — each ban is harsher than the last. The final value
+    # repeats once reached. Use "perm" for a permanent ban. Applying a ban clears the kick
+    # counter (kicks before it no longer count), so an unban is a clean slate and the next
+    # ban only comes from NEW kicks/points — and it steps up this ladder.
+    Ban_Durations: [7d, 30d, perm]
+    # Legacy single value, used only if Ban_Durations is empty. "perm" or a duration like 7d.
+    Ban_Duration: 7d
+    # Shown on the ban screen and to staff, each in their own language.
+    Default_Reason: "Accumulated punishments: repeated kicks and warnings"
+    Default_Reason_es: "Acumulación de castigos: expulsiones y avisos reiterados"
+  Freeze:
+    Default_Reason: "Staff review"
+    Default_Reason_es: "Revisión del staff"
+    Block_Commands: true
+    # The frozen player's ONLY channel is the private review chat (plus /support if the
+    # reviewer is offline). No private messages or mail: nothing leaves the review.
+    Allowed_Commands: [support, help, login, register]
+    # The frozen player's chat never reaches the public: it is delivered privately to the
+    # staff member who froze them (and logged to console). Set to false for public chat.
+    Restrict_Chat: true
+    # Leaving in ANY way (quit, connection lost, crash, kill of the client...) triggers the
+    # permanent ban. The short grace only exists so a proxy transfer to another backend or
+    # an instant reconnect is not punished; after it, the ban always lands.
+    Ban_On_Disconnect: true
+    Disconnect_Grace_Seconds: 3
+    # A KICK is not leaving: the server removed them (a staff /kick, AFK kick, anticheat).
+    # With this false the freeze is kept (still frozen on their next join) and no ban lands.
+    Ban_On_Kick: false
+    Check_Network_Presence: true
+    Disconnect_Ban_Reason: "<#FF4D6D><bold>Disconnected during an active staff review</bold> <#7B68A0>· <#C0B3D9>Original reason: <#FBF2FF>{reason}"
+    Disconnect_Ban_Reason_es: "<#FF4D6D><bold>Se desconectó durante una revisión del staff</bold> <#7B68A0>· <#C0B3D9>Motivo original: <#FBF2FF>{reason}"
+
+    # Player review flow. Put the invite or ticket URL used by your network here. Only
+    # absolute HTTPS links become openable; with an empty URL the button suggests /discord.
+    Discord_Invite_URL: ""
+    Discord_Channel: "#staff-review"
+    # If false, Minecraft shows Hidden_Reason_Text instead. Chatalyst does not publish the
+    # private reason to a public Discord channel automatically; the reviewing staff handles it.
+    Show_Reason_In_Game: true
+    Hidden_Reason_Text: "<#B56CFF>Available in the Discord review channel"
+    Hidden_Reason_Text_es: "<#B56CFF>Disponible en el canal de revisión de Discord"
+    Discord_Button: "<gradient:#5865F2:#C77DFF><bold>[ OPEN DISCORD REVIEW ]</bold></gradient>"
+    Discord_Button_es: "<gradient:#5865F2:#C77DFF><bold>[ ABRIR REVISIÓN EN DISCORD ]</bold></gradient>"
+    Discord_Hover: "<#B56CFF>Click to contact the reviewing staff"
+    Discord_Hover_es: "<#B56CFF>Clic para contactar al staff que realiza la revisión"
+    Notice:
+      Title: "<gradient:#240046:#9D4EDD:#E0AAFF><bold>STAFF REVIEW</bold></gradient>"
+      Title_es: "<gradient:#240046:#9D4EDD:#E0AAFF><bold>REVISIÓN DE STAFF</bold></gradient>"
+      Subtitle: "<#FF4D6D><bold>DO NOT DISCONNECT</bold>"
+      Subtitle_es: "<#FF4D6D><bold>NO TE DESCONECTES</bold>"
+      Sound: "minecraft:block.beacon.activate"
+      Volume: 1.0
+      Pitch: 0.75
+      Lines:
+        - "<#7B68A0>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        - "<gradient:#240046:#9D4EDD:#E0AAFF><bold>       ACCOUNT REVIEW</bold></gradient>"
+        - ""
+        - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+        - "<#C0B3D9>Reason <#7B68A0>» <#FBF2FF>{reason}"
+        - ""
+        - "<#FF4D6D><bold>DO NOT LEAVE THE SERVER</bold>"
+        - "<#C0B3D9>Disconnecting results in a <#FF4D6D><bold>PERMANENT BAN</bold><#C0B3D9>."
+        - ""
+        - "<#B56CFF>Join <#FBF2FF>{channel}<#B56CFF> and open a review:"
+        - "{discord}"
+        - "<#7B68A0>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      Lines_es:
+        - "<#7B68A0>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        - "<gradient:#240046:#9D4EDD:#E0AAFF><bold>       REVISIÓN DE CUENTA</bold></gradient>"
+        - ""
+        - "<#C0B3D9>Staff <#7B68A0>» <#FBF2FF>{staff}"
+        - "<#C0B3D9>Motivo <#7B68A0>» <#FBF2FF>{reason}"
+        - ""
+        - "<#FF4D6D><bold>NO SALGAS DEL SERVIDOR</bold>"
+        - "<#C0B3D9>Desconectarte ocasionará un <#FF4D6D><bold>BAN PERMANENTE</bold><#C0B3D9>."
+        - ""
+        - "<#B56CFF>Entra a <#FBF2FF>{channel}<#B56CFF> y abre una revisión:"
+        - "{discord}"
+        - "<#7B68A0>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  Staff_Mode:
+    Vanish_On_Enter: true
+    Allow_Flight: true
+
+# -------------------------------------------------------------------------------------
+#  Warning points: each infraction (a rule with Points) adds points; crossing a threshold
+#  runs console commands. {player} and {points} are substituted.
+# -------------------------------------------------------------------------------------
+Warning_Points:
+  Enabled: true
+  # After this time without new infractions, the player's points reset.
+  # Formats: 10m, 2h, 1d, 1w, or "perm" to never decay.
+  Decay_After: 1d
+  # Points added by a manual /warn from staff (0 = warns notify and record, but add none).
+  Manual_Warn_Points: 1
+  Thresholds:
+    3:
+      - "mute {player} 10m Too many chat infractions"
+    5:
+      - "kick {player} Repeated chat infractions"
+
+# -------------------------------------------------------------------------------------
+#  Staff security: audita usos de comandos sensibles por parte del staff y los refleja
+#  en la consola y en el canal privado del bot de Discord si esta activo.
+#  Esto no bloquea por si solo; deja trazabilidad clara de acciones criticas.
+# -------------------------------------------------------------------------------------
+Staff_Security:
+  Enabled: false
+  Audit_Commands: true
+  Commands:
+    - "/spy"
+    - "/staffchat"
+    - "/mute"
+    - "/unmute"
+    - "/staff"
+    - "/kick"
+    - "/ban"
+    - "/tempban"
+    - "/unban"
+    - "/freeze"
+    - "/unfreeze"
+    - "/vanish"
+    - "/reports"
+    - "/report"
+    - "/nick"
+    - "/formatedit"
+    - "/clearchat"
+    - "/chatlock"
+    - "/chatunlock"
+    - "/slowmode"
+    - "/players"
+    - "/chatalyst"
+    - "/warnings"
+
+# -------------------------------------------------------------------------------------
+#  Audit logging (on by default). Chat, commands, PMs, mail and edited content use
+#  independent switches and rotate into plugins/Chatalyst/logs/chat-YYYY-MM-DD.log. Rules
+#  with Actions.Audit also write explicit RULE entries. Credential commands are never
+#  recorded. Use /chatlog [player] [count] to review recent history in game.
+# -------------------------------------------------------------------------------------
+Log:
+  Enabled: true
+  Chat: true
+  Commands: true
+  Private_Messages: true
+  Mail: true
+  Signs: true
+  Books: true
+  Anvil: true
+  # Container & mechanism interactions (opens, place/break, levers...) with coordinates.
+  Containers: true
+  # PvP: who opens each fight and who kills whom. This is what makes a "first punch"
+  # rule arbitrable at all (see Spy.Combat in players.yml).
+  Combat: true
+  # Real name -> alias mapping when a player enters /anonymous. The ONLY record of who is
+  # behind a disguise (console and chat only ever see the alias), so staff can investigate
+  # later without unmasking them live. Turn off for zero trace.
+  Anonymous: true
+  # What the swear filter censored or blocked, recorded WITH the original text: the regular
+  # CHAT entry only sees the censored version, and blocked content never reaches it at all.
+  Swear: true
+  # Messages relayed from Discord into the game chat (already filtered).
+  Discord: true
+  # Delete daily log files older than this many days. 0 = keep them forever.
+  Keep_Days: 30
+  # Commands that are NEVER logged (they contain passwords or other sensitive data).
+  Ignore_Commands:
+    - "/login"
+    - "/register"
+    - "/l"
+    - "/reg"
+    - "/changepassword"
+    - "/cp"
+    - "/2fa"
+
+# -------------------------------------------------------------------------------------
+#  Reports (/report <player> <reason>): players report others; online staff with the
+#  Notify_Permission get the alert. Per-player cooldown prevents report spam.
+# -------------------------------------------------------------------------------------
+Reports:
+  Enabled: true
+  Cooldown: 60
+  # Limites persistentes (code points Unicode); evitan tickets gigantes en YAML/MySQL/Discord.
+  Max_Reason_Length: 512
+  Max_Reply_Length: 512
+  Max_Note_Length: 512
+  Notify_Permission: chatalyst.report.receive
+  # true = staff sees report notifications in their own client language.
+  # false = use Format exactly as written for everyone.
+  Use_Player_Language: true
+  # Soft sound for online staff when a new report arrives.
+  Notify_Sound:
+    Enabled: true
+    Key: "minecraft:block.note_block.chime"
+    Volume: 0.65
+    Pitch: 1.25
+  # Priority (critical) reports — item deletion, rank removal, etc. Only staff with this
+  # permission see, receive and handle them (give it to owner/admin/senior admin ranks).
+  # Staff mark a ticket critical with /reports priority <id> or the GUI button.
+  Priority_Permission: chatalyst.report.priority
+  # Deleting tickets. Allow_Delete turns it on/off. Delete_High_Rank_Only decides WHO can
+  # delete: true = only high rank (Priority_Permission, the safe default), false = normal
+  # support staff (Manage_Permission) too. Staff without clearance are told they can't
+  # delete the ticket unless a higher-rank staff member does it.
+  Allow_Delete: true
+  Delete_High_Rank_Only: true
+  Manage_Permission: chatalyst.report.manage
+  Format: "<#7B68A0>[<#FF4D6D>Report #{id}<#7B68A0>] <#E0AAFF>{reporter} <#C0B3D9>reported <#E0AAFF>{target}<#C0B3D9>: <#FBF2FF>{reason}"
+
+# -------------------------------------------------------------------------------------
+#  Item watch: alerts staff about suspicious items — possible dupes or exploits.
+#  It ONLY ALERTS (never removes anything): staff get a message with a click to open the
+#  player's inventory, plus the console and the Discord staff channel.
+#  Looks at the inventory, the ender chest, PlayerVaults backpacks (if installed) and any
+#  chest/barrel/shulker a player opens. Items inside shulkers and bundles count too.
+#  Each rule:
+#    Items: materials to count. MATERIAL*N counts each one as N (DIAMOND_BLOCK*9 = 9
+#           diamonds), so storing in blocks does not dodge the rule.
+#    Name_Contains / Lore_Contains: only items whose name/lore contains one of these texts
+#           (crate keys, custom items). Without Items, any material with that name counts.
+#    Max: alert when the total reaches this. 0 = no limit.
+#    Gain + Gain_Window_Minutes: alert when the total grows this much within the window.
+#  Detect_Overstack: stacks above the vanilla maximum (64 swords in one slot) — a classic
+#  dupe/hacked-client mark. Players with chatalyst.itemwatch.bypass are never watched.
+#  Alerts go to chatalyst.itemwatch.alerts; /itemwatch scan <player> shows the counts now.
+# -------------------------------------------------------------------------------------
+Item_Watch:
+  Enabled: false
+  Scan_Interval_Seconds: 60
+  Alert_Cooldown_Minutes: 10
+  Alert_Permission: chatalyst.itemwatch.alerts
+  Bypass_Permission: chatalyst.itemwatch.bypass
+  Ignore_Creative: true
+  Notify_Discord: true
+  Scan_Ender_Chest: true
+  Scan_Vaults: true
+  Scan_Containers: true
+  Detect_Overstack: true
+  Rules:
+    - Id: diamonds
+      Name: Diamonds
+      Items: [DIAMOND, DIAMOND_BLOCK*9, DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+      Max: 1280
+      Gain: 640
+      Gain_Window_Minutes: 10
+    - Id: netherite
+      Name: Netherite
+      Items: [NETHERITE_INGOT, NETHERITE_BLOCK*9, ANCIENT_DEBRIS, NETHERITE_SCRAP]
+      Max: 128
+      Gain: 64
+      Gain_Window_Minutes: 10
+    - Id: emeralds
+      Name: Emeralds
+      Items: [EMERALD, EMERALD_BLOCK*9]
+      Max: 3000
+      Gain: 1500
+      Gain_Window_Minutes: 10
+    - Id: gold
+      Name: Gold
+      Items: [GOLD_INGOT, GOLD_BLOCK*9, RAW_GOLD, RAW_GOLD_BLOCK*9]
+      Max: 6000
+      Gain: 3000
+      Gain_Window_Minutes: 10
+    - Id: god-apples
+      Name: Enchanted golden apples
+      Items: [ENCHANTED_GOLDEN_APPLE]
+      Max: 32
+      Gain: 16
+      Gain_Window_Minutes: 10
+    - Id: totems
+      Name: Totems
+      Items: [TOTEM_OF_UNDYING]
+      Max: 24
+      Gain: 12
+      Gain_Window_Minutes: 10
+    - Id: elytra
+      Name: Elytra
+      Items: [ELYTRA]
+      Max: 4
+    - Id: rare-blocks
+      Name: Beacons, spawners and dragon eggs
+      Items: [BEACON, SPAWNER, DRAGON_EGG, NETHER_STAR]
+      Max: 12
+      Gain: 6
+      Gain_Window_Minutes: 10
+    - Id: crate-keys
+      Name: Crate keys
+      Name_Contains: [Key, Llave]
+      Max: 64
+      Gain: 32
+      Gain_Window_Minutes: 10
+
+# -------------------------------------------------------------------------------------
+#  Command cooldowns: make players wait between uses of certain commands (anti-spam for
+#  commands like /kit, /home, /rtp...). Bypassable with the permission below.
+# -------------------------------------------------------------------------------------
+Command_Cooldowns:
+  Bypass_Permission: chatalyst.bypass.cooldown
+  Commands: {}
+
+# -------------------------------------------------------------------------------------
+#  Autoclick detector: alerts staff about players whose left clicks look machine-made.
+#  It ONLY ALERTS and keeps a record (daily log, /check history, Discord staff channel);
+#  it never punishes on its own unless you fill Punishment.Commands below.
+#  Two independent signals, each with its own thresholds:
+#    Regularity: many clicks in a row, held for a long time, with almost identical gaps
+#                between them. Humans cannot keep that up; a fixed-rate clicker can't hide it.
+#    Speed:      an average CPS above Max_Cps for several seconds in a row.
+#  Plus Long_Session: slightly looser regularity kept up for many minutes (AFK farms that
+#  hit a mob with the same rhythm for ten minutes), caught even at a low CPS.
+#  Known false positives are handled: clicks while digging a block (holding the button
+#  swings the arm every tick at a perfect rhythm), right-click/drop swings, creative mode,
+#  low TPS and high ping (no alert under lag), and Bedrock players (excluded by default).
+#  With PacketEvents installed clicks are timed when the packet ARRIVES (~1 ms resolution);
+#  without it, server events are used (up to one tick of error under load).
+#  Permissions: chatalyst.autoclick.alerts (receive alerts), chatalyst.autoclick.bypass
+#  (never analysed), chatalyst.command.autoclick (/autoclick [player], alias /cps).
+# -------------------------------------------------------------------------------------
+Autoclick:
+  Enabled: false
+  # auto = PacketEvents packets when installed, otherwise server events.
+  # packets = require PacketEvents (falls back to events with a warning). events = never packets.
+  Source: auto
+  # A pause longer than this ends the click streak and everything starts again.
+  Max_Gap_Millis: 2500
+  # At most one alert per player every this many seconds (staff chat stays readable).
+  Alert_Cooldown_Seconds: 60
+  # Also send each alert to the Discord staff channel (if configured).
+  Notify_Discord: true
+  # Add a row to the player's /check history (at most one every History_Cooldown_Minutes,
+  # so a long session of alerts never pushes real bans out of the capped history).
+  # Every single alert is also written to the daily log (logs/chat-*.log, type AUTOCLICK).
+  Record_History: true
+  History_Cooldown_Minutes: 30
+  # Players in creative/spectator are never alerted.
+  Ignore_Creative: true
+  # How long /autoclick <player> shows the live CPS and regularity on the action bar.
+  Live_Seconds: 15
+  # /autoclick with no arguments lists the players alerted within this many minutes.
+  Recent_Minutes: 60
+  # No alert while the server or the player lags: delayed packets arrive in bursts.
+  Lag:
+    Min_Tps: 18.0
+    Max_Ping_Millis: 250
+  Regularity:
+    # Minimum clicks in the streak and minimum streak length before judging it.
+    Min_Clicks: 40
+    Min_Duration_Seconds: 15
+    # Most recent gaps measured (must be at least Min_Clicks - 1).
+    Window: 100
+    # Alert when (standard deviation / mean) of the gaps is at or below this AND the
+    # standard deviation is at or below Max_Std_Millis. Humans sit around 0.15-0.40.
+    Max_Deviation: 0.08
+    Max_Std_Millis: 12
+    # Also alert when the gaps take at most this many different values (rounded to 1 ms).
+    # Only used with PacketEvents (event timing is too coarse). 0 = off.
+    Max_Distinct_Intervals: 5
+  Speed:
+    # Alert when the average CPS stays at or above Max_Cps for this many seconds in a row
+    # (and no single second drops below half of it). 0 seconds = off.
+    Max_Cps: 16
+    Seconds: 5
+  Long_Session:
+    # Alert when the click rhythm stays this regular for this many minutes without a
+    # pause longer than Max_Gap_Millis. 0 minutes = off.
+    Minutes: 10
+    Max_Deviation: 0.12
+    Max_Std_Millis: 25
+  # Bedrock players (Floodgate) click differently (touch, controller) and Geyser delivers
+  # their clicks rounded to ticks, so they get their own thresholds. Any Regularity, Speed
+  # or Long_Session key can be repeated here; missing ones are taken from above.
+  Bedrock:
+    Analyze: false
+    Max_Ping_Millis: 350
+    Speed:
+      Max_Cps: 20
+  # Optional automatic action, run from the console when a player collects After_Alerts
+  # alerts within Window_Minutes. Empty by default: staff decide. {player} and {uuid}
+  # are replaced. Example: - "kick {player} Autoclicker detected"
+  Punishment:
+    After_Alerts: 3
+    Window_Minutes: 30
+    Commands: []
+
+# -------------------------------------------------------------------------------------
+#  Anti-exploit (2026-10-03). Paper ya limita los paquetes en GLOBAL, el tamano de los
+#  libros y el spam de recetas/autocompletado; esto limita POR TIPO lo que usan los
+#  clientes de crasheo (inundar un paquete caro) y frena objetos "bomba" en creativo.
+#    Packets: nombre de PacketEvents -> Max_Per_Second y Max_Bytes (0 = sin limite).
+#      "TIPO: false" lo deja sin vigilar. Los que no se pongan usan los de fabrica.
+#      Un paquete por encima del limite se DESCARTA; con Kick_After_Drops descartes en
+#      10 s (o un paquete 4 veces mayor que Max_Bytes) se EXPULSA al jugador.
+#    Exempt_Bedrock: Geyser manda los paquetes a su manera; mejor no juzgarlos.
+#    Items: objetos puestos en creativo (tamano serializado, encantamientos, monton).
+#  Avisos: staff con Alerts_Permission, consola, log (ANTIEXPLOIT) y Discord del staff.
+# -------------------------------------------------------------------------------------
+Anti_Exploit:
+  Enabled: true
+  Bypass_Permission: chatalyst.antiexploit.bypass
+  Alerts_Permission: chatalyst.antiexploit.alerts
+  Notify_Discord: true
+  Alert_Cooldown_Seconds: 10
+  Exempt_Bedrock: true
+  Kick_After_Drops: 40
+  Packets:
+    PLUGIN_MESSAGE: {Max_Per_Second: 60, Max_Bytes: 32768}
+    EDIT_BOOK: {Max_Per_Second: 5, Max_Bytes: 65536}
+    CREATIVE_INVENTORY_ACTION: {Max_Per_Second: 120, Max_Bytes: 65536}
+    CLICK_WINDOW: {Max_Per_Second: 250, Max_Bytes: 65536}
+    TAB_COMPLETE: {Max_Per_Second: 15, Max_Bytes: 4096}
+    UPDATE_SIGN: {Max_Per_Second: 8, Max_Bytes: 4096}
+    NAME_ITEM: {Max_Per_Second: 20, Max_Bytes: 1024}
+    CUSTOM_CLICK_ACTION: {Max_Per_Second: 15, Max_Bytes: 32768}
+  Items:
+    Enabled: true
+    Max_Creative_Item_Bytes: 16384
+    Max_Enchant_Level: 10
+    Block_Over_Stacked: true
+    # Estructura del objeto. 0 = sin limite.
+    # Niveles de objetos dentro de objetos (bolsa en caja en bolsa...): las "matrioskas" cuelgan servidores.
+    Max_Nested_Items: 5
+    # Objetos en total dentro de uno solo.
+    Max_Items_Inside: 1728
+    # Elementos NBT del objeto: miles de datos diminutos pesan poco pero cuestan mucho de leer.
+    Max_Nbt_Elements: 4096
+    # Profundidad maxima de los datos NBT.
+    Max_Nbt_Depth: 48
+  Signs:
+    Max_Line_Length: 96
+  # Libros al firmar o guardar: los limites del propio juego.
+  Books:
+    Max_Pages: 100
+    Max_Page_Chars: 1024
+  # Suma de TODOS los paquetes de una conexion, tambien en login y configuracion, antes de
+  # que exista el jugador. Lo que pasa del limite se descarta; tras Kick_After_Seconds segundos
+  # seguidos por encima se corta la conexion. Un pico suelto no expulsa a nadie. 0 = sin limite.
+  Connection:
+    Max_Packets_Per_Second: 2000
+    Max_Bytes_Per_Second: 2097152
+    Kick_After_Seconds: 3
+  # Corchetes anidados en comandos y autocompletado: desbordan el analizador del servidor.
+  Commands:
+    Max_Nesting: 32
+  # Canales de plugin: maximo distinto registrado por jugador (Paper ya corta en 128; pasarse solo
+  # avisa) y largo maximo de un nombre de canal (pasarse expulsa: ningun cliente real lo hace).
+  Channels:
+    Max_Registered: 128
+    Max_Name_Length: 128
+  # Reincidentes: a la N-esima expulsion en la ventana se ejecuta Ban_Command por consola.
+  # Ban_After_Kicks: 0 lo apaga. Con prefijo chatalyst: para que no lo coja otro plugin.
+  Escalation:
+    Ban_After_Kicks: 3
+    Window_Minutes: 30
+    Ban_Command: "chatalyst:tempban {player} 1h Anti-exploit: paquetes maliciosos repetidos"

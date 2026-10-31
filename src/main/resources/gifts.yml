@@ -1,0 +1,198 @@
+# =====================================================================================
+#  Chatalyst — cajas de regalo.
+#
+#  Una caja es un ENVOLTORIO. No sabe de donde vino ni quien te la dio: la puede soltar un
+#  kit, una rifa, la tienda o un comando. Lo unico que sabe es de que TIPO es, y ese tipo
+#  decide que puede haber dentro.
+#
+#  COMO FUNCIONA
+#  -------------------------------------------------------------------------------------
+#   1) Se entrega. Con `/caja dar <jugador> <tipo> [cantidad]`, o metiendola dentro de
+#      cualquier cosa que reparta objetos (ver EXPORTAR, abajo).
+#
+#   2) Se abre. Clic derecho, se gasta una, y sale UN premio de la tabla de su tipo.
+#
+#   3) El premio se tira AL ABRIR, no al fabricar la caja. Es lo que hace que retocar una
+#      tabla de aqui cambie tambien lo que dan las cajas que ya estan en los cofres de los
+#      jugadores. Al reves, cada retoque dejaria detras una capa de cajas viejas que
+#      reparten lo de antes, y nadie podria decir que da una caja mirandola.
+#
+#  EL PESO NO ES UN PORCENTAJE
+#  -------------------------------------------------------------------------------------
+#  `Weight: 25` no significa 25%. Cada premio se reparte contra la SUMA de los pesos de su
+#  caja, asi que anadir uno nuevo no obliga a recalcular los demas. El porcentaje real lo
+#  calcula el plugin y lo escribe en el propio objeto, asi que el lore nunca miente: una
+#  tabla escrita a mano que sume 97 no falla, solo engaña, y eso no se ve nunca.
+#
+#  Peso 0 = escrito pero no sale. Sirve para guardar un premio de temporada sin borrarlo.
+#
+#  LO QUE PONE LA CAJA POR FUERA
+#  -------------------------------------------------------------------------------------
+#  El lore se REGENERA cada vez que se fabrica una caja, y lista los premios de mas a menos
+#  probable con su porcentaje de verdad. `Show_Contents: false` lo apaga si prefieres que
+#  sea una sorpresa; `Max_Listed` corta la lista y anade "y N cosas mas".
+#
+#  EXPORTAR (meter la caja dentro de otro plugin)
+#  -------------------------------------------------------------------------------------
+#  Una caja es una cabeza con perfil y una marca interna: eso NO se escribe a mano en el
+#  config de otro plugin. `/caja exportar <tipo> [cantidad]` la serializa con el propio
+#  Bukkit y la deja en plugins/Chatalyst/exports/, lista para pegar donde haga falta (por
+#  ejemplo, dentro de un kit de AdvancedKits para que ademas se VEA en su vista previa).
+#
+#  Cada texto de cara al jugador admite su pareja "_es" (Name/Name_es), que ve un cliente
+#  en español. Sin traduccion se usa la clave base, para que un fichero a medio traducir
+#  se lea como un idioma y no como una mezcla.
+# =====================================================================================
+Gifts:
+  Enabled: true
+  Command: "caja"
+  Command_Aliases:
+    - "cajas"
+    - "giftbox"
+
+  # Escribir en el lore lo que puede caer, con su probabilidad real.
+  Show_Contents: true
+
+  # Cuantos premios caben en esa lista antes de resumir con "y N cosas mas". Un lore de
+  # veinte lineas tapa media pantalla y deja de leerse.
+  Max_Listed: 8
+
+  # Decirle por chat al jugador que le salio. Aparte del objeto, que ya lo ve en el
+  # inventario: sin el mensaje, abrir diez cajas seguidas es un inventario que cambia solo.
+  Announce: true
+
+  # Sonido al abrir. Vacio = en silencio.
+  Sound: ENTITY_PLAYER_LEVELUP
+
+# =====================================================================================
+#  Los tipos de caja.
+#
+#  Texture admite las DOS cosas que copian las webs de cabezas: el base64 entero, o el hash
+#  pelado de textures.minecraft.net. Se distinguen solas, asi que pega la que tengas.
+#
+#  Color es el del nombre y el de los titulos del lore. Un tono por escalon hace que la
+#  caja se reconozca por el color antes de leer nada.
+# =====================================================================================
+Gift_Tiers:
+
+  cobre:
+    Name: "Copper Gift"
+    Name_es: "Regalo de Cobre"
+    Order: 1
+    Color: "#CD7F32"
+    Glow: true
+    Texture: "74300a5f8111753fb9e224d60e46d46fbb03cf3f0974b3dee43887ea5ff01fcb"
+    Description:
+      - "<gray>The first rung. Supplies, not treasure."
+    Description_es:
+      - "<gray>El primer escalon. Suministros, no tesoro."
+    Rewards:
+      - { Weight: 25, Material: COOKED_BEEF, Amount: 8-16, Label: "Cooked beef", Label_es: "Filetes" }
+      - { Weight: 25, Material: COAL, Amount: 8-24, Label: "Coal", Label_es: "Carbon" }
+      - { Weight: 18, Material: IRON_INGOT, Amount: 2-5, Label: "Iron", Label_es: "Hierro" }
+      - { Weight: 15, Material: COPPER_INGOT, Amount: 8-16, Label: "Copper", Label_es: "Cobre" }
+      - { Weight: 10, Material: EXPERIENCE_BOTTLE, Amount: 4-8, Label: "Bottles o' Enchanting", Label_es: "Botellas de experiencia" }
+      - { Weight: 7, Material: GOLD_INGOT, Amount: 1-3, Label: "Gold", Label_es: "Oro" }
+
+  hierro:
+    Name: "Iron Gift"
+    Name_es: "Regalo de Hierro"
+    Order: 2
+    Color: "#C0C0C0"
+    Glow: true
+    Texture: "4025dd135b2e82e8cfd205cb27473f476735e8232b8238018cf15d34193024c1"
+    Description:
+      - "<gray>Enough metal to matter."
+    Description_es:
+      - "<gray>Metal suficiente para notarse."
+    Rewards:
+      - { Weight: 24, Material: IRON_INGOT, Amount: 6-12, Label: "Iron", Label_es: "Hierro" }
+      - { Weight: 20, Material: GOLD_INGOT, Amount: 4-8, Label: "Gold", Label_es: "Oro" }
+      - { Weight: 15, Material: LAPIS_LAZULI, Amount: 8-16, Label: "Lapis", Label_es: "Lapislazuli" }
+      - { Weight: 13, Material: REDSTONE, Amount: 16-32, Label: "Redstone", Label_es: "Redstone" }
+      - { Weight: 12, Material: EXPERIENCE_BOTTLE, Amount: 8-16, Label: "Bottles o' Enchanting", Label_es: "Botellas de experiencia" }
+      - { Weight: 10, Material: IRON_BLOCK, Amount: 1-2, Label: "Iron blocks", Label_es: "Bloques de hierro" }
+      - { Weight: 6, Material: DIAMOND, Amount: 1-2, Label: "Diamonds", Label_es: "Diamantes" }
+
+  oro:
+    Name: "Golden Gift"
+    Name_es: "Regalo de Oro"
+    Order: 3
+    Color: "#FFD166"
+    Glow: true
+    Texture: "bcaad86c708eb27773a64f93479e39f0442a5ce086b63296c7b7d1cf51160956"
+    Description:
+      - "<gray>Now it is worth opening in front of somebody."
+    Description_es:
+      - "<gray>Ya merece abrirse delante de alguien."
+    Rewards:
+      - { Weight: 20, Material: GOLD_BLOCK, Amount: 1-3, Label: "Gold blocks", Label_es: "Bloques de oro" }
+      - { Weight: 20, Material: DIAMOND, Amount: 2-5, Label: "Diamonds", Label_es: "Diamantes" }
+      - { Weight: 15, Material: EXPERIENCE_BOTTLE, Amount: 16-32, Label: "Bottles o' Enchanting", Label_es: "Botellas de experiencia" }
+      - { Weight: 13, Material: ENDER_PEARL, Amount: 4-8, Label: "Ender pearls", Label_es: "Perlas de ender" }
+      - { Weight: 12, Material: GOLDEN_APPLE, Amount: 1-3, Label: "Golden apples", Label_es: "Manzanas doradas" }
+      - { Weight: 12, Material: OBSIDIAN, Amount: 8-16, Label: "Obsidian", Label_es: "Obsidiana" }
+      - { Weight: 8, Material: EMERALD, Amount: 4-8, Label: "Emeralds", Label_es: "Esmeraldas" }
+
+  esmeralda:
+    Name: "Emerald Gift"
+    Name_es: "Regalo de Esmeralda"
+    Order: 4
+    Color: "#3DFFA8"
+    Glow: true
+    Texture: "509e5e444291e6837157002ee9d5f604c697039eec7acba2478fb09684f98ff7"
+    Description:
+      - "<gray>Late-game material, and one tool worth keeping."
+    Description_es:
+      - "<gray>Material de partida avanzada, y una herramienta que se guarda."
+    Rewards:
+      - { Weight: 20, Material: EMERALD_BLOCK, Amount: 1-3, Label: "Emerald blocks", Label_es: "Bloques de esmeralda" }
+      - { Weight: 18, Material: DIAMOND_BLOCK, Amount: 1-2, Label: "Diamond blocks", Label_es: "Bloques de diamante" }
+      - { Weight: 15, Material: ANCIENT_DEBRIS, Amount: 1-3, Label: "Ancient debris", Label_es: "Escombros antiguos" }
+      - { Weight: 14, Material: EXPERIENCE_BOTTLE, Amount: 32-64, Label: "Bottles o' Enchanting", Label_es: "Botellas de experiencia" }
+      - Weight: 15
+        Material: DIAMOND_PICKAXE
+        Amount: 1
+        Name: "<#3DFFA8><b>Pico del Regalo</b>"
+        Lore:
+          - "<dark_gray>Salio de una caja de esmeralda"
+        Enchantments:
+          efficiency: 5
+          unbreaking: 3
+          fortune: 3
+        Label: "Enchanted diamond pickaxe"
+        Label_es: "Pico de diamante encantado"
+      - { Weight: 10, Material: ENCHANTED_GOLDEN_APPLE, Amount: 1, Label: "Enchanted golden apple", Label_es: "Manzana dorada encantada" }
+      - { Weight: 8, Material: TOTEM_OF_UNDYING, Amount: 1, Label: "Totem of undying", Label_es: "Totem de inmortalidad" }
+
+  diamante:
+    Name: "Diamond Gift"
+    Name_es: "Regalo de Diamante"
+    Order: 5
+    Color: "#54A6FF"
+    Glow: true
+    Texture: "9dd8673f842e50f131b377c84b6fe51c219106df3fbc091a7bc9269b91c66052"
+    Description:
+      - "<gray>The top of the ladder. Nothing here is filler."
+    Description_es:
+      - "<gray>La cima. Aqui no hay premio de relleno."
+    Rewards:
+      - { Weight: 18, Material: NETHERITE_INGOT, Amount: 1-2, Label: "Netherite", Label_es: "Netherita" }
+      - { Weight: 16, Material: DIAMOND_BLOCK, Amount: 2-4, Label: "Diamond blocks", Label_es: "Bloques de diamante" }
+      - { Weight: 14, Material: ENCHANTED_GOLDEN_APPLE, Amount: 2-4, Label: "Enchanted golden apples", Label_es: "Manzanas doradas encantadas" }
+      - { Weight: 12, Material: ANCIENT_DEBRIS, Amount: 4-8, Label: "Ancient debris", Label_es: "Escombros antiguos" }
+      - { Weight: 12, Material: TOTEM_OF_UNDYING, Amount: 1-2, Label: "Totems of undying", Label_es: "Totems de inmortalidad" }
+      - Weight: 12
+        Material: NETHERITE_SWORD
+        Amount: 1
+        Name: "<#54A6FF><b>Filo del Regalo</b>"
+        Lore:
+          - "<dark_gray>Salio de una caja de diamante"
+        Enchantments:
+          sharpness: 5
+          unbreaking: 3
+          mending: 1
+        Label: "Enchanted netherite sword"
+        Label_es: "Espada de netherita encantada"
+      - { Weight: 8, Material: ELYTRA, Amount: 1, Label: "Elytra", Label_es: "Elitros" }
+      - { Weight: 8, Material: NETHER_STAR, Amount: 1, Label: "Nether star", Label_es: "Estrella del Nether" }

@@ -1,0 +1,84 @@
+# =====================================================================================
+#  Chatalyst — alquiler de ventajas con dinero DEL JUEGO.
+#
+#  Para que la tienda de dinero real no sea el unico camino a nada. Un rango o un /fly que
+#  solo se compran pagando convierten el server en pay-to-win; los mismos alquilables con
+#  lo que se gana jugando le dan al que juega una via propia, y al que paga le dejan la
+#  comodidad, no el poder.
+#
+#  Se concede por la API de LuckPerms y SIEMPRE con caducidad, igual que un premio de
+#  sorteo. Un alquiler que no caduca no es un alquiler, es una venta.
+#
+#  El cobro va ANTES de conceder, y si la concesion falla se DEVUELVE el dinero. Al reves
+#  se regalaria lo concedido cuando el cobro falla; sin devolucion, el jugador se quedaria
+#  sin dinero y sin nada, que es peor porque el dinero era suyo.
+#
+#  Se abre con /alquilar. Tambien se puede vender desde OTRA tienda (EconomyShopGUI, un
+#  cartel, un NPC): que ejecuten "alquilar <id>" como el jugador y el cobro, la caducidad
+#  y la devolucion siguen ocurriendo aqui, donde se pueden hacer bien.
+# =====================================================================================
+Rentals:
+  # Apagado de fabrica: sin ofertas escritas no hay nada que enseñar, y un comando que
+  # abre un menu vacio es peor que un comando que no existe.
+  Enabled: false
+  Command: "alquilar"
+  Command_Aliases:
+    - "rent"
+    - "alquiler"
+  # Nodos que dan vuelo. Cuando caduca un alquiler que los concede, hay que apagar el vuelo a
+  # mano: EssentialsX solo mira essentials.fly al entrar, al cambiar de mundo, al teletransportarse
+  # y al cambiar de modo de juego — nunca mientras se juega. Sin esto, quien alquila dos horas de
+  # vuelo sigue volando hasta que se desconecta, y la duracion que se cobra no se cumple justo en
+  # la sesion en la que se usa. Se avisa un minuto antes y se amortigua la caida.
+  Flight_Permissions:
+    - "essentials.fly"
+
+# =====================================================================================
+#  Rental_Categories — como se agrupa el menu de /alquilar.
+#
+#  Mismo modelo que las del sorteo: Name, Icon y Order, y una categoria vacia no se
+#  enseña. Cada oferta apunta a una con su campo Category; la que no apunte a ninguna
+#  existente cae en "Sin categoria" en vez de perderse.
+# =====================================================================================
+Rental_Categories:
+  rangos:
+    Name: "Ranks"
+    Name_es: "Rangos"
+    Icon: PAPER
+    Order: 1
+  cosmeticos:
+    Name: "Cosmetics"
+    Name_es: "Cosméticos"
+    Icon: ENDER_EYE
+    Order: 2
+  comandos:
+    Name: "Commands"
+    Name_es: "Comandos"
+    Icon: FEATHER
+    Order: 3
+
+# =====================================================================================
+#  Rental_Offers — que se alquila, cuanto dura y cuanto cuesta.
+#
+#    Permissions   nodos de LuckPerms que se conceden mientras dure.
+#    Rank          un grupo de LuckPerms, para alquilar el rango entero.
+#    Duration      OBLIGATORIA y nunca permanente: 1d, 7d, 12h, 1w.
+#    Price         en dinero del juego, por Vault.
+#
+#  Una oferta sin duracion, sin precio o que no concede nada no se enseña. Es deliberado:
+#  vale mas una oferta que falta que una que cobra por nada.
+# =====================================================================================
+Rental_Offers: {}
+#  vuelo-1d:
+#    Name: "<#7BFFB0><bold>Flight for a day</bold>"
+#    Name_es: "<#7BFFB0><bold>Vuelo por un dia</bold>"
+#    Icon: FEATHER
+#    Glow: true
+#    Description:
+#      - "<#C0B3D9>Use /fly wherever you are allowed to"
+#    Description_es:
+#      - "<#C0B3D9>Usa /fly donde tengas permitido"
+#    Permissions:
+#      - essentials.fly
+#    Duration: 1d
+#    Price: 5000

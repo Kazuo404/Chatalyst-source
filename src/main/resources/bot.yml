@@ -1,0 +1,884 @@
+# =====================================================================================
+#  Chatalyst — automatic messages: rotating announcer and the smart FAQ chat bot.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  Automatic rotating announcements
+# -------------------------------------------------------------------------------------
+Announcer:
+  Enabled: true
+  Interval: 300          # seconds between announcements
+  Random: false          # true = random order
+  # Smart mode: only announce when the chat is actually alive, so a quiet server is not
+  # spammed. An announcement goes out only when, since the previous one, at least
+  # Min_Chatters DIFFERENT players wrote in chat — or Chatters_Percent% of the online
+  # players, whichever is higher — and at least Min_Players are online. Example: with
+  # 100 players and 10%, 10 different chatters are needed; with 5 players the fixed
+  # minimum (3) applies. When the chat is quiet, the announcement simply waits for a
+  # later interval; nothing is lost.
+  Smart:
+    Enabled: true
+    Min_Players: 2         # below this online count, never announce
+    Min_Chatters: 3        # fixed minimum of different players chatting
+    Chatters_Percent: 10   # ...or this % of online players, whichever is higher
+  Prefix: "<#7B68A0>[<#B56CFF>Info<#7B68A0>] <reset>"
+  # Title shown on "/broadcast toast <message>" (plain text; toasts don't support colors).
+  Toast_Title: "Announcement"
+  Toast_Title_es: "Anuncio"
+  # Frames used by the "Frames" preset in /announce. Each entry is a full MiniMessage
+  # template; {msg} inserts the composed announcement. Gradients and decorations work.
+  # Interval_Ticks is clamped to 2..200. The selected palette style is intentionally
+  # replaced by these per-frame templates while this preset is active.
+  Animation:
+    Interval_Ticks: 6
+    Frames:
+      - "<gradient:#240046:#7B2CBF>{msg}</gradient>"
+      - "<gradient:#7B2CBF:#9D4EDD>{msg}</gradient>"
+      - "<gradient:#9D4EDD:#C77DFF>{msg}</gradient>"
+      - "<gradient:#C77DFF:#E0AAFF>{msg}</gradient>"
+  # Announcements localize per viewer: an English client sees Messages, a Spanish client
+  # sees Messages_es. The two lists are parallel BY INDEX (line 1 here = line 1 there); if a
+  # Spanish line is missing, that viewer falls back to the English one. Console uses English.
+  Messages:
+    - "<#C0B3D9>Remember to respect other players."
+    - "<#C0B3D9>Switch channels with <#FBF2FF>/channel<#C0B3D9>."
+    - "<#C0B3D9>Send mail to anyone with <#FBF2FF>/inbox<#C0B3D9>."
+  Messages_es:
+    - "<#C0B3D9>Recuerda respetar a los demas jugadores."
+    - "<#C0B3D9>Cambia de canal con <#FBF2FF>/channel<#C0B3D9>."
+    - "<#C0B3D9>Envia correo a cualquiera con <#FBF2FF>/inbox<#C0B3D9>."
+
+# -------------------------------------------------------------------------------------
+#  Auto responses (chat bot): answer common questions automatically. Three ways to detect
+#  a question (a response fires if ANY of them hits):
+#    Triggers  - "contains" text or full regex ("regex:" prefix). Write both languages.
+#    Keywords  - fuzzy detection for how people REALLY type. Each line is a group of
+#                synonyms/stems separated by '|'; it fires when the message contains a word
+#                from EVERY group. The message is normalized first: lowercased, accent-free,
+#                de-leeted (din3r0 -> dinero), de-stretched (holaaaa -> hola) and punctuation
+#                becomes spaces — so "komo gano din3ro!!!" still matches. Use short stems
+#                (gan, consig, sac) to catch conjugations (gano, ganar, consigue, saco...).
+#  Replies are MiniMessage lines chosen by each receiver's CLIENT language: Reply (English)
+#  / Reply_es (Spanish) — if one list is missing, the other is used. {player} is the asker's
+#  name. "To: player" answers only the asker; "To: everyone" broadcasts (each viewer sees
+#  their own language). Cooldowns stop the bot from spamming: per player+response and global.
+# -------------------------------------------------------------------------------------
+Auto_Responses:
+  Enabled: true                 # turn the whole FAQ bot on/off here
+  Bypass_Permission: "chatalyst.bypass.autoresponse"
+  # Auto_Language: each player gets the reply in THEIR client language (en/es). Set to false to
+  # answer everyone in one fixed language (Language below).
+  Auto_Language: true
+  Language: "en"                # only used when Auto_Language is false ("en" or "es")
+  # Private_Questions: a recognised question is NOT sent to the general chat — only the asker
+  # sees their message and the bot's answer (in their language), keeping public chat clean.
+  # Turn this off to keep questions public (then "To: everyone" responses broadcast as before).
+  Private_Questions: true
+  Player_Cooldown_Seconds: 60   # default per player+response (override per response)
+  Global_Cooldown_Seconds: 10   # default per response for the whole server
+  Delay_Ticks: 15               # short pause before answering, feels natural
+  # -----------------------------------------------------------------------------------------
+  #  SMART replies: a response can answer based on what the server ACTUALLY has, instead of a
+  #  fixed line. Under "Smart", each Part shows only if its "Needs" capability is available now;
+  #  the reply is composed from the available parts. If NONE apply, the "Unavailable" line is
+  #  used ("not available right now"). A Part with NO "Needs" is unconditional: it is always
+  #  said (use it for a line that does not depend on any plugin or feature). Needs can be:
+  #    command:<cmd>   the command is registered (e.g. command:jobs, command:balance)
+  #    plugin:<Name>   that plugin is installed and enabled (name as in /plugins)
+  #    <native>        a Chatalyst feature switch: pm, mail, market, trade, channels,
+  #                    announcements, economy, baltop, store (item deliveries are on),
+  #                    ranks (the rank storefront), rent (renting perks with in-game
+  #                    money is on, there is an economy AND at least one offer written),
+  #                    discordlink (account linking is actually usable)
+  #  Placeholders in reply text: {player} is the asker, {ranks_command} is whatever the
+  #  storefront command is called right now (Tebex.Shop.Command).
+  #  So "how do i see my money" only offers the balance command that exists, and "how do i pm"
+  #  offers /msg and/or /inbox depending on which is on. A response can still use a plain
+  #  Reply/Reply_es (with optional If_Plugin variants) when a fixed answer is enough.
+  # -----------------------------------------------------------------------------------------
+  Responses:
+    # SMART example: only lists the ways to earn money that this server actually has.
+    how-to-money:
+      Keywords:
+        - "dinero|plata|money|coin|coins|lana|feria|billete|cash|oro|eco|bucks|dosh|moolah|dough|rich"
+        - "gan|consig|hag|hac|sac|junt|farm|earn|make|get|neces|need|wanna|gimme|grind|start"
+      Triggers:
+        - "how do i make money"
+        - "how to earn money"
+        - "regex:\\bc[oó]mo (gano|consigo|hago) (dinero|plata)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>, ways to earn money here:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>, formas de ganar dinero aqui:"
+        Parts:
+          - Needs: "command:jobs"
+            Text: "<#C0B3D9>• Work a job with <#E0AAFF>/jobs<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Trabaja un empleo con <#E0AAFF>/jobs<#C0B3D9>."
+          - Needs: "command:shop"
+            Text: "<#C0B3D9>• Buy and sell at <#E0AAFF>/shop<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Compra y vende en <#E0AAFF>/shop<#C0B3D9>."
+          - Needs: "market"
+            Text: "<#C0B3D9>• Sell your own items on <#E0AAFF>/market<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Vende tus propios items en <#E0AAFF>/market<#C0B3D9>."
+          - Needs: "trade"
+            Text: "<#C0B3D9>• Trade directly with <#E0AAFF>/trade <player><#C0B3D9>."
+            Text_es: "<#C0B3D9>• Intercambia directo con <#E0AAFF>/trade <jugador><#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There's no money system enabled on this server yet."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Aun no hay un sistema de dinero activo en este servidor."
+      To: player
+    # SMART example: shows the balance command that exists — NOT /baltop (that's the rich list).
+    see-balance:
+      Keywords:
+        - "dinero|plata|money|coin|lana|saldo|balance|cuenta|bucks|dosh"
+        - "veo|ver|mir|revis|cuant|teng|tien|chec|see|view|check|have|much|wheres|hw much"
+      Triggers:
+        - "how do i see my money"
+        - "how much money do i have"
+        - "check my balance"
+        - "regex:\\bc[oó]mo (veo|miro|checo|reviso) (mi )?(dinero|saldo|balance|plata)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>To check your balance:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Para ver tu saldo:"
+        Parts:
+          - Needs: "command:balance"
+            Text: "<#C0B3D9>• Use <#E0AAFF>/balance<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Usa <#E0AAFF>/balance<#C0B3D9>."
+          - Needs: "command:money"
+            Text: "<#C0B3D9>• Or <#E0AAFF>/money<#C0B3D9>."
+            Text_es: "<#C0B3D9>• O <#E0AAFF>/money<#C0B3D9>."
+          - Needs: "command:bal"
+            Text: "<#C0B3D9>• Or <#E0AAFF>/bal<#C0B3D9>."
+            Text_es: "<#C0B3D9>• O <#E0AAFF>/bal<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>This server doesn't have an economy set up."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Este servidor no tiene economia configurada."
+      To: player
+    # SMART example: only mentions the messaging that is actually on (/msg, offline /inbox, or both).
+    richest-players:
+      Keywords:
+        - "rico|rich|dinero|money|top|baltop"
+        - "quien|who|mas|most|rank|lista|list|leaderboard|top"
+      Triggers:
+        - "who is the richest"
+        - "top money"
+        - "regex:\\bqui[eé]n (es|tiene) (el|mas) (rico|dinero)\\b"
+        - "quien es el mas rico"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>See the richest players:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Mira los jugadores mas ricos:"
+        Parts:
+          - Needs: "baltop"
+            Text: "<#C0B3D9>• Open the leaderboard with <#E0AAFF>/baltop<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Abre el ranking con <#E0AAFF>/baltop<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>The money leaderboard isn't available right now."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>El ranking de dinero no esta disponible ahora mismo."
+      To: player
+    private-messages:
+      Keywords:
+        - "priv|mensaj|mp|md|dm|dms|pms|msg|whisper|wisper|susurr|pm|message|privado|text"
+        - "mand|envi|escrib|hab|send|write|talk|como|komo|how|dm|wanna|reach|hit up"
+      Triggers:
+        - "how do i send a private message"
+        - "how to whisper"
+        - "regex:\\bc[oó]mo (mando|envio|env[ií]o) (un )?(mensaje privado|mp|md)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>To reach other players:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Para escribir a otros jugadores:"
+        Parts:
+          - Needs: "pm"
+            Text: "<#C0B3D9>• Online: <#E0AAFF>/msg <player> <text><#C0B3D9>, reply with <#E0AAFF>/reply<#C0B3D9>."
+            Text_es: "<#C0B3D9>• En linea: <#E0AAFF>/msg <jugador> <texto><#C0B3D9>, responde con <#E0AAFF>/reply<#C0B3D9>."
+          - Needs: "mail"
+            Text: "<#C0B3D9>• Offline: <#E0AAFF>/inbox<#C0B3D9> leaves a message for when they return."
+            Text_es: "<#C0B3D9>• Offline: <#E0AAFF>/inbox<#C0B3D9> deja un mensaje para cuando vuelvan."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Player messaging is turned off right now."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>La mensajeria entre jugadores esta apagada ahora mismo."
+      To: player
+    mail:
+      Keywords:
+        - "correo|mail|inbox|buzon|carta|offline|desconect"
+        - "mand|envi|escrib|dej|send|write|leave|como|komo|how"
+      Triggers:
+        - "how do i send mail"
+        - "offline message"
+        - "regex:\\bc[oó]mo (mando|envio|env[ií]o) (correo|un mensaje a alguien offline)\\b"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Open your mailbox with <#E0AAFF>/inbox<#C0B3D9>: you can write to players even when they are offline."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Abre tu buzon con <#E0AAFF>/inbox<#C0B3D9>: puedes escribir a jugadores aunque esten desconectados."
+      To: player
+    chat-color:
+      Keywords:
+        - "color|colour"
+        - "chat|mensaj|texto|nombre|nick|escrib|mio|mi|my"
+      Triggers:
+        - "how do i change my chat color"
+        - "chat color"
+        - "regex:\\bc[oó]mo (cambio|pongo) (el )?color (del|de mi) chat\\b"
+        - "color del chat"
+      Smart:
+        Parts:
+          - Needs: "command:chatcolor"
+            Text: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Pick your chat color and style in the <#E0AAFF>/chatcolor<#C0B3D9> menu."
+            Text_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Elige tu color y estilo de chat en el menu de <#E0AAFF>/chatcolor<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Chat colors aren't available on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Los colores de chat no estan disponibles en este servidor."
+      To: player
+    nickname:
+      Keywords:
+        - "nick|apodo|apellid|name|alias|nombre|ign"
+        - "cambi|pon|set|change|como|komo|how|nombre"
+      Triggers:
+        - "how do i change my name"
+        - "how do i set a nickname"
+        - "regex:\\bc[oó]mo (me )?cambio (el|mi) (nombre|nick|apodo)\\b"
+      Smart:
+        Parts:
+          - Needs: "command:nick"
+            Text: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Set a nickname with <#E0AAFF>/nick <name><#C0B3D9>, color it with <#E0AAFF>/nickcolor<#C0B3D9>, and reveal anyone's real name with <#E0AAFF>/realname <nick><#C0B3D9>."
+            Text_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Ponte un apodo con <#E0AAFF>/nick <nombre><#C0B3D9>, dale color con <#E0AAFF>/nickcolor<#C0B3D9> y descubre el nombre real de alguien con <#E0AAFF>/realname <apodo><#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Nicknames aren't available on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Los apodos no estan disponibles en este servidor."
+      To: player
+    channels:
+      Keywords:
+        - "canal|channel"
+        - "cambi|pas|entr|sal|change|switch|join|leave|como|komo"
+      Triggers:
+        - "how do i change channel"
+        - "trade chat"
+        - "regex:\\bc[oó]mo (cambio|me paso) (de|al) canal\\b"
+        - "chat de comercio"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Chat channels:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Canales de chat:"
+        Parts:
+          - Needs: "channels"
+            Text: "<#C0B3D9>• List and join channels with <#E0AAFF>/channel<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira y entra a los canales con <#E0AAFF>/channel<#C0B3D9>."
+          - Needs: "command:f"
+            Text: "<#C0B3D9>• Local radio chat uses <#E0AAFF>/f <frequency><#C0B3D9>."
+            Text_es: "<#C0B3D9>• El chat local por radio usa <#E0AAFF>/f <frecuencia><#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Chat channels are turned off on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Los canales de chat estan apagados en este servidor."
+      To: player
+    report-player:
+      Keywords:
+        - "report|denunci|hacker|cheater|tramp|abus|toxic"
+        - "como|komo|how|quier|want|donde|where"
+      Triggers:
+        - "how do i report"
+        - "regex:\\bc[oó]mo (reporto|denuncio)\\b"
+        - "quiero reportar"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Report a player with <#E0AAFF>/report <player> <reason><#C0B3D9>, follow it up with <#E0AAFF>/ticket<#C0B3D9>, or talk to staff with <#E0AAFF>/support<#C0B3D9>."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Reporta a un jugador con <#E0AAFF>/report <jugador> <razon><#C0B3D9>, dale seguimiento con <#E0AAFF>/ticket<#C0B3D9> o habla con el staff via <#E0AAFF>/support<#C0B3D9>."
+      To: player
+    toggles:
+      Keywords:
+        - "toggle|activ|desactiv|apag|prend|silenci|ocult|notif|anuncio"
+        - "como|komo|how|quier|want|quit|saco"
+      Triggers:
+        - "how do i turn off mentions"
+        - "disable private messages"
+        - "regex:\\bc[oó]mo (desactivo|apago) (las menciones|los mensajes privados|los pings)\\b"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Open <#E0AAFF>/toggle<#C0B3D9> to turn mentions, private messages and other notifications on or off."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Abre <#E0AAFF>/toggle<#C0B3D9> para activar o desactivar menciones, mensajes privados y otras notificaciones."
+      To: player
+    commands-help:
+      Keywords:
+        - "comando|command|ayuda|help"
+        - "que|cual|what|which|todos|all|hay|list|lista"
+      Triggers:
+        - "what commands are there"
+        - "list of commands"
+        - "que comandos hay"
+        - "lista de comandos"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Useful commands: <#E0AAFF>/msg<#C0B3D9>, <#E0AAFF>/inbox<#C0B3D9>, <#E0AAFF>/channel<#C0B3D9>, <#E0AAFF>/chatcolor<#C0B3D9>, <#E0AAFF>/nick<#C0B3D9>, <#E0AAFF>/market<#C0B3D9>, <#E0AAFF>/trade<#C0B3D9>, <#E0AAFF>/report<#C0B3D9>, <#E0AAFF>/toggle<#C0B3D9>, <#E0AAFF>/afk<#C0B3D9>, <#E0AAFF>/motd<#C0B3D9>."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Comandos utiles: <#E0AAFF>/msg<#C0B3D9>, <#E0AAFF>/inbox<#C0B3D9>, <#E0AAFF>/channel<#C0B3D9>, <#E0AAFF>/chatcolor<#C0B3D9>, <#E0AAFF>/nick<#C0B3D9>, <#E0AAFF>/market<#C0B3D9>, <#E0AAFF>/trade<#C0B3D9>, <#E0AAFF>/report<#C0B3D9>, <#E0AAFF>/toggle<#C0B3D9>, <#E0AAFF>/afk<#C0B3D9>, <#E0AAFF>/motd<#C0B3D9>."
+      To: player
+    # SMART: "compré algo y no me llegó". La duda numero uno de cualquier tienda.
+    where-is-my-purchase:
+      Keywords:
+        - "compr|purchase|pag|pay|pague|doné|done|donat|rango|rank|vip|kit|llave|key|objeto|item"
+        - "no me|not|llego|lleg|recib|receiv|dond|where|falta|missing|aparec|dieron|dio|sale|tengo"
+      Triggers:
+        - "i bought something and did not get it"
+        - "where is my rank"
+        - "regex:\\b(compr[eé]|pagu[eé]|don[eé]) .*(no me (lleg|dieron|aparec))"
+        - "compre un rango y no me llego"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>, nothing you paid for is ever lost:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>, nada de lo que pagas se pierde:"
+        Parts:
+          - Needs: "store"
+            Text: "<#C0B3D9>• Open <#E0AAFF>/store<#C0B3D9> to see and take anything waiting for you."
+            Text_es: "<#C0B3D9>• Abre <#E0AAFF>/store<#C0B3D9> para ver y recoger lo que te espera."
+          - Needs: "store"
+            Text: "<#C0B3D9>• Items wait until you have room — nothing is ever dropped on the ground."
+            Text_es: "<#C0B3D9>• Los objetos esperan a que tengas espacio — nunca se tiran al suelo."
+          - Needs: "discordlink"
+            Text: "<#C0B3D9>• A Discord role missing? Link your account with <#E0AAFF>/discord link<#C0B3D9> and it arrives on its own."
+            Text_es: "<#C0B3D9>• ¿Te falta un rol de Discord? Vincula tu cuenta con <#E0AAFF>/discord link<#C0B3D9> y llega solo."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Purchases can take a few minutes. If it still isn't there, open a ticket with <#E0AAFF>/report<#C0B3D9> or ask staff on Discord."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Las compras pueden tardar unos minutos. Si aun asi no llega, abre un ticket con <#E0AAFF>/report<#C0B3D9> o pregunta al staff en Discord."
+      To: player
+      Player_Cooldown_Seconds: 30
+    # SMART: como recoger lo comprado (kits, llaves, objetos).
+    claim-purchase:
+      Keywords:
+        - "reclam|claim|recog|recoj|retir|coger|sacar|abrir"
+        - "compr|purchase|kit|llave|key|objeto|item|premio|reward|pedido|order|tienda|store"
+      Triggers:
+        - "how do i claim my purchase"
+        - "how to claim my items"
+        - "regex:\\bc[oó]mo (reclamo|recojo|retiro) (mi |mis )?(compra|objetos|kit)"
+        - "como recojo mi compra"
+      Smart:
+        Parts:
+          - Needs: "store"
+            Text: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Open <#E0AAFF>/store<#C0B3D9> and click what you want, or use <#E0AAFF>/store claim<#C0B3D9> to take everything at once."
+            Text_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Abre <#E0AAFF>/store<#C0B3D9> y haz clic en lo que quieras, o usa <#E0AAFF>/store claim<#C0B3D9> para recoger todo de golpe."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There is no item store on this server. Ranks are delivered automatically."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Este servidor no tiene tienda de objetos. Los rangos se entregan automaticamente."
+      To: player
+    # SMART: vincular la cuenta de Discord (obligatorio en algunos servidores).
+    link-discord:
+      Keywords:
+        - "vincul|link|enlaz|conect|asoci|unir"
+        - "discord|cuenta|account|dc"
+      Triggers:
+        - "how do i link my discord"
+        - "link discord account"
+        - "regex:\\bc[oó]mo (vinculo|enlazo|conecto|asocio) (mi )?(cuenta de )?discord\\b"
+        - "como vinculo mi discord"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Linking your Discord:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Vincular tu Discord:"
+        Parts:
+          - Needs: "discordlink"
+            Text: "<#C0B3D9>• Run <#E0AAFF>/discord link<#C0B3D9> here to get your code."
+            Text_es: "<#C0B3D9>• Usa <#E0AAFF>/discord link<#C0B3D9> aqui para obtener tu codigo."
+          - Needs: "discordlink"
+            Text: "<#C0B3D9>• Send that code to our bot on Discord. Check it later with <#E0AAFF>/discord status<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Envia ese codigo a nuestro bot en Discord. Revisalo luego con <#E0AAFF>/discord status<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Account linking isn't set up on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>La vinculacion de cuentas no esta configurada en este servidor."
+      To: player
+    server-discord:
+      Keywords:
+        - "discord|teamspeak|voz|voice|social|comunidad"
+        - "cual|link|url|donde|where|invit|join|hay|tienen|servidor"
+      Triggers:
+        - "what is the discord"
+        - "cual es el discord"
+        - "regex:\\bdiscord\\?"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Our Discord: <#B56CFF><click:open_url:'https://discord.gg/your-invite'>discord.gg/your-invite</click>"
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Nuestro Discord: <#B56CFF><click:open_url:'https://discord.gg/your-invite'>discord.gg/your-invite</click>"
+      To: player
+      Player_Cooldown_Seconds: 120
+    # ---- SMART FAQs that detect common server plugins (only show what actually exists) ----
+    ranks-vip:
+      Keywords:
+        - "vip|rango|rank|premium|mvp|tienda|store|shop|donar|donate|donor|rankup|perks"
+        - "como|komo|how|donde|where|compr|buy|consig|precio|price|obten"
+      Triggers:
+        - "how do i get a rank"
+        - "how to buy vip"
+        - "regex:\\bc[oó]mo (compro|consigo|obtengo) (un )?(rango|vip|rank)\\b"
+        - "como subo de rango"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>About ranks:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Sobre los rangos:"
+        Parts:
+          # Native storefront first: it is the one that always exists when configured.
+          # {ranks_command} se resuelve con Tebex.Shop.Command, asi que si renombras el
+          # comando el bot manda a los jugadores al nombre correcto sin tocar este archivo.
+          - Needs: "ranks"
+            Text: "<#C0B3D9>• Browse every rank and its price with <#E0AAFF>{ranks_command}<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira todos los rangos y sus precios con <#E0AAFF>{ranks_command}<#C0B3D9>."
+          - Needs: "command:buy"
+            Text: "<#C0B3D9>• Get a rank in the store: <#E0AAFF>/buy<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Consigue un rango en la tienda: <#E0AAFF>/buy<#C0B3D9>."
+          - Needs: "command:ranks"
+            Text: "<#C0B3D9>• See all ranks with <#E0AAFF>/ranks<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira todos los rangos con <#E0AAFF>/ranks<#C0B3D9>."
+          # La puerta que se paga JUGANDO. Va la ultima a proposito: quien pregunta por
+          # un rango suele venir a comprarlo, pero irse sin saber que hay otra via es como
+          # se construye la fama de pay-to-win.
+          - Needs: "rent"
+            Text: "<#C0B3D9>• Or rent one with in-game money: <#E0AAFF>/alquilar<#C0B3D9>."
+            Text_es: "<#C0B3D9>• O alquila uno con dinero del juego: <#E0AAFF>/alquilar<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Ask a staff member about ranks, or check our Discord."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Preguntale al staff por los rangos, o revisa nuestro Discord."
+      To: player
+    rent-perks:
+      Keywords:
+        - "fly|volar|vuelo|alquil|rent|temporal|perk|ventaja|permiso"
+        - "como|komo|how|donde|where|consig|obten|puedo|can|get"
+      Triggers:
+        - "how do i get fly"
+        - "regex:\bc[oó]mo (consigo|obtengo|tengo) (el )?(fly|vuelo|volar)\b"
+        - "se puede volar"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Perks you can pay for by playing:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Ventajas que se pagan jugando:"
+        Parts:
+          - Needs: "rent"
+            Text: "<#C0B3D9>• Rent them with in-game money at <#E0AAFF>/alquilar<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Alquilalas con dinero del juego en <#E0AAFF>/alquilar<#C0B3D9>."
+          - Needs: "ranks"
+            Text: "<#C0B3D9>• Some come with a rank: <#E0AAFF>{ranks_command}<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Algunas vienen con un rango: <#E0AAFF>{ranks_command}<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Ask a staff member about that."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Preguntale al staff por eso."
+      To: player
+    teleport-player:
+      Keywords:
+        - "tp|teleport|teletransport"
+        - "como|komo|how|quier|want|pued|can|donde|jugador|player"
+      Triggers:
+        - "how do i teleport to someone"
+        - "how to tpa"
+        - "regex:\\bc[oó]mo (me )?(teletransporto|tpo|voy) (a|con|donde) (un jugador|alguien)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>To teleport to a player:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Para teletransportarte a un jugador:"
+        Parts:
+          - Needs: "command:tpa"
+            Text: "<#C0B3D9>• Request with <#E0AAFF>/tpa <player><#C0B3D9>, they accept with <#E0AAFF>/tpaccept<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Pide con <#E0AAFF>/tpa <jugador><#C0B3D9>, aceptan con <#E0AAFF>/tpaccept<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Player teleport requests aren't enabled here."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Las peticiones de teletransporte no estan activas aqui."
+      To: player
+    homes:
+      Keywords:
+        - "home|casa|hogar|sethome|base"
+        - "como|komo|how|pon|set|crea|hac|voy|ir|teleport|tp"
+      Triggers:
+        - "how do i set a home"
+        - "how to teleport home"
+        - "regex:\\bc[oó]mo (pongo|creo|guardo) (una )?casa\\b"
+        - "como voy a mi casa"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Homes:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Casas (homes):"
+        Parts:
+          - Needs: "command:sethome"
+            Text: "<#C0B3D9>• Save your spot with <#E0AAFF>/sethome <name><#C0B3D9>."
+            Text_es: "<#C0B3D9>• Guarda tu lugar con <#E0AAFF>/sethome <nombre><#C0B3D9>."
+          - Needs: "command:home"
+            Text: "<#C0B3D9>• Go back with <#E0AAFF>/home <name><#C0B3D9>."
+            Text_es: "<#C0B3D9>• Vuelve con <#E0AAFF>/home <nombre><#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Homes aren't available on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Las casas no estan disponibles en este servidor."
+      To: player
+    warps-spawn:
+      Keywords:
+        - "warp|spawn|lugar|sitio|zona"
+        - "como|komo|how|ir|voy|llev|teleport|tp|donde|where"
+      Triggers:
+        - "how do i use warps"
+        - "how to go to spawn"
+        - "regex:\\bc[oó]mo (voy|llego|uso) (al|a|los) (spawn|warps?|puntos)\\b"
+        - "donde esta el spawn"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Getting around:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Para moverte:"
+        Parts:
+          - Needs: "command:spawn"
+            Text: "<#C0B3D9>• Back to spawn: <#E0AAFF>/spawn<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Volver al spawn: <#E0AAFF>/spawn<#C0B3D9>."
+          - Needs: "command:warp"
+            Text: "<#C0B3D9>• Public places: <#E0AAFF>/warp <name><#C0B3D9> (list with <#E0AAFF>/warps<#C0B3D9>)."
+            Text_es: "<#C0B3D9>• Lugares publicos: <#E0AAFF>/warp <nombre><#C0B3D9> (lista con <#E0AAFF>/warps<#C0B3D9>)."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>No warps or spawn command are set up here."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>No hay warps ni comando de spawn configurados aqui."
+      To: player
+    land-claim:
+      Keywords:
+        - "terreno|claim|proteg|parcel|land|region|territorio"
+        - "como|komo|how|reclam|hac|crea|pon|claim|donde"
+      Triggers:
+        - "how do i claim land"
+        - "how to protect my base"
+        - "regex:\\bc[oó]mo (reclamo|protejo|marco) (mi )?(terreno|tierra|base|casa|parcela)\\b"
+        - "como protejo mi terreno"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>To protect your land:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Para proteger tu terreno:"
+        Parts:
+          - Needs: "command:claim"
+            Text: "<#C0B3D9>• Claim with <#E0AAFF>/claim<#C0B3D9> (use a golden shovel to select corners)."
+            Text_es: "<#C0B3D9>• Reclama con <#E0AAFF>/claim<#C0B3D9> (usa la pala dorada para marcar esquinas)."
+          - Needs: "plugin:Lands"
+            Text: "<#C0B3D9>• Open the land menu with <#E0AAFF>/lands<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Abre el menu de terrenos con <#E0AAFF>/lands<#C0B3D9>."
+          - Needs: "plugin:RedProtect"
+            Text: "<#C0B3D9>• Protect a region with <#E0AAFF>/rp<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Protege una region con <#E0AAFF>/rp<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Land protection isn't set up on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>La proteccion de terrenos no esta configurada aqui."
+      To: player
+    kits:
+      Keywords:
+        - "kit|starter|inicial"
+        - "como|komo|how|reclam|claim|dan|dar|consig|donde|obten"
+      Triggers:
+        - "how do i get a kit"
+        - "how to use kits"
+        - "regex:\\bc[oó]mo (consigo|uso|reclamo) (un )?kits?\\b"
+        - "como reclamo mi kit"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Kits:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Kits:"
+        Parts:
+          - Needs: "command:kit"
+            Text: "<#C0B3D9>• See and claim kits with <#E0AAFF>/kit<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira y reclama kits con <#E0AAFF>/kit<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There are no kits on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>No hay kits en este servidor."
+      To: player
+    vote:
+      Keywords:
+        - "vot|vote|voto"
+        - "como|komo|how|donde|where|link|premio|reward|reclam"
+      Triggers:
+        - "how do i vote"
+        - "voting rewards"
+        - "regex:\\bc[oó]mo (voto|votar)\\b"
+        - "como votar por el server"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Voting:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Votar:"
+        Parts:
+          - Needs: "command:vote"
+            Text: "<#C0B3D9>• Open the vote links with <#E0AAFF>/vote<#C0B3D9> and earn rewards."
+            Text_es: "<#C0B3D9>• Abre los enlaces de voto con <#E0AAFF>/vote<#C0B3D9> y gana recompensas."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Voting isn't set up here yet."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>El sistema de votos aun no esta configurado."
+      To: player
+    party:
+      Keywords:
+        - "party|grupo|equipo|team|fiesta"
+        - "como|komo|how|crea|hac|unir|join|invit|arm"
+      Triggers:
+        - "how do i make a party"
+        - "how to invite to party"
+        - "regex:\\bc[oó]mo (creo|hago|armo) (una )?(party|fiesta|grupo)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Parties:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Parties (grupos):"
+        Parts:
+          - Needs: "command:party"
+            Text: "<#C0B3D9>• Create or manage yours with <#E0AAFF>/party<#C0B3D9>, then chat in the party channel."
+            Text_es: "<#C0B3D9>• Crea o gestiona la tuya con <#E0AAFF>/party<#C0B3D9>, y chatea en el canal de party."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Parties aren't available on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Las parties no estan disponibles en este servidor."
+      To: player
+    crates:
+      Keywords:
+        - "crate|caja|cofre|llave|key|loot"
+        - "como|komo|how|abr|open|consig|donde|reclam|uso"
+      Triggers:
+        - "how do i open crates"
+        - "what are keys for"
+        - "regex:\\bc[oó]mo (abro|uso) (las )?(cajas|crates|cofres)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Crates:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Cajas (crates):"
+        Parts:
+          - Needs: "command:crates"
+            Text: "<#C0B3D9>• See crates with <#E0AAFF>/crates<#C0B3D9>; use keys at the physical crate."
+            Text_es: "<#C0B3D9>• Mira las cajas con <#E0AAFF>/crates<#C0B3D9>; usa las llaves en la caja fisica."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There are no crates on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>No hay cajas en este servidor."
+      To: player
+    auction:
+      Keywords:
+        - "subasta|auction|puja|bid"
+        - "como|komo|how|puj|bid|vend|sell|compr|buy|donde"
+      Triggers:
+        - "how do i use the auction house"
+        - "regex:\\bc[oó]mo (uso|vendo en) (la )?(subasta|auction|ah)\\b"
+        - "como subasto un item"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Auctions:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Subastas:"
+        Parts:
+          - Needs: "command:ah"
+            Text: "<#C0B3D9>• Open the auction house with <#E0AAFF>/ah<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Abre la casa de subastas con <#E0AAFF>/ah<#C0B3D9>."
+          - Needs: "market"
+            Text: "<#C0B3D9>• Or auction your item natively: <#E0AAFF>/market auction <price><#C0B3D9>."
+            Text_es: "<#C0B3D9>• O subasta tu item de forma nativa: <#E0AAFF>/market auction <precio><#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Auctions aren't enabled on this server."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Las subastas no estan activas en este servidor."
+      To: player
+    rules:
+      Keywords:
+        - "regla|rule|norma|permit|prohib|allowed|ban"
+        - "cual|que|donde|where|what|hay|leer|ver|read"
+      Triggers:
+        - "what are the rules"
+        - "server rules"
+        - "cuales son las reglas"
+        - "reglas del servidor"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Server rules:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Reglas del servidor:"
+        Parts:
+          - Needs: "command:rules"
+            Text: "<#C0B3D9>• Read them with <#E0AAFF>/rules<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Leelas con <#E0AAFF>/rules<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Be respectful, no cheating or advertising, and follow staff instructions. Ask staff for the full rules."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Se respetuoso, sin trampas ni publicidad, y sigue al staff. Pide las reglas completas al staff."
+      To: player
+    afk:
+      Keywords:
+        - "afk|ausente|away|inactiv"
+        - "como|komo|how|pon|set|que es|signif|means"
+      Triggers:
+        - "how do i go afk"
+        - "regex:\\bc[oó]mo (me pongo|paso a) afk\\b"
+        - "como me pongo afk"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>AFK:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>AFK:"
+        Parts:
+          - Needs: "command:afk"
+            Text: "<#C0B3D9>• Mark yourself away with <#E0AAFF>/afk<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Marcate como ausente con <#E0AAFF>/afk<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>The AFK command isn't available here."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>El comando AFK no esta disponible aqui."
+      To: player
+    contact-staff:
+      Keywords:
+        - "staff|admin|helper|soporte|support|op|mod"
+        - "contact|hab|llam|donde|need|neces|ayuda|help|report|reclam"
+      Triggers:
+        - "how do i contact staff"
+        - "i need help from an admin"
+        - "regex:\\bc[oó]mo (hablo|contacto|llamo) (con|a|al) (staff|admin|moderador)\\b"
+        - "necesito ayuda de un admin"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Need staff?"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Necesitas al staff?"
+        Parts:
+          - Needs: "command:support"
+            Text: "<#C0B3D9>• Start a private chat with staff using <#E0AAFF>/support<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Abre una conversacion privada con el staff usando <#E0AAFF>/support<#C0B3D9>."
+          - Needs: "command:report"
+            Text: "<#C0B3D9>• Report a rule-breaker with <#E0AAFF>/report <player> <reason><#C0B3D9>."
+            Text_es: "<#C0B3D9>• Reporta a un infractor con <#E0AAFF>/report <jugador> <razon><#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Reach out to staff on our Discord."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Contacta al staff en nuestro Discord."
+      To: player
+    # Block/ignore another player's chat and DMs (native /ignore).
+    ignore-player:
+      Keywords:
+        - "ignor|block|bloque|mutear|silenci|callar|molest|acos|toxic"
+        - "jugador|player|persona|alguien|user|chico|tipo|como|komo|how|puedo|can"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Ignore someone with <#E0AAFF>/ignore <player><#C0B3D9>: you stop seeing their chat and private messages. Run it again to unignore."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Ignora a alguien con <#E0AAFF>/ignore <jugador><#C0B3D9>: dejas de ver su chat y sus privados. Ejecutalo otra vez para dejar de ignorarlo."
+      To: player
+    # SMART: how to sell items — offers only the selling systems this server actually has.
+    how-to-sell:
+      Keywords:
+        - "vend|sell|sll|market|mercad|subast|auction|shop|tienda|flog"
+        - "item|objeto|cosa|thing|como|komo|how|donde|where|mi|my|puedo|can|quiero|want"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>, ways to sell items here:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>, formas de vender objetos aqui:"
+        Parts:
+          - Needs: "market"
+            Text: "<#C0B3D9>• List your items on <#E0AAFF>/market<#C0B3D9> (sell or auction, held safely in escrow)."
+            Text_es: "<#C0B3D9>• Publica tus objetos en <#E0AAFF>/market<#C0B3D9> (venta o subasta, con deposito seguro)."
+          - Needs: "trade"
+            Text: "<#C0B3D9>• Trade face to face with <#E0AAFF>/trade <player><#C0B3D9>."
+            Text_es: "<#C0B3D9>• Intercambia cara a cara con <#E0AAFF>/trade <jugador><#C0B3D9>."
+          - Needs: "command:shop"
+            Text: "<#C0B3D9>• Sell to the server shop with <#E0AAFF>/shop<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Vende a la tienda del servidor con <#E0AAFF>/shop<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>No player selling system is enabled here yet."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Aun no hay un sistema de venta entre jugadores aqui."
+      To: player
+    # SMART: how/where to BUY items or blocks — offers only what this server actually has.
+    # After ranks-vip in the list, so "how do i buy VIP" still goes to the ranks answer.
+    how-to-buy:
+      Keywords:
+        - "compr|buy|adquir|purchase|mercar"
+        - "como|komo|how|donde|where|puedo|can|quier|want|hago|neces|need|hac"
+      Triggers:
+        - "how do i buy"
+        - "where do i buy"
+        - "regex:\\b(d[oó]nde|c[oó]mo) (compro|puedo comprar)\\b"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>, ways to buy here:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>, formas de comprar aqui:"
+        Parts:
+          - Needs: "command:shop"
+            Text: "<#C0B3D9>• Open the server shop with <#E0AAFF>/shop<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Abre la tienda del servidor con <#E0AAFF>/shop<#C0B3D9>."
+          - Needs: "command:buy"
+            Text: "<#C0B3D9>• Or use <#E0AAFF>/buy<#C0B3D9>."
+            Text_es: "<#C0B3D9>• O usa <#E0AAFF>/buy<#C0B3D9>."
+          - Needs: "market"
+            Text: "<#C0B3D9>• Browse players' listings and buy on <#E0AAFF>/market<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira las publicaciones de jugadores y compra en <#E0AAFF>/market<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There's no shop set up here yet — ask staff or check <#E0AAFF>/discord<#C0B3D9>."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Aun no hay tienda configurada — pregunta al staff o mira <#E0AAFF>/discord<#C0B3D9>."
+      To: player
+    # Who is connected right now (vanilla /list works everywhere).
+    who-is-online:
+      Keywords:
+        - "online|conectad|conexion|jugadores|players|gente|servidor|server|ppl|peeps"
+        - "cuant|quien|who|hay|lista|list|estan|are|many|conectad"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>See who's online with <#E0AAFF>/list<#C0B3D9>."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Mira quien esta conectado con <#E0AAFF>/list<#C0B3D9>."
+      To: player
+    # Joining the team — points to Discord where applications are announced (edit as needed).
+    become-staff:
+      Keywords:
+        - "staff|admin|moderador|helper|ayudante|mod|team|equipo|rango de staff"
+        - "ser|convert|become|aplic|apply|postul|solicit|unir|join|quiero|want|entrar"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Staff applications, when open, are announced on our Discord — check <#E0AAFF>/discord<#C0B3D9>. Play fair and stay active!"
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Las postulaciones a staff, cuando abren, se anuncian en nuestro Discord — mira <#E0AAFF>/discord<#C0B3D9>. Juega limpio y mantente activo!"
+      To: player
+    # Got stuck / trapped — how to get unstuck (edit the commands to match your server).
+    stuck-help:
+      Keywords:
+        - "atasc|atrap|trab|stuck|pegad|encerr|no me puedo mover|no puedo salir"
+        - "salir|ayuda|help|sacar|libr|out|mover|move|estoy|im|quede|toy"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Stuck? Try <#E0AAFF>/spawn<#C0B3D9> or a <#E0AAFF>/warp<#C0B3D9> to teleport out. If a bug trapped you, tell staff with <#E0AAFF>/report<#C0B3D9>."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Atascado? Prueba <#E0AAFF>/spawn<#C0B3D9> o un <#E0AAFF>/warp<#C0B3D9> para teletransportarte. Si te atrapo un bug, avisa al staff con <#E0AAFF>/report<#C0B3D9>."
+      To: player
+    # SMART: flight — usually a rank perk (/fly if present).
+    how-to-fly:
+      Keywords:
+        - "vola|vuel|fly|flight|elytra|planear"
+        - "como|komo|how|puedo|can|quier|want|activ|donde|where"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>:"
+        Parts:
+          - Needs: "command:fly"
+            Text: "<#C0B3D9>• Toggle flight with <#E0AAFF>/fly<#C0B3D9> (if your rank allows it)."
+            Text_es: "<#C0B3D9>• Activa el vuelo con <#E0AAFF>/fly<#C0B3D9> (si tu rango lo permite)."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Flight isn't available here — it's usually a rank perk. See <#E0AAFF>/discord<#C0B3D9> or ask staff."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>El vuelo no esta disponible aqui — suele ser un perk de rango. Mira <#E0AAFF>/discord<#C0B3D9> o pregunta al staff."
+      To: player
+    # Is PvP allowed here (server-specific — edit the answer to fit your server).
+    is-pvp:
+      Keywords:
+        - "pvp|pelea|pelear|combat|luchar|matar|golpear"
+        - "hay|puedo|can|is|como|komo|donde|where|activ|permit|por que|why"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>PvP depends on the area/world here. Check <#E0AAFF>/rules<#C0B3D9> or ask staff where fighting is allowed."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>El PvP depende del area/mundo aqui. Mira <#E0AAFF>/rules<#C0B3D9> o pregunta al staff donde se puede pelear."
+      To: player
+    # Server IP / inviting friends (edit with your real IP or point to Discord).
+    server-ip:
+      Keywords:
+        - "ip|direccion|address|invit|amigo|friend|conect|entrar al server"
+        - "cual|what|como|komo|how|donde|where|link|servidor|server|tu|el"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Invite friends with the same address you joined with! For links and info, check <#E0AAFF>/discord<#C0B3D9>."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Invita a tus amigos con la misma direccion con la que entraste! Para links e info, mira <#E0AAFF>/discord<#C0B3D9>."
+      To: player
+    # SMART: playtime / stats — offers the command your server actually has.
+    playtime-stats:
+      Keywords:
+        - "playtime|jugad|estadistic|stats|nivel|level|tiempo"
+        - "cuanto|how|mi|my|ver|see|check|teng|llev|tengo"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>:"
+        Parts:
+          - Needs: "command:playtime"
+            Text: "<#C0B3D9>• See your playtime with <#E0AAFF>/playtime<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira tu tiempo jugado con <#E0AAFF>/playtime<#C0B3D9>."
+          - Needs: "command:stats"
+            Text: "<#C0B3D9>• See your stats with <#E0AAFF>/stats<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Mira tus estadisticas con <#E0AAFF>/stats<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There's no playtime/stats command here yet."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Aun no hay comando de tiempo jugado/estadisticas aqui."
+      To: player
+    # Appeal a ban/mute — points to Discord (edit to your appeal method).
+    appeal-ban:
+      Keywords:
+        - "bane|banear|banned|expuls|mute|muteo|silenci|sancion|castig|apel|appeal|unban"
+        - "como|komo|how|donde|where|quit|apel|injust|por que|why"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>To appeal a ban or mute, join our Discord (<#E0AAFF>/discord<#C0B3D9>) and open a ticket with staff."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Para apelar un baneo o silencio, entra a nuestro Discord (<#E0AAFF>/discord<#C0B3D9>) y abre un ticket con el staff."
+      To: player
+    # Lag / performance help.
+    lag-help:
+      Keywords:
+        - "lag|lagg|laguea|lento|tps|fps|freeze|conges|se traba|va lento"
+        - "hay|por que|why|como|arregl|fix|mejor|reduc|teng|mucho|quit"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Lag can be your connection or the server. Lower your render distance first; if it's server-wide, tell staff on <#E0AAFF>/discord<#C0B3D9>."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>El lag puede ser tu conexion o el server. Baja tu distancia de render; si es del server, avisa al staff en <#E0AAFF>/discord<#C0B3D9>."
+      To: player
+    # SMART: skins.
+    change-skin:
+      Keywords:
+        - "skin|apariencia|aspecto|piel|personaje"
+        - "como|komo|how|cambi|change|pon|set|mi|my|nuev"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>:"
+        Parts:
+          - Needs: "command:skin"
+            Text: "<#C0B3D9>• Change it in-game with <#E0AAFF>/skin<#C0B3D9>."
+            Text_es: "<#C0B3D9>• Cambiala en el juego con <#E0AAFF>/skin<#C0B3D9>."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Your skin comes from your Minecraft account — change it in the launcher or minecraft.net."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Tu skin viene de tu cuenta de Minecraft — cambiala en el launcher o en minecraft.net."
+      To: player
+    # SMART: proximity voice chat.
+    voice-chat:
+      Keywords:
+        - "voz|voice|microfon|proximity|hablar por voz"
+        - "hay|como|komo|how|activ|uso|use|puedo|can"
+      Smart:
+        Intro: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hi <#FBF2FF>{player}<#C0B3D9>:"
+        Intro_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Hola <#FBF2FF>{player}<#C0B3D9>:"
+        Parts:
+          - Needs: "plugin:voicechat"
+            Text: "<#C0B3D9>• This server has proximity voice — install the Simple Voice Chat mod to talk."
+            Text_es: "<#C0B3D9>• Este server tiene voz por proximidad — instala el mod Simple Voice Chat para hablar."
+          - Needs: "plugin:PlasmoVoice"
+            Text: "<#C0B3D9>• This server has Plasmo Voice — install the mod to talk in voice."
+            Text_es: "<#C0B3D9>• Este server tiene Plasmo Voice — instala el mod para hablar por voz."
+        Unavailable: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>There's no in-game voice chat here — hop on our Discord (<#E0AAFF>/discord<#C0B3D9>) instead."
+        Unavailable_es: "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>No hay chat de voz en el juego — mejor entra a nuestro Discord (<#E0AAFF>/discord<#C0B3D9>)."
+      To: player
+    # How to change the bot/plugin language.
+    change-language:
+      Keywords:
+        - "idioma|language|ingles|english|espanol|traduc|lenguaje"
+        - "como|komo|how|cambi|change|pon|set|en|to"
+      Reply:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>I answer in your Minecraft client's language automatically — set your game language and I'll follow."
+      Reply_es:
+        - "<#7B68A0>[<#B56CFF>Bot<#7B68A0>] <#C0B3D9>Respondo en el idioma de tu cliente de Minecraft automaticamente — cambia el idioma del juego y te sigo."
+      To: player

@@ -1,0 +1,96 @@
+# =====================================================================================
+#  Chatalyst - Default chat format
+#
+#  Each block under "Parts" is a piece of the message, in order. Per-part fields:
+#    Message          MiniMessage text (supports {..} and %..% placeholders).
+#    Hover            One line or a list of lines shown on mouse-over.
+#    Run_Command      Runs a command on click.
+#    Suggest_Command  Fills the chat with a command on click.
+#    Open_Url         Opens a URL on click.
+#    Copy_To_Clipboard  Copies text to the clipboard on click.
+#    Insertion        Inserts text into the chat box on shift-click.
+#    Sender_Permission / Receiver_Permission  Permission gate; prefix ! to negate.
+#    Sender_Variable / Receiver_Variable  "{placeholder} expected" comparison.
+#      Expected also supports !=, >, >=, <, <=, contains:, starts:, ends:, in:, regex:.
+#    Sender_Condition / Receiver_Condition  Cached, sandboxed JavaScript boolean condition.
+#    View_Permission  Legacy alias of Receiver_Permission.
+#
+#  The part containing {message} is where the player's message is inserted.
+#  The prefix uses %luckperms_prefix% (requires PlaceholderAPI + LuckPerms); if you don't
+#  have them, change that part to any text you want or remove the "prefix" part.
+#
+#  The hover shows {player_prefix} (the styled rank tag, e.g. [OWNER]), not {player_group}
+#  (the internal LuckPerms group id). {rank_tag} is the same tag with the group name as a
+#  fallback for groups that have no prefix.
+#  (the raw group id, e.g. owner). Swap them if you prefer the plain id.
+#
+#  The hover is tinted by rank. The "»" separators use {rank_color} (the player's rank
+#  colour, a plain solid). The divider bars use {rank_gradient}: a neon gradient the plugin
+#  builds automatically from the rank's PRIMARY colour (dark edge » bright glow » dark edge),
+#  so every rank gets its own matching neon bar with no setup. {rank_gradient} always emits a
+#  <gradient:...>, so the closing </gradient> after the strikethrough always matches. Ranks
+#  with no colour fall back to the house purple; greyscale ranks get a silver neon. Replace
+#  {rank_gradient}/{rank_color} with fixed values to opt out.
+#
+#  The hover's "Party" line uses {party} (the player's Parties party, empty if none). You
+#  can replace that line with anything you like, for example the player's balance via
+#  PlaceholderAPI + Vault:   - "<#C0B3D9>Balance <#7B68A0>» <#3DFFA8>$%vault_eco_balance%"
+#  or bring back the world:  - "<#C0B3D9>World <#7B68A0>» <#FBF2FF>{world}"
+# =====================================================================================
+
+Parts:
+
+  # Visible only to players with chatalyst.deletemessages, and automatically omitted
+  # when Paper did not supply a usable signed-message signature for the line.
+  delete:
+    Message: "<#7B68A0>[<#FF4D6D>x<#7B68A0>] <reset>"
+    Hover: "<#FF4D6D>{$delete-msg}"
+    Run_Command: "/chatalyst removemessage {message_uuid}"
+    View_Permission: chatalyst.deletemessages
+
+  prefix:
+    # Prefix via PlaceholderAPI (requires PlaceholderAPI + luckperms expansion).
+    # Without PAPI: use {player_prefix} (native LuckPerms).
+    # {tag_prefix} is the personal /tag prefix (empty when unset).
+    Message: "%luckperms_prefix%{tag_prefix}"
+    Hover:
+      - "{rank_nick}"
+      - "{rank_gradient}<strikethrough>            </strikethrough></gradient>"
+      - "<#C0B3D9>{$rank} {rank_color}» {player_prefix}<reset>"
+      - "<#C0B3D9>{$party} {rank_color}» <#FBF2FF>{party}"
+      - "<#C0B3D9>{$ping} {rank_color}» <#7B68A0>{ping_ms} <#7B68A0>· {ping_quality}"
+      # Marriage (opt-in): vanishes completely for single players.
+      - "{married_tag}"
+      - "{rank_gradient}<strikethrough>            </strikethrough></gradient>"
+      - "<#E0AAFF><i>{$click-msg} {rank_nick}</i>"
+    Suggest_Command: "{msg_command}"
+
+  # Party tag (Parties plugin): shows [PartyName] after the rank; empty when the player
+  # is not in a party. Style it in config.yml under Chat.Party_Tag.
+  party:
+    Message: "{party_tag}"
+
+  player-name:
+    Message: "<reset>{rank_nick}"
+    Hover:
+      - "{rank_nick}"
+      - "{rank_gradient}<strikethrough>            </strikethrough></gradient>"
+      - "<#C0B3D9>{$rank} {rank_color}» {player_prefix}<reset>"
+      - "<#C0B3D9>{$party} {rank_color}» <#FBF2FF>{party}"
+      - "<#C0B3D9>{$ping} {rank_color}» <#7B68A0>{ping_ms} <#7B68A0>· {ping_quality}"
+      # Marriage (opt-in): vanishes completely for single players.
+      - "{married_tag}"
+      - "{rank_gradient}<strikethrough>            </strikethrough></gradient>"
+      - "<#E0AAFF><i>{$click-msg} {rank_nick}</i>"
+    Suggest_Command: "{msg_command}"
+
+  suffix:
+    # Suffix via PlaceholderAPI. Without PAPI: {player_suffix}.
+    # {tag_suffix} is the personal /tag suffix (empty when unset).
+    Message: "{tag_suffix}%luckperms_suffix%"
+
+  separator:
+    Message: " <#7B68A0>» <reset>"
+
+  message:
+    Message: "{rank_color}{message}"

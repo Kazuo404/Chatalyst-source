@@ -1,0 +1,372 @@
+# =====================================================================================
+#  Chatalyst - Preguntas en el chat / Chat quiz (chatgames.yml)
+#
+#  Cada cierto tiempo sale una pregunta. El primero que escribe la respuesta correcta gana
+#  el premio de la DIFICULTAD de esa pregunta. Cada jugador la lee en el idioma de su
+#  cliente (espanol o ingles) y vale responder en cualquiera de los dos.
+#  Las respuestas se comparan sin tildes, sin mayusculas, sin signos y sin articulo delante;
+#  los numeros se comparan como numeros (12 = 12.0 = 12,0).
+#
+#  /trivia                       ver la pregunta en el aire (todos)
+#  /trivia iniciar [categoria]   lanzar una ya            (chatalyst.command.trivia.admin)
+#  /trivia saltar                cancelarla sin premio    (chatalyst.command.trivia.admin)
+#  /cht reload                   aplica los cambios de este archivo
+# =====================================================================================
+
+Chat_Games:
+  Enabled: false
+  # Mundos donde no se juega: quien este ahi no ve las preguntas ni puede ganar.
+  Disabled_Worlds: []
+  Command: trivia
+  Command_Aliases: [pregunta, preguntas]
+  # Minutos entre una pregunta y la siguiente (se sortea dentro del rango).
+  Interval_Minutes: "8-15"
+  # Jugadores conectados para que salgan solas (las de /trivia iniciar salen igual).
+  Min_Players: 2
+  # Segundos para responder; despues se dice la respuesta.
+  Answer_Seconds: 60
+  Question_Sound: BLOCK_NOTE_BLOCK_PLING
+  Win_Sound: ENTITY_PLAYER_LEVELUP
+
+  # Premio segun la dificultad de la pregunta (D: 1, 2 o 3 en cada pregunta; si no la
+  # lleva, la Difficulty de su categoria). Commands = comandos de consola ({player}, {uuid}).
+  Difficulties:
+    1:
+      Name: "<#7BFFB0>Fácil"
+      Name_en: "<#7BFFB0>Easy"
+      Money: 100
+      Commands: []
+      Reward_Text: "<#FFD166>100 Astrales"
+      Reward_Text_en: "<#FFD166>100 Astrales"
+    2:
+      Name: "<#FFD166>Media"
+      Name_en: "<#FFD166>Medium"
+      Money: 250
+      Commands: []
+      Reward_Text: "<#FFD166>250 Astrales"
+      Reward_Text_en: "<#FFD166>250 Astrales"
+    3:
+      Name: "<#FF4D6D>Difícil"
+      Name_en: "<#FF4D6D>Hard"
+      Money: 500
+      Commands: []
+      Reward_Text: "<#FFD166>500 Astrales"
+      Reward_Text_en: "<#FFD166>500 Astrales"
+
+  # Categorias. Weight = peso para el sorteo (0 = apagada). Difficulty = la de sus preguntas
+  # que no digan otra. Generator: math_simple | math_complex = cuentas inventadas al vuelo.
+  # Sin Generator, las preguntas salen de Chat_Game_Questions.<id de la categoria>.
+  # Strict_Language: true = solo vale la respuesta en el idioma de quien contesta (traducciones).
+  # Money/Commands/Reward_Text en una categoria solo se usan si no hay Difficulties.
+  Categories:
+    matematicas_simples: {Name: "<#7BFFB0>Matemáticas", Name_en: "<#7BFFB0>Math", Weight: 12, Difficulty: 1, Generator: math_simple, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+    matematicas_complejas: {Name: "<#54A6FF>Matemáticas avanzadas", Name_en: "<#54A6FF>Advanced math", Weight: 9, Difficulty: 2, Generator: math_complex, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    quimica: {Name: "<#C77DFF>Química", Name_en: "<#C77DFF>Chemistry", Weight: 7, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    formulas: {Name: "<#FF7A9E>Fórmulas", Name_en: "<#FF7A9E>Formulas", Weight: 5, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    fisica: {Name: "<#FF9F1C>Física", Name_en: "<#FF9F1C>Physics", Weight: 7, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    geografia: {Name: "<#B6F7D4>Geografía", Name_en: "<#B6F7D4>Geography", Weight: 8, Difficulty: 1, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+    capitales: {Name: "<#B6F7D4>Capitales", Name_en: "<#B6F7D4>Capitals", Weight: 7, Difficulty: 1, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+    historia: {Name: "<#FFD166>Historia", Name_en: "<#FFD166>History", Weight: 7, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    biologia: {Name: "<#3DFFA8>Biología", Name_en: "<#3DFFA8>Biology", Weight: 7, Difficulty: 1, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+    astronomia: {Name: "<#D8B4FE>Astronomía", Name_en: "<#D8B4FE>Astronomy", Weight: 6, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    minecraft: {Name: "<#3DFFA8>Minecraft", Name_en: "<#3DFFA8>Minecraft", Weight: 9, Difficulty: 1, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+    tecnologia: {Name: "<#54A6FF>Tecnología", Name_en: "<#54A6FF>Technology", Weight: 5, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    deportes: {Name: "<#FF9F1C>Deportes", Name_en: "<#FF9F1C>Sports", Weight: 5, Difficulty: 1, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+    cultura: {Name: "<#E0AAFF>Arte y cultura", Name_en: "<#E0AAFF>Arts and culture", Weight: 5, Difficulty: 2, Money: 250, Reward_Text: "<#FFD166>250 Astrales", Reward_Text_en: "<#FFD166>250 Astrales"}
+    idiomas: {Name: "<#FF7A9E>Idiomas", Name_en: "<#FF7A9E>Languages", Weight: 5, Difficulty: 1, Strict_Language: true, Money: 100, Reward_Text: "<#FFD166>100 Astrales", Reward_Text_en: "<#FFD166>100 Astrales"}
+
+  # Textos (MiniMessage). "_en" = version en ingles. Marcadores: {category} {difficulty}
+  # {question} {answer} {reward} {seconds} {player} {minutes}
+  Messages:
+    Question: "<#C44FE0><b>Pregunta</b> <#7B68A0>» <#C0B3D9>[{category}<#C0B3D9> · {difficulty}<#C0B3D9>] <#FBF2FF>{question} <#7B68A0>(responde en el chat · {seconds}s · premio: {reward}<#7B68A0>)"
+    Question_en: "<#C44FE0><b>Question</b> <#7B68A0>» <#C0B3D9>[{category}<#C0B3D9> · {difficulty}<#C0B3D9>] <#FBF2FF>{question} <#7B68A0>(answer in chat · {seconds}s · prize: {reward}<#7B68A0>)"
+    Winner: "<newline><#3DFFA8><b>¡RESPUESTA CORRECTA!</b> <#FBF2FF><b>{player}</b><#C0B3D9> acertó la pregunta.<newline><#C0B3D9>La respuesta era <#FFD166><b>{answer}</b><#C0B3D9> y se lleva {reward}<#C0B3D9>.<newline>"
+    Winner_en: "<newline><#3DFFA8><b>CORRECT ANSWER!</b> <#FBF2FF><b>{player}</b><#C0B3D9> got it right.<newline><#C0B3D9>The answer was <#FFD166><b>{answer}</b><#C0B3D9>. Prize: {reward}<#C0B3D9>.<newline>"
+    Timeout: "<#C44FE0><b>Pregunta</b> <#7B68A0>» <#C0B3D9>Nadie acertó. La respuesta era <#FBF2FF>{answer}<#C0B3D9>."
+    Timeout_en: "<#C44FE0><b>Question</b> <#7B68A0>» <#C0B3D9>Nobody got it. The answer was <#FBF2FF>{answer}<#C0B3D9>."
+    Current: "<#C44FE0><b>Pregunta</b> <#7B68A0>» <#C0B3D9>[{category}<#C0B3D9> · {difficulty}<#C0B3D9>] <#FBF2FF>{question} <#7B68A0>(quedan {seconds}s)"
+    Current_en: "<#C44FE0><b>Question</b> <#7B68A0>» <#C0B3D9>[{category}<#C0B3D9> · {difficulty}<#C0B3D9>] <#FBF2FF>{question} <#7B68A0>({seconds}s left)"
+    None: "<#C44FE0><b>Pregunta</b> <#7B68A0>» <#C0B3D9>Ahora no hay ninguna pregunta. La siguiente sale en unos <#FBF2FF>{minutes}<#C0B3D9> min."
+    None_en: "<#C44FE0><b>Question</b> <#7B68A0>» <#C0B3D9>No question right now. The next one comes in about <#FBF2FF>{minutes}<#C0B3D9> min."
+    Disabled: "<#FF4D6D>Las preguntas del chat están apagadas."
+    Disabled_en: "<#FF4D6D>Chat questions are turned off."
+    Started: "<#3DFFA8>Pregunta lanzada."
+    Skipped: "<#3DFFA8>Pregunta cancelada."
+    Busy: "<#FF4D6D>Ya hay una pregunta en marcha. Usa <#FBF2FF>/trivia saltar<#FF4D6D> primero."
+    Unknown_Category: "<#FF4D6D>No existe la categoría <#FBF2FF>{category}<#FF4D6D>. Hay: {categories}"
+    Usage: "<#C0B3D9>/trivia <#7B68A0>· <#C0B3D9>/trivia iniciar [categoría] <#7B68A0>· <#C0B3D9>/trivia saltar"
+
+# Preguntas por categoria. Q / Q_en = pregunta; A / A_en = respuestas que valen (la primera
+# se muestra si nadie acierta); D = dificultad 1, 2 o 3 (si falta, la de la categoria).
+Chat_Game_Questions:
+  quimica:
+    - {D: 1, Q: "¿Cuál es el símbolo químico del oro?", Q_en: "What is the chemical symbol for gold?", A: [Au]}
+    - {D: 1, Q: "¿Cuál es el símbolo químico del hierro?", Q_en: "What is the chemical symbol for iron?", A: [Fe]}
+    - {D: 1, Q: "¿Cuál es la fórmula química del agua?", Q_en: "What is the chemical formula of water?", A: [H2O]}
+    - {D: 1, Q: "¿Qué gas respiramos para vivir?", Q_en: "Which gas do we breathe to live?", A: [Oxígeno, O2], A_en: [Oxygen]}
+    - {D: 1, Q: "¿Cuál es el pH del agua pura a 25 °C?", Q_en: "What is the pH of pure water at 25 °C?", A: ["7"]}
+    - {D: 2, Q: "¿Cuál es el símbolo químico de la plata?", Q_en: "What is the chemical symbol for silver?", A: [Ag]}
+    - {D: 2, Q: "¿Cuál es el símbolo químico del sodio?", Q_en: "What is the chemical symbol for sodium?", A: [Na]}
+    - {D: 2, Q: "¿Cuál es el símbolo químico del potasio?", Q_en: "What is the chemical symbol for potassium?", A: [K]}
+    - {D: 2, Q: "¿Qué elemento tiene el símbolo Pb?", Q_en: "Which element has the symbol Pb?", A: [Plomo], A_en: [Lead]}
+    - {D: 2, Q: "¿Qué elemento tiene el número atómico 1?", Q_en: "Which element has atomic number 1?", A: [Hidrógeno, H], A_en: [Hydrogen]}
+    - {D: 2, Q: "¿Qué elemento tiene el número atómico 6?", Q_en: "Which element has atomic number 6?", A: [Carbono, C], A_en: [Carbon]}
+    - {D: 2, Q: "¿Qué gas noble da la luz roja de los anuncios luminosos?", Q_en: "Which noble gas gives the red light of glowing signs?", A: [Neón, Ne], A_en: [Neon]}
+    - {D: 2, Q: "¿Cuántos protones tiene un átomo de oxígeno?", Q_en: "How many protons does an oxygen atom have?", A: ["8"]}
+    - {D: 1, Q: "¿Cómo se llama la partícula con carga negativa del átomo?", Q_en: "What is the negatively charged particle of the atom called?", A: [Electrón], A_en: [Electron]}
+    - {D: 2, Q: "¿Qué metal es líquido a temperatura ambiente?", Q_en: "Which metal is liquid at room temperature?", A: [Mercurio, Hg], A_en: [Mercury]}
+    - {D: 3, Q: "¿Cuál es el símbolo químico del tungsteno?", Q_en: "What is the chemical symbol for tungsten?", A: [W]}
+    - {D: 3, Q: "¿Qué elemento tiene el número atómico 79?", Q_en: "Which element has atomic number 79?", A: [Oro, Au], A_en: [Gold]}
+    - {D: 3, Q: "¿Cuántos elementos tiene la tabla periódica actual?", Q_en: "How many elements are in the current periodic table?", A: ["118"]}
+    - {D: 3, Q: "¿Qué científico ordenó la primera tabla periódica?", Q_en: "Which scientist arranged the first periodic table?", A: [Mendeléyev, Mendeleiev, Mendeleev], A_en: [Mendeleev]}
+    - {D: 2, Q: "¿Cómo se llama la aleación de cobre y estaño?", Q_en: "What is the alloy of copper and tin called?", A: [Bronce], A_en: [Bronze]}
+    - {D: 3, Q: "¿Cuántos electrones caben en la primera capa de un átomo?", Q_en: "How many electrons fit in the first shell of an atom?", A: ["2"]}
+  formulas:
+    - {D: 1, Q: "¿Cuál es la fórmula de la sal común?", Q_en: "What is the formula of table salt?", A: [NaCl]}
+    - {D: 1, Q: "¿Cuál es la fórmula del dióxido de carbono?", Q_en: "What is the formula of carbon dioxide?", A: [CO2]}
+    - {D: 2, Q: "¿Cuál es la fórmula del metano?", Q_en: "What is the formula of methane?", A: [CH4]}
+    - {D: 2, Q: "¿Cuál es la fórmula del amoníaco?", Q_en: "What is the formula of ammonia?", A: [NH3]}
+    - {D: 3, Q: "¿Cuál es la fórmula del ácido sulfúrico?", Q_en: "What is the formula of sulfuric acid?", A: [H2SO4]}
+    - {D: 2, Q: "¿Cuál es la fórmula del ozono?", Q_en: "What is the formula of ozone?", A: [O3]}
+    - {D: 1, Q: "Completa la fórmula de Einstein: E = m·c^?", Q_en: "Complete Einstein's formula: E = m·c^?", A: ["2"]}
+    - {D: 2, Q: "En F = m·a, ¿qué representa la letra a?", Q_en: "In F = m·a, what does the letter a stand for?", A: [Aceleración], A_en: [Acceleration]}
+    - {D: 2, Q: "En V = I·R (ley de Ohm), ¿qué es la R?", Q_en: "In V = I·R (Ohm's law), what is R?", A: [Resistencia], A_en: [Resistance]}
+    - {D: 3, Q: "¿Cuál es la fórmula de la glucosa?", Q_en: "What is the formula of glucose?", A: [C6H12O6]}
+    - {D: 3, Q: "¿Cuál es la fórmula del ácido clorhídrico?", Q_en: "What is the formula of hydrochloric acid?", A: [HCl]}
+    - {D: 2, Q: "¿Cuál es la fórmula del agua oxigenada (peróxido de hidrógeno)?", Q_en: "What is the formula of hydrogen peroxide?", A: [H2O2]}
+    - {D: 3, Q: "¿Cuál es la fórmula del bicarbonato de sodio?", Q_en: "What is the formula of baking soda?", A: [NaHCO3]}
+    - {D: 2, Q: "En el teorema de Pitágoras, a² + b² = ¿qué?", Q_en: "In the Pythagorean theorem, a² + b² = what?", A: ["c^2", "c²", "c2"]}
+    - {D: 1, Q: "Velocidad = distancia ÷ ¿qué?", Q_en: "Speed = distance ÷ what?", A: [Tiempo], A_en: [Time]}
+    - {D: 2, Q: "En la fórmula de la densidad (d = m/V), ¿qué es la V?", Q_en: "In the density formula (d = m/V), what is V?", A: [Volumen], A_en: [Volume]}
+    - {D: 3, Q: "¿Cuál es la fórmula del carbonato de calcio?", Q_en: "What is the formula of calcium carbonate?", A: [CaCO3]}
+    - {D: 2, Q: "En P = W/t, ¿qué magnitud es la P?", Q_en: "In P = W/t, which quantity is P?", A: [Potencia], A_en: [Power]}
+    - {D: 3, Q: "¿Cuál es la fórmula del etanol (alcohol)?", Q_en: "What is the formula of ethanol?", A: [C2H5OH, C2H6O]}
+    - {D: 1, Q: "¿Cuál es el área de un cuadrado de lado 5?", Q_en: "What is the area of a square with side 5?", A: ["25"]}
+  fisica:
+    - {D: 1, Q: "¿En qué unidad se mide la fuerza?", Q_en: "What unit is force measured in?", A: [Newton, Newtons, N]}
+    - {D: 1, Q: "¿En qué unidad se mide la energía?", Q_en: "What unit is energy measured in?", A: [Julio, Joule, Julios, J], A_en: [Joule, Joules]}
+    - {D: 2, Q: "¿En qué unidad se mide la potencia?", Q_en: "What unit is power measured in?", A: [Vatio, Watt, Vatios, W], A_en: [Watt, Watts]}
+    - {D: 2, Q: "¿En qué unidad se mide la corriente eléctrica?", Q_en: "What unit is electric current measured in?", A: [Amperio, Ampere, Amperios, A], A_en: [Ampere, Amp, Amps]}
+    - {D: 1, Q: "¿A cuántos grados Celsius hierve el agua al nivel del mar?", Q_en: "At how many degrees Celsius does water boil at sea level?", A: ["100"]}
+    - {D: 1, Q: "¿A cuántos grados Celsius se congela el agua?", Q_en: "At how many degrees Celsius does water freeze?", A: ["0"]}
+    - {D: 2, Q: "¿Cuánto vale la gravedad en la Tierra, en m/s²? (aprox.)", Q_en: "What is Earth's gravity in m/s²? (approx.)", A: ["9.8", "9.81", "10"]}
+    - {D: 1, Q: "¿Quién formuló la ley de la gravitación universal?", Q_en: "Who formulated the law of universal gravitation?", A: [Newton, Isaac Newton]}
+    - {D: 1, Q: "¿Qué viaja más rápido, la luz o el sonido?", Q_en: "Which travels faster, light or sound?", A: [Luz, La luz], A_en: [Light]}
+    - {D: 2, Q: "¿Cómo se llama la fuerza que se opone al movimiento entre dos superficies?", Q_en: "What is the force that opposes motion between two surfaces called?", A: [Fricción, Rozamiento], A_en: [Friction]}
+    - {D: 3, Q: "¿Cuántos kilómetros por segundo recorre la luz? (aprox.)", Q_en: "How many kilometers per second does light travel? (approx.)", A: ["300000", "299792"]}
+    - {D: 1, Q: "¿Qué científico propuso la teoría de la relatividad?", Q_en: "Which scientist proposed the theory of relativity?", A: [Einstein, Albert Einstein]}
+    - {D: 2, Q: "¿Cómo se llama el cambio de sólido a líquido?", Q_en: "What is the change from solid to liquid called?", A: [Fusión], A_en: [Melting]}
+    - {D: 2, Q: "¿Cómo se llama el cambio de gas a líquido?", Q_en: "What is the change from gas to liquid called?", A: [Condensación], A_en: [Condensation]}
+    - {D: 3, Q: "¿Cómo se llama el paso directo de sólido a gas?", Q_en: "What is the direct change from solid to gas called?", A: [Sublimación], A_en: [Sublimation]}
+    - {D: 2, Q: "¿En qué unidad se mide la frecuencia?", Q_en: "What unit is frequency measured in?", A: [Hercio, Hertz, Hz], A_en: [Hertz, Hz]}
+    - {D: 3, Q: "¿A cuántos grados Celsius equivale el cero absoluto? (aprox.)", Q_en: "What is absolute zero in degrees Celsius? (approx.)", A: ["-273", "-273.15"]}
+    - {D: 2, Q: "¿Qué tipo de energía tiene un objeto en movimiento?", Q_en: "What kind of energy does a moving object have?", A: [Cinética, Energía cinética], A_en: [Kinetic, Kinetic energy]}
+    - {D: 3, Q: "¿Cómo se llama la partícula de luz?", Q_en: "What is a particle of light called?", A: [Fotón], A_en: [Photon]}
+    - {D: 2, Q: "¿Qué instrumento mide la presión atmosférica?", Q_en: "Which instrument measures air pressure?", A: [Barómetro], A_en: [Barometer]}
+  geografia:
+    - {D: 1, Q: "¿Cuál es el océano más grande del mundo?", Q_en: "What is the largest ocean in the world?", A: [Pacífico, Océano Pacífico], A_en: [Pacific, Pacific Ocean]}
+    - {D: 1, Q: "¿Cuál es la montaña más alta del mundo?", Q_en: "What is the highest mountain in the world?", A: [Everest, Monte Everest], A_en: [Everest, Mount Everest]}
+    - {D: 1, Q: "¿En qué continente está Egipto?", Q_en: "Which continent is Egypt in?", A: [África], A_en: [Africa]}
+    - {D: 1, Q: "¿Cuál es el país más grande del mundo?", Q_en: "What is the largest country in the world?", A: [Rusia], A_en: [Russia]}
+    - {D: 2, Q: "¿Cuántas entidades federativas tiene México?", Q_en: "How many federal entities does Mexico have?", A: ["32"]}
+    - {D: 1, Q: "¿Cuál es el desierto cálido más grande del mundo?", Q_en: "What is the largest hot desert in the world?", A: [Sahara, Sáhara]}
+    - {D: 1, Q: "¿En qué país está la Torre Eiffel?", Q_en: "Which country is the Eiffel Tower in?", A: [Francia], A_en: [France]}
+    - {D: 2, Q: "¿Cuál es el río más largo de Sudamérica?", Q_en: "What is the longest river in South America?", A: [Amazonas, Río Amazonas], A_en: [Amazon, Amazon River]}
+    - {D: 1, Q: "¿Cuántos continentes hay? (modelo de 7)", Q_en: "How many continents are there? (7-continent model)", A: ["7"]}
+    - {D: 2, Q: "¿En qué país están las pirámides de Teotihuacán?", Q_en: "Which country are the Teotihuacan pyramids in?", A: [México], A_en: [Mexico]}
+    - {D: 2, Q: "¿Qué país tiene forma de bota?", Q_en: "Which country is shaped like a boot?", A: [Italia], A_en: [Italy]}
+    - {D: 2, Q: "¿Cuál es el país más poblado de Sudamérica?", Q_en: "What is the most populous country in South America?", A: [Brasil], A_en: [Brazil]}
+    - {D: 3, Q: "¿Cuál es el lago más profundo del mundo?", Q_en: "What is the deepest lake in the world?", A: [Baikal, Lago Baikal], A_en: [Baikal, Lake Baikal]}
+    - {D: 3, Q: "¿Cuál es el país más pequeño del mundo?", Q_en: "What is the smallest country in the world?", A: [Vaticano, Ciudad del Vaticano], A_en: [Vatican, Vatican City]}
+    - {D: 2, Q: "¿Qué cordillera separa Chile de Argentina?", Q_en: "Which mountain range separates Chile from Argentina?", A: [Andes, Los Andes], A_en: [Andes, The Andes]}
+    - {D: 2, Q: "¿En qué continente está Australia?", Q_en: "Which continent is Australia in?", A: [Oceanía], A_en: [Oceania, Australia]}
+    - {D: 3, Q: "¿Cuál es el río más largo de África?", Q_en: "What is the longest river in Africa?", A: [Nilo, Río Nilo], A_en: [Nile, Nile River]}
+    - {D: 3, Q: "¿En qué país de Centroamérica está el volcán de Fuego?", Q_en: "Which Central American country has the Volcán de Fuego?", A: [Guatemala]}
+    - {D: 1, Q: "¿Cuál es el estado más grande de México?", Q_en: "What is the largest state in Mexico?", A: [Chihuahua]}
+    - {D: 3, Q: "¿Qué estrecho separa España de Marruecos?", Q_en: "Which strait separates Spain from Morocco?", A: [Gibraltar, Estrecho de Gibraltar], A_en: [Gibraltar, Strait of Gibraltar]}
+  capitales:
+    - {D: 1, Q: "¿Cuál es la capital de Francia?", Q_en: "What is the capital of France?", A: [París], A_en: [Paris]}
+    - {D: 1, Q: "¿Cuál es la capital de Japón?", Q_en: "What is the capital of Japan?", A: [Tokio], A_en: [Tokyo]}
+    - {D: 1, Q: "¿Cuál es la capital de Argentina?", Q_en: "What is the capital of Argentina?", A: [Buenos Aires]}
+    - {D: 1, Q: "¿Cuál es la capital de Colombia?", Q_en: "What is the capital of Colombia?", A: [Bogotá]}
+    - {D: 1, Q: "¿Cuál es la capital de Perú?", Q_en: "What is the capital of Peru?", A: [Lima]}
+    - {D: 2, Q: "¿Cuál es la capital de Canadá?", Q_en: "What is the capital of Canada?", A: [Ottawa]}
+    - {D: 2, Q: "¿Cuál es la capital de Australia?", Q_en: "What is the capital of Australia?", A: [Canberra]}
+    - {D: 1, Q: "¿Cuál es la capital de Chile?", Q_en: "What is the capital of Chile?", A: [Santiago, Santiago de Chile]}
+    - {D: 1, Q: "¿Cuál es la capital de España?", Q_en: "What is the capital of Spain?", A: [Madrid]}
+    - {D: 1, Q: "¿Cuál es la capital de Italia?", Q_en: "What is the capital of Italy?", A: [Roma], A_en: [Rome]}
+    - {D: 1, Q: "¿Cuál es la capital de Inglaterra?", Q_en: "What is the capital of England?", A: [Londres], A_en: [London]}
+    - {D: 2, Q: "¿Cuál es la capital de Alemania?", Q_en: "What is the capital of Germany?", A: [Berlín], A_en: [Berlin]}
+    - {D: 2, Q: "¿Cuál es la capital de Brasil?", Q_en: "What is the capital of Brazil?", A: [Brasilia]}
+    - {D: 2, Q: "¿Cuál es la capital de Venezuela?", Q_en: "What is the capital of Venezuela?", A: [Caracas]}
+    - {D: 2, Q: "¿Cuál es la capital de Ecuador?", Q_en: "What is the capital of Ecuador?", A: [Quito]}
+    - {D: 2, Q: "¿Cuál es la capital de Uruguay?", Q_en: "What is the capital of Uruguay?", A: [Montevideo]}
+    - {D: 2, Q: "¿Cuál es la capital de Rusia?", Q_en: "What is the capital of Russia?", A: [Moscú], A_en: [Moscow]}
+    - {D: 3, Q: "¿Cuál es la capital de Turquía?", Q_en: "What is the capital of Turkey?", A: [Ankara]}
+    - {D: 3, Q: "¿Cuál es la capital de Nueva Zelanda?", Q_en: "What is the capital of New Zealand?", A: [Wellington]}
+    - {D: 3, Q: "¿Cuál es la sede de gobierno de Bolivia?", Q_en: "What is the seat of government of Bolivia?", A: [La Paz]}
+    - {D: 2, Q: "¿Cuál es la capital de Egipto?", Q_en: "What is the capital of Egypt?", A: [El Cairo, Cairo], A_en: [Cairo]}
+    - {D: 3, Q: "¿Cuál es la capital de Marruecos?", Q_en: "What is the capital of Morocco?", A: [Rabat]}
+    - {D: 1, Q: "¿Cuál es la capital de Estados Unidos?", Q_en: "What is the capital of the United States?", A: [Washington, Washington DC, Washington D.C.]}
+    - {D: 2, Q: "¿Cuál es la capital de Honduras?", Q_en: "What is the capital of Honduras?", A: [Tegucigalpa]}
+  historia:
+    - {D: 1, Q: "¿En qué año llegó Colón a América?", Q_en: "In what year did Columbus reach the Americas?", A: ["1492"]}
+    - {D: 1, Q: "¿En qué año empezó la independencia de México?", Q_en: "In what year did Mexico's independence begin?", A: ["1810"]}
+    - {D: 2, Q: "¿En qué año terminó la Segunda Guerra Mundial?", Q_en: "In what year did World War II end?", A: ["1945"]}
+    - {D: 2, Q: "¿En qué año empezó la Primera Guerra Mundial?", Q_en: "In what year did World War I begin?", A: ["1914"]}
+    - {D: 1, Q: "¿Qué civilización construyó Machu Picchu?", Q_en: "Which civilization built Machu Picchu?", A: [Inca, Incas]}
+    - {D: 2, Q: "¿Quién fue el primer presidente de Estados Unidos?", Q_en: "Who was the first president of the United States?", A: [George Washington, Washington]}
+    - {D: 2, Q: "¿En qué año llegó el ser humano a la Luna?", Q_en: "In what year did humans land on the Moon?", A: ["1969"]}
+    - {D: 1, Q: "¿Quién fue el primer hombre en pisar la Luna?", Q_en: "Who was the first man to walk on the Moon?", A: [Neil Armstrong, Armstrong]}
+    - {D: 2, Q: "¿Qué muro cayó en 1989?", Q_en: "Which wall fell in 1989?", A: [Muro de Berlín, Berlín], A_en: [Berlin Wall, Berlin]}
+    - {D: 2, Q: "¿Qué ciudad fundaron los mexicas en 1325?", Q_en: "Which city did the Mexica found in 1325?", A: [Tenochtitlan, Tenochtitlán]}
+    - {D: 3, Q: "¿En qué año empezó la Revolución mexicana?", Q_en: "In what year did the Mexican Revolution begin?", A: ["1910"]}
+    - {D: 3, Q: "¿En qué año comenzó la Revolución francesa?", Q_en: "In what year did the French Revolution begin?", A: ["1789"]}
+    - {D: 2, Q: "¿Qué barco se hundió en 1912 tras chocar con un iceberg?", Q_en: "Which ship sank in 1912 after hitting an iceberg?", A: [Titanic]}
+    - {D: 1, Q: "¿En qué país se construyeron las grandes pirámides de Guiza?", Q_en: "In which country were the great pyramids of Giza built?", A: [Egipto], A_en: [Egypt]}
+    - {D: 3, Q: "¿Quién fue el último emperador mexica?", Q_en: "Who was the last Mexica emperor?", A: [Cuauhtémoc, Cuauhtemoc]}
+    - {D: 2, Q: "¿Qué imperio tenía su capital en Roma?", Q_en: "Which empire had its capital in Rome?", A: [Imperio romano, Romano], A_en: [Roman Empire, Roman]}
+    - {D: 3, Q: "¿Quién inventó la imprenta de tipos móviles en Europa?", Q_en: "Who invented the movable-type printing press in Europe?", A: [Gutenberg, Johannes Gutenberg]}
+    - {D: 2, Q: "¿Quién pintó la Mona Lisa?", Q_en: "Who painted the Mona Lisa?", A: [Leonardo da Vinci, Da Vinci, Leonardo]}
+    - {D: 3, Q: "¿En qué año cayó Constantinopla?", Q_en: "In what year did Constantinople fall?", A: ["1453"]}
+    - {D: 1, Q: "¿Qué civilización construyó Chichén Itzá?", Q_en: "Which civilization built Chichen Itza?", A: [Maya, Mayas], A_en: [Maya, Mayan, Mayans]}
+  biologia:
+    - {D: 1, Q: "¿Cuál es el animal terrestre más grande?", Q_en: "What is the largest land animal?", A: [Elefante, Elefante africano], A_en: [Elephant, African elephant]}
+    - {D: 1, Q: "¿Cuál es el animal más grande del mundo?", Q_en: "What is the largest animal in the world?", A: [Ballena azul], A_en: [Blue whale]}
+    - {D: 1, Q: "¿Cuántas patas tiene una araña?", Q_en: "How many legs does a spider have?", A: ["8"]}
+    - {D: 1, Q: "¿Cuántas patas tiene un insecto?", Q_en: "How many legs does an insect have?", A: ["6"]}
+    - {D: 1, Q: "¿Qué órgano bombea la sangre?", Q_en: "Which organ pumps blood?", A: [Corazón], A_en: [Heart]}
+    - {D: 1, Q: "¿Qué gas producen las plantas en la fotosíntesis?", Q_en: "Which gas do plants release in photosynthesis?", A: [Oxígeno, O2], A_en: [Oxygen]}
+    - {D: 2, Q: "¿Cuántos huesos tiene un adulto humano?", Q_en: "How many bones does an adult human have?", A: ["206"]}
+    - {D: 2, Q: "¿Cuál es el órgano más grande del cuerpo humano?", Q_en: "What is the largest organ of the human body?", A: [Piel, La piel], A_en: [Skin, The skin]}
+    - {D: 2, Q: "¿Cómo se llama el pigmento verde de las plantas?", Q_en: "What is the green pigment in plants called?", A: [Clorofila], A_en: [Chlorophyll]}
+    - {D: 2, Q: "¿Cuántos cromosomas tiene una célula humana normal?", Q_en: "How many chromosomes does a normal human cell have?", A: ["46"]}
+    - {D: 1, Q: "¿Qué animal es conocido como el rey de la selva?", Q_en: "Which animal is known as the king of the jungle?", A: [León], A_en: [Lion]}
+    - {D: 2, Q: "¿Qué mamífero puede volar?", Q_en: "Which mammal can fly?", A: [Murciélago], A_en: [Bat]}
+    - {D: 2, Q: "¿Qué parte de la célula guarda el ADN?", Q_en: "Which part of the cell holds the DNA?", A: [Núcleo], A_en: [Nucleus]}
+    - {D: 3, Q: "¿Qué orgánulo es la central de energía de la célula?", Q_en: "Which organelle is the powerhouse of the cell?", A: [Mitocondria], A_en: [Mitochondria, Mitochondrion]}
+    - {D: 3, Q: "¿Qué tipo de sangre es el donante universal?", Q_en: "Which blood type is the universal donor?", A: [O negativo, O-], A_en: [O negative, O-]}
+    - {D: 2, Q: "¿Cuál es el ave más rápida del mundo?", Q_en: "What is the fastest bird in the world?", A: [Halcón peregrino, Halcón], A_en: [Peregrine falcon, Falcon]}
+    - {D: 1, Q: "¿Cuál es el animal terrestre más rápido?", Q_en: "What is the fastest land animal?", A: [Guepardo, Chita], A_en: [Cheetah]}
+    - {D: 2, Q: "¿Cuántos corazones tiene un pulpo?", Q_en: "How many hearts does an octopus have?", A: ["3"]}
+    - {D: 3, Q: "¿Quién propuso la teoría de la evolución por selección natural?", Q_en: "Who proposed the theory of evolution by natural selection?", A: [Darwin, Charles Darwin]}
+    - {D: 2, Q: "¿Cómo se llama el proceso por el que una oruga se vuelve mariposa?", Q_en: "What is the process of a caterpillar becoming a butterfly called?", A: [Metamorfosis], A_en: [Metamorphosis]}
+  astronomia:
+    - {D: 1, Q: "¿Cuál es el planeta más grande del sistema solar?", Q_en: "What is the largest planet in the solar system?", A: [Júpiter], A_en: [Jupiter]}
+    - {D: 1, Q: "¿Cuál es el planeta más cercano al Sol?", Q_en: "What is the closest planet to the Sun?", A: [Mercurio], A_en: [Mercury]}
+    - {D: 1, Q: "¿Qué planeta es conocido como el planeta rojo?", Q_en: "Which planet is known as the red planet?", A: [Marte], A_en: [Mars]}
+    - {D: 1, Q: "¿Cuántos planetas tiene el sistema solar?", Q_en: "How many planets are in the solar system?", A: ["8"]}
+    - {D: 2, Q: "¿Qué planeta tiene los anillos más famosos?", Q_en: "Which planet has the most famous rings?", A: [Saturno], A_en: [Saturn]}
+    - {D: 2, Q: "¿Cómo se llama nuestra galaxia?", Q_en: "What is our galaxy called?", A: [Vía Láctea], A_en: [Milky Way]}
+    - {D: 2, Q: "¿Cuál es el planeta más caliente del sistema solar?", Q_en: "What is the hottest planet in the solar system?", A: [Venus]}
+    - {D: 3, Q: "¿Cuál es la estrella más cercana a la Tierra después del Sol?", Q_en: "What is the closest star to Earth after the Sun?", A: [Próxima Centauri, Proxima Centauri]}
+    - {D: 2, Q: "¿Cuántos minutos tarda la luz del Sol en llegar a la Tierra? (aprox.)", Q_en: "How many minutes does sunlight take to reach Earth? (approx.)", A: ["8"]}
+    - {D: 1, Q: "¿Cómo se llama el satélite natural de la Tierra?", Q_en: "What is the name of Earth's natural satellite?", A: [Luna], A_en: [Moon, The Moon]}
+    - {D: 3, Q: "¿Qué planeta gira acostado sobre su eje?", Q_en: "Which planet rotates on its side?", A: [Urano], A_en: [Uranus]}
+    - {D: 3, Q: "¿Qué planeta enano fue planeta hasta 2006?", Q_en: "Which dwarf planet was a planet until 2006?", A: [Plutón], A_en: [Pluto]}
+    - {D: 2, Q: "¿Cómo se llamó el primer satélite artificial (1957)?", Q_en: "What was the first artificial satellite (1957) called?", A: [Sputnik, Sputnik 1]}
+    - {D: 3, Q: "¿Cuál es la luna más grande de Júpiter?", Q_en: "What is Jupiter's largest moon?", A: [Ganímedes], A_en: [Ganymede]}
+    - {D: 2, Q: "¿Qué tipo de estrella es el Sol: enana amarilla o gigante roja?", Q_en: "What type of star is the Sun: yellow dwarf or red giant?", A: [Enana amarilla], A_en: [Yellow dwarf]}
+    - {D: 3, Q: "¿Qué telescopio espacial lanzado en 2021 sucedió al Hubble?", Q_en: "Which space telescope launched in 2021 succeeded Hubble?", A: [James Webb, Webb]}
+    - {D: 1, Q: "¿Qué estrella vemos de día?", Q_en: "Which star do we see during the day?", A: [Sol, El Sol], A_en: [Sun, The Sun]}
+    - {D: 2, Q: "¿Cuántos días tarda la Tierra en dar la vuelta al Sol? (aprox.)", Q_en: "How many days does Earth take to orbit the Sun? (approx.)", A: ["365", "365.25"]}
+    - {D: 3, Q: "¿Cómo se llama la región del espacio de la que ni la luz escapa?", Q_en: "What is the region of space from which not even light escapes?", A: [Agujero negro], A_en: [Black hole]}
+  minecraft:
+    - {D: 1, Q: "¿Qué mob explota cuando se acerca a ti?", Q_en: "Which mob explodes when it gets close to you?", A: [Creeper]}
+    - {D: 1, Q: "¿Qué material necesitas para hacer un portal al Nether?", Q_en: "What material do you need to build a Nether portal?", A: [Obsidiana], A_en: [Obsidian]}
+    - {D: 2, Q: "¿Cuántos bloques de obsidiana lleva como mínimo un portal al Nether?", Q_en: "What is the minimum number of obsidian blocks for a Nether portal?", A: ["10", "14"]}
+    - {D: 2, Q: "¿Qué jefe se invoca con 4 de arena de almas y 3 calaveras de esqueleto wither?", Q_en: "Which boss is summoned with 4 soul sand and 3 wither skeleton skulls?", A: [Wither]}
+    - {D: 1, Q: "¿Cómo se llama el dragón del End?", Q_en: "What is the End's dragon called?", A: [Dragón del End, Ender Dragon], A_en: [Ender Dragon]}
+    - {D: 1, Q: "¿Qué mob se enoja si lo miras a los ojos?", Q_en: "Which mob gets angry if you look at its eyes?", A: [Enderman]}
+    - {D: 2, Q: "¿Con qué se domestica un lobo?", Q_en: "What do you use to tame a wolf?", A: [Hueso, Huesos], A_en: [Bone, Bones]}
+    - {D: 2, Q: "¿Con qué se domestica un gato?", Q_en: "What do you use to tame a cat?", A: [Pescado, Bacalao, Salmón], A_en: [Fish, Cod, Salmon]}
+    - {D: 2, Q: "¿Qué gema se necesita para hacer una mesa de encantamientos?", Q_en: "Which gem is needed to make an enchanting table?", A: [Diamante], A_en: [Diamond]}
+    - {D: 3, Q: "¿Cuántas estanterías como máximo cuentan para una mesa de encantamientos?", Q_en: "How many bookshelves at most count for an enchanting table?", A: ["15"]}
+    - {D: 2, Q: "¿Qué herramientas se mejoran a netherite en la mesa de herrería: de hierro o de diamante?", Q_en: "Which tools are upgraded to netherite at the smithing table: iron or diamond?", A: [Diamante], A_en: [Diamond]}
+    - {D: 3, Q: "¿Cuántos fragmentos de netherite hacen un lingote de netherite?", Q_en: "How many netherite scraps make a netherite ingot?", A: ["4"]}
+    - {D: 1, Q: "¿Qué comida dorada da regeneración y absorción?", Q_en: "Which golden food gives regeneration and absorption?", A: [Manzana dorada, Manzana de oro], A_en: [Golden apple]}
+    - {D: 3, Q: "¿Cuántos lingotes de hierro lleva en total un yunque?", Q_en: "How many iron ingots in total does an anvil take?", A: ["31"]}
+    - {D: 1, Q: "¿Qué mob suelta pólvora al morir?", Q_en: "Which mob drops gunpowder?", A: [Creeper]}
+    - {D: 2, Q: "¿En qué dimensión está la fortaleza del Nether?", Q_en: "Which dimension has the Nether fortress?", A: [Nether, El Nether], A_en: [Nether, The Nether]}
+    - {D: 3, Q: "¿Qué objeto lanzas para encontrar una fortaleza (stronghold)?", Q_en: "Which item do you throw to find a stronghold?", A: [Ojo de Ender, Ojo del End], A_en: [Eye of Ender]}
+    - {D: 2, Q: "¿Qué mob del agua suelta tinta?", Q_en: "Which water mob drops ink sacs?", A: [Calamar], A_en: [Squid]}
+    - {D: 3, Q: "¿Cuál es el nivel máximo de Filo en vanilla?", Q_en: "What is the max level of Sharpness in vanilla?", A: ["5", V]}
+    - {D: 1, Q: "¿Qué herramienta se usa para picar piedra?", Q_en: "Which tool is used to mine stone?", A: [Pico], A_en: [Pickaxe]}
+    - {D: 2, Q: "¿Qué mob hostil arde con el sol y dispara flechas?", Q_en: "Which hostile mob burns in daylight and shoots arrows?", A: [Esqueleto], A_en: [Skeleton]}
+    - {D: 3, Q: "¿En qué altura (Y) hay más diamantes desde la 1.18? (aprox.)", Q_en: "At which Y level are diamonds most common since 1.18? (approx.)", A: ["-58", "-59", "-60", "-57"]}
+  tecnologia:
+    - {D: 1, Q: "Completa la sigla CPU: Central ___ Unit", Q_en: "Complete CPU: Central ___ Unit", A: [Processing]}
+    - {D: 1, Q: "¿Qué empresa creó el iPhone?", Q_en: "Which company created the iPhone?", A: [Apple]}
+    - {D: 1, Q: "¿Qué empresa creó Windows?", Q_en: "Which company created Windows?", A: [Microsoft]}
+    - {D: 2, Q: "¿Cuántos bits tiene un byte?", Q_en: "How many bits are in a byte?", A: ["8"]}
+    - {D: 2, Q: "¿En qué lenguaje de programación está hecho Minecraft Java?", Q_en: "Which programming language is Minecraft Java written in?", A: [Java]}
+    - {D: 2, Q: "¿Quién fundó Microsoft junto a Paul Allen?", Q_en: "Who founded Microsoft with Paul Allen?", A: [Bill Gates, Gates]}
+    - {D: 1, Q: "Completa: www = World Wide ___", Q_en: "Complete: www = World Wide ___", A: [Web]}
+    - {D: 3, Q: "¿Cuántos megabytes tiene un gigabyte en binario?", Q_en: "How many megabytes are in a gigabyte (binary)?", A: ["1024"]}
+    - {D: 2, Q: "¿Qué empresa desarrolla Android?", Q_en: "Which company develops Android?", A: [Google]}
+    - {D: 3, Q: "¿Qué matemático ideó la máquina de Turing?", Q_en: "Which mathematician devised the Turing machine?", A: [Alan Turing, Turing]}
+    - {D: 1, Q: "¿Qué estudio creó Minecraft?", Q_en: "Which studio created Minecraft?", A: [Mojang]}
+    - {D: 2, Q: "¿Cuál es el apodo del creador original de Minecraft?", Q_en: "What is the nickname of Minecraft's original creator?", A: [Notch, Markus Persson]}
+    - {D: 2, Q: "¿Qué sistema numérico usa solo 0 y 1?", Q_en: "Which number system uses only 0 and 1?", A: [Binario], A_en: [Binary]}
+    - {D: 2, Q: "Completa la sigla USB: Universal Serial ___", Q_en: "Complete USB: Universal Serial ___", A: [Bus]}
+    - {D: 3, Q: "¿Qué lenguaje se usa para dar estilo a las páginas web?", Q_en: "Which language is used to style web pages?", A: [CSS]}
+    - {D: 1, Q: "¿Qué red social tenía un pajarito azul de logo?", Q_en: "Which social network had a blue bird logo?", A: [Twitter, X]}
+    - {D: 3, Q: "¿En qué año salió al público la primera versión de Minecraft?", Q_en: "In what year was Minecraft first released to the public?", A: ["2009"]}
+    - {D: 2, Q: "¿Qué guarda los datos con la PC apagada: la RAM o el disco?", Q_en: "Which keeps data when the PC is off: RAM or disk?", A: [Disco, Disco duro, SSD], A_en: [Disk, Hard drive, SSD]}
+  deportes:
+    - {D: 1, Q: "¿Cuántos jugadores tiene un equipo de fútbol en la cancha?", Q_en: "How many players does a soccer team have on the field?", A: ["11"]}
+    - {D: 1, Q: "¿Cada cuántos años se juega el Mundial de fútbol?", Q_en: "How many years apart is the FIFA World Cup played?", A: ["4"]}
+    - {D: 1, Q: "¿Qué deporte se juega con raqueta y pelota amarilla sobre una red?", Q_en: "Which sport uses a racket and a yellow ball over a net?", A: [Tenis], A_en: [Tennis]}
+    - {D: 2, Q: "¿Cuántos jugadores tiene un equipo de baloncesto en la cancha?", Q_en: "How many players does a basketball team have on court?", A: ["5"]}
+    - {D: 2, Q: "¿Qué país ha ganado más Mundiales de fútbol?", Q_en: "Which country has won the most World Cups?", A: [Brasil], A_en: [Brazil]}
+    - {D: 1, Q: "¿Cada cuántos años son los Juegos Olímpicos de verano?", Q_en: "How many years apart are the Summer Olympics?", A: ["4"]}
+    - {D: 2, Q: "¿Cuántos anillos tiene la bandera olímpica?", Q_en: "How many rings are on the Olympic flag?", A: ["5"]}
+    - {D: 3, Q: "¿Qué país organizó el Mundial de fútbol de 1986?", Q_en: "Which country hosted the 1986 World Cup?", A: [México], A_en: [Mexico]}
+    - {D: 3, Q: "¿Cuántos kilómetros mide una maratón? (aprox.)", Q_en: "How many kilometers is a marathon? (approx.)", A: ["42", "42.195", "42.2"]}
+    - {D: 2, Q: "¿En qué deporte se batea un home run?", Q_en: "In which sport do you hit a home run?", A: [Béisbol], A_en: [Baseball]}
+    - {D: 1, Q: "En el fútbol, ¿con qué no puede tocar el balón quien no es portero?", Q_en: "In soccer, which body part can't touch the ball (except the goalkeeper)?", A: [Mano, Manos], A_en: [Hand, Hands]}
+    - {D: 2, Q: "¿Cuántos puntos vale un tiro libre en el baloncesto?", Q_en: "How many points is a free throw worth in basketball?", A: ["1"]}
+    - {D: 3, Q: "¿Cuántos puntos vale un touchdown?", Q_en: "How many points is a touchdown worth?", A: ["6"]}
+    - {D: 2, Q: "¿En qué deporte destacó Michael Jordan?", Q_en: "Which sport did Michael Jordan play?", A: [Baloncesto, Básquetbol], A_en: [Basketball]}
+    - {D: 3, Q: "¿Cuántos sets hay que ganar en una final masculina de Grand Slam?", Q_en: "How many sets must be won in a men's Grand Slam final?", A: ["3"]}
+    - {D: 1, Q: "¿Qué deporte se juega en el Super Bowl?", Q_en: "Which sport is played in the Super Bowl?", A: [Fútbol americano], A_en: [American football, Football]}
+    - {D: 2, Q: "¿Cuántos minutos dura un partido de fútbol sin tiempo extra?", Q_en: "How many minutes is a soccer match without extra time?", A: ["90"]}
+    - {D: 3, Q: "¿Qué ciudad organizó los Juegos Olímpicos de 1968?", Q_en: "Which city hosted the 1968 Olympics?", A: [Ciudad de México, CDMX], A_en: [Mexico City]}
+  cultura:
+    - {D: 1, Q: "¿Quién escribió Don Quijote de la Mancha?", Q_en: "Who wrote Don Quixote?", A: [Cervantes, Miguel de Cervantes]}
+    - {D: 1, Q: "¿Cuántas notas musicales hay? (do, re, mi...)", Q_en: "How many musical notes are there? (do, re, mi...)", A: ["7"]}
+    - {D: 2, Q: "¿Quién pintó La noche estrellada?", Q_en: "Who painted The Starry Night?", A: [Van Gogh, Vincent van Gogh]}
+    - {D: 2, Q: "¿Qué pintora mexicana es famosa por sus autorretratos?", Q_en: "Which Mexican painter is famous for her self-portraits?", A: [Frida Kahlo, Frida]}
+    - {D: 2, Q: "¿Quién escribió Cien años de soledad?", Q_en: "Who wrote One Hundred Years of Solitude?", A: [García Márquez, Gabriel García Márquez, Gabo]}
+    - {D: 2, Q: "¿Quién escribió Romeo y Julieta?", Q_en: "Who wrote Romeo and Juliet?", A: [Shakespeare, William Shakespeare]}
+    - {D: 1, Q: "¿Cuántas cuerdas tiene una guitarra normal?", Q_en: "How many strings does a standard guitar have?", A: ["6"]}
+    - {D: 3, Q: "¿Qué compositor sordo compuso la Novena Sinfonía?", Q_en: "Which deaf composer wrote the Ninth Symphony?", A: [Beethoven, Ludwig van Beethoven]}
+    - {D: 3, Q: "¿Cuántas teclas tiene un piano estándar?", Q_en: "How many keys does a standard piano have?", A: ["88"]}
+    - {D: 2, Q: "¿Qué muralista mexicano se casó con Frida Kahlo?", Q_en: "Which Mexican muralist married Frida Kahlo?", A: [Diego Rivera, Rivera]}
+    - {D: 3, Q: "¿En qué museo está la Mona Lisa?", Q_en: "Which museum holds the Mona Lisa?", A: [Louvre, Museo del Louvre], A_en: [Louvre, The Louvre]}
+    - {D: 1, Q: "¿Qué fiesta mexicana honra a los difuntos el 2 de noviembre?", Q_en: "Which Mexican holiday on November 2 honors the dead?", A: [Día de Muertos, Día de los Muertos], A_en: [Day of the Dead]}
+    - {D: 1, Q: "¿Qué color sale al mezclar azul y amarillo?", Q_en: "What color do blue and yellow make?", A: [Verde], A_en: [Green]}
+    - {D: 3, Q: "¿Quién escribió El Principito?", Q_en: "Who wrote The Little Prince?", A: [Saint-Exupéry, Antoine de Saint-Exupéry, Saint Exupery]}
+    - {D: 1, Q: "Colores primarios: amarillo, azul y...", Q_en: "Primary colors: yellow, blue and...", A: [Rojo], A_en: [Red]}
+    - {D: 3, Q: "¿Qué escritor mexicano escribió Pedro Páramo?", Q_en: "Which Mexican writer wrote Pedro Páramo?", A: [Juan Rulfo, Rulfo]}
+    - {D: 1, Q: "¿De qué país viene el anime?", Q_en: "Which country does anime come from?", A: [Japón], A_en: [Japan]}
+    - {D: 2, Q: "¿Qué instrumento tiene teclas blancas y negras?", Q_en: "Which instrument has black and white keys?", A: [Piano]}
+  idiomas:
+    - {D: 1, Q: "¿Cómo se dice 'perro' en inglés?", Q_en: "How do you say 'dog' in Spanish?", A: [Dog], A_en: [Perro]}
+    - {D: 1, Q: "¿Cómo se dice 'gato' en inglés?", Q_en: "How do you say 'cat' in Spanish?", A: [Cat], A_en: [Gato]}
+    - {D: 1, Q: "¿Cómo se dice 'casa' en inglés?", Q_en: "How do you say 'house' in Spanish?", A: [House, Home], A_en: [Casa]}
+    - {D: 1, Q: "¿Cómo se dice 'agua' en inglés?", Q_en: "How do you say 'water' in Spanish?", A: [Water], A_en: [Agua]}
+    - {D: 1, Q: "¿Cómo se dice 'rojo' en inglés?", Q_en: "How do you say 'red' in Spanish?", A: [Red], A_en: [Rojo]}
+    - {D: 1, Q: "¿Cómo se dice 'manzana' en inglés?", Q_en: "How do you say 'apple' in Spanish?", A: [Apple], A_en: [Manzana]}
+    - {D: 2, Q: "¿Cómo se dice 'espada' en inglés?", Q_en: "How do you say 'sword' in Spanish?", A: [Sword], A_en: [Espada]}
+    - {D: 2, Q: "¿Cómo se dice 'mariposa' en inglés?", Q_en: "How do you say 'butterfly' in Spanish?", A: [Butterfly], A_en: [Mariposa]}
+    - {D: 2, Q: "¿Cómo se dice 'biblioteca' en inglés?", Q_en: "How do you say 'library' in Spanish?", A: [Library], A_en: [Biblioteca]}
+    - {D: 2, Q: "¿Cómo se dice 'gracias' en francés?", Q_en: "How do you say 'thank you' in French?", A: [Merci]}
+    - {D: 2, Q: "¿Cómo se dice 'hola' en italiano?", Q_en: "How do you say 'hello' in Italian?", A: [Ciao]}
+    - {D: 3, Q: "¿Cómo se dice 'gracias' en japonés?", Q_en: "How do you say 'thank you' in Japanese?", A: [Arigato, Arigatou, Arigatō]}
+    - {D: 3, Q: "¿Cómo se dice 'hola' en portugués?", Q_en: "How do you say 'hello' in Portuguese?", A: [Olá, Oi]}
+    - {D: 2, Q: "¿Cómo se dice 'cueva' en inglés?", Q_en: "How do you say 'cave' in Spanish?", A: [Cave], A_en: [Cueva]}
+    - {D: 3, Q: "¿Cómo se dice 'murciélago' en inglés?", Q_en: "How do you say 'bat' (the animal) in Spanish?", A: [Bat], A_en: [Murciélago]}
+    - {D: 1, Q: "¿Cómo se dice 'sol' en inglés?", Q_en: "How do you say 'sun' in Spanish?", A: [Sun], A_en: [Sol]}
+    - {D: 3, Q: "¿Cómo se dice 'adiós' en alemán?", Q_en: "How do you say 'goodbye' in German?", A: [Tschüss, Tschuss, Auf Wiedersehen]}
+    - {D: 2, Q: "¿Cómo se dice 'escudo' en inglés?", Q_en: "How do you say 'shield' in Spanish?", A: [Shield], A_en: [Escudo]}

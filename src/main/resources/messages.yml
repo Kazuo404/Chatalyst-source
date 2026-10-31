@@ -1,0 +1,213 @@
+# =====================================================================================
+#  Chatalyst - Server messages (join, quit, kick, death, MOTD)
+#  MiniMessage text. Placeholders: {player_name}, {player}, {world}, {ping}
+#
+#  Conditional groups (optional, on Join/Quit/Kick/Death): add a Groups section; the
+#  FIRST group whose conditions pass wins and ONE of its Messages is picked at random.
+#  If none applies, the plain Message below is used. Conditions per group:
+#    Require_Permission       the player must have this permission
+#    Require_Worlds           list of worlds the event must happen in
+#    Require_Killer_Contains  (Death only) killer name/mob type contains any of these
+#  Players can hide join/quit/kick lines for themselves with /toggle joinquit.
+# =====================================================================================
+
+Join:
+  # Master switch for this backend. false hides vanilla, normal and fancy join output.
+  Enabled: true
+  # true = each online player sees the join line in their own client language.
+  # false = use Message exactly as written for everyone.
+  Use_Player_Language: true
+  Message: "<#7B68A0>[<#3DFFA8>+<#7B68A0>] <#FBF2FF>{player_name} <#C0B3D9>joined"
+  # Sound played to the joining player. Leave empty for none.
+  Sound: "minecraft:entity.player.levelup"
+  # Example conditional groups (remove the leading # to use):
+  # Groups:
+  #   vips:
+  #     Require_Permission: chatalyst.vip
+  #     Messages:
+  #       - "<#FBF2FF>{player_name} <#C0B3D9>has arrived!"
+  #       - "<#C0B3D9>Make way for <#FBF2FF>{player_name}<#C0B3D9>!"
+
+  # -----------------------------------------------------------------------------------
+  # Fancy entrances: a small "show" when a high-rank player joins, so everyone KNOWS
+  # someone important arrived. Tiers are checked in order and the FIRST tier whose
+  # Groups OR Permission matches the player wins (put the highest rank first). Every effect is
+  # optional: leave it empty (or false) to skip it. Also editable in-game from the
+  # admin panel (/cht gui -> Fancy entrances), with a live preview per tier.
+  #   Groups         LuckPerms/Vault primary groups for this tier (case-insensitive)
+  #   Permission     optional alternate permission that also activates the tier
+  #   Message        English/fallback line broadcast to everyone. Message_es is the Spanish
+  #                  variant. Use {rank_nick} for a nick whose
+  #                  color always follows the rank prefix, even if the nick has another color)
+  #   Sound          sound heard by ALL online players (thunder by default). Any
+  #                  minecraft sound key works, e.g. minecraft:entity.wither.spawn
+  #   Volume/Pitch   sound tuning (defaults 1.0 / 1.0)
+  #   Lightning      true = visual-only lightning bolt where the player appears
+  #                  (no damage, no fire: just the flash to go with your Sound)
+  #   Title/Subtitle English/fallback full-screen title; Title_es/Subtitle_es translate it.
+  # Players who ran /toggle joinquit off do not see message/title. Sound is intentionally
+  # GLOBAL and reaches everyone online. Lightning is a local world effect (visual/no damage).
+  # Vanished staff never trigger the show (announcing them would reveal the vanish).
+  Fancy:
+    Enabled: true
+    # true = ranked players see ONLY the fancy line (no duplicated normal join line).
+    Replace_Normal_Message: true
+    # Ticks to wait before selecting the rank and starting the show (20 = 1 second).
+    Delay_Ticks: 10
+    # Automatically gives a generic entrance to every LuckPerms primary group that does
+    # not already have a tier below. New LP groups work immediately without extra permissions
+    # or config. Explicit tiers always win; add a disabled tier to silence one specific group.
+    Auto_Detect_LuckPerms:
+      Enabled: true
+      Excluded_Groups: [default]
+      # {rank_tag} = the styled rank tag ([MVP++]); {player_group} would print the internal
+      # LuckPerms group id instead (mvpplusplus).
+      Message: "<#7B68A0>[<#E0AAFF>+<#7B68A0>] {rank_nick} <#C0B3D9>joined as <reset>{rank_tag}"
+      Message_es: "<#7B68A0>[<#E0AAFF>+<#7B68A0>] {rank_nick} <#C0B3D9>entro con rango <reset>{rank_tag}"
+      Sound: "minecraft:entity.player.levelup"
+      Volume: 0.7
+      Pitch: 1.1
+      Lightning: false
+      Title: ""
+      Subtitle: ""
+    Tiers:
+      owner:
+        Enabled: true
+        Groups: [owner]
+        Permission: chatalyst.fancyjoin.owner
+        Message: "<#7B68A0>[<#D8B4FE>*<#7B68A0>] <reset>{rank_nick} <#C0B3D9>has entered the server"
+        Message_es: "<#7B68A0>[<#D8B4FE>*<#7B68A0>] <reset>{rank_nick} <#C0B3D9>ha entrado al servidor"
+        Sound: "minecraft:entity.lightning_bolt.thunder"
+        Volume: 1.0
+        Pitch: 1.0
+        Lightning: true
+        Style: "firework-show"
+        Title: "<#D8B4FE>* <reset>{rank_nick}<#D8B4FE> *"
+        Subtitle: "<#C0B3D9>has arrived"
+        Subtitle_es: "<#C0B3D9>ha llegado"
+      admin:
+        Enabled: true
+        Groups: [admin, staff]
+        Permission: chatalyst.fancyjoin.admin
+        Message: "<#7B68A0>[<#B56CFF>*<#7B68A0>] <reset>{rank_nick} <#C0B3D9>from the staff team is here"
+        Message_es: "<#7B68A0>[<#B56CFF>*<#7B68A0>] <reset>{rank_nick} <#C0B3D9>del equipo de staff esta aqui"
+        Sound: "minecraft:entity.lightning_bolt.thunder"
+        Volume: 0.8
+        Pitch: 1.2
+        Lightning: true
+        Style: "enchant"
+        Title: ""
+        Subtitle: ""
+      vip:
+        Enabled: true
+        Groups: [vip]
+        Permission: chatalyst.fancyjoin.vip
+        Message: "<#7B68A0>[<#E0AAFF>+<#7B68A0>] {rank_nick} <#C0B3D9>VIP has arrived"
+        Message_es: "<#7B68A0>[<#E0AAFF>+<#7B68A0>] {rank_nick} <#C0B3D9>VIP ha llegado"
+        Sound: "minecraft:ui.toast.challenge_complete"
+        Volume: 0.7
+        Pitch: 1.0
+        Lightning: false
+        Style: "halo"
+        Title: ""
+        Subtitle: ""
+
+Quit:
+  # Master switch for this backend. false hides both vanilla and Chatalyst quit output.
+  Enabled: true
+  # true = each online player sees the quit line in their own client language.
+  # false = use Message exactly as written for everyone.
+  Use_Player_Language: true
+  Message: "<#7B68A0>[<#FF4D6D>-<#7B68A0>] <#FBF2FF>{player_name} <#C0B3D9>left"
+  # Leave Message empty ("") with Use_Player_Language: false to make ordinary players leave
+  # silently: an empty line is never sent to chat. The same applies to Join.Message.
+  #
+  # Rank exits: announce the quit only for some ranks. Same shape and matching rules as
+  # Join.Fancy.Tiers (first tier whose Groups OR Permission matches wins, and it replaces the
+  # plain Message above). Message/Message_es, Sound, Volume and Pitch work the same way.
+  # Vanished staff never trigger it. Example (remove the leading # to use):
+  # Tiers:
+  #   vip:
+  #     Groups: [vip, mvp]
+  #     Message: "<#FF4D6D>« <reset>{rank_nick} <#AAAAAA>left the server."
+  #     Message_es: "<#FF4D6D>« <reset>{rank_nick} <#AAAAAA>salió del servidor."
+
+# Kick: broadcast when a player is kicked (replaces the vanilla quit line for kicks).
+Kick:
+  Enabled: false
+  Use_Player_Language: true
+  Message: "<#7B68A0>[<#E0AAFF>!<#7B68A0>] <#E0AAFF><bold>{player_name}</bold> <#C0B3D9>was kicked"
+
+# Death: Chatalyst replaces the vanilla death lines. Set Enabled: false to keep the
+# vanilla Minecraft messages. Resolution order (first match wins):
+#   1. With_Item   killer is a player holding a NAMED item ({killer}, {item} with tooltip)
+#   2. Groups      conditional groups (permission / world / Require_Killer_Contains)
+#   3. Causes      the line for the death cause below
+#   4. Message     generic fallback
+# Placeholders everywhere: {player_name} (victim), {killer} (player name or mob type).
+Death:
+  Enabled: true
+  # true = each online player sees the death line in their own client language.
+  # false = use Message/With_Item exactly as written for everyone.
+  Use_Player_Language: true
+  Message: "<#C0B3D9>{player_name} <#7B68A0>died"
+  With_Item: "<#FBF2FF>{player_name} <#C0B3D9>was slain by <#FBF2FF>{killer} <#C0B3D9>using {item}"
+  # One line per death cause. Keys: PVP (killed by a player), MOB (killed by a mob),
+  # FALL, LAVA, FIRE, DROWNING, EXPLOSION, VOID, STARVATION, MAGIC, PROJECTILE, FREEZE,
+  # LIGHTNING, SUFFOCATION, CONTACT, WITHER, POISON. Delete a line to fall back to Message.
+  # {killer} is the killer's OWN name whenever it has one, so a custom boss is announced as
+  # itself — "Goblin Bruto", in the colour it was named with — instead of as "Zombie".
+  # Resolved in this order:
+  #   1. the entity's Bukkit name (a name tag, or a plugin that sets one),
+  #   2. MythicMobs' Display, asked to MythicMobs itself. This is what makes ModelEngine and
+  #      MythicMobs bosses work: their real body is invisible and the floating name belongs to
+  #      the model, so the entity that hits you often carries no Bukkit name at all,
+  #   3. the vanilla species ("Creeper") for an ordinary mob.
+  # Players always keep their displayed name (nickname and /anonymous are respected).
+  # Killed from range, the shooter is named and not the arrow.
+  Causes:
+    PVP: "<#FBF2FF>{player_name} <#C0B3D9>was eliminated by <#FF4D6D>{killer}"
+    MOB: "<#FBF2FF>{player_name} <#C0B3D9>was killed by a <#FBF2FF>{killer}"
+    FALL: "<#FBF2FF>{player_name} <#C0B3D9>fell from a high place"
+    LAVA: "<#FBF2FF>{player_name} <#C0B3D9>tried to swim in lava"
+    FIRE: "<#FBF2FF>{player_name} <#C0B3D9>went up in flames"
+    DROWNING: "<#FBF2FF>{player_name} <#C0B3D9>drowned"
+    EXPLOSION: "<#FBF2FF>{player_name} <#C0B3D9>blew up"
+    VOID: "<#FBF2FF>{player_name} <#C0B3D9>fell out of the world"
+    STARVATION: "<#FBF2FF>{player_name} <#C0B3D9>starved to death"
+    MAGIC: "<#FBF2FF>{player_name} <#C0B3D9>was killed by magic"
+    PROJECTILE: "<#FBF2FF>{player_name} <#C0B3D9>was shot down"
+    FREEZE: "<#FBF2FF>{player_name} <#C0B3D9>froze to death"
+    LIGHTNING: "<#FBF2FF>{player_name} <#C0B3D9>was struck by lightning"
+    WITHER: "<#FBF2FF>{player_name} <#C0B3D9>withered away"
+  # PvP show: title + sound for the killer and the victim (only player-vs-player kills).
+  Effects:
+    Enabled: true
+    Killer:
+      Title: "<#FF4D6D><bold>ELIMINATION"
+      Subtitle: "<#C0B3D9>You eliminated <#FBF2FF>{victim}"
+      Sound: "minecraft:entity.player.levelup"
+    Victim:
+      Title: "<#FF4D6D><bold>YOU DIED"
+      Subtitle: "<#C0B3D9>Eliminated by <#FBF2FF>{killer}"
+      Sound: "minecraft:entity.wither.hurt"
+
+# MOTD: lines sent to the player on join.
+Motd:
+  Enabled: true
+  # true = use lang/<locale>.yml -> server-messages.motd.* for each player's client language.
+  # false = use the fallback lines below exactly as written.
+  Use_Player_Language: true
+  # Fallback lines used when Use_Player_Language is false or a language key is missing.
+  # Only the first time a player joins the server.
+  First_Time:
+    - ""
+    - "<gradient:#240046:#9D4EDD:#E0AAFF>Welcome to the server, {player_name}</gradient>"
+    - "<#C0B3D9>We're glad to have you here for the first time."
+    - ""
+  # Every other time.
+  Default:
+    - ""
+    - "<#C0B3D9>Welcome back, <#FBF2FF>{player_name}<#C0B3D9>."
+    - "<#C0B3D9>Use <#FBF2FF>/channel <#C0B3D9>to switch channels."
+    - ""

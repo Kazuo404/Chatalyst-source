@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!--
+    Single-page app: all documentation lives under one URL and is reached via in-page
+    navigation, so crawlers index this one entry point. If the docs are ever split into
+    separate HTML files, add one <url> per file here.
+  -->
+  <url>
+    <loc>https://devkazuo27.github.io/Chatalyst/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://devkazuo27.github.io/Chatalyst/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://devkazuo27.github.io/Chatalyst/" />
+  </url>
+</urlset>

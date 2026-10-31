@@ -1,0 +1,107 @@
+# =====================================================================================
+#  GUI-managed title catalog
+#
+#  Open it with /tag admin or /chatalyst gui -> Content -> Titles. Every field below can
+#  be changed in game. A title is rendered through {tag_prefix}/{tag_suffix}.
+#
+#  Position: LEFT | RIGHT
+#  Spacing:  0..8 spaces between the title and the player's name (default: 1)
+#
+#  Each title also supports Category, Rarity, Order, a group of up to 8 Requirements and
+#  up to 8 console command Rewards. Requirements.Mode is ALL or ANY.
+#
+#  Requirements.Rules[].Type:
+#    NONE              immediately available
+#    MOB_KILLS         kill Amount mobs; Target is ANY or an EntityType (ZOMBIE, SKELETON...)
+#    PLAYER_KILLS      kill Amount players
+#    PLAYTIME_MINUTES  play Amount minutes
+#    BLOCKS_MINED      mine Amount blocks of the Material in Target
+#    ITEMS_CRAFTED     craft Amount items of the Material in Target
+#    ITEMS_PICKED_UP   find/pick up Amount items of the Material in Target
+#    ITEMS_OWNED       have Amount items of the Material in Target in the inventory
+#    FISH_CAUGHT       catch Amount fish
+#    ANIMALS_BRED      breed Amount animals
+#    ADVANCEMENT       complete the namespaced advancement in Target
+#    PERMISSION        own the permission in Target
+#    TITLE_UNLOCKED    unlock the title id in Target first (cyclic chains are rejected)
+#    PLACEHOLDER       the first number of the PlaceholderAPI placeholder in Target
+#                      (%ecojobs_minero_level%) reaches Amount; digits and thousands commas only
+#    COUNTER           the player's title counter Target ([a-z0-9_]{1,32}) reaches Amount;
+#                      raise it with /tagcontador <player> <key> [amount], read it with
+#                      %chatalyst_counter_<key>%
+#    MANUAL            an administrator grants access from the title editor
+#
+#  Animated text effects (only the floating nametag moves; chat/TAB/menus show a gradient):
+#    <flujo:#A:#B> <brillo:#A:#B> <glitch:#A:#B> <pulso:#A:#B> <chispa:#A:#B>  (1-12 colors)
+#
+#  Points are summed into each player's achievement profile. Secret replaces every detail with
+#  ??? until obtained. Hidden_Until_Unlocked removes the entry entirely until it is obtained.
+#
+#  Season.Id versions the unlock key: change it to start a new season/reset. Start/end accept
+#  ISO-8601 instants; blank values are unbounded. Earned seasonal titles remain usable afterward.
+#
+#  Reward placeholders: {player}, {uuid}, {title_id}, {title_name}, {points}, {season}
+#  Achievement text placeholders: {player}, {uuid}, {title}, {title_id}, {category}, {rarity},
+#                                 {points}, {season}
+# =====================================================================================
+Settings:
+  Notify_Unlock: true
+  Auto_Equip_First: false
+  # false = this server never displays titles ({tag_prefix}/{tag_suffix} and the
+  # %chatalyst_title_text/prefix/suffix/name% placeholders come out empty). Unlocks,
+  # the equipped title and points are kept: they still show on the other servers.
+  Show_On_This_Server: true
+
+# Categories automatically become achievement collections. Their generated ID and customized
+# presentation are written here by the GUI:
+#
+# Collections:
+#   <generated-category-id>:
+#     Category: Cacería
+#     Display_Name: Maestría de caza
+#     Description: Completa todos los logros de cacería.
+#     Material: CROSSBOW
+#     Bonus_Points: 100
+#
+Titles:
+  hunter:
+    Display_Name: Cazador
+    Text: <gradient:#FFD166:#FF4D6D><bold>[Cazador]</bold></gradient>
+    Description: Demuestra tu experiencia derrotando criaturas.
+    Material: IRON_SWORD
+    Position: LEFT
+    Spacing: 1
+    Enabled: true
+    Hidden_Until_Unlocked: false
+    Category: Cacería
+    Rarity: RARE
+    Order: 10
+    Points: 25
+    Secret: false
+    Season:
+      Id: ''
+      Starts_At: ''
+      Ends_At: ''
+    Requirements:
+      Mode: ALL
+      Rules:
+      - Type: MOB_KILLS
+        Target: ANY
+        Amount: 100
+    Rewards:
+      Commands: []
+    Achievement:
+      Toast:
+        Enabled: true
+        Title: '<gradient:#FFD166:#FF4D6D><bold>¡Cazador desbloqueado!</bold></gradient>'
+        Description: '<gray>Rareza {rarity} · {category}</gray>'
+        Icon: IRON_SWORD
+        Frame: GOAL
+      Chat:
+        Enabled: true
+        Message: ''
+      Sound:
+        Enabled: true
+        Key: minecraft:ui.toast.challenge_complete
+        Volume: 0.8
+        Pitch: 1.1

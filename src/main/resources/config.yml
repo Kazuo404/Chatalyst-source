@@ -1,0 +1,138 @@
+# =====================================================================================
+#  Chatalyst — core settings (license, updates, storage, groups, permissions).
+# =====================================================================================
+
+# =====================================================================================
+#  Chatalyst - Main configuration
+#  Modern chat for Paper & Purpur (1.21.1 - 26.2).
+#
+#  Formats live in the formats/ folder. Text uses MiniMessage:
+#    https://docs.advntr.dev/minimessage/format.html
+#  Built-in placeholders: {player_name}, {player}, {world}, {ping}, {message}
+#  With PlaceholderAPI installed, %...% placeholders also work (e.g. %luckperms_prefix%).
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  Your license key (required). You receive your personal key by opening a ticket on
+#  our Discord. The SAME key works on every server you own: your test server and your
+#  whole network. The key itself is checked offline.
+#  On startup (and once a day while running) Chatalyst notifies the author that the
+#  license is in use: key id, the server's IP and port, server/plugin/Java version, OS,
+#  CPU cores, memory limit, online-mode, player count and MOTD, plus a random install id.
+#  Nothing about your players, chat or files is sent. Every 6 hours it checks whether the
+#  key has been revoked (e.g. leaked keys). A short outage is fine: the last check stays
+#  valid for 7 days. With no valid check for 7 days, or a revoked key, the plugin turns off.
+# -------------------------------------------------------------------------------------
+# Internal config schema version — used to add new options to existing configs on
+# update. Don't edit or remove.
+Config_Version: 36
+
+License:
+  Key: ""
+
+# -------------------------------------------------------------------------------------
+#  /chatalyst permissions lists every Chatalyst permission, grouped by category. Clicking
+#  one fills this command in your chat so you only change the group. {permission} is the
+#  node. Default is LuckPerms; change it for your permissions plugin if needed.
+# -------------------------------------------------------------------------------------
+Permissions_List:
+  Grant_Command: "/lp group <group> permission set {permission} true"
+
+# -------------------------------------------------------------------------------------
+#  Update notifications (does NOT download anything). On startup Chatalyst checks a URL
+#  for the latest version and, if a newer one exists, tells the console and notifies
+#  admins on join. The download itself is handled by your marketplace's auto-update,
+#  which verifies your purchase. Leave Url empty to disable.
+#    Url can return plain text ("0.2.0") or JSON ({"version":"0.2.0"}).
+# -------------------------------------------------------------------------------------
+Updates:
+  Check: true
+  Url: ""
+  Notify_Admins: true
+  # Optional: link admins can click in the update notice (your marketplace resource page).
+  Download_Url: ""
+
+# -------------------------------------------------------------------------------------
+#  Group overrides: per-rank tweaks, keyed by the LuckPerms primary group (Vault group as
+#  fallback). Only listed groups are affected; everyone else uses the global settings.
+#    Format              Chat format for the group (formats/<name>.yml). Applies only to
+#                        channels that use the base chat format; staff/trade keep theirs.
+#    Chat_Delay_Seconds  Seconds between messages for the group (overrides the Anti_Spam
+#                        delay; 0 = no delay for that group).
+# -------------------------------------------------------------------------------------
+Groups:
+  Enabled: true
+  List: {}
+
+# -------------------------------------------------------------------------------------
+#  Database. If Enabled is false, everything is stored in YAML files (default).
+#  With Enabled true, player data (mutes, warnings, nicknames, chat color, toggles) is
+#  stored in a database:
+#    Type SQLITE  local file plugins/Chatalyst/chatalyst.db (no server required).
+#    Type MYSQL   MySQL/MariaDB server (useful to SHARE data across multiple servers).
+#  /chatalyst reload can safely rotate MySQL Host/Port/Database/User/Password/SSL and
+#  Shared_Refresh_Seconds. Enabled, Type, Network_Shared and Server_Id change namespace
+#  identity and therefore still require a full server restart.
+# -------------------------------------------------------------------------------------
+Database:
+  Enabled: false
+  Type: SQLITE
+  Host: localhost
+  Port: 3306
+  Database: chatalyst
+  User: root
+  Password: ""
+  # TLS for MySQL connections. One of: DISABLED, PREFERRED, REQUIRED, VERIFY_CA,
+  # VERIFY_IDENTITY. PREFERRED uses TLS when the server offers it (safe default that does
+  # not break local setups). For a remote MySQL use REQUIRED or stronger.
+  SSL_Mode: PREFERRED
+  # Network mode (only matters with a shared MySQL). YOU decide how it behaves:
+  #   Network_Shared: true   -> all servers share the same data. Reports, mutes, nicks,
+  #                             tickets, etc. are network-wide. Best for a single network.
+  #   Network_Shared: false  -> each server keeps its OWN data even on the same MySQL,
+  #                             kept apart by Server_Id. Best if servers should not mix.
+  # SQLite is always per-server (its own file). Leave Server_Id empty and it auto-names
+  # itself from the server port so each backend is unique without extra config.
+  # With Network_Shared true Redis gives immediate cache invalidations. A DB reconciliation
+  # poll also runs as a safety net, so temporary Redis outages never leave stale data forever.
+  Network_Shared: true
+  # Safety-net DB polling: every stored namespace is re-read once per this many seconds, one
+  # at a time. Changes already arrive at once through the proxy or Redis; this only catches a
+  # lost update. Use a lower value only if your servers share a database with neither of them.
+  Shared_Refresh_Seconds: 30
+  Server_Id: ""
+  # One-time YAML -> database import. When the database is enabled and plugins/Chatalyst/
+  # data/*.yml still holds data that was never imported, each file is copied into its real
+  # SQL namespace on startup, before any module reads it. Existing SQL rows are NEVER
+  # overwritten (a different value is kept and logged as a conflict), the YAML files are
+  # never modified, and each file is imported all-or-nothing. Imports are recorded in the
+  # database and in data/.sql-import.json so they never repeat; a YAML file edited after
+  # its import is reported, not re-imported. Check it with /chatalyst storage status and
+  # preview with /chatalyst storage import --dry-run. false = only import by command.
+  Import_Yaml_On_Start: true
+
+    # Example (seconds):
+    # "/kit": 60
+    # "/home": 5
+
+# Language.
+#  - Locale: the DEFAULT language — used for the console, broadcasts, and for any player whose
+#    client language has no matching file. Ships with en_US and es_ES.
+#  - Auto_Detect_Language: true = every player sees the plugin in THEIR Minecraft client's
+#    language when a matching file exists in plugins/Chatalyst/lang/. Just drop a new file named
+#    after the locale (e.g. zh_CN.yml, fr_FR.yml, pt_BR.yml) and it is detected and used
+#    automatically — no restart of the file needed beyond /cht reload. A client with no exact
+#    match falls back to the same language, any country (pt_BR -> pt_PT), then to Locale.
+#    Set this to false to force ONE language (Locale) for absolutely everyone.
+#  Note: a few config-driven texts (the FAQ bot's Reply_es, join/quit Message_es and the
+#  {$...} chat labels) use an English/Spanish pair; extra languages get the English side there,
+#  while everything that goes through lang/*.yml is fully translated.
+Locale: en_US
+Auto_Detect_Language: true
+
+# -------------------------------------------------------------------------------------
+#  Commands_Owned_Elsewhere: labels you deliberately leave to another plugin (e.g. trade
+#  when AxTrade handles trading, balancetop when Essentials ranks money). The startup
+#  "answered by another plugin" warning stops listing them; /chatalyst doctor still does.
+# -------------------------------------------------------------------------------------
+Commands_Owned_Elsewhere: []

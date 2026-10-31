@@ -1,0 +1,44 @@
+# =====================================================================================
+#  Chatalyst — Animated rank tags
+# =====================================================================================
+#  A tag is a set of ItemsAdder font glyphs, one per frame. This file says which
+#  glyphs an animation cycles through and how fast.
+#
+#  PLACEHOLDERS
+#    %chatalyst_fx_<name>%   the frame that effect is showing right now
+#    %chatalyst_fx_auto%     the same, for the RANK OF WHOEVER IS LOOKING
+#
+#  Prefer %chatalyst_fx_auto%: one scoreboard line works for the whole network,
+#  each player sees their own rank. A rank with no effect configured falls back to
+#  its normal LuckPerms prefix, so the line is never blank.
+#
+#  CHARS OR SHORTHAND — this matters
+#    Chars           the real font characters. Work EVERYWHERE.
+#    Glyph + Frames  the :name: shorthand. Only renders where ItemsAdder filters
+#                    the text: chat and its own menus. TAB writes straight to the
+#                    client, so there the shorthand shows up as literal text
+#                    (":tag_quasar_1:"). Use Chars unless you only need chat.
+#
+#  Find the characters in:
+#    plugins/ItemsAdder/storage/font_images_unicode_cache.yml
+#  ItemsAdder REASSIGNS them when you add content. If tags turn into empty boxes,
+#  that file is the first place to look.
+#
+#  WHERE IT ANIMATES
+#    Tab list, name above the head, scoreboard, boss bar and menus.
+#  WHERE IT DOES NOT
+#    Chat. A message is drawn once and never redrawn — that is the game, not the
+#    plugin. Use a single static glyph there.
+#
+#  Interval_Ms  milliseconds per frame (minimum 20; 60-120 reads well)
+#  Every player sees the same frame at the same instant: it comes from the clock,
+#  not from a per-player counter, so the tab list stays in step.
+# =====================================================================================
+
+Effects: {}
+  # The name must match a LuckPerms group so %chatalyst_fx_auto% can find it.
+  # vip:
+  #   Interval_Ms: 70
+  #   Chars:
+  #   - "*"
+  #   - "+"

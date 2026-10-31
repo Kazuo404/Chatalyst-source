@@ -1,0 +1,124 @@
+# =====================================================================================
+#  Chatalyst — network: proxy bridge, Redis, network admin, staff mentions.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  Intelligent support desk. Natural questions such as "algun admin?", "hay owner?" or
+#  "necesito un helper" are detected only in the default channel. The request never appears
+#  in public chat. Staff anywhere on the proxy can accept it and both participants then type
+#  in an isolated private conversation until staff closes it with /support close.
+# -------------------------------------------------------------------------------------
+Staff_Mentions:
+  Enabled: true
+  Require_At: false
+  Groups: [admin, administrador, helper, ayudante, mod, moderador, owner, soporte, staff, equipo]
+  # A bare rank is accepted when it is the whole question ("admin?"). In longer messages,
+  # at least one intent below must also be present, avoiding false positives such as
+  # "compre el rango admin". Accents and uppercase do not matter.
+  Help_Intent_Words: [algun, alguna, alguien, hay, necesito, ayuda, ayudar, atender, puede, podria, disponible, hablar, need, help, assist, available, support]
+  # LuckPerms groups inheriting this node are added automatically on load/reload.
+  LuckPerms_Group_Permission: chatalyst.staff.mentionable
+  Cooldown_Seconds: 15
+  Notify_Sender: true
+  # Every request starts at the lowest tier. If nobody answers, it advances one tier at
+  # a time across the whole proxy. The order below is the priority order.
+  Priority:
+    Escalation_Seconds: 8
+    Tiers:
+      helper:
+        Groups: [helper, ayudante]
+        Permission: chatalyst.support.tier.helper
+      mod:
+        Groups: [mod, moderador]
+        Permission: chatalyst.support.tier.mod
+      admin:
+        Groups: [admin, administrador]
+        Permission: chatalyst.support.tier.admin
+      owner:
+        Groups: [owner]
+        Permission: chatalyst.support.tier.owner
+  Private_Chat:
+    Enabled: true
+    Pending_Timeout_Seconds: 300
+    Session_Timeout_Minutes: 30
+    Max_Message_Length: 512
+
+# -------------------------------------------------------------------------------------
+#  Proxy / network (Velocity or BungeeCord).
+#  If Enabled is true, channels with Proxy: true are forwarded to the other servers in the
+#  network using plugin messaging or Redis. Mode legacy uses BungeeCord's Forward channel
+#  and does not require a proxy jar. Mode native requires Chatalyst-Velocity.jar or
+#  Chatalyst-Bungee.jar on the proxy and uses Chatalyst's own channel. Mode redis uses
+#  Redis pub/sub and does not need a player online on each backend.
+# -------------------------------------------------------------------------------------
+Proxy:
+  Enabled: false
+  # legacy = built-in BungeeCord Forward plugin messaging (no proxy jar needed).
+  # native = install Chatalyst-Velocity.jar or Chatalyst-Bungee.jar on the proxy.
+  # redis  = Redis pub/sub transport (requires Redis.Enabled below).
+  # both   = migration/testing only; can duplicate messages if both routes work.
+  Mode: legacy
+  # Cross-server packets are signed (HMAC-SHA256 + anti-replay) so a modified client
+  # cannot forge network packets (announcements, support, staff directory...).
+  # The key is AUTO-DETECTED: on Velocity networks it is derived from the forwarding
+  # secret (paper-global.yml) on every backend and on the proxy bridge — nothing to
+  # configure. Without Velocity forwarding, legacy/redis modes fall back to
+  # Redis.Shared_Secret if set. This value is a MANUAL OVERRIDE for the remaining
+  # cases (e.g. BungeeCord native mode): the SAME long random value (16+ chars,
+  # 32+ recommended) on every backend and in the proxy bridge's
+  # network-secret.properties. Empty + no auto source = native/legacy forwarding is
+  # BLOCKED (fail-closed); unauthenticated plugin messaging is never accepted.
+  Network_Secret: ""
+  # High-risk rule action: receive Actions.Proxy_Commands from another authenticated backend.
+  # It is denied by default and each command label must be allowlisted on EVERY receiving
+  # backend. Arguments/placeholders do not bypass this label check; no wildcard is accepted.
+  Rule_Commands:
+    Enabled: false
+    Allowed_Commands: [broadcast, say]
+  Server_Discovery:
+    # auto   = the native Velocity/Bungee bridge supplies this backend's exact registered
+    #          name when a player connects. Database/Redis Server_Id remains a safe fallback.
+    # manual = always use Manual_Server_Id (then the legacy IDs if it is left empty).
+    Mode: auto
+    Manual_Server_Id: ""
+
+# -------------------------------------------------------------------------------------
+#  Network administration. Requires Proxy.Enabled and a proxy transport. The monitor
+#  relays only public/channel chat handled by Chatalyst (never passwords or private mail),
+#  keeps a bounded in-memory timeline per backend and exposes it only to staff permissions.
+#  Network announcements reuse the /announce composer and can target every backend.
+# -------------------------------------------------------------------------------------
+Network_Admin:
+  Monitor:
+    Enabled: true
+    History_Per_Server: 100
+    Retention_Minutes: 60
+    # Number of server feeds one staff member can mirror into their chat at once.
+    Max_Live_Subscriptions: 2
+    Live_Format: "<#7B68A0>[<#B56CFF>{server}<#7B68A0>] <#C0B3D9>#{channel} <#FBF2FF>{player}<#C0B3D9>: <#FBF2FF>{message}"
+  Announcements:
+    Enabled: true
+    Max_Message_Length: 512
+
+# -------------------------------------------------------------------------------------
+#  Redis sync: optional network transport for channels with Proxy: true.
+#  Use Proxy.Mode: redis to avoid plugin-message carrier limits. The same Redis instance
+#  and Channel must be configured on every backend server.
+# -------------------------------------------------------------------------------------
+Redis:
+  Enabled: false
+  Host: "127.0.0.1"
+  Port: 6379
+  Password: ""
+  Database: 0
+  Channel: "chatalyst:network"
+  # Unique per backend. Leave empty to use "<server-name>-<port>".
+  Server_Id: ""
+  # TLS for the Redis connection. Strongly recommended whenever Redis is reached over a
+  # network (the plain protocol sends the password and every message unencrypted).
+  TLS: false
+  # REQUIRED. Shared secret used to sign every message (HMAC-SHA256) so only your own
+  # servers can publish to the channel; replayed messages are rejected too. Use the SAME
+  # value on every backend: a long random string, 16 characters minimum (32+ recommended).
+  # Redis sync stays DISABLED until this is set.
+  Shared_Secret: ""

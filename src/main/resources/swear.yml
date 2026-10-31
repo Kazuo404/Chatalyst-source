@@ -1,0 +1,257 @@
+# =====================================================================================
+#  Chatalyst - Swear filter (anti-evasion, multi-language)
+#
+#  Detects each word even if players try to bypass the filter with:
+#    - Repetitions:   putooooo   -> puto
+#    - Separators:    p.u.t.o / p u t o / p-u-t-o
+#    - Leet speak:    put0 / @/4->a, 3->e, 1/!->i, 0->o, 5/$->s, 7->t ...
+#    - Accents:       pútà, cúlö
+#    - Homoglyphs:    Cyrillic lookalikes (pУt0 with 'а','е','о','р','с'...)
+#    - Phonetic subs: k->c (kabron, marikon), v<->b/u (pvto, cavron), y->i, z->s
+#    - CamelCase:     LaPutaDeTuMadre (a lower->UPPER transition counts as a word break)
+#
+#  It's "smart": it requires a WHOLE WORD, so it does NOT flag legit words that contain a
+#  fragment (disputa, hermano, penetrar, cultura, class...). It only tolerates
+#  separators/leet INSIDE the word.
+#
+#  For insults glued together in lowercase ("laputadetumadre") see the Contains list below.
+#
+#  Plurals and common variants are listed separately (word boundaries don't derive them).
+# =====================================================================================
+
+Enabled: true
+
+# CENSOR = masks the letters (the message is sent censored).  DENY = cancels the message.
+Action: CENSOR
+Censor_Char: "*"
+Points: 1
+Use_Player_Language: true
+Warn: "<#FF4D6D>Watch your language."
+Warn_es: "<#FF4D6D>Cuida tu lenguaje."
+Bypass_Permission: chatalyst.bypass.swear
+
+# Alert staff (chatalyst.notify.security) when a player joins with an account name that
+# trips this filter. It never kicks or blocks on its own: a false positive on a name would
+# lock out a legit player, so the call is left to staff.
+Name_Alert:
+  Enabled: true
+
+Normalize:
+  Collapse_Repeats: true
+  Strip_Separators: true
+  # Leet also covers accents, Cyrillic homoglyphs and phonetic substitutions (k/c, v/b/u...).
+  Leet: true
+  # Treat a lowercase->UPPERCASE transition as a word boundary, so camelCase evasion like
+  # "LaPutaDeTuMadre" is caught without flagging "Computadora" (no transition inside).
+  Camel_Boundaries: true
+
+# Banned words (in normal form; the filter generates the evaded variants on its own).
+Words:
+  # ---- Spanish (LatAm + Spain) ----
+  - "puto"
+  - "puta"
+  - "putos"
+  - "putas"
+  - "putazo"
+  - "pendejo"
+  - "pendeja"
+  - "pendejos"
+  - "pendejas"
+  - "cabron"
+  - "cabrona"
+  - "cabrones"
+  - "mierda"
+  - "verga"
+  - "vergas"
+  - "pinche"
+  - "chinga"
+  - "chingada"
+  - "chingado"
+  - "chingar"
+  - "chingas"
+  - "chingatumadre"
+  - "coño"
+  - "conio"
+  - "joder"
+  - "jodido"
+  - "jodida"
+  - "polla"
+  - "pollas"
+  - "gilipollas"
+  - "jilipollas"
+  - "capullo"
+  - "cojones"
+  - "hijueputa"
+  - "hijoputa"
+  - "joputa"
+  - "putito"
+  - "putita"
+  - "hdp"
+  - "malparido"
+  - "marica"
+  - "maricon"
+  - "maricones"
+  - "mariconazo"
+  - "joto"
+  - "jotos"
+  - "culero"
+  - "culera"
+  - "mamada"
+  - "mamon"
+  - "mamahuevo"
+  - "mamaguevo"
+  - "zorra"
+  - "perra"
+  - "imbecil"
+  - "estupido"
+  - "estupida"
+  - "idiota"
+  - "tarado"
+  - "subnormal"
+  - "huevon"
+  - "boludo"
+  - "pelotudo"
+  - "conchatumadre"
+  - "conchetumadre"
+  - "ctm"
+  - "carajo"
+  - "pija"
+  - "concha"
+  - "culiao"
+  - "culiado"
+  # ---- Common abbreviations (vowels dropped: the anti-evasion pattern can't derive these,
+  #      so they're listed explicitly). Only unambiguous ones, to avoid false positives.
+  - "pta"
+  - "ptm"
+  - "ptas"
+  - "csm"
+  - "vrg"
+  - "vrga"
+  - "mrd"
+  - "pndj"
+  - "pndja"
+  - "kbrn"
+  - "qlo"
+  # ---- English ----
+  - "fuck"
+  - "fucker"
+  - "fucking"
+  - "fucked"
+  - "motherfucker"
+  - "shit"
+  - "bullshit"
+  - "bitch"
+  - "bitches"
+  - "asshole"
+  - "cunt"
+  - "dick"
+  - "dickhead"
+  - "pussy"
+  - "bastard"
+  - "nigger"
+  - "nigga"
+  - "faggot"
+  - "whore"
+  - "slut"
+  - "cock"
+  - "wanker"
+  - "twat"
+  - "prick"
+  - "douchebag"
+  - "retard"
+  - "dumbass"
+  - "jackass"
+  - "cocksucker"
+  - "kys"
+  # ---- Portuguese ----
+  - "caralho"
+  - "merda"
+  - "foda"
+  - "foder"
+  - "fodido"
+  - "buceta"
+  - "boceta"
+  - "porra"
+  - "viado"
+  - "corno"
+  - "piroca"
+  - "cacete"
+  - "bosta"
+  - "arrombado"
+  - "fdp"
+  - "cuzao"
+  - "xoxota"
+  - "punheta"
+  # ---- Explicit sexual (various languages) ----
+  - "vagina"
+  - "pene"
+  - "penes"
+  - "penis"
+  - "testiculo"
+  - "testiculos"
+  - "testicle"
+  - "escroto"
+  - "semen"
+  - "masturbar"
+  - "masturbacion"
+  - "masturbate"
+  - "orgasmo"
+  - "orgasm"
+  - "tetas"
+  - "teta"
+  - "chichis"
+  - "culo"
+  - "ano"
+  - "anal"
+  - "coito"
+  - "follar"
+  - "follando"
+  - "porno"
+  - "dildo"
+  - "consolador"
+
+# Phrases matched ANYWHERE inside a word, with no word boundary, so insults glued together
+# in lowercase are caught too: "laputadetumadre", "fuckyou", "eresungilipollas"...
+# When one of these hits, the WHOLE word containing it is censored (or the message denied).
+# Separators are NOT tolerated here on purpose: "tu madre" or "de puta madre" written with
+# spaces are handled (or allowed) by the Words list above, not by this one.
+# RULES to extend this list safely: only unambiguous fragments. Short or common fragments
+# create false positives ("puta" here would flag "computadora"; "culo" would flag "vinculo").
+Contains:
+  # ---- Spanish ----
+  - "tumadre"        # laputadetumadre, chingatumadre, conchatumadre, hijodetumadre...
+  - "putamadre"
+  - "putademadre"
+  - "hijodeputa"
+  - "hijadeputa"
+  - "hijueputa"
+  - "hijoeputa"
+  - "gilipollas"
+  - "chupapolla"
+  - "pendejo"
+  - "pendeja"
+  - "mierda"         # comemierda, mierdero, unamierda...
+  - "cabron"         # cabronazo, esuncabron...
+  - "joder"
+  - "malparido"
+  # ---- English ----
+  - "fuck"           # fuckyou, motherfucker, whatthefuck, dumbfuck...
+  - "shit"           # bullshit, shithead, eatshit...
+  - "bitch"          # sonofabitch, bitches...
+  - "asshole"
+  - "nigger"
+  - "nigga"
+  - "faggot"
+  - "whore"
+  - "slut"
+  # ---- Portuguese ----
+  - "caralho"
+  - "filhodaputa"
+  - "filhadaputa"
+  - "vaisefoder"
+
+# Exceptions: legit words that still match as a whole word and should NOT be touched
+# (the Scunthorpe problem). With the smart word boundary they are rarely needed,
+# but you can add the ones that cause false positives in your community.
+Whitelist:
+  - "ktm"    # motorbike brand; the k->c substitution would read it as "ctm"

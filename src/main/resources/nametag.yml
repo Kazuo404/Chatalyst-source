@@ -1,0 +1,514 @@
+# =====================================================================================
+#  Chatalyst — how a player is DISPLAYED: the name above their head and the tab list.
+#
+#  This is not an integration: it is Chatalyst drawing the player itself. It used to sit
+#  in integrations.yml, where it was almost half the file while the actual third-party
+#  hooks were under a tenth of it. Everything that decides how a name is rendered now
+#  lives here, including the TAB hook at the bottom — whoever edits nametags needs it in
+#  front of them, and that is the test that matters.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  Nametag above the head (rank above the player). Uses scoreboard teams; disable it if
+#  you already use another nametag plugin to avoid clashes.
+#    Name_Color: the name itself can only be ONE solid color (Minecraft limit; hex and
+#    gradients are rounded to the nearest vanilla color). {rank_color} takes it from the
+#    rank prefix; {nick_color} takes it from the player's /nickcolor choice (falls back
+#    to white if they have none). Leave empty to not touch the color.
+#    Using TAB instead? Add %chatalyst_nickcolor% at the END of tagprefix in TAB's
+#    groups.yml and the name above the head follows /nickcolor the same way.
+# -------------------------------------------------------------------------------------
+Nametag:
+  Enabled: false
+  Prefix: "{player_prefix}"
+  Suffix: "{player_suffix}"
+  Name_Color: "{rank_color}"
+  Update_Interval: 30
+  # Fancy floating nametag: replaces the vanilla name above the head with a floating text
+  # that renders the FULL nick style — gradients, bold, italics — bypassing the one-solid-
+  # color limit of classic nametags. Format accepts the usual placeholders.
+  #   Without TAB, Chatalyst hides the vanilla name by itself. With TAB installed, also set
+  #   scoreboard-teams -> invisible-nametags: true in TAB's config.yml, or the vanilla name
+  #   shows behind the fancy one.
+  #   Height raises the text above the head; Hide_Sneaking dims it while sneaking.
+  Fancy:
+    Enabled: false
+    # {nametag_icon_left}/{nametag_icon_right}: iconos opcionales por jugador que flanquean
+    # el tag (ej. un escudo de guardian), puestos con /nametagtitle. Vacios si no tiene.
+    Format: "{nametag_icon_left}{player_prefix}{player_nick}{afk_tag}{nametag_icon_right}"
+    Height: 0.3
+    Update_Interval: 2
+    Hide_Sneaking: true
+    # Each player sees their OWN tag (third person, F5). With false only players holding
+    # chatalyst.nametag.seeself (OP by default) do, and everyone else sees nothing above
+    # their own head — Minecraft never shows you your own vanilla name either.
+    Show_Own: true
+    # Varias lineas, como UnlimitedNameTags. Lineas de ARRIBA a ABAJO, como se ven. Si la
+    # lista tiene algo, sustituye a Format en el cartel flotante (el TAB y el chat animados
+    # siguen usando Format: ahi solo cabe una linea).
+    #   Admite {internos}, %PAPI%, MiniMessage y &-codes/&#hex. Cada linea se colorea por
+    #   separado: una etiqueta sin cerrar no pasa a la linea siguiente.
+    #   {player_nick} en cualquier linea recibe la animacion igual que en Format.
+    #   ejemplo:
+    #   Lines:
+    #     - "%clan_tag%"
+    #     - "{nametag_icon_left}{player_prefix}{player_nick}{afk_tag}{nametag_icon_right}"
+    #     - "&7❤ %player_health_rounded%"
+    Lines: []
+    # Una linea que queda vacia (p. ej. sin clan) no ocupa sitio.
+    Remove_Empty_Lines: true
+    # Grupos por permiso, como UnlimitedNameTags: gana el PRIMERO de la lista cuyo
+    # Permission tenga el jugador, asi que pon los rangos mas altos ARRIBA (un OP o alguien
+    # con '*' tiene todos los permisos y cae siempre en el primero). Cada grupo puede
+    # redefinir Lines y el aspecto; lo que no defina lo hereda de las claves de abajo.
+    # Sin grupo que encaje -> Lines/aspecto generales. Un permiso nuevo se nota en el
+    # siguiente refresco, sin reconectar.
+    #   ejemplo:
+    #   Groups:
+    #     owner:
+    #       Permission: "chatalyst.nametag.group.owner"
+    #       Lines:
+    #         - "&c&lOWNER"
+    #         - "{player_prefix}{player_nick}"
+    #       Background: {Enabled: true, Color: "#FF0000", Opacity: 255}
+    #       Scale: 1.2
+    #     vip:
+    #       Permission: "chatalyst.nametag.group.vip"
+    #       Shadow: true
+    Groups: {}
+    # Aspecto del cartel (tag y titulo). Los valores de fabrica son el aspecto de siempre.
+    #   Background: caja detras del texto. Opacity 0-255 (0 = invisible, 255 = solido). En un
+    #     grupo se define ENTERO (Enabled, Color y Opacity).
+    #   Shadow: sombra del texto. See_Through: el cartel se ve a traves de las paredes.
+    #   Scale: tamaño (1.0 = normal; de 0.1 a 10).
+    #   Billboard: CENTER (siempre mira al jugador) | HORIZONTAL | VERTICAL | FIXED.
+    #   View_Distance: hasta cuantos bloques se ve (64 = el alcance normal de Minecraft; el
+    #     cliente lo multiplica ademas por su ajuste "Distancia de entidades").
+    #   Sneak_Opacity: opacidad del texto al agacharse (necesita Hide_Sneaking). De -128 a
+    #     127 como la da Minecraft: 127 = medio transparente, 70 = tenue, y de 4 a 25 el
+    #     texto desaparece del todo. -1 = opaco (no atenuar).
+    Background:
+      Enabled: false
+      Color: "#000000"
+      Opacity: 64
+    Shadow: false
+    See_Through: false
+    Scale: 1.0
+    Billboard: CENTER
+    View_Distance: 64
+    Sneak_Opacity: 70
+    # Un segundo renglon flotante ENCIMA del tag (ej. "REY DE TODO").
+    #   Format: usa {nametag_title} (el titulo por jugador que pone /nametagtitle).
+    #   Default_Format: respaldo cuando el jugador NO tiene titulo propio — util para
+    #     titulos por rango con PlaceholderAPI, ej. "%luckperms_meta_nametag_title%".
+    #   Height: separacion sobre el tag (mayor que Height del tag para que quede encima).
+    #     Vale para UNA linea: con Lines el bloque crece hacia arriba, asi que el titulo se
+    #     sube solo 0.25 * Scale por cada linea extra que se este mostrando (las vacias que
+    #     Remove_Empty_Lines quita no cuentan). No hace falta recalcular Height a mano.
+    Title:
+      Enabled: false
+      Format: "{nametag_title}"
+      Default_Format: ""
+      Height: 0.55
+      Max_Length: 32
+    # Animacion compartida por el tag flotante, TAB y el snapshot del apodo en chat. Mode:
+    #   frames -> rota la lista Frames, un cuadro por Interval_Ticks (colores/texto alternos).
+    #   wave   -> desliza un gradiente (Wave.Colors) sobre Wave.Content (efecto ola).
+    # En chat cada linea captura el cuadro vigente al enviarse: una linea ya publicada no
+    # puede seguir cambiando. TAB tiene un intervalo propio porque cada cambio se retransmite.
+    # La animacion sustituye el COLOR de /nickcolor, pero conserva sus Styles (bold, italic...).
+    Animation:
+      Enabled: false
+      Mode: "frames"
+      Interval_Ticks: 6
+      Tab_Interval_Ticks: 10   # minimo 6; subelo en redes grandes
+      Apply_To:
+        Tab: true              # requiere Tab_List.Enabled o TAB.Sync_Nick
+        Chat: true             # snapshot vigente; no reenvia ni duplica mensajes
+      Frames:
+        - "<#FF4D6D>{player_nick}"
+        - "<#E0AAFF>{player_nick}"
+        - "<#3DFFA8>{player_nick}"
+        - "<#B56CFF>{player_nick}"
+      Wave:
+        Content: "{player_nick}"
+        Colors:
+          - "#FFD700"
+          - "#FF4D6D"
+          - "#FFD700"
+      # Animacion POR JUGADOR: cada uno elige un preset en /nickcolor -> Animados (o
+      # queda estatico). Modo FLOW = bucle continuo y sin costura (la paleta es un
+      # circulo de color que se desplaza en una sola direccion). SOLO anima el nametag
+      # flotante y el titulo SOBRE LA CABEZA; el TAB y el chat muestran el degradado
+      # ESTATICO (animar el TAB reenviaria el nombre a todos cada tick -> lag).
+      # Interval_Ticks 2 = maxima fluidez del flotante.
+      Per_Player: false
+      Presets:
+        rainbow:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "NETHER_STAR"
+          Display: "<rainbow>Arcoiris</rainbow>"
+          Description: "Todo el arcoiris fluyendo"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FF0000","#FF8000","#FFE600","#00E676","#00B0FF","#651FFF","#D500F9"]
+        fire:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "BLAZE_POWDER"
+          Display: "<gradient:#FFE066:#FF3D00>Fuego</gradient>"
+          Description: "Llama caliente en movimiento"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFF3B0","#FFB703","#FB5607","#FF0000"]
+        ocean:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "PRISMARINE_CRYSTALS"
+          Display: "<gradient:#00F5D4:#4361EE>Oceano</gradient>"
+          Description: "Aguas frias que fluyen"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#CAF0F8","#00F5D4","#00BBF9","#4361EE"]
+        neon:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "GLOWSTONE_DUST"
+          Display: "<gradient:#FF006E:#3A86FF>Neon</gradient>"
+          Description: "Luces de neon vibrantes"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FF006E","#8338EC","#3A86FF","#06FFA5"]
+        gold:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "GOLD_INGOT"
+          Display: "<gradient:#FFF3B0:#E6A100>Oro</gradient>"
+          Description: "Brillo dorado de realeza"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFF6C8","#FFD700","#E6A100","#FFC300"]
+        aurora:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "ENDER_EYE"
+          Display: "<gradient:#00FFA3:#7A00FF>Aurora</gradient>"
+          Description: "Luces del norte danzando"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#00FFA3","#00D4FF","#7A00FF","#FF00C8"]
+        sunset:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "FIREWORK_STAR"
+          Display: "<gradient:#FFD060:#A64AC9>Atardecer</gradient>"
+          Description: "Cielo calido al anochecer"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFD060","#FF8C42","#FF3C7E","#A64AC9"]
+        galaxy:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "AMETHYST_SHARD"
+          Display: "<gradient:#6441A5:#F15F79>Galaxia</gradient>"
+          Description: "Nebulosa profunda en movimiento"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#2A0845","#6441A5","#B24592","#F15F79"]
+        candy:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "PINK_DYE"
+          Display: "<gradient:#FF9A9E:#FF6AD5>Chicle</gradient>"
+          Description: "Dulce rosa pastel"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FF9A9E","#FECFEF","#FF6AD5","#C774E8"]
+        toxic:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "LIME_DYE"
+          Display: "<gradient:#B6FF00:#39FF14>Toxico</gradient>"
+          Description: "Verde radiactivo brillante"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#B6FF00","#00FF66","#39FF14","#7CFC00"]
+        ice:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "SNOWBALL"
+          Display: "<gradient:#FFFFFF:#48CAE4>Hielo</gradient>"
+          Description: "Escarcha fria y cristalina"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFFFFF","#CAF0F8","#90E0EF","#48CAE4"]
+        lava:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "MAGMA_CREAM"
+          Display: "<gradient:#FFEA00:#FF2A00>Lava</gradient>"
+          Description: "Roca fundida incandescente"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFE808","#FF7B00","#FF2A00","#8B0000"]
+        emerald:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "EMERALD"
+          Display: "<gradient:#D8F3DC:#2D6A4F>Esmeralda</gradient>"
+          Description: "Verde gema profundo"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#D8F3DC","#52B788","#2D6A4F","#1B4332"]
+        amethyst:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "AMETHYST_CLUSTER"
+          Display: "<gradient:#E0AAFF:#7B2CBF>Amatista</gradient>"
+          Description: "Cristal violeta luminoso"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#E0AAFF","#C77DFF","#9D4EDD","#7B2CBF"]
+        cyberpunk:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "REDSTONE"
+          Display: "<gradient:#F900BF:#00F0FF>Cyberpunk</gradient>"
+          Description: "Magenta y cian de neon"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#F900BF","#00F0FF","#FFF600","#FF00A0"]
+        forest:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "OAK_LEAVES"
+          Display: "<gradient:#A7C957:#386641>Bosque</gradient>"
+          Description: "Verdes del bosque"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#A7C957","#6A994E","#386641","#283618"]
+        blood:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "REDSTONE_BLOCK"
+          Display: "<gradient:#FF3B3B:#5C0000>Sangre</gradient>"
+          Description: "Rojo oscuro intenso"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FF3B3B","#8B0000","#5C0000","#B00020"]
+        royal:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "LAPIS_LAZULI"
+          Display: "<gradient:#3B82F6:#FFD700>Realeza</gradient>"
+          Description: "Azul y oro majestuoso"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#1E3A8A","#3B82F6","#FFD700","#2563EB"]
+        mint:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "SEA_PICKLE"
+          Display: "<gradient:#B8FFF9:#2EC4B6>Menta</gradient>"
+          Description: "Verde menta fresco"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#B8FFF9","#6EEBD1","#2EC4B6","#1B9AAA"]
+        peach:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "APPLE"
+          Display: "<gradient:#FFE5B4:#FF7E5F>Durazno</gradient>"
+          Description: "Durazno calido"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFE5B4","#FFB07C","#FF7E5F","#FEB47B"]
+        lavender:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "PURPLE_DYE"
+          Display: "<gradient:#E4C1F9:#9D80CB>Lavanda</gradient>"
+          Description: "Lavanda suave"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#E4C1F9","#D0A2F7","#B491E8","#9D80CB"]
+        frost:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "ICE"
+          Display: "<gradient:#E0FBFC:#3D5A80>Escarcha</gradient>"
+          Description: "Azul invernal"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#E0FBFC","#98C1D9","#3D5A80","#5B8CBE"]
+        bubblegum:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "MAGENTA_DYE"
+          Display: "<gradient:#FF6AD5:#8795E8>Burbuja</gradient>"
+          Description: "Chicle azul y rosa"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FF6AD5","#C774E8","#AD8CFF","#8795E8"]
+        rose:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "RED_TULIP"
+          Display: "<gradient:#FFB3C6:#C9184A>Rosa</gradient>"
+          Description: "Rosa romantico"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFB3C6","#FF8FAB","#FB6F92","#C9184A"]
+        midnight:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "INK_SAC"
+          Display: "<gradient:#1B3A8A:#5D3FD3>Medianoche</gradient>"
+          Description: "Azul y violeta nocturno"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#0B1957","#1B3A8A","#5D3FD3","#2E1A6E"]
+        citrus:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "ORANGE_DYE"
+          Display: "<gradient:#FFF700:#FF9500>Citrico</gradient>"
+          Description: "Naranja y limon"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFF700","#FFD000","#FF9500","#FFEA00"]
+        tropic:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "MELON_SLICE"
+          Display: "<gradient:#F9F871:#00A896>Tropico</gradient>"
+          Description: "Playa tropical"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#F9F871","#4CE0B3","#2CD3E1","#00A896"]
+        cotton:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "WHITE_WOOL"
+          Display: "<gradient:#FFC2E2:#C8B6FF>Algodon</gradient>"
+          Description: "Pastel de algodon"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFC2E2","#B5DEFF","#C8B6FF","#FFD6A5"]
+        glacier:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "PACKED_ICE"
+          Display: "<gradient:#FFFFFF:#2C7DA0>Glaciar</gradient>"
+          Description: "Hielo de glaciar"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFFFFF","#A9D6E5","#468FAF","#2C7DA0"]
+        venom:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "SPIDER_EYE"
+          Display: "<gradient:#39FF14:#004B23>Veneno</gradient>"
+          Description: "Verde veneno oscuro"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#39FF14","#0BDA51","#008000","#004B23"]
+        sakura:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "PINK_TULIP"
+          Display: "<gradient:#FFD7E6:#FF5D8F>Sakura</gradient>"
+          Description: "Flor de cerezo"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFD7E6","#FFACC7","#FF87AB","#FF5D8F"]
+        inferno:
+          Mode: "flow"
+          Interval_Ticks: 2
+          Tab_Interval_Ticks: 2
+          Icon: "FIRE_CHARGE"
+          Display: "<gradient:#FFFF00:#990000>Infierno</gradient>"
+          Description: "Fuego infernal"
+          Wave:
+            Content: "{player_nick}"
+            Colors: ["#FFFF00","#FF9A00","#FF0000","#990000"]
+  # Prefijo del rango ANIMADO: {rank_anim} (fotograma del momento) en cualquier formato: el tag
+  # flotante (Format: "{rank_anim}{player_nick}{afk_tag}"), el tab, el chat... {player_prefix} es el
+  # prefijo fijo de LuckPerms (un solo fotograma). El fotograma sale de la hora, sin relojes: todos
+  # los del mismo rango van sincronizados. Grupo sin animacion -> el prefijo fijo.
+  #   Import_From_TAB: lee TAB/groups.yml (tagprefix "%animation:X%") y TAB/animations.yml.
+  #   Groups: animaciones propias por grupo de LuckPerms; mandan sobre las importadas.
+  Rank_Animations:
+    Enabled: false
+    Import_From_TAB: true
+    Groups: {}
+    # Ejemplo:
+    #   nova:
+    #     Interval_Ms: 100
+    #     Frames: [":tag_nova_1:", ":tag_nova_2:"]
+
+# -------------------------------------------------------------------------------------
+#  Tab list (what you see when pressing TAB): name with rank + header/footer.
+#  Name_Format accepts {player_prefix}, {player_name}, {player_suffix}, {ping},
+#  and %papi% if you have PlaceholderAPI.
+#    Connection quality: {ping_ms} shows the latency as a number colored by quality
+#    ("23ms" in green, "320ms" in red), {ping_quality} shows a word (Excellent / Good /
+#    Fair / Slow / Laggy), and {ping_bars} the classic signal bars (▰▰▰▱▱) if you
+#    prefer them over the number.
+# -------------------------------------------------------------------------------------
+Tab_List:
+  Enabled: false
+  Name_Format: "{player_prefix}{rank_color}{player_name}{afk_tag}"
+  Update_Interval: 10
+  Header:
+    - "<gradient:#240046:#9D4EDD:#E0AAFF>Your Server</gradient>"
+    - ""
+  Footer:
+    - ""
+    - "<#C0B3D9>Connection: {ping_ms} <#7B68A0>· {ping_quality}"
+
+# -------------------------------------------------------------------------------------
+#  TAB (NEZNAMY) integration. When TAB is installed, Chatalyst registers its placeholders
+#  natively in TAB (no PlaceholderAPI needed): %chatalyst_nick% (with colors),
+#  %chatalyst_nick_plain% (no effects), %chatalyst_channel%, %chatalyst_muted%,
+#  %chatalyst_warnings%, %chatalyst_chatcolor%.
+#    Sync_Nick: pushes /nick and its animation frames straight into TAB's tab list, so they
+#    show up with zero TAB configuration. Set it to false if you prefer to control the name
+#    yourself in TAB's config (e.g. customtabname: '%chatalyst_nick%').
+#  Note: when TAB is present, the Chatalyst Tab_List and Nametag modules stay off to
+#  avoid fighting over the tab list and scoreboard teams.
+# -------------------------------------------------------------------------------------
+TAB:
+  Sync_Nick: true

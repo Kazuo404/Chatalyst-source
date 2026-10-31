@@ -1,0 +1,133 @@
+# Chatalyst — names nobody may wear, shipped and maintained by the plugin.
+# version: 1
+#
+# THIS FILE IS REPLACED ON UPGRADE. Do not edit it: a newer Chatalyst overwrites it
+# with its own list, and your changes are gone. Put YOUR names — your staff, your
+# server's brand — in players.yml under Nick.Protected_Names. That file is yours and
+# the plugin never rewrites it. Both lists apply together.
+#
+# One name per line. Blank lines and lines starting with # are ignored. Matching
+# ignores case, spaces and look-alike characters, so 'Ibai' also covers 'ibai',
+# 'I b a i' and full-width. A name here never blocks its real owner.
+
+
+# --- Authority names. The most frequent real scam is not a streamer: it is somebody
+Admin
+Administrator
+Administrador
+Moderator
+Moderador
+Staff
+Owner
+Server
+Servidor
+Console
+Consola
+System
+Sistema
+Support
+Soporte
+Help
+Ayuda
+
+# --- Mojang and Minecraft itself ---
+Mojang
+Minecraft
+Notch
+jeb_
+Dinnerbone
+Grumm
+Herobrine
+
+# --- Minecraft figures with a global audience ---
+Dream
+GeorgeNotFound
+Sapnap
+Technoblade
+Grian
+MumboJumbo
+Philza
+Ranboo
+Tubbo
+WilburSoot
+Skeppy
+BadBoyHalo
+CaptainSparklez
+DanTDM
+PewDiePie
+Quackity
+Antfrost
+Aphmau
+PrestonPlayz
+Preston
+SSundee
+PopularMMOs
+LDShadowLady
+StampyLongHead
+StampyCat
+Unspeakable
+Jelly
+Slogoman
+Crainer
+Ethobot
+ForgeLabs
+CG5
+Mumbo
+Iskall85
+Xisumavoid
+Etho
+VintageBeef
+Docm77
+ImpulseSV
+Zombiecleo
+FalseSymmetry
+Hypixel
+
+# --- PvP and competitive (Hypixel, duels, Minecraft Championship) ---
+JojoSolos
+Fruitberries
+Cxlvxn
+Purpled
+Punz
+Vurb
+Illumina
+Sylvee
+Awesamdude
+
+# --- Spanish-speaking streamers ---
+Mikecrack
+Rubius
+elrubius
+Ibai
+TheGrefg
+AuronPlay
+Vegetta777
+Willyrex
+Luzu
+LuzuVlogs
+Mangel
+Alexby11
+Staxx
+Folagor
+Lolito
+ElMariana
+Spreen
+Roier
+Cristinini
+Perxitaa
+Karchez
+Silithur
+ElBokeron
+Knekro
+Illojuan
+Nissaxter
+Zeling
+Alexelcapo
+Xokas
+Juansguarnizo
+ElSpreen
+Missasinfonia
+Robleis
+Coscu
+Grefg
+Vegetta

@@ -1,0 +1,8 @@
+{
+  "id": "chatalyst",
+  "name": "Chatalyst",
+  "version": "${version}",
+  "description": "Native Velocity bridge for Chatalyst network chat.",
+  "authors": ["DevKazuo"],
+  "main": "dev.chatalyst.velocity.ChatalystVelocityPlugin"
+}

@@ -1,0 +1,214 @@
+# =====================================================================================
+#  Chatalyst — server store: one-shot goods (items, commands, money).
+#
+#  WHY THIS IS NOT IN Rank_Catalog
+#  --------------------------------------------------------------------------------
+#  A rank is a STATE: you hold it, it can expire, and if it ever goes missing Chatalyst
+#  can put it back by comparing what you own with what you actually have. That is why
+#  ranks live in integrations.yml and are repaired continuously, forever.
+#
+#  An item is an EVENT: it is handed over exactly once. It cannot be repaired the same
+#  way — the buyer may have used it, dropped it, or died with it — and "repairing" it
+#  would hand them a new one every few minutes, duplicating items forever.
+#
+#  So goods use the opposite guarantee: AT-MOST-ONCE delivery. The purchase is written
+#  to disk before anything is given, held until it can really be handed over, and then
+#  consumed so it can never be delivered twice.
+#
+#  HOW A PURCHASE FLOWS
+#  --------------------------------------------------------------------------------
+#   1) In the Tebex panel, the package's command is:
+#          chatalyst store give {id} <product_id> {transaction}
+#      ({id} and {transaction} are Tebex's own variables — do not replace them by hand.)
+#
+#   2) Chatalyst checks <product_id> against Store_Catalog below and writes a CLAIM to
+#      storage BEFORE giving anything. That write is what makes a purchase impossible to
+#      lose: Tebex considers the command executed the moment it sends it and never
+#      resends it, so nothing may depend on it retrying.
+#
+#   3) Delivery happens when it safely can:
+#        - buyer online with room      -> handed over immediately
+#        - buyer offline               -> the claim waits, surviving restarts, and is
+#                                         delivered when they next join
+#        - inventory full              -> NOTHING is dropped on the floor; the claim
+#                                         stays pending and retries, so goods cannot be
+#                                         lost to a full inventory, a lava pit or a thief
+#
+#   4) Once handed over the claim is consumed. A resent transaction, a double click, or
+#      a second server on the same database can never deliver it again.
+#
+#  Players see what they are owed with /store, and take it with /store claim.
+# =====================================================================================
+
+Store:
+  Enabled: false
+  # Only the console (that is, Tebex) may run the delivery command. Leave this on.
+  Console_Only: true
+
+  # Command players use to see and collect what they bought. Registered only while the
+  # store is enabled, so a server without one reserves no label. A name another plugin
+  # already owns is never taken over — it is skipped with a warning naming the owner —
+  # so pick a free one if yours is taken. /chatalyst:store always works as a fallback.
+  Command: "store"
+  Command_Aliases:
+    - "tienda"
+    - "claimitems"
+
+  # AUTO   = handed over as soon as the buyer is online and has room.
+  # MANUAL = kept until the player runs "/store claim" themselves. Useful for kits they
+  #          want to time, or when you would rather not fill someone's inventory mid-fight.
+  Delivery: AUTO
+
+  # Waited after joining before an automatic delivery, so it does not collide with the
+  # join messages, other plugins' kits, or a resource-pack prompt.
+  Join_Delay_Ticks: 40
+
+  # How often pending claims are retried (a full inventory, a player still loading).
+  Retry_Interval_Seconds: 60
+
+  # Free inventory slots required before ITEMS are handed over. Raising this makes a
+  # delivery wait longer rather than risk items ending up on the ground.
+  Required_Free_Slots: 2
+
+  # Announce deliveries in the private staff Discord channel (needs Discord.Staff).
+  Notify_Discord: true
+  # Address of your web store (https only). Shown as a button in /compras; empty = hidden.
+  Web_Url: ""
+
+# =====================================================================================
+#  Store_Catalog — what you sell. The YAML key is the stable product ID you write in the
+#  Tebex command, so keep it short, lowercase and permanent: renaming it breaks packages
+#  already on sale. Only IDs listed here can ever be delivered, so a mistyped or hostile
+#  command cannot invent a product.
+#
+#  Every product has a Type:
+#
+#    ITEMS     Give one or more items. Each entry accepts:
+#                Material       vanilla material name (required)
+#                Amount         1..64 (default 1)
+#                Name           MiniMessage display name (optional)
+#                Lore           list of MiniMessage lines (optional)
+#                Enchantments   enchantment: level pairs, e.g. "sharpness: 3"
+#                Model_Data     custom model data for resource packs (optional)
+#                Glow           true to add the enchanted glint without an enchantment
+#
+#    COMMANDS  Run console commands. {player} is the buyer's name and {uuid} their UUID.
+#              Use this for anything another plugin owns: crate keys, pets, cosmetics,
+#              permissions, XP. The buyer must be online, so the claim waits for them.
+#
+#    MONEY     Deposit Amount through Vault. Works while the buyer is offline when your
+#              economy plugin supports offline accounts.
+#
+#  A product may combine types by listing several: Items, Commands and Money can all be
+#  present, and they are delivered together as one atomic claim.
+#
+#  OPTIONAL "Shop" block — advertises the product in the storefront (/ranks). Without it
+#  the product is still deliverable, it is simply not listed; plenty of goods are sold
+#  outside the in-game menu. It needs a real HTTPS package URL, because a card that
+#  cannot be bought is worse than no card:
+#      Shop:
+#        Visible: true
+#        Category: kits            # must match a Store_Sections id
+#        Display_Name: "<gradient:#FFD166:#FF9F1C><bold>Warrior Kit</bold></gradient>"
+#        Display_Name_es: "<gradient:#FFD166:#FF9F1C><bold>Kit Guerrero</bold></gradient>"
+#        Description:
+#          - "<#C0B3D9>Full armour and food"
+#        Description_es:
+#          - "<#C0B3D9>Armadura completa y comida"
+#        Icon: DIAMOND_CHESTPLATE
+#        Price: "$4.99 USD"
+#        Purchase_Url: "https://your-store.tebex.io/package/1234567"
+#        Order: 10
+#        Featured: false
+#        View_Permission: ""
+#        # Preview_Kit: import the real contents of a kit you ALREADY have, so you do not
+#        # describe the same kit twice and it cannot drift when you edit it. The items keep
+#        # their own names, colours, lore, enchantments and armour trims, because they are
+#        # read back with Bukkit's own deserialiser straight from the kits plugin's files.
+#        # Supported: AdvancedKits, PlayerKits2, PlayerKits. Absent or unreadable simply
+#        # falls back to the Preview you wrote by hand.
+#        Preview_Kit: "Vip"
+#
+#  Nothing is configured by default on purpose: an empty catalog delivers nothing.
+# =====================================================================================
+# =====================================================================================
+#  Store_Sections — how the storefront (/ranks) is organised.
+#
+#  OFF by default: with Enabled false the store stays one flat paginated list, exactly as
+#  it was. Turn it on and the store opens on these sections instead, each holding the
+#  entries that name it in their Shop.Category.
+#
+#  Sections live here rather than as a loose field on every product so that the order,
+#  icon and name of your shop are edited in ONE place. Ranks (Rank_Catalog) and goods
+#  (Store_Catalog) share them: a "kits" section can hold both.
+#
+#  A section with nothing visible is hidden. An entry naming a section that does not
+#  exist is NOT lost — it lands in a final "Other" section, so a typo never quietly
+#  removes something you are selling.
+#
+#  BILINGUAL: every player-facing text in this file takes a parallel "_es" key that a
+#  Spanish client sees instead — Display_Name/Display_Name_es, Description/Description_es.
+#  A missing translation falls back to the base key, and a list falls back whole, so a
+#  half-translated file shows one coherent language instead of a mix of both.
+# =====================================================================================
+Store_Sections:
+  Enabled: false
+  Categories: {}
+  # Example:
+  # Categories:
+  #   rangos:
+  #     Display_Name: "<gradient:#B56CFF:#E4A8FF><bold>Ranks</bold></gradient>"
+  #     Display_Name_es: "<gradient:#B56CFF:#E4A8FF><bold>Rangos</bold></gradient>"
+  #     Icon: NETHER_STAR
+  #     Description:
+  #       - "<#C0B3D9>Permanent perks"
+  #     Description_es:
+  #       - "<#C0B3D9>Ventajas permanentes"
+  #     Order: 10
+  #   kits:
+  #     Display_Name: "<gradient:#FFD166:#FF9F1C><bold>Kits</bold></gradient>"
+  #     Icon: CHEST
+  #     Order: 20
+
+Store_Catalog: {}
+
+# Copy any of these under Store_Catalog and edit them.
+#
+# Store_Catalog:
+#   starter-kit:
+#     Name: "<gradient:#B56CFF:#E4A8FF><bold>Starter kit</bold></gradient>"
+#     Type: ITEMS
+#     Items:
+#       - Material: DIAMOND_SWORD
+#         Amount: 1
+#         Name: "<gradient:#B56CFF:#E4A8FF><bold>Founder's blade</bold></gradient>"
+#         Lore:
+#           - "<#C0B3D9>Thank you for supporting the server."
+#         Enchantments:
+#           sharpness: 3
+#           unbreaking: 2
+#       - Material: GOLDEN_APPLE
+#         Amount: 8
+#
+#   crate-keys:
+#     Name: "<#E4A8FF>5 crate keys"
+#     Type: COMMANDS
+#     # The buyer must be online for these, so the claim waits until they join.
+#     Commands:
+#       - "crates give {player} legendary 5"
+#
+#   coin-pouch:
+#     Name: "<#FFD166>5,000 coins"
+#     Type: MONEY
+#     Amount: 5000
+#
+#   deluxe-bundle:
+#     Name: "<gradient:#FFD166:#FF9F1C><bold>Deluxe bundle</bold></gradient>"
+#     # Several types in ONE product: all of it arrives together or none of it does.
+#     Type: ITEMS
+#     Items:
+#       - Material: NETHERITE_INGOT
+#         Amount: 2
+#     Commands:
+#       - "crates give {player} legendary 10"
+#     Money: 10000

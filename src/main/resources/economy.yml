@@ -1,0 +1,102 @@
+# =====================================================================================
+#  Chatalyst — economy: market, direct trade, balance top, external shop hooks.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  Marketplace plugins support. Known auction/shop plugins (AuctionHouse, zAuctionHouse,
+#  CrazyAuctions, PlayerAuctions, QuickShop, ChestShop, ShopGUI+...) are detected and
+#  logged at startup. When a player publishes a listing with one of the commands below,
+#  Chatalyst announces it in the trade/auction channel (each viewer in their language;
+#  crosses the network if the channel has Proxy: true). Best-effort: the announcement
+#  fires when the command runs, so a listing rejected by the other plugin may still
+#  announce. Raise Cooldown_Seconds to keep the channel calm.
+# -------------------------------------------------------------------------------------
+Trade_Plugins:
+  Announce:
+    Enabled: true
+    Cooldown_Seconds: 60
+    # "<command without slash>": <channel that receives the announcement>
+    Commands:
+      ah sell: auction
+      auc sell: auction
+      auction sell: auction
+      auctionhouse sell: auction
+      crazyauctions sell: auction
+      qs create: trade
+      quickshop create: trade
+
+# -------------------------------------------------------------------------------------
+#  Built-in marketplace (/market · /mercado). A modern, integrated feature that ships
+#  DISABLED — turn it on when you want it (not every server is a survival). Players list
+#  the item IN HAND for sale or auction: the item goes into escrow right away, the listing
+#  is announced in the channel below with the item tooltip and clickable buy/bid buttons,
+#  and every completed sale is announced too. Sales are negotiated in a dual-accept GUI
+#  where the buyer can offer money, items (barter) or both — nothing moves until BOTH sides
+#  accept. Whatever cannot be delivered (full inventory, offline player) waits in the claim
+#  stash (/market claim). Announcements stay on THIS server (never cross the proxy): the
+#  purchase is local, so the market is per-server on purpose — no buying a survival's item
+#  from another server. Compatibility: with Defer_To_Plugins on, the built-in market steps
+#  aside automatically when a dedicated marketplace plugin (AuctionHouse, QuickShop...) is
+#  installed, and Chatalyst only announces that plugin's listings (Trade_Plugins above).
+# -------------------------------------------------------------------------------------
+Market:
+  Enabled: false
+  Defer_To_Plugins: true
+  # Channels that receive the announcements (local only, never proxied).
+  Sale_Channel: trade
+  Auction_Channel: auction
+  Max_Listings: 10       # active listings per player (chatalyst.market.bypasslimit ignores it)
+  Listing_Days: 7        # sales expire after this many days (item returns to the seller)
+  # Stash cap: item stacks bought/traded that don't fit the inventory wait in /market claim.
+  # Once this many are waiting, new purchases and trades are refused until the player claims
+  # some, so nothing is ever silently dropped. Counts item stacks, not single items.
+  Max_Stash: 54
+
+  # Barter: buyers may offer items (instead of, or on top of, money) in the negotiation.
+  Allow_Item_Offers: true
+  Auction:
+    Default_Minutes: 60      # duration when the seller doesn't say one
+    Max_Minutes: 1440        # hard cap for auction duration
+    Min_Increment_Percent: 5 # each bid must beat the previous one by at least this %
+  # Fancy product name by rank: the listing's item name shows in a flashy color for sellers
+  # with the permission below — automatic, no /chatcolor needed. The FIRST rank the seller
+  # has wins. Color accepts a named color (<#D8B4FE>), a hex (<#C44FE0>) or a gradient (the
+  # first stop is used, since most item names are translatable). Grant the permissions to
+  # your VIP groups. Off by default.
+  Highlight:
+    Enabled: false
+    Ranks:
+      - Permission: chatalyst.market.highlight.mvp
+        Color: "<#C44FE0>"
+      - Permission: chatalyst.market.highlight.vip
+        Color: "<#D8B4FE>"
+  # Distinctive market sound. It plays ONLY for players who receive the announcement — i.e.
+  # who are in (or listening to) the trade/auction channel — so it never bothers anyone who
+  # muted or isn't following the market. Set Enabled: false for a silent market.
+  Sound:
+    Enabled: true
+    Key: "minecraft:block.amethyst_block.chime"
+    Volume: 0.8
+    Pitch: 1.1
+
+# -------------------------------------------------------------------------------------
+#  Direct player-to-player trade (/trade · /intercambio). A modern integrated feature that
+#  also ships DISABLED. /trade <player> asks for a trade; both open a shared window, put in
+#  items and/or money, and NOTHING moves until BOTH click Ready. Any change clears both
+#  confirmations. Both players must be online on THIS server (it is a face-to-face trade).
+#  If a receiver has no room the trade is cancelled and everything returns to its owner.
+# -------------------------------------------------------------------------------------
+Trade:
+  Enabled: false
+  Allow_Money: true          # let each side add money (needs Vault); false = items only
+  Request_Timeout_Seconds: 60
+
+# -------------------------------------------------------------------------------------
+#  Balance top (/baltop): a GUI ranking of the richest players. Needs Vault + an economy
+#  plugin. The ranking is calculated in the background every Update_Interval seconds and
+#  cached, so opening it is instant. Size = how many players to rank (max 54).
+# -------------------------------------------------------------------------------------
+Balance_Top:
+  Enabled: true
+  Size: 45
+  Update_Interval: 300

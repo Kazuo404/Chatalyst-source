@@ -1,0 +1,187 @@
+# =====================================================================================
+#  Chatalyst - Chat rules (anti-advertising / anti-spam)
+#
+#  Each rule has:
+#    Match               Regular expression that triggers the rule (case-insensitive by
+#                        default; set Case_Sensitive: true to make it case-sensitive).
+#    Priority            Higher rules run first. Default 0.
+#    Contexts            Optional list of CHAT, COMMAND, SIGN, BOOK, ANVIL, NICK.
+#                        Empty = all contexts.
+#    Ignore_Permission   Whoever has this permission bypasses the rule.
+#    Ignore_Contains     List of strings; if the message contains any, the rule is ignored.
+#    Deny                true = cancels the message.
+#    Replace             If set, replaces the match (use "" to remove it).
+#    Replace_Raw         true = allows groups like $1 in Replace (to collapse repeats).
+#    Warn                Warning (MiniMessage) shown to the sender.
+#    Warn_es             Optional Spanish warning shown to Spanish clients.
+#    Notify              { Permission, Message } notifies staff with that permission.
+#                        Optional Message_es is shown to Spanish staff clients.
+#    Actions.Commands    Console commands to run when the rule matches.
+#    Actions.Player_Commands  Commands run AS the player (their own permissions), not console.
+#    Actions.Proxy_Commands   "<target-server> <command>"; runs as console only on that
+#                        backend. Requires Proxy.Rule_Commands opt-in + allowlist on sender
+#                        and receiver; authenticated, targeted, deduplicated and audited.
+#    Actions.Rewrite_In_World { <world>: <new message> } replaces the whole message when the
+#                        sender is in that world.
+#    Replace_Prolong     Single char; censors each match with that char repeated to the
+#                        match length (keeps length, e.g. "puta" -> "****"). Overrides Replace.
+#    Strip_Accents       true = fold accents only in the search view (á->a), so "pütä" is
+#                        caught by "puta" while all text outside the match stays unchanged.
+#    Use_Groups          Reuses one or more templates from Groups. Later groups and the
+#                        rule itself override earlier values.
+#    Require/Ignore      Optional gates by permission, world, gamemode, channel, region,
+#                        placeholder Variables, persistent Data or JavaScript Scripts.
+#    Ignore.Muted        true = the rule skips players muted by Chatalyst.
+#    Ignore.Uuid         true = mask UUIDs in the text before matching (so /whitelist add
+#                        <uuid> and similar don't trip a generic pattern).
+#    Require.Discord / Ignore.Discord  Gate on messages originating from Discord (DISCORD
+#                        context). Player-scoped rules run for bot authors whose Discord ID is
+#                        mapped to an online UUID in Discord.Linked_Accounts; all other authors
+#                        still pass through the dedicated Discord swear filter.
+#    Actions.Set_Data    Saves player-scoped state in the configured storage backend.
+#    Actions.Remove_Data Deletes stored state keys.
+#    Actions.Open_Book   Opens a configured Chatalyst book after a match.
+#    Actions.Audit       Writes a structured RULE entry to the audit log.
+#    Actions.Discord_Staff forwards the match to the configured private bot channel.
+#    Stop_After          true = don't evaluate more rules if this one matches.
+#
+#  Import: [file1.yml, file2.yml]   Merge rules from other files in the plugin folder.
+#                        Strict YAML, names only/no paths, no recursive imports; base/first
+#                        duplicate rule wins. Imported groups extend and may override base groups.
+#
+#  Variable/Data matchers: plain or equals:, !=, contains:, starts:, ends:, in:,
+#                          regex:, >, >=, < and <=.
+#  Placeholders: {player}, {message}, {original_message}, {rule}, {context}, all
+#                Chatalyst placeholders, custom variables and PlaceholderAPI values.
+# =====================================================================================
+
+Enabled: true
+
+# Merge extra rule files kept alongside rules.yml (share a rule set across servers).
+# Import:
+#   - shared-rules.yml
+
+# -------------------------------------------------------------------------------------
+#  Apply the rules above ALSO outside of chat, so they can't be bypassed by typing
+#  advertising in a sign, a book, a command or an item name in an anvil.
+#    Ignore_Commands  Commands that are NOT filtered (sensitive: login, etc.).
+# -------------------------------------------------------------------------------------
+Apply_To:
+  Commands: true
+  Signs: true
+  Books: true
+  Anvil: true
+  Nicks: true
+  Ignore_Commands:
+    - "/login"
+    - "/register"
+    - "/l"
+    - "/reg"
+    - "/changepassword"
+
+# Reusable rule fragments. A group does nothing until a rule includes it with Use_Groups.
+# This keeps large rule sets consistent without copying the same actions and conditions.
+Groups:
+  audited-filter:
+    Notify:
+      Permission: chatalyst.notify.rules
+      Message: "<#7B68A0>[<#D8B4FE>RULE<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+      Message_es: "<#7B68A0>[<#D8B4FE>REGLA<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+    Actions:
+      Audit: true
+
+  survival-only:
+    Require:
+      Worlds: [world, world_nether, world_the_end]
+
+Rules:
+
+  anti-ip:
+    # Each octet is validated 0-255, so dates (2026.04.20) and big numbers don't trigger.
+    Match: '\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?::\d{1,5})?\b'
+    Priority: 100
+    Use_Groups: [audited-filter]
+    Contexts: [CHAT, COMMAND, SIGN, BOOK, ANVIL, NICK]
+    Ignore_Permission: chatalyst.bypass.ads
+    # Words that often precede legit coordinates/versions (avoids false positives).
+    Ignore_Contains:
+      - "version"
+      - "coord"
+      - "pos"
+      - "warp"
+      - " tp "
+      - "x:"
+      - "y:"
+      - "z:"
+    Deny: true
+    Points: 2
+    Warn: "<#FF4D6D>Advertising other servers' IPs is not allowed."
+    Warn_es: "<#FF4D6D>No esta permitido anunciar IPs de otros servidores."
+    # Values declared here override values inherited from Use_Groups.
+    Notify:
+      Message: "<#7B68A0>[<#D8B4FE>ADVERT<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+      Message_es: "<#7B68A0>[<#D8B4FE>ANUNCIO<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+    Actions:
+      Commands:
+        - "warnings {player} clear"
+
+  anti-domain:
+    Match: '\b[\w-]+\.(net|com|org|gg|xyz|io|me|tk|club|online|store)\b'
+    Ignore_Permission: chatalyst.bypass.ads
+    # Exception for your own Discord + technical identifiers that look like domains.
+    Ignore_Contains:
+      - "discord.gg/example"
+      - "log.in"
+      - "sign.in"
+      - "system.in"
+      - "string.to"
+      - "file.io"
+    Deny: true
+    Points: 2
+    Warn: "<#FF4D6D>Advertising other servers or websites is not allowed."
+    Warn_es: "<#FF4D6D>No esta permitido anunciar otros servidores o sitios web."
+    Notify:
+      Permission: chatalyst.notify.rules
+      Message: "<#7B68A0>[<#D8B4FE>ADVERT<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+      Message_es: "<#7B68A0>[<#D8B4FE>ANUNCIO<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+
+  anti-discord:
+    Match: 'discord\.gg\/[a-zA-Z0-9]+'
+    Ignore_Permission: chatalyst.bypass.ads
+    Ignore_Contains:
+      - "discord.gg/example"
+    Deny: true
+    Points: 2
+    Warn: "<#FF4D6D>Advertising other Discord servers is not allowed."
+    Warn_es: "<#FF4D6D>No esta permitido anunciar otros servidores de Discord."
+    Notify:
+      Permission: chatalyst.notify.rules
+      Message: "<#7B68A0>[<#D8B4FE>ADVERT<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+      Message_es: "<#7B68A0>[<#D8B4FE>ANUNCIO<#7B68A0>] <#C0B3D9>{player}: <#FBF2FF>{message}"
+
+  anti-repeat:
+    # Collapses 3 or more identical characters in a row (aaaa -> a). Doesn't cancel, just cleans.
+    # NEVER applied to commands: it would mangle player names and arguments there
+    # ("/inbox send ventilador666" would lose the 666 and fail with Unknown player).
+    # Digits and spaces are left alone: "(.)" turned "vendo por 10000" into "vendo por 10".
+    Match: '([^\d\s])\1{2,}'
+    Ignore_Permission: chatalyst.bypass.spam
+    Replace: '$1'
+    Replace_Raw: true
+    Contexts: [CHAT, SIGN, BOOK, ANVIL, NICK]
+
+# -------------------------------------------------------------------------------------
+#  Anti-caps: limits excessive uppercase.
+#    Min_Length    Minimum message length to evaluate it.
+#    Percentage    Fraction of uppercase letters that triggers the action (0.7 = 70%).
+#    To_Lowercase  true = converts the message to lowercase.
+#    Deny          true = cancels the message instead of converting it.
+# -------------------------------------------------------------------------------------
+Anti_Caps:
+  Enabled: true
+  Min_Length: 8
+  Percentage: 0.7
+  To_Lowercase: true
+  Bypass_Permission: chatalyst.bypass.caps
+  Warn: "<#C0B3D9>Avoid typing in all caps."
+  Warn_es: "<#C0B3D9>Evita escribir todo en mayusculas."

@@ -1,0 +1,24 @@
+# =====================================================================================
+#  Chatalyst - Books
+#  Help/rules books that players open with /book <name>.
+#  Each page uses MiniMessage. Use \n for line breaks within a page.
+#  Placeholders {player_name}, %papi%, {variables}... work in the content.
+# =====================================================================================
+
+Books:
+
+  rules:
+    Title: "<#D8B4FE>Rules"
+    Author: "Server"
+    Permission: ""
+    Pages:
+      - "<bold><dark_red>Server rules</dark_red></bold>\n\n<black>1. Respect all players.\n\n2. No spam or advertising.\n\n3. No hacks or bug abuse."
+      - "<black>4. Watch your language.\n\n5. Have fun and be kind.\n\n<#C0B3D9><i>Thanks for reading, {player_name}.</i>"
+
+  help:
+    Title: "<#B56CFF>Help"
+    Author: "Server"
+    Permission: ""
+    Pages:
+      - "<bold><dark_aqua>Useful commands</dark_aqua></bold>\n\n<black>/msg <player> - private message\n/r - reply\n/channel - switch channel\n/mail - mailbox\n/nick - nickname"
+      - "<black>/chatcolor - chat color\n/ignore - ignore someone\n\n<#C0B3D9><i>Type /book to see the books.</i>"

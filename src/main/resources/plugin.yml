@@ -1,0 +1,1119 @@
+name: Chatalyst
+version: '${version}'
+main: dev.chatalyst.ChatalystPlugin
+api-version: '1.21'
+author: DevKazuo
+description: Modern chat suite for Paper & Purpur (formatting, channels, PMs, rules). 1.21.1 - 26.2.
+folia-supported: true
+softdepend: [PlaceholderAPI, LuckPerms, Vault, ItemsAdder, Nexo, WorldGuard, dynmap, Parties, TAB, voicechat, PlasmoVoice, packetevents, LibsDisguises]
+# Los plugins de tienda/subasta se detectan por nombre en runtime (TradePluginsHook) y no se
+# enlazan contra sus APIs. Declararlos como softdepend crea ciclos en Paper; por ejemplo:
+# Chatalyst -> EconomyShopGUI -> eco -> Essentials -> Chatalyst.
+# Cargar antes que Essentials para quedarnos con los nombres de comando (mail, msg, nick, afk,
+# me, book, itemname, etc.) cuando EssentialsX este presente. Si Essentials no esta, se ignora.
+loadbefore: [Essentials]
+# Paper downloads these libraries at startup (they are not bundled in the jar).
+libraries:
+  - org.openjdk.nashorn:nashorn-core:15.4
+  - org.xerial:sqlite-jdbc:3.46.1.3
+  - com.mysql:mysql-connector-j:8.4.0
+  - net.sf.trove4j:core:3.1.0
+# Most commands declare a static 'permission'. /spy uses dynamic granular permissions
+# (chatalyst.spy or chatalyst.spy.<type>) so staff can be granted only specific spy types.
+commands:
+  # ---- Player commands (everyone) ----
+  channel:
+    description: Switch or manage your chat channel
+    aliases: [ch]
+    usage: /channel [name|list|mute <name>|listen <name>|history [name]|send <name> <msg>|sendas <player> <name> <msg>]
+    permission: chatalyst.command.channel
+  frequency:
+    description: Tune your local (radio) chat frequency
+    aliases: [freq, frecuencia]
+    usage: /frequency [NN.NN|off]
+    permission: chatalyst.command.frequency
+  f:
+    description: Send one message to your radio frequency without leaving your channel
+    usage: /f <message>
+    permission: chatalyst.command.frequency
+  msg:
+    description: Send a private message
+    aliases: [m, w, tell, whisper]
+    usage: /msg <player> <message>
+    permission: chatalyst.command.msg
+  reply:
+    description: Reply to the last private message
+    aliases: [r]
+    usage: /reply <message>
+    permission: chatalyst.command.msg
+  ignore:
+    description: Ignore or unignore a player
+    usage: /ignore <player>
+    permission: chatalyst.command.ignore
+  toggle:
+    description: Toggle personal features (pm, announcements, mentions, joinquit, translate)
+    usage: /toggle [pm|announcements|mentions|joinquit|translate]
+    permission: chatalyst.command.toggle
+  perfil:
+    description: Open your profile (stats, personal settings, blocked players, shortcuts)
+    aliases: [profile]
+    usage: /perfil
+    permission: chatalyst.command.profile
+  inbox:
+    description: Player-to-player mail (inbox)
+    usage: /inbox <open|spam|friends|friend|accept|deny|send|read|reply|clear>
+    permission: chatalyst.command.mail
+    # Comando principal 'inbox' (sin la palabra "mail") a proposito: asi no choca con el /mail
+    # de EssentialsX ni con sus command-cooldowns. No registramos 'mail'.
+  me:
+    description: Third-person action
+    usage: /me <action>
+    permission: chatalyst.command.me
+  motd:
+    description: Show the server MOTD again
+    usage: /motd [first]
+    permission: chatalyst.command.motd
+  chatcolor:
+    description: Choose your chat color
+    aliases: [color]
+    usage: /chatcolor [color|gradient|reset]
+    permission: chatalyst.command.chatcolor
+  book:
+    description: Open or administer server books
+    aliases: [books]
+    usage: /book <name|list|new|edit|save|delete|open>
+    permission: chatalyst.command.book
+  report:
+    description: Report a player to the staff
+    usage: /report <player> <reason>
+    permission: chatalyst.command.report
+  reports:
+    description: List and handle player reports
+    aliases: [reportlist]
+    usage: /reports [claim|resolve|reply|info <id>]
+    permission: chatalyst.report.manage
+  ticket:
+    description: Follow up on your own report
+    usage: /ticket [id] [message]
+    permission: chatalyst.command.ticket
+  afk:
+    description: Toggle your AFK status
+    usage: /afk
+    permission: chatalyst.command.afk
+  baltop:
+    description: Show the richest players ranking
+    aliases: [moneytop, balancetop, richest]
+    usage: /baltop
+    permission: chatalyst.command.baltop
+  market:
+    description: Built-in marketplace (sell, auction, buy with dual-accept negotiation)
+    aliases: [mercado, mkt]
+    usage: /market [publish|sell <price>|auction <price> [min]|buy <id>|bid <id> <amount>|cancel <id>|claim|history]
+    permission: chatalyst.command.market
+  trade:
+    description: Direct player-to-player trade (items and/or money, dual confirm)
+    aliases: [intercambio, intercambiar]
+    usage: /trade <player>|accept [player]|deny
+    permission: chatalyst.command.trade
+  realname:
+    description: See the real name behind a nickname
+    aliases: [rn]
+    usage: /realname <nickname>
+    permission: chatalyst.command.realname
+  nick:
+    description: Set or remove a nickname
+    aliases: [nickname]
+    usage: /nick <nickname|off>
+    permission: chatalyst.nick
+  itemname:
+    description: Rename the item in your hand (limited uses)
+    aliases: [iname]
+    usage: /itemname <name|reset>
+    permission: chatalyst.command.itemname
+  nickcolor:
+    description: Color your nick with a GUI
+    aliases: [nickcolour]
+    usage: /nickcolor [player] [color|reset]
+    permission: chatalyst.nick.color
+  tag:
+    description: Browse, unlock and equip server titles
+    usage: /tag [title|off|admin] or /tag <prefix|suffix> [player] <text|off>
+    permission: chatalyst.tag
+  nametagtitle:
+    description: Set your floating nametag title or side icons
+    usage: /nametagtitle <title|iconleft|iconright> [player] <text|off>
+    aliases: [ntitle, nametagicon]
+    permission: chatalyst.nametagtitle
+  # ---- Staff commands (hidden from regular players) ----
+  tagcontador:
+    description: Add to (or subtract from) a player's title counter (COUNTER requirements)
+    usage: /tagcontador <player> <key> [amount]
+    aliases: [tagcounter]
+    permission: chatalyst.admin.tags
+  chatalyst:
+    description: Main Chatalyst command
+    # 'cht' is the short form so nobody has to type the full name (/cht reload, /cht emojis...).
+    # No static permission: help/version/emojis are for everyone (and the chat delete button
+    # runs '/chatalyst removemessage'). Admin subcommands check chatalyst.admin in code.
+    aliases: [cht, chy, cchat]
+    usage: /chatalyst <help [page]|commands [page]|version|reload|emojis|ranks|gui|doctor [discord]|perf|features|permissions [category] [page]|purge <player>|rule <list|toggle <rule>>|region <pos1|pos2|list|add <name>|remove <name>>|storage <status|import [--dry-run|--changed]>|store <status|give <player> <product>>|tebex <gui|status|grant <player> <rank>|revoke <player> <rank>>|sendformat <player> <format> <text>>
+  discord:
+    description: Link your Minecraft account to Discord
+    aliases: [discordlink, dclink]
+    usage: /discord <link|unlink|status>
+    # No static permission on purpose: Bukkit refuses a command with one BEFORE the executor
+    # runs, so a player denied it while mandatory linking held them had no way out at all.
+    # The permission is checked in code instead, and the gate refuses to hold anyone who
+    # cannot run it.
+  # /store is NOT declared here on purpose: it registers at runtime only when the item
+  # store is enabled, under the name set in Store.Command. A server without a store
+  # reserves no label, and an owner whose server already uses that word can rename it.
+  spy:
+    description: Open or toggle staff spy mode
+    aliases: [socialspy]
+    usage: /spy [toggle|all|<player>]
+  players:
+    description: Staff online player list
+    aliases: [list, playerlist, jugadores]
+    usage: /players
+    # Dynamic permission check keeps OP as an unconditional superuser.
+  # NOTE: the staff suite (/staff, /kick, /ban, /tempban, /unban, /freeze, /unfreeze,
+  # /vanish, /invsee, /echest, /seen, /check, /tpto, /tphere) is intentionally NOT
+  # declared here. StaffCommandRegistrar registers it at runtime only while
+  # Staff_Moderation.Enabled is true, so a disabled module never steals those labels
+  # from another staff plugin the server prefers.
+  staffchat:
+    description: Send a message to the staff channel
+    aliases: [sc, a]
+    usage: /staffchat <message>
+    permission: chatalyst.channel.staff
+  support:
+    description: Answer, inspect or close a private support conversation
+    aliases: [soporte]
+    usage: /support <answer <id>|close|status>
+  mute:
+    description: Mute a player (-s for shadow mute)
+    aliases: [mutear, silenciar]
+    usage: /mute [-s] <player> [time] [reason]
+  unmute:
+    description: Unmute a player
+    aliases: [desmutear, desilenciar]
+    usage: /unmute <player>
+  say:
+    description: Server message
+    usage: /say <message>
+    permission: chatalyst.command.say
+  broadcast:
+    description: Manual announcement
+    aliases: [bc]
+    usage: /broadcast <message>
+    permission: chatalyst.command.broadcast
+  announce:
+    description: Announcement composer GUI (display, sound, style, preview)
+    usage: /announce
+    permission: chatalyst.command.announce
+  formatedit:
+    description: Graphical chat format editor
+    aliases: [feditor, editformat]
+    usage: /formatedit <format>
+    permission: chatalyst.command.editor
+  clearchat:
+    description: Clear everyone's chat
+    aliases: [cc]
+    usage: /clearchat
+    permission: chatalyst.command.clearchat
+  chatlock:
+    description: Lock the global chat
+    aliases: [chatmute, mutechat]
+    usage: /chatlock
+    permission: chatalyst.command.chatlock
+  chatunlock:
+    description: Unlock the global chat
+    aliases: [chatunmute, unmutechat]
+    usage: /chatunlock
+    permission: chatalyst.command.chatlock
+  slowmode:
+    description: Chat slow mode
+    aliases: [slow]
+    usage: /slowmode <seconds|off>
+    permission: chatalyst.command.slowmode
+  warnings:
+    description: View or reset a player's warning points
+    aliases: [warns, warnpoints]
+    usage: /warnings <player> [clear]
+    permission: chatalyst.command.warnings
+  chatlog:
+    description: Review recent chat history in game
+    aliases: [clog]
+    usage: /chatlog [player] [count]
+  containerlog:
+    description: Review container and mechanism interactions with exact coordinates
+    aliases: [contlog, cofres]
+    usage: /containerlog [player] [count|date]
+  itemwatch:
+    description: Suspicious item watch - absurd amounts, fast gains and impossible stacks (possible dupes)
+    aliases: [dupes, vigilancia]
+    usage: /itemwatch <scan <player>|alerts>
+  autoclick:
+    description: Autoclick detector - live CPS and click regularity of a player, recent suspects
+    aliases: [cps]
+    usage: /autoclick [player|alerts]
+  antiexploit:
+    description: Anti-exploit - recent suspects, status and alert toggle
+    aliases: [antiexploits, exploits]
+    usage: /antiexploit [estado|avisos]
+  itemaudit:
+    description: Staff item audit - items taken from creative or given by command, who received them, and gamemode changes
+    aliases: [staffitems]
+    usage: /itemaudit <staff> [page] | player <player> [page] | id <id> | hand | recent [page] | alerts
+    permission: chatalyst.command.itemaudit
+  combatlog:
+    description: Review PvP - who hit whom, with what, and who threw the first punch
+    aliases: [pvplog, combate]
+    usage: /combatlog [player...] [count|date]
+  anonymous:
+    description: Streamer anonymous mode - random unreadable name, no rank/tags, incognito skin
+    aliases: [anon, anonimo]
+    usage: /anonymous [on|off]
+    permission: chatalyst.command.anonymous
+  marry:
+    description: Propose to another player and get married (opt-in feature)
+    aliases: [casarse, matrimonio]
+    usage: /marry <player> | accept | deny
+    permission: chatalyst.command.marry
+  divorce:
+    description: End your marriage
+    aliases: [divorciarse, divorciar]
+    usage: /divorce
+    permission: chatalyst.command.marry
+  events:
+    description: See upcoming server events, or manage them (admin)
+    aliases: [event, eventos]
+    usage: /events [admin]
+    permission: chatalyst.command.events
+permissions:
+  chatalyst.admin:
+    description: Access to administrative commands
+    default: op
+  # Fancy entrances (messages.yml Join.Fancy): tiers normally match LuckPerms/Vault
+  # groups directly. These optional permissions can activate a tier independently too.
+  chatalyst.fancyjoin.owner:
+    description: Owner-tier fancy entrance on join
+    default: false
+  chatalyst.fancyjoin.admin:
+    description: Admin-tier fancy entrance on join
+    default: false
+  chatalyst.fancyjoin.vip:
+    description: VIP-tier fancy entrance on join
+    default: false
+  chatalyst.book.admin:
+    description: Create, edit, save, delete and open configured books for players
+    default: op
+  chatalyst.admin.network:
+    description: Access to all network administration features
+    default: op
+    children:
+      chatalyst.admin.network.monitor: true
+      chatalyst.admin.network.announce: true
+      chatalyst.admin.network.monitor.server.*: true
+      chatalyst.admin.network.monitor.channel.*: true
+  chatalyst.admin.network.monitor:
+    description: View chat timelines from every backend in the admin GUI
+    default: op
+  chatalyst.admin.network.monitor.server.*:
+    description: View and subscribe to every backend chat stream
+    default: op
+  chatalyst.admin.network.monitor.channel.*:
+    description: View every channel inside permitted backend streams
+    default: op
+  chatalyst.admin.network.announce:
+    description: Send /announce compositions to every backend through the proxy
+    default: op
+  chatalyst.admin.staff.directory:
+    description: View the live network staff directory in the admin GUI
+    default: op
+  chatalyst.admin.staff.teleport:
+    description: Teleport to staff across servers from the admin GUI
+    default: op
+  chatalyst.admin.players:
+    description: Access all network player directory features
+    default: op
+    children:
+      chatalyst.admin.players.directory: true
+      chatalyst.admin.players.teleport: true
+      chatalyst.admin.players.server.*: true
+  chatalyst.admin.players.directory:
+    description: Browse online players grouped by proxy backend
+    default: op
+  chatalyst.admin.players.teleport:
+    description: Teleport to players locally or through the native proxy bridge
+    default: op
+  chatalyst.admin.players.server.*:
+    description: View players from every backend in the network directory
+    default: op
+  chatalyst.staff.mentionable:
+    description: Marks a LuckPerms group as mentionable for staff escalation
+    default: false
+  chatalyst.support.staff:
+    description: Receive, answer and close private support requests
+    default: op
+  chatalyst.support.tier.helper:
+    description: Receive support requests during the helper priority stage
+    default: false
+  chatalyst.support.tier.mod:
+    description: Receive support requests during the moderator priority stage
+    default: false
+  chatalyst.support.tier.admin:
+    description: Receive support requests during the administrator priority stage
+    default: false
+  chatalyst.support.tier.owner:
+    description: Receive support requests during the owner priority stage
+    default: false
+  chatalyst.chat.color:
+    description: Use colors/MiniMessage in chat
+    default: op
+  chatalyst.chat.color.others:
+    description: Change another player's chat color (/chatcolor <player> <color>)
+    default: op
+  chatalyst.chat.links:
+    description: Make URLs you type in chat clickable
+    default: op
+  chatalyst.chat.item:
+    description: Show the held item in chat by typing [item]
+    default: true
+  chatalyst.chat.pixel:
+    description: "Use pixel-style chat tokens such as [creeper] and :heart:"
+    default: true
+  chatalyst.chat.emoji:
+    description: "Use :name: emojis in chat"
+    default: true
+  chatalyst.deletemessages:
+    description: See and use the delete-message button in chat
+    default: op
+  chatalyst.channel.staff:
+    description: Access to the staff channel
+    default: op
+  chatalyst.channel.send:
+    description: Send to a channel without joining it (/channel send)
+    default: op
+  chatalyst.channel.sendas:
+    description: Send to a channel impersonating a player (/channel sendas)
+    default: op
+  chatalyst.channel.seeall:
+    description: With Channels.Exclusive on, still receive every channel (moderation)
+    default: false
+  chatalyst.spy:
+    description: Spy on everything (umbrella) and toggle /spy
+    default: op
+  chatalyst.spy.pm:
+    description: Spy on private messages only
+    default: false
+  chatalyst.spy.command:
+    description: Spy on commands only
+    default: false
+  chatalyst.spy.sign:
+    description: Spy on signs only
+    default: false
+  chatalyst.spy.book:
+    description: Spy on books only
+    default: false
+  chatalyst.spy.anvil:
+    description: Spy on anvil renames only
+    default: false
+  chatalyst.spy.channel:
+    description: See party and clan channel messages while spy is on
+    default: op
+  chatalyst.discord.mention:
+    description: Notify Discord members by writing @name in game
+    default: false
+  chatalyst.spy.container:
+    description: Spy on container and mechanism interactions only (with coordinates)
+    default: false
+  chatalyst.spy.combat:
+    description: See a live line when a PvP fight opens and when someone is killed
+    default: false
+  chatalyst.command.containerlog:
+    description: Review container and mechanism logs with /containerlog
+    default: op
+  chatalyst.containerlog.teleport:
+    description: Use the [Go]/[TP] teleport buttons in container logs and container spy
+    default: op
+  chatalyst.containerlog.peek:
+    description: Use the [View] button to open a container's contents from the log or spy
+    default: op
+  chatalyst.containerlog.exempt:
+    description: Container and mechanism interactions of this player are never logged
+    default: false
+  chatalyst.command.combatlog:
+    description: Review PvP logs with /combatlog, including who started each fight
+    default: op
+  chatalyst.combatlog.teleport:
+    description: Use the [Go]/[TP] teleport buttons in combat logs
+    default: op
+  chatalyst.combatlog.exempt:
+    description: This player's hits are never logged (staff duels, testing)
+    default: false
+  chatalyst.chat.shareinv:
+    description: Share a read-only inventory or ender chest view in chat with [inv] / [ec]
+    default: true
+  chatalyst.command.anonymous:
+    description: Toggle streamer anonymous mode with /anonymous
+    default: op
+  chatalyst.anonymous.save:
+    description: Save and reuse anonymous disguises (/anon save, set, list, delete)
+    default: op
+  chatalyst.anonymous.slots.1:
+    description: Allow 1 saved anonymous disguise slot
+    default: false
+  chatalyst.anonymous.slots.2:
+    description: Allow 2 saved anonymous disguise slots
+    default: false
+  chatalyst.anonymous.slots.3:
+    description: Allow 3 saved anonymous disguise slots (e.g. top VIP / MVP++)
+    default: false
+  chatalyst.anonymous.slots.5:
+    description: Allow 5 saved anonymous disguise slots
+    default: false
+  chatalyst.anonymous.cooldown.bypass:
+    description: Change anonymous disguise without waiting for Switch_Cooldown_Seconds
+    default: op
+  chatalyst.command.marry:
+    description: Use /marry and /divorce (the feature itself is opt-in in players.yml)
+    default: true
+  chatalyst.spy.autoenable:
+    description: Spy mode starts on when you join (turning it off with /spy is remembered)
+    default: false
+  chatalyst.seevanished:
+    description: See vanished players in lists and tab-completion
+    default: op
+  chatalyst.notify.rules:
+    description: Get notified when someone breaks a rule
+    default: op
+  chatalyst.notify.security:
+    description: Get alerted about chat filter-evasion attempts
+    default: op
+  chatalyst.bypass.ads:
+    description: Bypass anti-advertising rules
+    default: op
+  chatalyst.bypass.spam:
+    description: Bypass anti-spam rules
+    default: op
+  chatalyst.bypass.mailcooldown:
+    description: Bypass the mail send cooldown
+    default: op
+  chatalyst.bypass.caps:
+    description: Bypass anti-caps
+    default: op
+  chatalyst.bypass.swear:
+    description: Bypass the swear filter
+    default: op
+  chatalyst.bypass.antibot:
+    description: Bypass the anti-bot join delay
+    default: op
+  chatalyst.bypass.cooldown:
+    description: Bypass command cooldowns
+    default: op
+  chatalyst.bypass.autoresponse:
+    description: Your chat never triggers the auto-response bot
+    default: op
+  chatalyst.bypass.security:
+    description: Bypass chat security sanitizing
+    default: false
+  chatalyst.bypass.blocker:
+    description: Bypass the command blocker
+    default: op
+  chatalyst.bypass.nicktab:
+    description: See real names instead of nicks in tab-complete suggestions
+    default: op
+  chatalyst.bypass.reach:
+    description: Message players who ignore you, have PMs off, or are vanished
+    default: op
+  chatalyst.bypass.range:
+    description: Hear every local frequency, not just your tuned one (staff)
+    default: op
+  chatalyst.bypass.tabcomplete:
+    description: See every command in tab completion (bypass the hide list)
+    default: op
+  chatalyst.bypass.router:
+    description: Your messages are never auto-routed out of global chat
+    default: op
+  chatalyst.report.bypass:
+    description: Bypass the /report cooldown
+    default: op
+  chatalyst.command.mute:
+    description: Use /mute and /unmute
+    default: op
+  chatalyst.command.itemwatch:
+    description: Use /itemwatch to scan a player's items (inventory, ender chest, vaults)
+    default: op
+  chatalyst.itemwatch.alerts:
+    description: Receive suspicious-item alerts (absurd amounts, fast gains, illegal stacks)
+    default: op
+  chatalyst.itemwatch.bypass:
+    description: This player's items are never watched (event hosts, builders)
+    default: false
+  chatalyst.command.autoclick:
+    description: Use /autoclick (/cps) to watch a player's clicks live and list recent suspects
+    default: op
+  chatalyst.autoclick.alerts:
+    description: Receive autoclick alerts (machine-regular clicks, impossible sustained CPS)
+    default: op
+  chatalyst.autoclick.bypass:
+    description: This player's clicks are never analysed (testers, accessibility tools)
+    default: false
+  chatalyst.command.antiexploit:
+    description: Use /antiexploit to list recent exploit suspects, see what is active and toggle alerts
+    default: op
+  chatalyst.antiexploit.alerts:
+    description: Receive anti-exploit alerts (packet floods, oversized items or signs, channel spam, kicks)
+    default: op
+  chatalyst.antiexploit.bypass:
+    description: Never checked by the anti-exploit (operators building in creative with big shulkers, testers)
+    default: op
+  chatalyst.command.itemaudit:
+    description: Use /itemaudit to read the staff item and gamemode record (not part of chatalyst.staff.*)
+    default: op
+  chatalyst.itemaudit.alerts:
+    description: Receive live alerts when staff take items out of nowhere, hand them out or change gamemode
+    default: op
+  chatalyst.itemaudit.bypass:
+    description: This player's items and gamemode changes are never audited (meant for the owner only)
+    default: false
+  chatalyst.gamemode.survival:
+    description: May stay in survival while Staff_Item_Audit.Gamemode.Restrict is on
+    default: true
+  chatalyst.gamemode.adventure:
+    description: May stay in adventure while Staff_Item_Audit.Gamemode.Restrict is on
+    default: true
+  chatalyst.gamemode.creative:
+    description: May stay in creative while Staff_Item_Audit.Gamemode.Restrict is on
+    default: op
+  chatalyst.gamemode.spectator:
+    description: May stay in spectator while Staff_Item_Audit.Gamemode.Restrict is on
+    default: op
+  chatalyst.staff.*:
+    description: Complete Chatalyst staff operations suite
+    default: op
+    children:
+      chatalyst.command.itemwatch: true
+      chatalyst.itemwatch.alerts: true
+      chatalyst.command.autoclick: true
+      chatalyst.autoclick.alerts: true
+      chatalyst.command.antiexploit: true
+      chatalyst.antiexploit.alerts: true
+      chatalyst.command.staff: true
+      chatalyst.command.players: true
+      chatalyst.command.kick: true
+      chatalyst.command.warn: true
+      chatalyst.command.ban: true
+      chatalyst.command.banip: true
+      chatalyst.command.freeze: true
+      chatalyst.command.vanish: true
+      chatalyst.command.vanish.others: true
+      chatalyst.command.mute: true
+      chatalyst.command.invsee: true
+      chatalyst.command.chestview: true
+      chatalyst.command.vaultsee: true
+      chatalyst.command.vaultsee.edit: true
+      chatalyst.command.invsee.edit: true
+      chatalyst.command.echest: true
+      chatalyst.command.echest.edit: true
+      chatalyst.command.seen: true
+      chatalyst.command.check: true
+      chatalyst.command.tp: true
+      chatalyst.staff.teleport: true
+      chatalyst.staff.alts: true
+      chatalyst.command.dupeip: true
+      chatalyst.command.ipreport: true
+      chatalyst.command.iphistory: true
+      chatalyst.command.namehistory: true
+      chatalyst.command.lastuuid: true
+      chatalyst.command.checkban: true
+      chatalyst.command.checkmute: true
+      chatalyst.command.checkwarn: true
+      chatalyst.command.banlist: true
+      chatalyst.command.mutelist: true
+      chatalyst.command.warnlist: true
+      chatalyst.command.ipmute: true
+      chatalyst.command.unwarn: true
+      chatalyst.command.history: true
+      chatalyst.command.staffhistory: true
+      chatalyst.lockdown.bypass: true
+      chatalyst.notify.silent: true
+      chatalyst.staff.notes: true
+      chatalyst.moderation.format: true
+      chatalyst.command.containerlog: true
+      chatalyst.containerlog.teleport: true
+      chatalyst.containerlog.peek: true
+      chatalyst.command.combatlog: true
+      chatalyst.combatlog.teleport: true
+      chatalyst.spy.container: true
+      chatalyst.spy.combat: true
+      chatalyst.command.clearinventory: true
+  chatalyst.command.staff:
+    description: Use /staff, its dashboard and staff mode inventory
+    default: op
+  chatalyst.command.kick:
+    description: Use Chatalyst's fancy /kick
+    default: op
+  chatalyst.command.warn:
+    description: Use /warn to warn a player (adds warning points)
+    default: op
+  chatalyst.command.dupeip:
+    description: 'Use /dupeip: every account that joined from the same connections'
+    default: op
+  chatalyst.command.ipreport:
+    description: 'Use /ipreport: online players sharing a connection'
+    default: op
+  chatalyst.command.iphistory:
+    description: 'Use /iphistory: connections used by an account'
+    default: op
+  chatalyst.command.namehistory:
+    description: 'Use /namehistory'
+    default: op
+  chatalyst.command.lastuuid:
+    description: 'Use /lastuuid'
+    default: op
+  chatalyst.command.checkban:
+    description: 'Use /checkban'
+    default: op
+  chatalyst.command.checkmute:
+    description: 'Use /checkmute'
+    default: op
+  chatalyst.command.checkwarn:
+    description: 'Use /checkwarn'
+    default: op
+  chatalyst.command.banlist:
+    description: 'Use /banlist'
+    default: op
+  chatalyst.command.mutelist:
+    description: 'Use /mutelist'
+    default: op
+  chatalyst.command.warnlist:
+    description: 'Use /warnlist'
+    default: op
+  chatalyst.command.ipmute:
+    description: 'Use /ipmute and /unipmute'
+    default: op
+  chatalyst.command.unwarn:
+    description: 'Use /unwarn'
+    default: op
+  chatalyst.command.history:
+    description: 'Use /history in chat'
+    default: op
+  chatalyst.command.staffhistory:
+    description: 'Use /staffhistory'
+    default: op
+  chatalyst.command.staffrollback:
+    description: 'Use /staffrollback (undo another staff member''s punishments)'
+    default: op
+  chatalyst.command.prunehistory:
+    description: 'Use /prunehistory (delete punishment history)'
+    default: op
+  chatalyst.command.lockdown:
+    description: 'Use /lockdown'
+    default: op
+  chatalyst.vanish.bypass:
+    description: 'In vanish or staff mode, act normally: break/place blocks, open real containers, move/drop/pick up items (staff kit stays protected)'
+    default: false
+  chatalyst.command.banstyle:
+    description: 'Use /banstyle (design, sound, title and animation of ban announcements)'
+    default: op
+  chatalyst.staff.ip:
+    description: 'See real IP addresses in /dupeip, /iphistory and /ipreport, and search by IP'
+    default: op
+  chatalyst.lockdown.bypass:
+    description: 'Join the network while a /lockdown is active'
+    default: op
+  chatalyst.notify.silent:
+    description: 'See silent (-s) punishment announcements'
+    default: op
+  chatalyst.command.ban:
+    description: Use /ban, /tempban and /unban
+    default: op
+  chatalyst.command.banip:
+    description: Use /banip and /unbanip (account + connection bans)
+    default: op
+  chatalyst.command.freeze:
+    description: Use /freeze and /unfreeze
+    default: op
+  chatalyst.command.vanish:
+    description: Toggle personal staff vanish
+    default: op
+  chatalyst.command.vanish.others:
+    description: Change another staff member's vanish state
+    default: op
+  chatalyst.command.invsee:
+    description: Review a player's inventory with /invsee
+    default: op
+  chatalyst.command.invsee.edit:
+    description: Edit a player's inventory live (grant per rank in LuckPerms)
+    default: op
+  chatalyst.command.echest:
+    description: Review a player's ender chest with /echest
+    default: op
+  chatalyst.command.clearinventory:
+    description: Clear a player's inventory, equipped armor and off hand with /clearinventory
+    default: op
+  chatalyst.command.echest.edit:
+    description: Edit a player's ender chest live (grant per rank in LuckPerms)
+    default: op
+  chatalyst.command.seen:
+    description: Check when a player was last seen with /seen
+    default: op
+  chatalyst.command.check:
+    description: See a player's punishment summary with /check
+    default: op
+  chatalyst.command.tp:
+    description: Use the staff teleports /tpto and /tphere
+    default: op
+  chatalyst.command.vaultsee:
+    description: /vaultsee - review any player's PlayerVaultsX vaults read-only, online or offline
+    default: op
+  chatalyst.command.vaultsee.edit:
+    description: Open the real PlayerVaultsX vault of another player to edit it (from /vaultsee)
+    default: op
+  chatalyst.command.chestview:
+    description: /chestview - look inside any container (claims included) read-only, nothing can be taken out
+    default: op
+  chatalyst.staff.teleport:
+    description: Teleport to a player from the staff GUI
+    default: op
+  chatalyst.staff.alts:
+    description: See possible alternate accounts in /check (hashed-connection matches)
+    default: op
+  chatalyst.staff.notes:
+    description: Read, add and delete staff notes about players (/note and the menus)
+    default: op
+  chatalyst.moderation.format:
+    description: Use legacy colors, gradients, rainbow and Fancy Sign styles in reasons
+    default: op
+  chatalyst.command.players:
+    description: Open the player list GUI (message, ignore, mail, trade; staff also moderate)
+    default: true
+  chatalyst.bypass.mute:
+    description: Cannot be muted
+    default: op
+  chatalyst.bypass.kick:
+    description: Cannot be kicked by non-operator staff
+    default: op
+  chatalyst.bypass.warn:
+    description: Cannot be warned by non-operator staff
+    default: op
+  chatalyst.bypass.ban:
+    description: Cannot be banned by non-operator staff
+    default: op
+  chatalyst.bypass.freeze:
+    description: Cannot be frozen by non-operator staff
+    default: op
+  chatalyst.bypass.clearinventory:
+    description: Cannot have their inventory cleared by non-operator staff
+    default: op
+  chatalyst.bypass.invsee.edit:
+    description: Inventory and ender chest cannot be edited by non-operator staff (still viewable)
+    default: op
+  # Player commands (visible to everyone).
+  chatalyst.command.sendformat:
+    description: Send a chat format to one player, also on other servers
+    default: op
+  chatalyst.command.channel:
+    description: Use /channel
+    default: true
+  chatalyst.command.frequency:
+    description: Tune the local radio-chat frequency with /frequency
+    default: true
+  chatalyst.command.msg:
+    description: Use /msg and /reply
+    default: true
+  chatalyst.command.ignore:
+    description: Use /ignore
+    default: true
+  chatalyst.command.profile:
+    description: Use /perfil (/profile)
+    default: true
+  chatalyst.command.toggle:
+    description: Use /toggle
+    default: true
+  chatalyst.command.mail:
+    description: Use /mail
+    default: true
+  chatalyst.command.report:
+    description: Use /report
+    default: true
+  chatalyst.command.discord:
+    description: Link and inspect your own Discord account
+    default: true
+  chatalyst.discord.exempt:
+    description: Skip mandatory Discord account linking on join
+    default: op
+  chatalyst.command.store:
+    description: See and claim your own store purchases
+    default: true
+  chatalyst.admin.store:
+    description: Execute store delivery commands when Console_Only is disabled
+    default: op
+  chatalyst.sign.shop:
+    description: Create a clickable shop entrance sign
+    default: op
+  chatalyst.command.ranks:
+    description: Browse the configured Tebex rank shop with /cht ranks
+    default: true
+  chatalyst.admin.tebex:
+    description: Execute Tebex rank-delivery commands when Console_Only is disabled
+    default: op
+  chatalyst.admin.tebex.presentation:
+    description: Edit and preview global or per-rank Tebex purchase presentations
+    default: op
+  chatalyst.command.ticket:
+    description: Follow up on your own report with /ticket
+    default: true
+  chatalyst.command.afk:
+    description: Toggle AFK status with /afk
+    default: true
+  chatalyst.command.baltop:
+    description: View the money ranking with /baltop
+    default: true
+  chatalyst.command.market:
+    description: Use the built-in marketplace (/market)
+    default: true
+  chatalyst.command.trade:
+    description: Use direct player-to-player trade (/trade)
+    default: true
+  chatalyst.market.bypasslimit:
+    description: No limit of active market listings
+    default: op
+  chatalyst.market.manage:
+    description: Cancel any player's market listing (staff)
+    default: op
+  chatalyst.market.reconcile:
+    description: Settle interrupted market/trade payments by hand (/market credits, /market settlements, /trade settlements)
+    default: op
+  chatalyst.market.highlight.vip:
+    description: Highlight your market listings' product name (VIP color)
+    default: false
+  chatalyst.market.highlight.mvp:
+    description: Highlight your market listings' product name (MVP color)
+    default: false
+  chatalyst.report.receive:
+    description: Receive player reports
+    default: op
+  chatalyst.report.manage:
+    description: List, claim and resolve reports (/reports)
+    default: op
+  chatalyst.report.priority:
+    description: See and handle priority (critical) reports — high rank only
+    default: op
+  chatalyst.command.me:
+    description: Use /me
+    default: true
+  chatalyst.command.motd:
+    description: Re-show the join MOTD with /motd
+    default: true
+  chatalyst.command.say:
+    description: Use /say
+    default: op
+  chatalyst.command.broadcast:
+    description: Use /broadcast in every display (umbrella)
+    default: op
+  chatalyst.command.broadcast.chat:
+    description: Broadcast to chat only
+    default: false
+  chatalyst.command.broadcast.title:
+    description: Broadcast as a title
+    default: false
+  chatalyst.command.broadcast.actionbar:
+    description: Broadcast to the action bar
+    default: false
+  chatalyst.command.broadcast.bossbar:
+    description: Broadcast as a boss bar
+    default: false
+  chatalyst.command.broadcast.toast:
+    description: Broadcast as an advancement toast
+    default: false
+  chatalyst.command.announce:
+    description: Open the announcement composer GUI (/announce)
+    default: op
+  chatalyst.tag:
+    description: Set a personal prefix/suffix with /tag (rank perk)
+    default: op
+  chatalyst.tag.color:
+    description: Use colors (MiniMessage) in the /tag prefix/suffix
+    default: op
+  chatalyst.tag.others:
+    description: Change other players' /tag prefix/suffix
+    default: op
+  chatalyst.tag.admin:
+    description: Create, edit, delete and grant catalog titles through the admin GUI
+    default: op
+    children:
+      chatalyst.tag: true
+  chatalyst.admin.tags:
+    description: Change title counters with /tagcontador (console, events and other plugins)
+    default: op
+  chatalyst.nametagtitle:
+    description: Set your floating nametag title / side icons (rank perk)
+    default: op
+  chatalyst.nametagtitle.color:
+    description: Use colors (MiniMessage) and ItemsAdder icons in the nametag title
+    default: op
+  chatalyst.nametagtitle.others:
+    description: Change other players' nametag title / icons
+    default: op
+  chatalyst.nametag.seeself:
+    description: See your OWN fancy nametag/gametag floating above your head (best in F5); for testing
+    default: op
+  chatalyst.sign.*:
+    description: Use every Fancy Sign color, gradient, rainbow and named style
+    default: op
+    children:
+      chatalyst.sign.colors: true
+  chatalyst.sign.colors:
+    description: Use all colors, gradients, rainbow and configured Fancy Sign styles
+    default: false
+  chatalyst.nick:
+    description: Set a nickname with /nick
+    default: op
+  chatalyst.nick.color:
+    description: Use colors (MiniMessage) in the nickname
+    default: op
+  chatalyst.nick.color.others:
+    description: Colour another player's nick (/nickcolor <player> <color|reset>)
+    default: op
+  chatalyst.nick.others:
+    description: Change other players' nicknames
+    default: op
+  chatalyst.nick.impersonate:
+    description: Allowed to use a nickname matching another player's name
+    default: op
+  chatalyst.command.realname:
+    description: Use /realname
+    default: op
+  chatalyst.command.itemname:
+    description: Rename the held item with /itemname (rank perk)
+    default: op
+  chatalyst.bypass.itemname:
+    description: No usage limit on /itemname
+    default: op
+  chatalyst.command.chatcolor:
+    description: Open the chat color menu
+    default: true
+  chatalyst.chat.style.*:
+    description: Use every chat style from /chatcolor
+    default: op
+  chatalyst.chat.style.bold:
+    description: Use bold chat style
+    default: true
+  chatalyst.chat.style.italic:
+    description: Use italic chat style
+    default: true
+  chatalyst.chat.style.underlined:
+    description: Use underlined chat style
+    default: true
+  chatalyst.chat.style.strikethrough:
+    description: Use strikethrough chat style
+    default: true
+  chatalyst.chat.style.obfuscated:
+    description: Use magic/obfuscated chat style
+    default: op
+  chatalyst.nick.style.*:
+    description: Use every nick style from /nickcolor
+    default: op
+  chatalyst.nick.style.bold:
+    description: Use bold nick style
+    default: op
+  chatalyst.nick.style.italic:
+    description: Use italic nick style
+    default: op
+  chatalyst.nick.style.underlined:
+    description: Use underlined nick style
+    default: op
+  chatalyst.nick.style.strikethrough:
+    description: Use strikethrough nick style
+    default: op
+  chatalyst.nick.style.obfuscated:
+    description: Use magic/obfuscated nick style
+    default: op
+  chatalyst.command.editor:
+    description: Use the GUI format editor
+    default: op
+  chatalyst.command.book:
+    description: Open server books
+    default: true
+  chatalyst.color.*:
+    description: Use all chat colors
+    default: op
+  chatalyst.gradient.*:
+    description: Use all chat gradients
+    default: op
+  chatalyst.gradient.custom:
+    description: Build your own 2-colour gradient from the nick colour GUI
+    default: op
+  chatalyst.command.clearchat:
+    description: Use /clearchat
+    default: op
+  chatalyst.command.clearchat.bypass:
+    description: Keep your chat when someone clears it (review what was said)
+    default: false
+  chatalyst.command.chatlock:
+    description: Use /chatlock and /chatunlock
+    default: op
+  chatalyst.command.slowmode:
+    description: Use /slowmode
+    default: op
+  chatalyst.command.warnings:
+    description: View and manage warning points
+    default: op
+  chatalyst.command.log:
+    description: Review recent chat history with /chatlog
+    default: op
+  chatalyst.command.events:
+    description: See upcoming server events with /events
+    default: true
+  chatalyst.command.events.admin:
+    description: Create and manage scheduled events (/events admin)
+    default: op
+  chatalyst.command.lock:
+    description: Manage the lock of the chest you look at (/candado)
+    default: true
+  chatalyst.lock.bypass:
+    description: Open, break and change any chest lock
+    default: op
+  chatalyst.command.trivia:
+    description: See the chat quiz question in play (/trivia)
+    default: true
+  chatalyst.command.trivia.admin:
+    description: Launch or skip chat quiz questions (/trivia iniciar, /trivia saltar)
+    default: op
+  chatalyst.command.gift:
+    description: See the gift boxes and what they can contain (/caja)
+    default: true
+  chatalyst.command.gift.admin:
+    description: Hand out and export gift boxes (/caja dar, /caja exportar)
+    default: op
+  chatalyst.command.giveaway:
+    description: See and watch server giveaways (/sorteo)
+    default: true
+  chatalyst.command.giveaway.admin:
+    description: Start, cancel and configure giveaways (/sorteo start)
+    default: op
+  chatalyst.giveaway.exempt:
+    description: Never entered into a giveaway draw (staff accounts)
+    default: false
+  chatalyst.command.hologram:
+    description: Create and edit floating holograms (/cartel, /holo)
+    default: op
+  chatalyst.hologram.action:
+    description: Give a hologram a click action (player command or message)
+    default: op
+  chatalyst.hologram.action.console:
+    description: Give a hologram a click action that runs a CONSOLE command
+    default: op
+  chatalyst.hologram.cooldown.bypass:
+    description: Click holograms without waiting for their cooldown
+    default: false
+  chatalyst.hologram.image.url:
+    description: Use https:// images in holograms and map murals (/cartel imagen, /cartel mural)
+    default: op
+  chatalyst.chat.bypass:
+    description: Chat even when the chat is locked or in slow mode
+    default: op

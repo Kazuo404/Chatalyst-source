@@ -1,0 +1,5 @@
+# Chatalyst documentation — allow all crawlers full access.
+User-agent: *
+Allow: /
+
+Sitemap: https://devkazuo27.github.io/Chatalyst/sitemap.xml

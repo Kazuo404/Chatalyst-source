@@ -1,0 +1,4 @@
+name: Chatalyst
+main: dev.chatalyst.bungee.ChatalystBungeePlugin
+version: '${version}'
+author: DevKazuo

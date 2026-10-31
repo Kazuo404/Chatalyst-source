@@ -1,0 +1,42 @@
+# =====================================================================================
+#  Chatalyst - Trade channel format (/channel trade | /ch ventas)
+#  Same layout as chat.yml plus a [Ventas] tag so offers stand out from global chat.
+#  Change the tag text below if your server prefers English ("Trade").
+# =====================================================================================
+
+Parts:
+
+  # Visible only to players with chatalyst.deletemessages, and automatically omitted
+  # when Paper did not supply a usable signed-message signature for the line.
+  delete:
+    Message: "<#7B68A0>[<#FF4D6D>x<#7B68A0>] <reset>"
+    Hover: "<#FF4D6D>{$delete-msg}"
+    Run_Command: "/chatalyst removemessage {message_uuid}"
+    View_Permission: chatalyst.deletemessages
+
+  channel-tag:
+    Message: "<#7B68A0>[<#D8B4FE>{$trade-tag}<#7B68A0>] <reset>"
+    Hover:
+      - "<#D8B4FE>{$trade-channel}"
+      - "<#C0B3D9>{$trade-channel-desc} <#7B68A0>{$trade-channel-hide}"
+    Suggest_Command: "/channel trade"
+
+  prefix:
+    Message: "%luckperms_prefix%"
+
+  player-name:
+    Message: "<reset>{rank_nick}"
+    Hover:
+      - "{rank_nick}"
+      - "<gradient:#1A0B2E:#C77DFF:#1A0B2E><strikethrough>            </strikethrough></gradient>"
+      - "<#C0B3D9>{$rank} <#7B68A0>» {player_prefix}<reset>"
+      - "<#C0B3D9>{$ping} <#7B68A0>» {ping_ms} <#7B68A0>· {ping_quality}"
+      - "<gradient:#1A0B2E:#C77DFF:#1A0B2E><strikethrough>            </strikethrough></gradient>"
+      - "<#E0AAFF><i>{$click-msg} {rank_nick}</i>"
+    Suggest_Command: "{msg_command}"
+
+  separator:
+    Message: " <#7B68A0>» <reset>"
+
+  message:
+    Message: "<#D8B4FE>{message}"

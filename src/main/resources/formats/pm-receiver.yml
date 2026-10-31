@@ -1,0 +1,15 @@
+# =====================================================================================
+#  Chatalyst - Private message format seen by the RECEIVER
+#  Placeholders: {sender_name}, {receiver_name}, {message}
+# =====================================================================================
+
+Parts:
+
+  from:
+    Message: "<#FBF2FF>{sender_name} <#7B68A0>» <reset>"
+    Hover:
+      - "<#C0B3D9>{$pm-reply} {sender_name}"
+    Suggest_Command: "/r "
+
+  message:
+    Message: "<#C0B3D9>{message}"

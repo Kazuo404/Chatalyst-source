@@ -1,0 +1,780 @@
+# =====================================================================================
+#  Chatalyst — third-party integrations: Discord, Tebex, voice, dynmap, scripting, aliases.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  CENTRAL RANK CATALOG — one source of truth for LuckPerms, Discord and Tebex.
+#
+#  The YAML key is Chatalyst's stable Rank ID. LuckPerms_Group is the exact group created
+#  in LuckPerms; Discord_Role_Id is copied from Discord Developer Mode. Higher
+#  Discord_Priority orders the ranks (and picks the single role when
+#  Discord.Rank_Sync.Exclusive_Discord_Roles is true). Tebex_Enabled decides which IDs may be
+#  delivered by store commands.
+#  Discord_Control (optional, default FULL) limits what a Discord role edit does to this rank
+#  in LuckPerms: FULL = adding the role gives the rank and removing it takes it away;
+#  REMOVE = only removing works; NONE = Discord never changes it (use it for owner ranks).
+#  Minecraft always pushes to Discord whatever this says.
+#
+#  Example:
+#  Rank_Catalog:
+#    owner:
+#      LuckPerms_Group: "owner"
+#      Discord_Role_Id: "111111111111111111"
+#      Discord_Priority: 1000
+#      Tebex_Enabled: false
+#      Tebex_Duration: "permanent"
+#      Presentation:
+#        Use_Global: true
+#      Shop:
+#        Visible: false
+#    vip:
+#      LuckPerms_Group: "vip"
+#      Discord_Role_Id: "222222222222222222"
+#      Discord_Priority: 100
+#      Tebex_Enabled: true
+#      Tebex_Duration: "permanent"
+#      # Set Use_Global: false and override only the desired leaves for this Rank ID.
+#      Presentation:
+#        Use_Global: false
+#        Preset: "FANCY"
+#        Audience: "GLOBAL"
+#        Chat:
+#          Message: "<gradient:#B56CFF:#E4A8FF>✦ {player} upgraded to {rank_id}!</gradient>"
+#      # Player-facing card shown by /ranks. Use the exact HTTPS URL of this package.
+#      Shop:
+#        Visible: true
+#        Display_Name: "<gradient:#B56CFF:#E4A8FF><bold>VIP</bold></gradient>"
+#        Description:
+#          - "<#C0B3D9>Exclusive chat colors and cosmetics"
+#          - "<#C0B3D9>Supports the server"
+#        # Vanilla material (EMERALD) or ItemsAdder namespaced ID (myserver:vip_icon).
+#        Icon: EMERALD
+#        Price: "$9.99 USD"
+#        Purchase_Url: "https://your-store.tebex.io/package/1234567"
+#        Order: 10
+#        Featured: true
+#        View_Permission: ""
+#        # Preview: what the buyer sees BEFORE paying. Clicking a card opens it; the
+#        # purchase button lives inside, so a misclick in the shop cannot fire a link.
+#        # A rank's perks live in LuckPerms and other plugins, so there is nothing to
+#        # derive automatically — write here exactly what you are promising. A good with
+#        # no Preview gets one generated from the items it really delivers.
+#        Preview:
+#          - Icon: DIAMOND_HELMET
+#            Name: "<#E0AAFF>Rank prefix"
+#            Lore:
+#              - "<#C0B3D9>Shown in chat and the tab list"
+# -------------------------------------------------------------------------------------
+Rank_Catalog: {}
+
+# -------------------------------------------------------------------------------------
+#  Discord bot built into Chatalyst (TWO-WAY, no DiscordSRV or webhook required).
+#
+#  1) Create an application and bot at https://discord.com/developers/applications.
+#  2) In Bot > Privileged Gateway Intents, enable MESSAGE CONTENT INTENT.
+#     Also enable SERVER MEMBERS INTENT only when Rank_Sync uses Discord -> Minecraft.
+#  3) Invite it with View Channel, Send Messages and Read Message History permissions.
+#  4) Enable Discord Developer Mode and copy the server (guild) and channel IDs below.
+#  5) Paste the bot token, set Enabled: true, then restart or run /chatalyst reload.
+#
+#  Keep the token private. Reset it immediately in the Developer Portal if it is exposed.
+#  Old Webhook_Url / Use_DiscordSRV keys from earlier configs are ignored.
+# -------------------------------------------------------------------------------------
+Discord:
+  Enabled: false
+  Bot_Token: ""
+  Guild_Id: ""
+  Channel_Id: ""
+  # Bot status ("Playing ..."). Placeholders: {online} (players in game, NOT counting anyone
+  # in vanish — the member list must not be the crack that reveals a moderator is watching)
+  # and {max}. It refreshes on its own for as long as the bot stays connected.
+  Activity: "with {online}/{max} players"
+  Activity_Refresh_Seconds: 60
+  Minecraft_To_Discord: true
+  Discord_To_Minecraft: true
+  # Optional routing for Chatalyst channels. The key is the game channel name and the
+  # value is its Discord text-channel ID. Unmapped private/local channels are not leaked.
+  # Channel_Ids:
+  #   trade: "123456789012345678"
+  #   staff: "234567890123456789"
+  Channel_Ids: {}
+  # Replace symbols with real Discord emojis on the way out. The game text does not change.
+  # A key can start with a colour, so one symbol can map to several emojis. MiniMessage tags,
+  # & codes and hex all work; hex uses the closest chat colour. The plain key is the fallback.
+  # Emoji_Replacements:
+  #   ":fire:": "\U0001F525"
+  #   "<green>X": ":green_circle:"
+  #   "<red>X": ":red_circle:"
+  Emoji_Replacements: {}
+  # Let players notify Discord members by writing @name in game. It needs the
+  # chatalyst.discord.mention permission and the Server Members intent in the Discord
+  # developer portal. Only one exact member name notifies; @everyone and roles never do.
+  Mentions:
+    Enabled: false
+    Max_Per_Message: 3
+  To_Discord_Format: "**{player}**: {message}"
+  # Look PER GAME CHANNEL. Several game channels usually share one Discord room (trade and
+  # auctions in #market, say) and there they all read the same: a sale and a bid are the same
+  # line. Give each one its tag and it reads at a glance. A channel with no entry of its own
+  # uses To_Discord_Format, so you only list the ones that need it.
+  # Placeholders: {player}, {message}, {channel}.
+  # Channel_Formats:
+  #   trade: "`🛒 TRADE` **{player}** › {message}"
+  #   auction: "`🔨 AUCTION` **{player}** › {message}"
+  Channel_Formats: {}
+  # -----------------------------------------------------------------------------------
+  #  MARKET -> Discord. When a deal closes, a CARD (embed) goes out with the whole
+  #  operation on it: who sold, who bought, which item and what was paid. The in-game
+  #  announcement is a chat line the next message carries away; this stays written down.
+  #
+  #  Each kind toggles separately. Returns (expired, withdrawn, auctions with no bids) is
+  #  OFF because it is the noisiest and the least newsworthy.
+  # -----------------------------------------------------------------------------------
+  Market:
+    Enabled: false
+    # Empty = use Discord.Channel_Id. The natural pick is the same channel where trade chat
+    # is already mirrored, so the card lands next to what people are negotiating.
+    Channel_Id: ""
+    Sales: true
+    Auctions: true
+    Returns: false
+  To_Minecraft_Format: "<#5865F2>[Discord] <#FBF2FF>{discord_user}<#C0B3D9>: <reset>{message}"
+  Max_Inbound_Length: 256
+  # Who may talk from Discord into the game.
+  Inbound:
+    # true: only Discord accounts linked with /discord link reach the game. Others get a
+    # link reaction and a short self-deleting hint (at most once a minute per user).
+    Linked_Only: false
+    # A linked account shows its Minecraft name as {discord_user} instead of its Discord name.
+    Use_Minecraft_Name: true
+    # {link_command} = Discord.Linking.Command. Empty = reaction only, no reply.
+    Unlinked_Reply: "Link your account to talk to the server: run **/discord link** in game, then `{link_command} <code>` here."
+  Announce_Join_Quit: false
+  Join_Message: "{player} joined"
+  Quit_Message: "{player} left"
+  # Optional manual links used only for report DMs and player-scoped Discord rules:
+  # Minecraft UUID -> Discord user ID. Never put player names here.
+  Linked_Accounts: {}
+  # Recommended account linking flow:
+  #   1) Player runs /discord link in Minecraft.
+  #   2) Player sends !link CODE to the bot (a DM is supported).
+  # Links persist in Chatalyst's YAML/SQL storage; Linked_Accounts above remains a manual
+  # admin fallback. Codes are single-use and also work across a Network_Shared database.
+  Linking:
+    Enabled: true
+    Command: "!link"
+    # Channel where the link command is accepted. Empty = any channel in the guild.
+    # The bot's DM always works, whatever you put here: it is the most discreet place to send
+    # a code, and closing it would force players to type it in public.
+    #
+    # What gets linked is the account's UUID, not its name: renaming on minecraft.net or
+    # wearing a /nick never breaks the link and never needs redoing.
+    Channel_Id: ""
+    # Role given the moment a link completes, and taken away the moment it breaks. It means
+    # nothing more than "this account is linked", which is what a linked-only channel or a
+    # member-list section needs. Empty = no role.
+    #
+    # Independent of Rank_Sync on purpose: a server can want its members marked as linked
+    # without syncing a single rank. The bot needs Manage Roles and a role ABOVE this one.
+    Linked_Role_Id: ""
+    Code_Expires_Seconds: 600
+    # One-time reward for linking. Product is a Store_Catalog id (store.yml) with the goods,
+    # so it is delivered exactly once, even to a player who linked while offline. Paid once
+    # per Minecraft account AND once per Discord account, so relinking or alts cannot farm it.
+    # Message (MiniMessage) is shown to the player when the reward is queued.
+    Reward:
+      Enabled: false
+      Product: ""
+      Message: ""
+    # ---------------------------------------------------------------------------------
+    #  MANDATORY linking. A player who has not linked is held on arrival: they receive
+    #  their code automatically and cannot chat, use commands or (optionally) move until
+    #  the link completes.
+    #
+    #  This is deliberately FAIL-OPEN. It is enforced only while the whole chain really
+    #  works: Discord.Enabled, Linking.Enabled, a valid token, the gateway session READY
+    #  and the configured Guild_Id reachable by the bot. If Discord is down, the token
+    #  was reset or the bot was removed from the guild, nobody is held — anyone already
+    #  waiting is released automatically. Players can never be locked out of your server
+    #  for something outside their control.
+    #
+    #  Login/auth plugins: with AuthMe, nLogin and similar installed, the prompt waits
+    #  until the player finishes logging in, so it never fights the login screen. If the
+    #  plugin's login event cannot be bound, the prompt appears Auth_Fallback_Seconds
+    #  after joining instead (set Auth_Login_Event to its event class to bind it).
+    # ---------------------------------------------------------------------------------
+    Required:
+      Enabled: false
+      # Hold ONLY the players who actually owe a link: someone who bought a rank whose
+      # Discord role cannot be delivered until they link. A purchase is never lost by not
+      # linking — the reconciler retries forever and the role lands the day they link — so
+      # holding the whole server solves a problem only buyers have. false = hold everyone.
+      # Independent of online-mode: this gate has never looked at it, true or false.
+      Only_Buyers: true
+      # Staff and anyone with this permission are never held.
+      Bypass_Permission: "chatalyst.discord.exempt"
+      After_Auth_Login: true
+      # Only used when an auth plugin is installed but its event could not be bound.
+      Auth_Fallback_Seconds: 20
+      # Optional: fully qualified Bukkit event class of an unlisted auth plugin.
+      Auth_Login_Event: ""
+      # Ticks waited after join/login before showing the prompt (lets join messages settle).
+      Announce_Delay_Ticks: 20
+      Reminder_Seconds: 45
+      # Disconnect a player who is still unlinked after this many seconds. 0 = never kick.
+      Kick_After_Seconds: 0
+      # Issue the code automatically, so the player does not even need to type /discord link.
+      Auto_Code: true
+      Sound: "minecraft:entity.experience_orb.pickup"
+      Restrict:
+        Chat: true
+        Commands: true
+        # Off by default: holding someone still is stricter than most servers want.
+        Movement: false
+        Interaction: true
+        # Blocks damage taken AND dealt: a held player can neither flee nor fight back.
+        Damage: true
+      # /discord is always allowed, whatever you write here. Add your auth plugin's
+      # commands when it is installed, otherwise players cannot log in while held.
+      Allowed_Commands:
+        - "/discord"
+        - "/login"
+        - "/register"
+        - "/l"
+        - "/reg"
+        - "/premium"
+        - "/help"
+  # Automatic synchronization uses the central Rank_Catalog above. Discord can NEVER grant
+  # a LuckPerms group that is not declared in that catalog, and it can never REVOKE one that
+  # was paid for: losing a Discord role (or leaving the server) does not take away a rank
+  # bought through Tebex. Use "/chatalyst tebex revoke" for refunds instead.
+  #
+  # Direction: BOTH, MINECRAFT_TO_DISCORD or DISCORD_TO_MINECRAFT.
+  # Initial_Source decides who wins immediately after an account is linked.
+  # -----------------------------------------------------------------------------------
+  #  ONE BAN, BOTH SIDES. Banning an account anywhere closes the door everywhere: a player
+  #  banned in Minecraft loses their Discord seat, and someone banned from the Discord stops
+  #  playing. A half-ban leaves them exactly where they argue the ban and arrange the alt.
+  #
+  #  Which account is which comes from the LINK (/discord link), never from a name. An
+  #  unlinked player is simply not mirrored — guessing a Discord account from a username is
+  #  how you ban the wrong person.
+  #
+  #  The bot needs the BAN MEMBERS permission and a role ABOVE the people it must ban.
+  #  Direction: BOTH, TO_DISCORD (Minecraft ban -> Discord) or TO_MINECRAFT (the reverse).
+  # -----------------------------------------------------------------------------------
+  Ban_Sync:
+    Enabled: false
+    Direction: BOTH
+    # Reason written on the Minecraft ban when the ban came from Discord.
+    Minecraft_Reason: "Banned on our Discord server"
+
+  # -----------------------------------------------------------------------------------
+  #  PUNISHMENTS SHOWN ON DISCORD. The bot creates and maintains these roles itself — you
+  #  do not prepare anything by hand. A banned, frozen or muted player stops looking like
+  #  everyone else in the member list, and the person serving it can see roughly how long
+  #  is left instead of having to ask.
+  #
+  #  WHY TIERS AND NOT "BAN 30 DAYS": a Discord role is shared by everyone wearing it, so
+  #  its name is ONE string for all of them — it cannot say 30 days to one member and 12 to
+  #  another. A role per exact day would need one role per day, and a guild is capped at
+  #  250 roles, with every banned member moved between roles daily. Tiers give the same
+  #  "how long is left" feeling with four roles that never churn. The exact time goes in
+  #  the DM, where it can be personal.
+  #
+  #  Min_Remaining_Seconds is the floor for the tier; they are matched widest first, so
+  #  the last one should be 0 to catch everything else. Name and Color are yours.
+  #  A punishment whose remaining time matches no tier simply gets no role.
+  #
+  #  RENAMING A TIER leaves the old role behind: the bot only takes off roles whose name it
+  #  currently reads here, so anyone still wearing the previous name keeps it. That is
+  #  deliberate — a role it does not recognise might be one of yours, and stripping those
+  #  would be rewriting your server. Delete the old role in Discord by hand; the bot
+  #  recreates whatever it needs, by name, on the next punishment.
+  # -----------------------------------------------------------------------------------
+  Punishment_Roles:
+    Enabled: false
+    # How often the roles are re-checked. Marking a punishment once is not enough: time keeps
+    # moving, so this is what moves somebody down a tier as their days run out AND what takes
+    # the role off when a ban or mute simply expires. Discord is only contacted when something
+    # actually changed, so a quiet server costs nothing.
+    Refresh_Seconds: 300
+    # Used by {server} in the messages below.
+    Server_Name: "our server"
+    Ban:
+      # A ban that ends on its own is SHOWN, not enforced: the player keeps their Discord
+      # seat and wears the tier role. Only a permanent ban closes the door — and even that
+      # is your call.
+      Remove_On_Permanent: true
+      # Sent BEFORE removing them, while the bot can still reach them: once banned it may
+      # share no server with them and Discord refuses to open the DM.
+      Dm: "You were permanently banned from **{server}**.\nReason: {reason}"
+      Appeal: "If you believe this is a mistake, you can appeal by replying to this message."
+      Tiers:
+        month:
+          Name: "Banned · 1+ month"
+          Color: "#8B0000"
+          Min_Remaining_Seconds: 2592000
+        week:
+          Name: "Banned · 1+ week"
+          Color: "#FF4D6D"
+          Min_Remaining_Seconds: 604800
+        days:
+          Name: "Banned · days"
+          Color: "#FF7A9E"
+          Min_Remaining_Seconds: 86400
+        hours:
+          Name: "Banned · hours"
+          Color: "#FF4D6D"
+          Min_Remaining_Seconds: 0
+    # A freeze has no clock: it lasts until a moderator ends it, so it needs one tier only.
+    Freeze:
+      Tiers:
+        held:
+          Name: "Frozen · under review"
+          Color: "#54A6FF"
+          Min_Remaining_Seconds: 0
+    Mute:
+      Tiers:
+        long:
+          Name: "Muted · 1+ day"
+          Color: "#FFD166"
+          Min_Remaining_Seconds: 86400
+        short:
+          Name: "Muted"
+          Color: "#FF9F1C"
+          Min_Remaining_Seconds: 0
+  Rank_Sync:
+    Enabled: false
+    Direction: BOTH
+    Initial_Source: MINECRAFT
+    Exclusive_Discord_Roles: true
+    Remove_On_Discord_Role_Loss: true
+    Fallback_Group: "default"
+    Sync_On_Ready: true
+    Ready_Sync_Limit: 500
+    Debounce_Milliseconds: 350
+    # Every N minutes every linked account is checked against LuckPerms and its roles fixed.
+    # This is what catches ranks changed from the proxy or another server, offline players
+    # and temporary ranks that expired, which LuckPerms never reports to this server.
+    # Writes only when something differs. 0 turns it off.
+    Reconcile_Minutes: 5
+    # Legacy v32 syntax (group: role ID). Read only when Rank_Catalog is empty.
+    Groups: {}
+  # Staff signals use the SAME bot, but a private channel. No webhook is used.
+  Staff:
+    Enabled: false
+    Channel_Id: ""
+    # Separate channel for PRIORITY reports; empty falls back to Channel_Id.
+    Priority_Channel_Id: ""
+    Reports: true
+    Staff_Chat: true
+    Alerts: true
+    # Handle reports from Discord through Chatalyst's bot. Disabled until you configure
+    # one allowed channel AND at least one allowed user or role ID below.
+    # In that channel, staff can type !reports, !info/!reply <id>, !claim <id>,
+    # !resolve <id> <note>, !pending, !reject or !reopen. A private channel alone is not
+    # considered authorization.
+    Handle_From_Discord: false
+    # MODERATION TOOLS from Discord: !ban, !kick, !freeze, !mute, !check, !seen and the rest.
+    # Its own switch, separate from the one above on purpose: closing a report and banning
+    # someone are not the same authority, and one key for both would grant the second one by
+    # granting the first.
+    #
+    # They run as the CONSOLE (not as the person asking, who is not even in the game) and only
+    # from an allowed channel by an allowed user or role, exactly like the report commands.
+    # The command's own answer comes back to the channel, so !check and !seen are worth typing.
+    #
+    # Anything that needs you INSIDE the game is refused with the reason: /invsee and /echest
+    # open an inventory in front of you, /tpto and /tphere need a "you", and /vanish and /staff
+    # are your own switches. Not dangerous — simply meaningless from outside.
+    #
+    # /clearinventory is refused too, for the opposite reason: it would work perfectly. It is
+    # the only tool here that cannot be undone — a ban is lifted and a mute expires, but worn
+    # armour and an ender chest do not come back. Asked for by chat, against somebody you are
+    # not looking at, a mistyped name stops costing an apology. Run that one in game.
+    #
+    # Only Chatalyst's own commands are ever run: the request is dispatched by its namespaced
+    # form (chatalyst:ban), so a label that another plugin also owns cannot be what actually
+    # executes. With Staff_Moderation off nothing here resolves, and the bot says so.
+    Commands_From_Discord: false
+    Command_Prefix: "!"
+    # Discord snowflake IDs (not names). Commands are accepted only when the channel
+    # is allowed and the author is in Allowed_User_Ids OR has an Allowed_Role_Ids role.
+    Allowed_Channel_Ids: []
+    Allowed_User_Ids: []
+    Allowed_Role_Ids: []
+    # DM the reporter when their account was linked with /discord link (or manually above).
+    DM_Reporter: false
+    # Allow priority (critical) tickets to be listed and handled from Discord. Off by default
+    # because we can't check the Discord user's rank here. Turn on only if the command channel
+    # is already restricted to high-rank staff.
+    Priority_From_Discord: false
+  # -----------------------------------------------------------------------------------
+  #  LICENSE ISSUER — ONLY FOR THE AUTHOR OF CHATALYST. If you bought or downloaded the
+  #  plugin, leave this OFF: it needs the author's license relay, and without it nothing
+  #  here does anything at all.
+  #
+  #  With it on, the bot registers /licencia in the guild below: staff open a ticket, run
+  #  /licencia emitir and the buyer gets their signed key in the ticket (and by DM). Also
+  #  /licencia buscar, estado (where a key is running), revocar and reenviar. Everything
+  #  issued is kept in plugins/Chatalyst/licenses-issued.yml (it holds full keys: never
+  #  share that file).
+  #
+  #  The command is hidden from everyone but administrators; open it to your staff role in
+  #  Server Settings > Integrations. Issuer_Role_Ids is checked again on every use anyway,
+  #  and ADMINISTRATOR always counts.
+  # -----------------------------------------------------------------------------------
+  License_Issuer:
+    Enabled: false
+    # Your license relay (the Cloudflare Worker in license-tool/relay). It SIGNS new keys
+    # (the private key lives only there, never on this server), stores the revoked ids and
+    # knows where each key is running. Admin_Token is the Worker's ADMIN_TOKEN secret.
+    Relay_Url: ""
+    Admin_Token: ""
+    # Fallback ONLY if you do not use the relay: sign with a private key file on this
+    # server (made by `java LicenseGen.java gen`, relative to plugins/Chatalyst/). Anyone
+    # who gets this file can mint licenses forever — the relay avoids that. Ignored when
+    # Relay_Url and Admin_Token are set.
+    Private_Key_File: ""
+    # Empty = the bot's own Guild_Id above.
+    Guild_Id: ""
+    # Discord role IDs allowed to use /licencia (besides ADMINISTRATOR).
+    Issuer_Role_Ids: []
+    # Ids look like CHT-7KQ2MX. Letters and digits only, up to 8.
+    Id_Prefix: "CHT"
+    # Also send the key to the buyer by private message. If their DMs are closed the reply
+    # in the ticket says so; the key is still there.
+    DM_Buyer: true
+
+# -------------------------------------------------------------------------------------
+#  Tebex rank delivery (uses the OFFICIAL Tebex plugin's command executor).
+#
+#  This deliberately does not poll Tebex a second time: duplicate queue consumers can deliver
+#  the same purchase twice. Add these commands to the package in the Tebex panel:
+#
+#    Initial:  chatalyst tebex grant {id} vip {transaction}
+#    Expiry:   chatalyst tebex revoke {id} vip {transaction}
+#
+#  "vip" is a safe ID from Rank_Catalog, not a console-supplied LuckPerms group. Chatalyst
+#  resolves its group and Tebex_Duration there, then stores the transaction and absolute expiry
+#  before changing LuckPerms. Refund/chargeback commands can use the same revoke syntax.
+# -------------------------------------------------------------------------------------
+Tebex:
+  Enabled: false
+  Console_Only: true
+  # Purchases are stored as ENTITLEMENTS -- what each player owns -- and the LuckPerms group
+  # and Discord role are derived from them. Chatalyst compares that desired state with
+  # reality and repairs any difference on join, after every purchase, when a buyer links
+  # their Discord account, and on a slow background sweep.
+  #
+  # This is what makes a purchase impossible to lose: it is not a retry of a failed delivery
+  # (Tebex considers the command executed the moment it dispatches it and never resends it),
+  # but a continuous repair. It also fixes drift no retry could ever notice -- a rank removed
+  # by hand, a Discord role sync overwriting a paid group, a restored backup, or an expiry
+  # coming due.
+  #
+  # HOW A RANK ENDS: by the time you assigned to it in Tebex_Duration, not by hand. That
+  # expiry is written onto the LuckPerms node itself, so the permissions stop applying at the
+  # exact second, and the sweep serves expired buyers FIRST so the Discord role and the
+  # record follow right after. "/chatalyst tebex revoke" exists for refunds and chargebacks
+  # (Tebex sends it), not as the normal way to take a rank away.
+  #
+  # It only ever touches groups Chatalyst itself delivered to that player, so a rank an
+  # administrator granted manually is never removed. The flip side is that pulling a paid
+  # rank out of LuckPerms by hand does not stick -- it is restored on the next pass, because
+  # the purchase says the player still owns it. Let the duration do it.
+  Reconcile:
+    Interval_Seconds: 300
+    # Owners repaired per sweep. Half the budget is reserved for buyers whose time just ran
+    # out; the rest rotates to heal offline drift. Online players are covered on join.
+    Batch_Size: 10
+  # Empty = any EXISTING LuckPerms group. For maximum safety, list only store ranks.
+  Allowed_Groups: []
+  Notify_Discord: true
+  # BILINGUAL: every player-facing text in this section accepts a parallel "_es" key that
+  # a Spanish client sees instead — Name/Name_es, Lore/Lore_es, Title/Title_es,
+  # Display_Name/Display_Name_es, Description/Description_es, Button_Text/Button_Text_es…
+  # Same convention as Announcer.Messages_es and the FAQ's Reply_es. A missing translation
+  # falls back to the base key, and a list falls back whole so a half-translated file never
+  # shows both languages mixed together.
+  #
+  # Player-facing rank storefront. Players use the top-level command configured below
+  # (/ranks by default) — never make them type the plugin's own admin command. The
+  # /chatalyst ranks form stays as an always-reachable fallback for when another plugin
+  # owns the label. Only Rank_Catalog entries with Tebex_Enabled: true,
+  # Shop.Visible: true and a valid HTTPS URL are published.
+  Shop:
+    Enabled: false
+    # Top-level command players use to browse ranks. /chatalyst ranks always works too.
+    #
+    # The default is "ranks" and NOT "shop" on purpose: on most servers /shop belongs to a
+    # shop plugin. Chatalyst never takes a label another plugin already owns — it skips it
+    # and logs who owns it, so your shop plugin keeps working — which also means a label you
+    # pick that is already taken simply will not register. Pick a free one.
+    Command: "ranks"
+    Command_Aliases:
+      - "rangos"
+    # PHYSICAL ENTRANCE — usually better than any command. Place a sign at spawn, write the
+    # tag below on its first line, and it turns into a styled shop entrance that opens the
+    # storefront when clicked. Players see it instead of having to remember something.
+    # Creating one needs chatalyst.sign.shop (op). The sign is stamped internally, so a
+    # player writing the same text on their own sign does NOT get a working entrance.
+    # Edit the four displayed lines in lang: tebex-shop.sign-lines.
+    Sign:
+      Enabled: true
+      Tag: "[ranks]"
+    Title: "<gradient:#240046:#9D4EDD:#E0AAFF><bold>Rank Store</bold></gradient>"
+    # Recommended: put the exact package URL in each rank's Shop.Purchase_Url.
+    # Optional fallback for stores whose URL can be built from the stable Rank ID.
+    # URL placeholders: {rank_id}, {player}, {uuid}.
+    Rank_Url_Template: ""
+    Home_Url: ""
+    Home_Button_Text: "<gradient:#B56CFF:#E4A8FF><bold>OPEN STORE</bold></gradient>"
+    Close_After_Select: true
+    # The secure clickable button is always sent. Enable this only to print the raw URL too.
+    Show_Raw_Link: false
+    # Text placeholders: {player}, {rank_id}, {rank}, {group}, {duration}, {price}.
+    # Any rank may override these three texts inside its own Shop section.
+    # PURCHASE BUTTON inside the preview menu. Everything here is yours to restyle; the
+    # price is added on top automatically, because the buyer is one click from leaving for
+    # a browser and the last thing they should see is what it costs.
+    # Placeholders: {rank}, {rank_id}, {group}, {duration}, {price}, {player}.
+    # PAYMENTS TAKEN OUTSIDE THE STORE (direct PayPal, a transfer, a deal made on Discord).
+    # No separate integration needed: delivery takes the payment reference as it is.
+    #
+    #   /cht tebex grant <player-or-uuid> <rank> <payment-id>
+    #
+    # The duration is NOT typed here: it comes from that rank's Tebex_Duration in Rank_Catalog,
+    # exactly as if it had been bought in the store. And although a name works when you type
+    # it by hand, always use {id} in the Tebex panel: a player's name changes and their UUID
+    # does not, so only the UUID identifies the buyer forever.
+    #
+    # That payment lands in the SAME ledger as a Tebex purchase, so it inherits everything: a
+    # renewal adds to whatever time is left, reconciliation repairs it if someone strips the
+    # group by hand, and it is refunded with "revoke" using the same reference. Storing the
+    # real payment id (rather than something made up) is what lets you find it later.
+    #
+    # Before building anything else: Tebex ALREADY processes PayPal and cards. Check which
+    # methods are active in your panel before assuming a buyer cannot pay through it.
+
+    # Como se decide el nombre que se enseña de un rango, de mas fiable a menos:
+    #   1. El Display_Name que escribas en su bloque (manda siempre).
+    #   2. El "displayname" que LuckPerms guarde para el grupo.
+    #   3. Su PREFIJO en LuckPerms, sin colores ni corchetes — o sea, el nombre que tus
+    #      jugadores ya ven en el chat. Un rango con prefijo [MVP++] no necesita nada mas.
+    #   4. Y solo si nada de eso existe, se deduce del id: "mvplusplus" -> "MVP++".
+    # Acronimos propios de tu servidor, para que no salgan escritos como palabra. VIP, MVP,
+    # YT y varios mas ya vienen de fabrica; añade aqui los tuyos (ej. ely, kz).
+    Acronyms: []
+
+    Buy_Button:
+      Icon: EMERALD
+      # {rank_id} es el nombre LEGIBLE del rango: un grupo llamado "mvplusplus" se enseña
+      # como "MVP++" sin que tengas que escribir un Display_Name para cada uno. Si prefieres
+      # el id crudo (para una URL, un comando o un log), usa {rank_key}.
+      Name: "<gradient:#3DFFA8:#7BFFB0><bold>» BUY NOW</bold></gradient>"
+      Name_es: "<gradient:#3DFFA8:#7BFFB0><bold>» COMPRAR AHORA</bold></gradient>"
+      Lore:
+        - "<#C0B3D9>Takes you to the secure payment page."
+        - "<#7B68A0>Your client will ask before opening"
+        - "<#7B68A0>the browser."
+      Lore_es:
+        - "<#C0B3D9>Te llevamos a la pagina segura de pago."
+        - "<#7B68A0>Tu cliente pedira confirmacion antes"
+        - "<#7B68A0>de abrir el navegador."
+      Glow: true
+    Selection_Message: "<#C0B3D9>You selected {rank}. Use the secure button below."
+    Selection_Message_es: "<#C0B3D9>Has elegido {rank}. Usa el boton seguro de abajo."
+    Button_Text: "<gradient:#3DFFA8:#7BFFB0><bold>» OPEN PAYMENT PAGE</bold></gradient>"
+    Button_Text_es: "<gradient:#3DFFA8:#7BFFB0><bold>» ABRIR PAGINA DE PAGO</bold></gradient>"
+    Button_Hover: "<#FBF2FF>{rank}<newline><#C0B3D9>Price: <#FFD166>{price}<newline><#7B68A0>Opens in your browser"
+    Button_Hover_es: "<#FBF2FF>{rank}<newline><#C0B3D9>Precio: <#FFD166>{price}<newline><#7B68A0>Se abre en tu navegador"
+    Default_Description:
+      - "<#C0B3D9>Click to view this rank in the server store."
+    Info:
+      Icon: NETHER_STAR
+      Name: "<gradient:#B56CFF:#E4A8FF><bold>Server ranks</bold></gradient>"
+      Description:
+        - "<#C0B3D9>Select a rank to receive its exact purchase link."
+        - "<#7B68A0>Your Minecraft client will ask before opening the browser."
+  # Purchase presentation. Edit it here or with /chatalyst tebex gui.
+  #
+  # Audience: PURCHASER = only the buyer; GLOBAL = every player on this backend.
+  # Preset: SUBTLE, FANCY, SILENT or CUSTOM. Selecting a preset in the GUI changes only
+  # effect switches; all text remains yours. Per-rank Presentation sections may inherit this
+  # block or override individual leaves.
+  #
+  # Placeholders: {player}, {rank_id}, {rank}, {group}, {duration}, {transaction}.
+  #
+  # BILINGUAL, and here it matters more que en ningun otro sitio: con Audience: GLOBAL este
+  # texto lo lee TODO el servidor a la vez, cada uno con su cliente. Cada "_es" se elige por
+  # espectador, asi que el mismo anuncio sale en ingles para unos y en español para otros.
+  # Si borras un "_es" y dejas su clave base, esa base se usa para los dos idiomas: se
+  # respeta lo que escribiste antes que servir media frase de fabrica.
+  Presentation:
+    Enabled: true
+    Audience: PURCHASER
+    Preset: SUBTLE
+    # If a private purchase happens offline, show its presentation on the next join.
+    Offline_Delivery: true
+    Chat:
+      Enabled: true
+      Message: "<#B56CFF>✦ <#FBF2FF>{player} <#C0B3D9>received <#E4A8FF>{rank_id}<#C0B3D9>."
+      Message_es: "<#B56CFF>✦ <#FBF2FF>{player} <#C0B3D9>ha recibido <#E4A8FF>{rank_id}<#C0B3D9>."
+    Toast:
+      Enabled: false
+      Title: "<gradient:#B56CFF:#E4A8FF>Rank received</gradient>"
+      Title_es: "<gradient:#B56CFF:#E4A8FF>Rango recibido</gradient>"
+      Description: "<#FBF2FF>{rank_id} <#C0B3D9>is now active"
+      Description_es: "<#FBF2FF>{rank_id} <#C0B3D9>ya está activo"
+      Icon: EMERALD
+      # task, goal or challenge
+      Frame: goal
+    Title:
+      Enabled: false
+      Title: "<gradient:#B56CFF:#E4A8FF><bold>NEW RANK</bold></gradient>"
+      Title_es: "<gradient:#B56CFF:#E4A8FF><bold>RANGO NUEVO</bold></gradient>"
+      Subtitle: "<#FBF2FF>{player} <#C0B3D9>obtained <#E4A8FF>{rank_id}"
+      Subtitle_es: "<#FBF2FF>{player} <#C0B3D9>ha obtenido <#E4A8FF>{rank_id}"
+      Fade_In_Ticks: 10
+      Stay_Ticks: 60
+      Fade_Out_Ticks: 20
+    ActionBar:
+      Enabled: false
+      Message: "<#E4A8FF>Thank you! <#FBF2FF>{rank_id} is active."
+      Message_es: "<#E4A8FF>¡Gracias! <#FBF2FF>{rank_id} está activo."
+    Sound:
+      Enabled: true
+      Key: "minecraft:ui.toast.challenge_complete"
+      Volume: 1.0
+      Pitch: 1.0
+    # Cosmetic only and spawned at the buyer; never deals damage.
+    Firework:
+      Enabled: false
+
+# -------------------------------------------------------------------------------------
+#  Voice moderation bridge. This links Chatalyst mutes to voice-chat moderation commands.
+#  Use it when you run Plasmo Voice or a Simple Voice Chat addon that exposes mute/unmute
+#  console commands. Leave disabled if you do not want chat moderation to affect voice.
+# -------------------------------------------------------------------------------------
+Voice:
+  Enabled: false
+  # auto   = try PlasmoVoice defaults first, otherwise use the explicit commands below.
+  # plasmo = prefer Plasmo Voice command names.
+  # custom = only use the explicit commands below.
+  Provider: auto
+  Mute_Command: "vmute {player} {duration} {reason}"
+  Unmute_Command: "vunmute {player}"
+
+# -------------------------------------------------------------------------------------
+#  Dynmap integration. Creates map markers for open reports at the location where they were
+#  created, so staff can see active tickets on the map.
+# -------------------------------------------------------------------------------------
+Dynmap:
+  Reports:
+    Enabled: false
+    Set_Id: "chatalyst.reports"
+    Set_Label: "Chatalyst Reports"
+    Icon: "exclamation"
+    Persistent: false
+    Hide_By_Default: false
+    Show_Labels: false
+    Layer_Priority: 10
+
+# -------------------------------------------------------------------------------------
+#  PacketEvents. Optional packet-layer fast path for command blocking.
+#  When enabled and PacketEvents is present, blocked commands are stopped before Bukkit
+#  sees them, which reduces load and closes a small timing gap.
+# -------------------------------------------------------------------------------------
+PacketEvents:
+  Enabled: false
+
+  # Example: - "give {player_name} minecraft:bread 16"
+
+# -------------------------------------------------------------------------------------
+#  Custom commands. Each one sends some lines (Messages) and/or runs console commands
+#  (Commands). Permission optional. They register on startup (adding/removing new commands
+#  needs a restart; /chatalyst reload only reloads the rest).
+# -------------------------------------------------------------------------------------
+Command_Aliases:
+  discord:
+    Aliases: [dc]
+    Permission: ""
+    # Messages = default (English). Messages_es = Spanish clients (optional).
+    Messages:
+      - "<#5865F2>Our Discord: <#FBF2FF><underlined>https://discord.gg/example"
+    Messages_es:
+      - "<#5865F2>Nuestro Discord: <#FBF2FF><underlined>https://discord.gg/example"
+    Commands: []
+  web:
+    Aliases: [website, pagina]
+    Messages:
+      - "<#3DFFA8>Our website: <#FBF2FF><underlined>https://example.com"
+    Messages_es:
+      - "<#3DFFA8>Nuestra web: <#FBF2FF><underlined>https://example.com"
+
+# -------------------------------------------------------------------------------------
+#  Variable scripting ("js:" values in Variables below). Scripts are written by the
+#  server admin in this file and run in a filtered engine: dangerous classes are
+#  blocked and only 'player' and 'playerName' are exposed. Turn it off if you don't
+#  use js: variables.
+# -------------------------------------------------------------------------------------
+Scripting:
+  Enabled: true
+
+# -------------------------------------------------------------------------------------
+#  Custom variables: reusable text you can use in any format or message as {name}.
+#  E.g. use {server_name} in your formats and change it here once.
+# -------------------------------------------------------------------------------------
+Variables:
+  server_name: "<gradient:#240046:#9D4EDD:#E0AAFF>YourServer</gradient>"
+  discord_link: "discord.gg/example"
+  # SCRIPT variables (JavaScript). Start the value with "js:". You get 'player'
+  # (the player) and 'playerName'. Examples:
+  #   {vip_tag}  ->  shows [VIP] only if the player has the permission.
+  vip_tag: "js: player.hasPermission('chatalyst.vip') ? '<#D8B4FE>[VIP] ' : ''"
+  #   {name_len} ->  the length of the player's name.
+  name_len: "js: player.getName().length()"
+
+# -------------------------------------------------------------------------------------
+#  Optional LIVE CHAT translation. This only touches text written by players in chat. It never
+#  translates lang/*.yml, bot replies, commands, menus, moderation notices or other controlled
+#  plugin text; those stay exact and administrator-authored.
+#
+#  This is opt-in at both levels:
+#    1. The admin configures Provider_Url and enables it here or from /cht gui.
+#    2. Only then does "Chat translation" appear in each player's /toggle GUI. It starts OFF,
+#       and each player chooses whether to enable it with the GUI or /toggle translate.
+#  An opted-in player reads other-language chat in their Minecraft client's language. The sender
+#  and same-language viewers see the original. A tiny delay (~0.2-0.5s) is normal while text is
+#  fetched; results are cached so repeated phrases are instant.
+#
+#  You need a translation backend that speaks the LibreTranslate API (POST JSON
+#  {q, source:"auto", target} -> {translatedText}). Two easy options:
+#    - Self-host LibreTranslate (free, no key): https://github.com/LibreTranslate/LibreTranslate
+#      then set Provider_Url: "http://127.0.0.1:5000/translate"
+#    - Use a hosted LibreTranslate endpoint and paste its Api_Key.
+#  Fail-open: if the backend is down or disabled, everyone simply sees the original text —
+#  chat never breaks.
+#
+#  Known trade-off: while a message is being delivered translated, it arrives as a system
+#  line instead of a signed chat line. Everything else keeps working (log, Discord bridge,
+#  mentions, moderation, shadow mute), but the staff "delete message" X cannot RETRACT those
+#  already-shown lines from clients (Minecraft can only retract signed chat). /clearchat and
+#  mutes work as usual.
+# -------------------------------------------------------------------------------------
+Translation:
+  Enabled: false
+  # Full URL of the LibreTranslate-compatible /translate endpoint.
+  Provider_Url: ""
+  # Optional API key (leave empty for a keyless self-hosted server).
+  Api_Key: ""
+  # Give up on a translation after this many ms (then that viewer sees the original).
+  Timeout_Ms: 1500
+  # Don't translate very short messages (emotes, "gg", "ok"): min characters.
+  Min_Length: 3
+  # Note: translations are only requested when an opted-in viewer's language actually
+  # differs from the sender's, so a monolingual audience never costs anything.
+  # How many recent (language, text) results to cache in memory.
+  Cache_Size: 500

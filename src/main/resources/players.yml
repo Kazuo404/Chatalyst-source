@@ -1,0 +1,615 @@
+# =====================================================================================
+#  Chatalyst — player tools: private messages, mail, nick, tag, chat color, AFK, newcomer, spy.
+# =====================================================================================
+
+# -------------------------------------------------------------------------------------
+#  AFK: marks a player away after some idle time (no move, chat or commands). Only the
+#  player is told, privately — nothing is broadcast. The {afk_tag} placeholder shows the
+#  status in the tab list (already in Tab_List.Name_Format), and %chatalyst_afk% is
+#  available for PlaceholderAPI / TAB. /afk toggles it manually.
+# -------------------------------------------------------------------------------------
+Afk:
+  Enabled: true
+  Timeout_Seconds: 300
+  Tab_Suffix: " <#C0B3D9>[AFK]"
+  Notify: true
+  # Watching is standing still. A vanished staff member spends the whole shift parked behind
+  # somebody, and observer mode cancels most of what they do meanwhile, so those events never
+  # counted as activity either: they went AFK precisely while working. Being hidden is, by
+  # definition, not being away. Manual /afk still wins — this only stops it firing by itself.
+  Ignore_Vanished: true
+
+# -------------------------------------------------------------------------------------
+#  Direct private messages (/msg, /reply, /ignore) — the owner's master switch.
+#  Disabled by default: turn it on if you want live PMs on your server. Mail (/inbox)
+#  is a separate system and keeps working either way, so with PMs off players still
+#  write to each other through the mailbox. /spy is not affected (it also covers
+#  commands, signs, books and anvils).
+# -------------------------------------------------------------------------------------
+Private_Messages:
+  Enabled: false
+
+# -------------------------------------------------------------------------------------
+#  Mail notifications. Players get a clickable inbox message, actionbar, sound and an
+#  advancement-style toast when new mail arrives or when they join with unread mail.
+# -------------------------------------------------------------------------------------
+Mail:
+  # Master switch for the mailbox (/inbox). The code already honoured it, but the key was
+  # missing from this file, so the only way to find it was to read the source.
+  Enabled: true
+  # Seconds a player must wait between sending two mails (own anti-spam; 0 disables).
+  # Bypass with chatalyst.bypass.mailcooldown.
+  Send_Cooldown_Seconds: 3
+  # Maximum Unicode characters per message, for commands, chat compose, books and /msg
+  # fallback alike. Bounded internally to 64..4096 so one mailbox cannot become a huge row.
+  Max_Message_Length: 1024
+  # Max messages kept per folder (inbox and spam) per player. When full, the OLDEST is
+  # dropped as a new one arrives, so a mailbox can never grow without bound (which would
+  # slow every send/read and let someone bloat storage). 0 or below = unlimited.
+  Max_Messages: 100
+  # Bridge with /msg — your choice as the owner; both systems stay independent either way.
+  #   false (default): /msg and mail never interact. A /msg to someone with private
+  #                    messages off is silently not delivered, exactly as before.
+  #   true:            when the target turned PMs off with /toggle pm, the /msg is
+  #                    delivered to their MAILBOX instead of being lost, and the sender
+  #                    is told it went there. The mailbox rules still apply (the target's
+  #                    receive-mail setting, blocked senders, spam folder and cooldown),
+  #                    and /ignore stays silent and absolute: ignored players never reach
+  #                    you, not even by mail.
+  Msg_Fallback: false
+  # Who lands in the INBOX rather than the spam folder. The code has always honoured this,
+  # but the key was missing from this file, so the only way to find it was to read the source.
+  #   false (default): anyone can write to your inbox — no need to add each other first.
+  #   true:            mail from someone who is not your friend goes to SPAM instead. It is
+  #                    not lost and it is not refused; it just does not interrupt you.
+  Require_Friend: false
+  Notifications:
+    Enabled: true
+    Toast: true
+    Sound:
+      Enabled: true
+      Key: "minecraft:block.note_block.chime"
+      Volume: 0.65
+      Pitch: 1.35
+
+# Personal /tag prefix and suffix (independent from the LuckPerms rank). Shown in chat
+# via the {tag_prefix} / {tag_suffix} placeholders of the formats.
+Tag:
+  Max_Length: 16
+
+# Nicknames (/nick). Maximum nickname length (excluding color codes).
+Nick:
+  Max_Length: 16
+  # Apply the nickname as the player's Bukkit display name too, so other plugins that
+  # print display names (join messages, teleport prompts, etc.) show the nick.
+  Set_Display_Name: true
+  # If EssentialsX is installed, mirror the nick (plain text) into its nickname system,
+  # so Essentials commands like /tpa <nick> or /whois recognize the nick as well.
+  Sync_Essentials: true
+  # Replace real names with the plain nick in the tab-complete suggestions of EVERY
+  # command (/tpa, /msg, /tp...), so /nick also hides the name from TAB. The rewritten
+  # suggestion stays a valid argument (Sync_Essentials + Chatalyst commands resolve nicks).
+  Tab_Complete_Nicks: true
+  # Players with this permission keep seeing REAL names in tab suggestions (staff).
+  Tab_Complete_Bypass: chatalyst.bypass.nicktab
+  # Answer /list with the names players SEE, instead of letting Minecraft answer it.
+  #
+  # The vanilla command builds its line from the account name — it never looks at the display
+  # name a nickname sets — so /list was the last place on the server where a real name still
+  # came out whole, and /list uuids handed out the UUID with it. That is enough to undo a
+  # /nick, and it undoes /anonymous completely. Whoever may use /realname is not intercepted:
+  # they are allowed to resolve identities anyway. Turn this off only if another plugin owns
+  # /list and already prints nicknames.
+  #
+  # The advancement announcement has the same problem and is fixed the same way, but with no
+  # switch: nothing else owns that line, and a broadcast that names the account while chat, tab
+  # and nametags all show the nickname was never a choice — it was the oversight.
+  Hide_Real_Names_In_List: true
+  # Names nobody may wear, as a nickname OR as a nametag title. This list is YOURS: your
+  # staff, your server's brand. Chatalyst never rewrites it.
+  #
+  # The long shared list — Mojang, well-known creators, authority names like "Admin" —
+  # lives in protected-names.txt next to this file. That one the plugin keeps up to date
+  # on upgrade, which it could not do here without rewriting your configuration. Both
+  # lists apply together.
+  #
+  # The impersonation check only sees accounts that have JOINED this server (it reads the
+  # local usercache, never Mojang), which is why a curated list is needed at all. Matching
+  # ignores case, spaces and look-alike characters, so "Ibai" also covers "ibai", "I b a i"
+  # and full-width. A name never blocks its real owner, and players with
+  # chatalyst.nick.impersonate skip the check entirely.
+  Protected_Names:
+    - DevKazuo
+    - Chatalyst
+
+# -------------------------------------------------------------------------------------
+#  Chat color (/chatcolor). The 16 vanilla colors are always available. Extra Colors
+#  use hex tags and need chatalyst.color.<id>; Gradients need chatalyst.gradient.<id>.
+#  The chosen color paints the player's {message}.
+# -------------------------------------------------------------------------------------
+Chat_Color:
+  # The nick colour GUI (/nickcolor) groups flat colours into "Strong" and "Pastel". By
+  # default it auto-classifies each colour by brightness (light = pastel). To force a colour
+  # into a group, list its id here; anything not listed keeps the automatic split. Gradients
+  # are always their own category, plus a "Build a gradient" section (chatalyst.gradient.custom)
+  # where players pick two colours to make their own gradient.
+  # Categories:
+  #   strong: [emerald, violet, coral]
+  #   pastel: [pearl, honey, blush]
+  Colors:
+    blush: "<#FF6B9B>"
+    coral: "<#FF7A59>"
+    honey: "<#FFC857>"
+    emerald: "<#2ECC71>"
+    cyan: "<#22D3EE>"
+    azure: "<#38BDF8>"
+    violet: "<#A855F7>"
+    pearl: "<#F8FAFC>"
+    graphite: "<#94A3B8>"
+  Gradients:
+    sunset: "<gradient:#FF512F:#F09819>"
+    ocean: "<gradient:#2E3192:#1BFFFF>"
+    twilight: "<gradient:#4A0080:#C4009B>"
+    fire: "<gradient:#FF0000:#FFA500>"
+    mint: "<gradient:#00F260:#0575E6>"
+    rose: "<gradient:#FF5F6D:#FFC371>"
+    aurora: "<gradient:#00FFA3:#DC1FFF>"
+    candy: "<gradient:#FF9A9E:#FAD0C4>"
+    royal: "<gradient:#141E30:#A855F7>"
+    galaxy: "<gradient:#4776E6:#8E54E9>"
+    lava: "<gradient:#F00000:#DC281E>"
+    ice: "<gradient:#83A4D4:#B6FBFF>"
+    toxic: "<gradient:#B3FFAB:#12FFF7>"
+    neon: "<gradient:#00F5A0:#00D9F5>"
+    cyberpunk: "<gradient:#FF00CC:#3333FF>"
+    gold: "<gradient:#FFD700:#FFA500>"
+    blood: "<gradient:#8B0000:#FF4D4D>"
+    forest: "<gradient:#134E5E:#71B280>"
+    flame: "<gradient:#FF512F:#DD2476>"
+    frost: "<gradient:#A1FFCE:#FAFFD1>"
+    bubblegum: "<gradient:#FC5C7D:#6A82FB>"
+    peach: "<gradient:#FFB347:#FFCC33>"
+    unicorn: "<gradient:#FF61D2:#FE9090>"
+    tropic: "<gradient:#FDBB2D:#22C1C3>"
+    grape: "<gradient:#7B2FF7:#F107A3>"
+    steel: "<gradient:#232526:#8E9EAB>"
+    emberfrost: "<gradient:#FF4E50:#1CB5E0>"
+    prism: "<gradient:#FF0000:#00FF00:#0000FF>"
+    sunrise3: "<gradient:#FF512F:#F09819:#FFF200>"
+    cherry: "<gradient:#EB3349:#F45C43>"
+    mono: "<gradient:#FFFFFF:#4A4A4A>"
+    chrome: "<gradient:#FFFFFF:#5A5A5A:#E8E8E8>"
+    nebula: "<gradient:#4A0080:#C4009B:#FF6FB5>"
+    sakura: "<gradient:#FFB7C5:#FF6FB5:#C77DFF>"
+    cyber: "<gradient:#FF00C8:#00E5FF>"
+    venom: "<gradient:#A855F7:#4A00E0>"
+    magma: "<gradient:#FF4E00:#EC9F05>"
+
+# -------------------------------------------------------------------------------------
+#  Fancy physical signs — rank perk controlled with LuckPerms permissions.
+#
+#  Basic Minecraft colors/decorations:
+#    &4&lImportant        (also accepts <dark_red><bold>Important)
+#  Direct gradients and rainbow:
+#    <gradient:#ff0000:#0000ff>Hello</gradient>
+#    <rainbow>Hello</rainbow>
+#  Player-friendly aliases are accepted too: <gradiente:...>, <arcoiris>, <multicolor>
+#  and the frequent <raimbow> typo.
+#  Named styles are editable macros. The example below makes this work on a sign:
+#    <galaxy>Hello Test
+#
+#  Grant chatalyst.sign.colors to a rank and that ONE node unlocks every color, gradient,
+#  rainbow and configured named style. Custom style names must use lowercase letters,
+#  numbers, _ or -, and their Format must include {text}.
+#  Only visual MiniMessage tags are accepted; click/hover/commands stay blocked.
+# -------------------------------------------------------------------------------------
+Fancy_Signs:
+  Enabled: true
+  Permission: "chatalyst.sign.colors"
+  Styles:
+    galaxy:
+      Format: "<gradient:#6A00FF:#00D4FF:#FF4FD8><bold>{text}</bold></gradient>"
+    sunset:
+      Format: "<gradient:#FF512F:#F09819>{text}</gradient>"
+
+# -------------------------------------------------------------------------------------
+#  Spy: whoever has /spy active and chatalyst.spy or a granular chatalyst.spy.<type>
+#  permission sees that content type. Here you configure command spy; PMs use the
+#  formats/spy.yml format.
+# -------------------------------------------------------------------------------------
+Spy:
+  # Spy on signs players place.
+  Signs:
+    Enabled: true
+  # Spy on books players write.
+  Books:
+    Enabled: true
+  # Spy on items renamed in an anvil.
+  Anvil:
+    Enabled: true
+  # Containers & mechanisms: chest/barrel/shulker/furnace/ender chest opens, container
+  # place/break and lever/button/door/trapdoor/gate use, all with exact coordinates.
+  # Live spy type "container" + persistent CONTAINER entries in the daily logs; staff
+  # reviews them with /containerlog (with [Go]/[TP] teleport buttons).
+  Containers:
+    Enabled: true
+    # Also track mechanisms (levers, buttons, doors, trapdoors, fence gates, repeaters).
+    Mechanisms: true
+    # Workbench activity: crafting and enchanting.
+    Crafting: true
+    # Completed villager trades (the trade itself, not just opening the villager).
+    Trading: true
+    # Anti-spam: repeating the SAME action on the SAME target within this many seconds is
+    # grouped into a single line; the next line reports how many were hidden ("+19 more").
+    # Opening a chest twenty times while sorting is one line, not twenty. 0 = no grouping.
+    # Targets that MOVE (villagers, chest minecarts) group by entity, not by coordinates.
+    Repeat_Seconds: 60
+  # PvP: who threw the FIRST punch. On a death, Minecraft's message names whoever won the
+  # fight - often the one who was attacked - so without recording the OPENING there is no
+  # way to settle a "he started it". Reviewed with /combatlog.
+  Combat:
+    Enabled: true
+    # Silence (in seconds) after which the next hit between those two opens a NEW fight.
+    # Too short splits one fight in two and the aggressor starts looking like the victim;
+    # too long blames someone for a fight that ended half an hour ago.
+    Encounter_Seconds: 30
+    # false = only the opening hit and the kill are recorded (recommended). true adds every
+    # hit in between: useful to dissect one case, but it buries what matters.
+    Log_Hits: false
+    # With Log_Hits on, how many seconds between logged hits of the same pair.
+    Repeat_Seconds: 10
+  Commands:
+    # Disabled by default: command spy can expose credentials if a third-party
+    # auth plugin uses an unknown command. Enable only for trusted staff.
+    Enabled: false
+    # Leave EMPTY to use the bilingual template from lang/<locale>.yml (spy.command),
+    # so each staff member reads the line in their own client language. Set a format
+    # here only if you want the SAME fixed text for everyone.
+    Format: ""
+    # Extra commands that are NOT spied on. Authentication and PM commands are
+    # always excluded in code, even if they are removed from this list.
+    Ignore:
+      - "/login"
+      - "/register"
+      - "/l"
+      - "/reg"
+      - "/changepassword"
+      - "/cp"
+      - "/2fa"
+      - "/authme"
+      - "/premium"
+      - "/password"
+      - "/passwd"
+      - "/setpassword"
+      - "/resetpassword"
+      - "/recover"
+      - "/login2fa"
+      - "/totp"
+      - "/otp"
+      - "/msg"
+      - "/tell"
+      - "/w"
+      - "/whisper"
+      - "/r"
+      - "/reply"
+
+# -------------------------------------------------------------------------------------
+#  /anonymous: streamer incognito mode. Players with chatalyst.command.anonymous get a
+#  random unreadable nickname, their rank, /tag and party are hidden in every format
+#  (chat, tab, nametag, hovers and clicks) and their skin becomes the one of the account
+#  below (downloaded signed from Mojang at startup). State persists across relogs.
+#  Note: the vanilla name above the head is hidden by Fancy_Nametags (or TAB); keep one
+#  of them enabled for full anonymity. Staff can still resolve identities via /realname.
+# -------------------------------------------------------------------------------------
+Anonymous:
+  Enabled: true
+  # Alias style:
+  #   accounts   (default) the alias IS the real username of one of the Skins accounts below,
+  #              wearing THAT account's real skin — name and face are the same real player, so
+  #              the disguise is fully coherent. Each online anonymous player gets a different
+  #              free account; if all are taken (or none loaded) it falls back to "realistic".
+  #   realistic  generated names that look like real players — ShadowWolf42, Nether_Nomad,
+  #              ItzPanda, xXBlazeXx... paired with a random skin from the pool.
+  #   confusing  unreadable names built from Name_Chars ("illiliolil").
+  # In every mode the alias never matches anyone who has actually played on this server.
+  Name_Style: "accounts"
+  Name_Chars: "ilo"    # confusing style only
+  Name_Length: 10      # confusing style only (capped at 16)
+  # New alias AND new skin on every connection: each session the anonymous player "is
+  # someone else", so nobody can track them across days. false = keep the disguise until
+  # /anonymous off.
+  Rotate_Name_On_Join: true
+  # When a player toggles /anonymous WHILE connected, broadcast a fake "left the game" (real
+  # name) followed by a fake "joined the game" (alias) — so it looks like they disconnected
+  # and someone new joined, instead of their name changing in place (which would give away
+  # that the alias is them). Reverses on /anonymous off. Only fires if join/quit messages are
+  # enabled and the player isn't vanished. Set false to just change the name silently.
+  Simulate_Reconnect: true
+  # Como se hace esa "reconexion". El disfraz se aplica AL INSTANTE — quien pide anonimato
+  # lo necesita ya —, pero el aviso de ENTRADA del alias no: una salida y una entrada en el
+  # mismo segundo no las hace nadie, y ese detalle delata el disfraz por muy bueno que sea el
+  # alias. Con esto el jugador "se va", sigue jugando disfrazado, y unos minutos despues el
+  # alias "entra", que es justo lo que se ve cuando alguien se reconecta de verdad. Lo mismo
+  # al apagarlo: el alias se va y tu vuelves un rato despues.
+  Realistic_Transition:
+    Enabled: true
+    # WAIT FOR A MOMENT NOBODY IS WATCHING, instead of hiding the player.
+    #
+    # The swap does not need the player to be invisible — it needs the change to go
+    # UNWITNESSED, and those are not the same thing. So it simply waits until no one else is
+    # close enough to see it, then happens in the open with nothing hidden. Alone in a cave,
+    # walking away, on a quiet night: no waiting at all.
+    #
+    # What proximity decides is the WAIT and how long the absence lasts, never whether you are
+    # hidden for it. Hiding is what makes your row in the player list leave and come back, and
+    # that list has no distance: left visible, the row simply changes its text from your name
+    # to the alias, in place, for everyone at once. So the absence is always spent out of
+    # sight — when nobody saw the swap, that is just the few seconds of Rejoin_*_Seconds.
+    #
+    # BOTH WAYS: putting the disguise on and taking it off. Taking it off is the worse leak of
+    # the two — whoever watches the alias turn back into you learns in one second WHO the
+    # anonymous player was, which is the one thing everything else here exists to prevent.
+    #
+    # Only if Max_Wait_Seconds runs out — standing in a crowded spawn — does it fall back to
+    # the disappearing act below, because at that point the choice is between a moment of
+    # ghosting and being seen morphing on the spot.
+    #
+    # Vanished staff never count as watchers: they can see everything by design, and letting
+    # them block it would leave a player waiting on something they cannot see or fix.
+    Wait_Until_Unobserved: true
+    Observer_Radius: 64     # blocks; 0 disables the check and always swaps immediately
+    Max_Wait_Seconds: 120   # after this, hide and swap anyway
+    # Rejoin delay when the swap went UNWITNESSED: a fast relog is the most ordinary thing on
+    # a server, and there is no long absence to make believable — but it is never zero, and it
+    # is still spent out of sight, or the player list gives the change away on its own.
+    Rejoin_Min_Seconds: 5
+    Rejoin_Max_Seconds: 20
+    # Rejoin delay when it had to happen in front of people and the player was hidden. Longer
+    # on purpose: that IS what makes a real-looking absence.
+    Min_Seconds: 60
+    Max_Seconds: 300
+    # DISAPPEAR for the wait, like a real disconnect. Without this the quit notice fires
+    # instantly but so does the disguise, so anyone watching sees you morph on the spot right
+    # as chat says you left — and that one detail undoes everything else. With it you leave
+    # sight when your name leaves, and come back wearing the alias at the exact moment chat
+    # announces you "joined". You keep playing meanwhile: only being seen is taken away.
+    Hide_During_Transition: true
+    # WHILE THE SERVER BELIEVES YOU GONE, you cannot be heard: chat is held back and your death
+    # message is dropped (the death itself happens whole). This is not a setting because it is
+    # not a policy — a player who has just "left" cannot talk, and one sentence in that gap ties
+    # the two names together far better than anything above can hide them. The player is told
+    # why, and walking away from people ends the gap early.
+    #
+    # NONE OF THIS HAPPENS IF NOBODY WAS TOLD YOU LEFT — you are vanished, or Quit messages are
+    # off. There is no correlation to break then, so there is no gap, no hiding and no silence:
+    # the disguise simply changes.
+  # COVER THE NAME IN WHAT OTHER PLUGINS WRITE.
+  #
+  # Chatalyst can fix its own messages and even the server's, but not everyone else's: a grave
+  # with your name floating over it, an anticheat alert, another chat plugin's death line. Any
+  # one of those gives the anonymous player away exactly as well as everything here prevents
+  # it, and they cannot be fixed one by one — there is no knowing what will be installed
+  # tomorrow. So it is corrected at the end of the road: right before the text reaches the
+  # client, the real name becomes the alias that player is wearing. Not censorship —
+  # translation: the message arrives whole, naming the person as the reader knows them.
+  #
+  # Whoever may use /realname is never rewritten: resolving identities is already theirs, and a
+  # moderation alert with the name swapped would only get in their way.
+  #
+  # What it reaches: floating names on entities (the grave), caught when they appear and again
+  # a tick later, because most plugins name the entity after creating it — and, with
+  # PacketEvents installed and PacketEvents.Enabled: true, the text a plugin shows a player:
+  # chat, full-screen titles, subtitles, action bars, boss bars, and the title of a menu it
+  # opens. A click whose command or link names the disguised player is REMOVED, not rewritten:
+  # with the alias inside it would no longer be the same command, and could even land on
+  # another account genuinely named that.
+  #
+  # What it does not reach: scoreboards (there the name is the key the client matches each line
+  # by, not text being read, so changing it would break the board instead of hiding anything),
+  # holograms drawn straight with packets, and anything a plugin writes to a file or a website.
+  # Matching is by whole word, so a name inside a longer name is left alone.
+  Guard_Other_Plugins: true
+  # Saved disguise slots: with chatalyst.anonymous.save a player can /anon save the face they
+  # are wearing and return to it later with /anon set <slot>. How many slots they get is set
+  # by chatalyst.anonymous.slots.<n> (e.g. give .3 to your top VIP/MVP++). This is the hard
+  # safety cap regardless of the permission granted.
+  Max_Saved_Slots: 5
+  # Cooldown (seconds) between disguise CHANGES, so a streamer can't hop face-to-face so fast
+  # it looks suspicious. Applies to /anonymous on, the toggle, and /anon set <slot>; turning
+  # the mode OFF is never gated. 0 = disabled. Players with chatalyst.anonymous.cooldown.bypass
+  # (op by default) change instantly.
+  Switch_Cooldown_Seconds: 0
+  # Rank the disguise WEARS. The anonymous player is shown with the tag of this LuckPerms
+  # group (the normal member group by default) in chat, tab, nametag and hovers, so they
+  # look like any other player — a bare name with nothing in front stands out just as much
+  # as the real rank would. Set to "" for no tag at all.
+  Disguise_Group: "default"
+  # Literal tag that overrides Disguise_Group (MiniMessage or &-codes), e.g.
+  # "<#C0B3D9>[Member] ". Leave empty to use the group's own prefix.
+  Tag: ""
+  # Disguise pool: real accounts whose NAME and skin are downloaded (signed) from Mojang at
+  # startup. With Name_Style: accounts the alias is one of these usernames wearing that same
+  # account's skin (coherent). With realistic/confusing only the skin is used (random per
+  # session). Add or replace freely (any existing account works — e.g. pick some from NameMC);
+  # more accounts = more simultaneous anonymous players and less repetition. Accounts that do
+  # not exist are skipped with a console notice.
+  Skins:
+    - "Daniel"
+    - "Kevin"
+    - "Emma"
+    - "Sarah"
+    - "David"
+    - "Anna"
+    - "Chris"
+    - "Laura"
+    - "Ryan"
+    - "Mia"
+    - "Jake"
+    - "Sophie"
+  # Extra/fallback entry for the pool (the black "?" skin). Kept for compatibility.
+  Skin_Name: ""
+
+# -------------------------------------------------------------------------------------
+#  Marriage (/marry, /divorce): players can propose to each other and, once both agree,
+#  the server announces the wedding and their partner shows up in the chat hover.
+#  OPT-IN: disabled by default, turn it on here. Nothing else in the plugin changes when
+#  it stays off (the commands answer with the "disabled" message).
+#
+#  The hover line comes from Tag below and is added to formats/chat.yml as {married_tag};
+#  a single player resolves it to nothing and the line disappears entirely.
+#  Anonymous players never show their partner: it would identify them instantly.
+# -------------------------------------------------------------------------------------
+Marriage:
+  Enabled: false
+  # Seconds a proposal stays open before it expires (minimum 10).
+  Request_Timeout: 60
+  # Announce PUBLIC weddings to the whole server, in each player's own language.
+  # A plain "/marry <player>" is always silent: no announcement, title, sound or particles,
+  # only the two of them are told. Whoever wants the server to know asks for a ceremony
+  # with "/marry <player> boda". Setting this to false silences the announcement TEXT of a
+  # public wedding; the ceremony the couple asked for (march, invitation, effects) stays.
+  Announce: true
+  # Divorces are private by default: breaking up in front of everyone is not fun.
+  Announce_Divorce: false
+  # Hover line — it reads like a marriage certificate. {partner} = the spouse's shown name,
+  # {since} = how long they have been married, {$married} is the translated label.
+  Tag: "<#C0B3D9>{$married} {rank_color}» <#FBF2FF>{partner} <#7B68A0>· <#C0B3D9>{since}"
+  # The ceremony. THE COUPLE decides whether their wedding is a public event, not the
+  # server owner: they ask for it with "/marry <player> boda" or later with
+  # "/marry ceremony". These settings are only the limits and the sheet music.
+  Ceremony:
+    # SECURITY switch. The invitation button sends whoever clicks it to wherever the couple
+    # married, and it reaches the whole server. A couple can marry anywhere, including a
+    # lava pit or a PvP trap. false = the wedding still has music and an announcement, but
+    # nobody gets teleported.
+    Guest_Teleport: true
+    # A public wedding runs in three steps, so guests arrive BEFORE the vows:
+    #   1. the server is told the wedding starts in Gathering_Seconds (invitation opens now)
+    #   2. each spouse gets their "I do" button and has Vow_Seconds to press it
+    #   3. with both vows the march plays and the marriage is finally saved
+    # Nothing is saved until step 3: if someone backs out, disconnects or runs out of time,
+    # the wedding is simply called off.
+    Gathering_Seconds: 30
+    Vow_Seconds: 60
+    # How long the invitation button stays valid for a plain /marry ceremony (a stepped
+    # wedding keeps it open for the whole rite).
+    Window_Seconds: 60
+    # Minutes before the same couple can summon another ceremony. Without it, /marry
+    # ceremony is a loudspeaker for spamming music at everyone.
+    Cooldown_Minutes: 10
+    # Visual effect on the couple, same styles as the fancy join entrances:
+    #   hearts (default), firework-show, fireworks, halo, spiral, enchant, totem,
+    #   notes, snow, portal, none
+    Style: "hearts"
+    # Any note block sound: bell (church bells), harp, chime, flute, bit...
+    Instrument: "block.note_block.bell"
+    # The wedding march, played note by note: "<note>:<tick>".
+    #   note = 0-24 (F#3 to F#5, a note block's range; 12 = F#4)
+    #   tick = when it plays, counted from the start (20 ticks = 1 second)
+    # Default is Wagner's Bridal Chorus ("Here comes the bride") in C, BOTH sections,
+    # about 16 seconds. Cut the list short for a briefer march, or shift every tick up
+    # proportionally to slow it down.
+    # A malformed entry is skipped with a console notice; the wedding still happens.
+    Melody:
+      - "13:0"
+      - "18:5"
+      - "18:20"
+      - "18:25"
+      - "13:40"
+      - "20:45"
+      - "18:55"
+      - "17:60"
+      - "18:65"
+      - "13:90"
+      - "18:95"
+      - "18:110"
+      - "18:115"
+      - "22:130"
+      - "20:140"
+      - "18:145"
+      - "17:150"
+      - "18:160"
+      - "13:190"
+      - "18:195"
+      - "18:210"
+      - "18:215"
+      - "23:230"
+      - "22:240"
+      - "20:245"
+      - "18:250"
+      - "20:265"
+      - "22:270"
+      - "23:275"
+      - "22:290"
+      - "20:295"
+      - "18:300"
+
+  # Perks that come with being married. Each one can be turned off on its own.
+  Perks:
+    # Shared chest both spouses can open (/marry storage). Same instance for both, so what
+    # one stores the other sees immediately. A divorce requires emptying it first, so that
+    # breaking up can never make items disappear.
+    # NOTE: single-server feature. On a network with a shared database, two spouses on
+    # DIFFERENT backends would open separate copies and the last close would win.
+    # (This chest used to be called "Bank" and opened with /marry bank. Its items are kept.)
+    Storage:
+      Enabled: true
+      Rows: 3            # 1-6 (9 slots per row)
+    # Shared money account (/marry bank): both spouses deposit into it and withdraw from it
+    # with /marry bank deposit <amount|all> and /marry bank withdraw <amount|all>. Needs Vault
+    # and an economy plugin. A divorce requires withdrawing the money first.
+    Bank:
+      Enabled: true
+      # Highest balance the account may hold. 0 = no limit.
+      Max_Balance: 0
+    # /marry gift hands the item you are holding to your spouse (they must be online).
+    Gift:
+      Enabled: true
+    # /marry tp travels to your spouse.
+    Teleport:
+      Enabled: true
+      Cooldown_Seconds: 120
+    # Tells you when your spouse comes online (anonymous players never trigger it).
+    Join_Notice: true
+
+# -------------------------------------------------------------------------------------
+#  /perfil (/profile): the player's own profile menu. Header with rank, nick, money,
+#  kills/deaths, clan, spouse and Discord link; the same switches as /toggle plus
+#  "teleport requests" (EssentialsX /tptoggle); the /ignore list; and shortcuts.
+#  Every text lives in lang/*.yml under "profile".
+# -------------------------------------------------------------------------------------
+Profile:
+  Enabled: true
+  # PlaceholderAPI placeholder that returns the player's clan name (Chatalyst has no clan
+  # hook of its own). Empty or unresolved = the Parties party, or "no clan".
+  Clan_Placeholder: ""
+  # Commands run AS THE PLAYER by the shortcut buttons (without the leading slash).
+  # The Nick button suggests "/nick " in chat on left click and runs Nick_Color on right click.
+  Shortcuts:
+    Nick_Color: "nickcolor"
+    Tags: "tag"
+    Chat_Color: "chatcolor"
+    Discord: "discord"
+
+# -------------------------------------------------------------------------------------
+#  /itemname: rename the held item with colors (&4&lDARK SWORD or MiniMessage). Meant
+#  for ranks: the command needs chatalyst.command.itemname (op by default). Each player
+#  gets a limited number of renames (Uses), persisted in the storage backend; players
+#  with chatalyst.bypass.itemname have no limit. Uses <= 0 also means unlimited.
+#  Named items show up in death messages (see Death.With_Item in messages.yml).
+# -------------------------------------------------------------------------------------
+Item_Name:
+  Enabled: true
+  Uses: 1
+  Max_Length: 40
+
+# -------------------------------------------------------------------------------------
+#  Newcomer: special treatment for players joining for the FIRST time (welcome + commands).
+# -------------------------------------------------------------------------------------
+Newcomer:
+  Enabled: false
+  # true = every online player sees the welcome in their own client language.
+  # false = use Welcome_Broadcast exactly as written for everyone.
+  Localized_Broadcast: true
+  Welcome_Broadcast: "<#FFB627>Let's welcome <#FFC933>{player_name}<#FFB627>, new on the server!"
+  Commands: []

@@ -1,0 +1,19 @@
+# =====================================================================================
+#  Scheduled server events. Manage them in-game with /events admin (a GUI: set the name,
+#  day, hour, minute, description and reminder with clicks). Players see the upcoming ones
+#  with /events and get a heads-up when one is near or when they join.
+#
+#  You can also edit events here by hand. Each event lives under Events.<id>:
+#    Name           the event name (also used for English clients)
+#    Name_es        optional Spanish name (English clients keep Name)
+#    Description     optional one-line description
+#    When            date/time as epoch MILLISECONDS (the GUI sets this for you)
+#    Remind_Minutes  minutes before the event to broadcast "starting soon" (0 = no reminder)
+#    Reminded        managed automatically (true once the reminder was sent)
+# =====================================================================================
+Settings:
+  Reminder_Enabled: true   # broadcast "starting soon" once, Remind_Minutes before each event
+  Join_Notice_Hours: 24    # tell joining players about events within this many hours (0 = off)
+  Announce_To: everyone    # everyone = broadcast the reminder to the whole server · none = off
+
+Events: {}

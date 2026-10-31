@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>{{title}} · {{siteName}}</title>
+  <meta name="description" content="{{description}}">
+  <link rel="canonical" href="{{canonical}}">
+  {{hreflang}}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{siteName}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:image" content="{{root}}theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="{{root}}theme/assets/favicon.svg">
+  <script>
+    (() => { let theme; try { theme = localStorage.getItem('chatalyst-theme'); } catch (_) {} if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{root}}theme/theme.css">
+</head>
+<body class="{{pageClass}}">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{{root}}{{lang}}/" aria-label="Chatalyst">
+        <img src="{{root}}theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>⌘ K</kbd>
+      </button>
+      <div class="header-actions">
+        <!-- Purchase/community destinations are intentionally supplied by the owner. -->
+        <a class="community-link" href="#discord">Discord <span aria-hidden="true">↗</span></a>
+        <a class="store-link" href="#store"><span class="en">Store</span><span class="es">Tienda</span> <span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="{{altLangUrl}}" hreflang="{{altLang}}" lang="{{altLang}}"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="mobile-crumb">{{crumb}}</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="{{root}}{{lang}}/"><span class="sidebar-mark" aria-hidden="true">⌂</span><span class="en">Overview</span><span class="es">Inicio</span></a></div>
+      {{nav}}
+      <div class="sidebar-bottom"><span class="en">Building a better community.</span><span class="es">Una mejor comunidad empieza aquí.</span><a href="#discord"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="#store"><span class="en">Visit the store</span><span class="es">Visita la tienda</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      {{content}}
+      {{pager}}
+      <footer class="site-footer"><span>© {{year}} DevKazuo</span><span class="en">Made for your community.</span><span class="es">Hecho para tu comunidad.</span></footer>
+    </main>
+    <aside class="page-toc"><div class="toc-inner"><p class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></p>{{toc}}</div></aside>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search">Search</label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  {{i18n}}
+  <script src="{{root}}theme/theme.js" defer></script>
+</body>
+</html>

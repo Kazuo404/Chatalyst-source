@@ -1,0 +1,12 @@
+# =====================================================================================
+#  Chatalyst - Private message format seen by the SENDER
+#  Placeholders: {sender_name}, {receiver_name}, {message}
+# =====================================================================================
+
+Parts:
+
+  to:
+    Message: "<#C0B3D9>{$pm-to} <#FBF2FF>{receiver_name} <#7B68A0>» <reset>"
+
+  message:
+    Message: "<#C0B3D9>{message}"
