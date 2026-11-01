@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Privacy · Chatalyst Docs</title>
+  <meta name="description" content="What Chatalyst sends outside your server, who receives it, how long it is kept and how to ask for it to be deleted.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/privacy.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/privacy.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/privacy.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/privacy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Privacy">
+  <meta property="og:description" content="What Chatalyst sends outside your server, who receives it, how long it is kept and how to ask for it to be deleted.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/privacy.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/privacy.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Getting started</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link is-active" aria-current="page" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#who-is-responsible">Who is responsible</a></li><li class="toc-h2"><a href="#bought-on-builtbybit">Bought on BuiltByBit</a></li><li class="toc-h2"><a href="#keys-issued-by-the-author">Keys issued by the author</a></li><li class="toc-h2"><a href="#how-long-it-is-kept">How long it is kept</a></li><li class="toc-h2"><a href="#modified-jars">Modified jars</a></li><li class="toc-h2"><a href="#your-options">Your options</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Getting started</p><h1>Privacy</h1><p class="lead">What Chatalyst sends outside your server, who receives it, how long it is kept and how to ask for it to be deleted.</p></header>
+<article class="prose">
+<p>This page covers the data that reaches the author or BuiltByBit because of your license. It does not cover what your own server stores about your players. That data stays on your server and you decide what to keep. See <a href="spying.html">Spy &amp; logs</a> and <a href="storage.html">Storage &amp; database</a>.</p>
+<h2 id="who-is-responsible"><a class="anchor" href="#who-is-responsible" aria-hidden="true">#</a>Who is responsible</h2>
+<p>Chatalyst is made by DevKazuo. For any privacy question or request, open a ticket on the <a href="https://discord.gg/uWTNeBmMT3" rel="noopener">Kazuo Community Discord</a>.</p>
+<h2 id="bought-on-builtbybit"><a class="anchor" href="#bought-on-builtbybit" aria-hidden="true">#</a>Bought on BuiltByBit</h2>
+<p>Nothing is sent to the author. Your server contacts only BuiltByBit:</p>
+<ul>
+<li><strong>License check:</strong> once at startup, with the resource id and your BuiltByBit member id.</li>
+<li><strong>Update check:</strong> at startup, if <code>Updates.Check</code> is <code>true</code>. It asks BuiltByBit for the latest version, or your own address if you set <code>Updates.Url</code>. Set <code>Updates.Check</code> to <code>false</code> in <code>config.yml</code> to turn it off.</li>
+</ul>
+<p>BuiltByBit handles these requests under its own privacy policy. Chatalyst keeps the last signed answer on your server so it can start during a BuiltByBit outage.</p>
+<h2 id="keys-issued-by-the-author"><a class="anchor" href="#keys-issued-by-the-author" aria-hidden="true">#</a>Keys issued by the author</h2>
+<p>If you use a key from the author, the plugin contacts the author&#39;s license service on startup, every 6 hours and once a day. This service runs on Cloudflare and posts notices to a private Discord channel.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Key id, buyer name and Discord id from the key</td>
+<td>Tell which license is in use</td>
+</tr>
+<tr>
+<td>Random install id</td>
+<td>Tell installs apart</td>
+</tr>
+<tr>
+<td>Server IP and port, plus the approximate location (city, region, country) and network provider that Cloudflare derives from that IP</td>
+<td>Detect a shared or leaked key</td>
+</tr>
+<tr>
+<td>Server, plugin and Java versions, operating system, CPU cores and memory limit</td>
+<td>Support, and identify the copy</td>
+</tr>
+<tr>
+<td>Online mode, player count, player limit and MOTD</td>
+<td>Tell servers apart</td>
+</tr>
+</tbody></table></div>
+<p>Player names, player IPs, chat messages and your server files are never sent.</p>
+<h2 id="how-long-it-is-kept"><a class="anchor" href="#how-long-it-is-kept" aria-hidden="true">#</a>How long it is kept</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Where</th>
+<th>What</th>
+<th>Kept for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>License service</td>
+<td>Install records for a key</td>
+<td>Removed 30 days after an install was last seen, 50 installs per key at most</td>
+</tr>
+<tr>
+<td>License service</td>
+<td>Key record (buyer, key id, issue date, Discord id)</td>
+<td>While the key exists</td>
+</tr>
+<tr>
+<td>License service</td>
+<td>Hourly notice counters</td>
+<td>2 hours</td>
+</tr>
+<tr>
+<td>Private Discord channel</td>
+<td>Install, startup and activity notices</td>
+<td>Deleted automatically after 30 days</td>
+</tr>
+<tr>
+<td>Private Discord channel</td>
+<td>Alerts about revoked keys, shared keys and modified jars</td>
+<td>Deleted automatically after 1 year</td>
+</tr>
+<tr>
+<td>Private Discord channel</td>
+<td>Records of issued licenses</td>
+<td>While the license exists</td>
+</tr>
+<tr>
+<td>Support</td>
+<td>Ticket transcripts in a private staff channel</td>
+<td>Deleted automatically after 1 year</td>
+</tr>
+</tbody></table></div>
+<h2 id="modified-jars"><a class="anchor" href="#modified-jars" aria-hidden="true">#</a>Modified jars</h2>
+<p>If the integrity check fails, Chatalyst tries once to notify the license service before refusing to start. The notice is kept only when <code>License.Key</code> holds a valid key. It contains the same server details listed above. Without a valid key it is discarded.</p>
+<h2 id="your-options"><a class="anchor" href="#your-options" aria-hidden="true">#</a>Your options</h2>
+<p>Use a BuiltByBit copy if you want no contact with the author. To see or delete what is stored about your key or your tickets, open a ticket. We may keep what is needed to tell whether a key was revoked or to handle a dispute.</p>
+<p>Using Discord, BuiltByBit or Cloudflare is also subject to their own privacy policies.</p>
+</article>
+      <nav class="pager"><a class="pager-prev" href="license.html"><span>Previous</span><strong>License &amp; activation</strong></a><a class="pager-next" href="upgrading.html"><span>Next</span><strong>Updating</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Privacidad · Docs de Chatalyst</title>
+  <meta name="description" content="Qué envía Chatalyst fuera de tu servidor, quién lo recibe, cuánto tiempo se guarda y cómo pedir que se borre.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/privacy.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/privacy.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/privacy.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/privacy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Privacidad">
+  <meta property="og:description" content="Qué envía Chatalyst fuera de tu servidor, quién lo recibe, cuánto tiempo se guarda y cómo pedir que se borre.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/privacy.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/privacy.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Empezar</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link is-active" aria-current="page" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#quien-es-responsable">Quién es responsable</a></li><li class="toc-h2"><a href="#comprado-en-builtbybit">Comprado en BuiltByBit</a></li><li class="toc-h2"><a href="#claves-que-da-el-autor">Claves que da el autor</a></li><li class="toc-h2"><a href="#cuanto-tiempo-se-guarda">Cuánto tiempo se guarda</a></li><li class="toc-h2"><a href="#jars-modificados">Jars modificados</a></li><li class="toc-h2"><a href="#tus-opciones">Tus opciones</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Empezar</p><h1>Privacidad</h1><p class="lead">Qué envía Chatalyst fuera de tu servidor, quién lo recibe, cuánto tiempo se guarda y cómo pedir que se borre.</p></header>
+<article class="prose">
+<p>Esta página explica los datos que llegan al autor o a BuiltByBit por tu licencia. No cubre lo que tu propio servidor guarda sobre tus jugadores. Esos datos se quedan en tu servidor y tú decides qué conservar. Mira <a href="spying.html">Espía y registros</a> y <a href="storage.html">Almacenamiento y base de datos</a>.</p>
+<h2 id="quien-es-responsable"><a class="anchor" href="#quien-es-responsable" aria-hidden="true">#</a>Quién es responsable</h2>
+<p>Chatalyst lo hace DevKazuo. Para cualquier duda o petición de privacidad, abre un ticket en el <a href="https://discord.gg/uWTNeBmMT3" rel="noopener">Discord de Kazuo Community</a>.</p>
+<h2 id="comprado-en-builtbybit"><a class="anchor" href="#comprado-en-builtbybit" aria-hidden="true">#</a>Comprado en BuiltByBit</h2>
+<p>No se envía nada al autor. Tu servidor solo contacta con BuiltByBit:</p>
+<ul>
+<li><strong>Comprobación de licencia:</strong> una vez al arrancar, con el id del recurso y tu id de miembro de BuiltByBit.</li>
+<li><strong>Comprobación de actualizaciones:</strong> al arrancar, si <code>Updates.Check</code> es <code>true</code>. Pregunta a BuiltByBit cuál es la última versión, o a tu propia dirección si rellenas <code>Updates.Url</code>. Pon <code>Updates.Check</code> en <code>false</code> en <code>config.yml</code> para apagarla.</li>
+</ul>
+<p>BuiltByBit trata estas peticiones según su propia política de privacidad. Chatalyst guarda en tu servidor la última respuesta firmada para poder arrancar durante una caída de BuiltByBit.</p>
+<h2 id="claves-que-da-el-autor"><a class="anchor" href="#claves-que-da-el-autor" aria-hidden="true">#</a>Claves que da el autor</h2>
+<p>Si usas una clave del autor, el plugin contacta con el servicio de licencias del autor al arrancar, cada 6 horas y una vez al día. Este servicio funciona en Cloudflare y publica avisos en un canal privado de Discord.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dato</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Id de la clave, nombre del comprador e id de Discord de la clave</td>
+<td>Saber qué licencia se está usando</td>
+</tr>
+<tr>
+<td>Id de instalación aleatorio</td>
+<td>Distinguir las instalaciones</td>
+</tr>
+<tr>
+<td>IP y puerto del servidor, más la ubicación aproximada (ciudad, región, país) y el proveedor de red que Cloudflare deduce de esa IP</td>
+<td>Detectar una clave compartida o filtrada</td>
+</tr>
+<tr>
+<td>Versiones del servidor, del plugin y de Java, sistema operativo, núcleos y límite de memoria</td>
+<td>Soporte e identificar la copia</td>
+</tr>
+<tr>
+<td>Modo online, jugadores conectados, límite de jugadores y MOTD</td>
+<td>Distinguir los servidores</td>
+</tr>
+</tbody></table></div>
+<p>Nunca se envían nombres ni IP de jugadores, mensajes de chat ni archivos de tu servidor.</p>
+<h2 id="cuanto-tiempo-se-guarda"><a class="anchor" href="#cuanto-tiempo-se-guarda" aria-hidden="true">#</a>Cuánto tiempo se guarda</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dónde</th>
+<th>Qué</th>
+<th>Se conserva</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Servicio de licencias</td>
+<td>Registros de instalación de una clave</td>
+<td>Se borran 30 días después de la última vez que se vio la instalación, con un máximo de 50 por clave</td>
+</tr>
+<tr>
+<td>Servicio de licencias</td>
+<td>Registro de la clave (comprador, id, fecha de emisión, id de Discord)</td>
+<td>Mientras exista la clave</td>
+</tr>
+<tr>
+<td>Servicio de licencias</td>
+<td>Contadores de avisos por hora</td>
+<td>2 horas</td>
+</tr>
+<tr>
+<td>Canal privado de Discord</td>
+<td>Avisos de instalación, arranque y actividad</td>
+<td>Se borran solos a los 30 días</td>
+</tr>
+<tr>
+<td>Canal privado de Discord</td>
+<td>Alertas de claves revocadas, claves compartidas y jars modificados</td>
+<td>Se borran solas al año</td>
+</tr>
+<tr>
+<td>Canal privado de Discord</td>
+<td>Registros de licencias emitidas</td>
+<td>Mientras exista la licencia</td>
+</tr>
+<tr>
+<td>Soporte</td>
+<td>Transcripciones de tickets en un canal privado del staff</td>
+<td>Se borran solas al año</td>
+</tr>
+</tbody></table></div>
+<h2 id="jars-modificados"><a class="anchor" href="#jars-modificados" aria-hidden="true">#</a>Jars modificados</h2>
+<p>Si falla la comprobación de integridad, Chatalyst intenta avisar una vez al servicio de licencias antes de negarse a arrancar. El aviso solo se conserva si <code>License.Key</code> contiene una clave válida, e incluye los mismos datos del servidor de la lista anterior. Sin una clave válida se descarta.</p>
+<h2 id="tus-opciones"><a class="anchor" href="#tus-opciones" aria-hidden="true">#</a>Tus opciones</h2>
+<p>Usa una copia de BuiltByBit si no quieres ningún contacto con el autor. Para ver o borrar lo que hay guardado sobre tu clave o tus tickets, abre un ticket. Podemos conservar lo necesario para saber si una clave fue revocada o para atender una disputa.</p>
+<p>El uso de Discord, BuiltByBit y Cloudflare también está sujeto a sus propias políticas de privacidad.</p>
+</article>
+      <nav class="pager"><a class="pager-prev" href="license.html"><span>Anterior</span><strong>Licencia y activación</strong></a><a class="pager-next" href="upgrading.html"><span>Siguiente</span><strong>Actualizar</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

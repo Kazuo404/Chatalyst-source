@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Rentals · Chatalyst Docs</title>
+  <meta name="description" content="Let players rent ranks and perks such as /fly with in-game money for a limited time, granted through LuckPerms and refunded automatically if anything fails.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/rentals.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/rentals.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/rentals.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/rentals.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Rentals">
+  <meta property="og:description" content="Let players rent ranks and perks such as /fly with in-game money for a limited time, granted through LuckPerms and refunded automatically if anything fails.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/rentals.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/rentals.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Optional extras</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link is-active" aria-current="page" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#how-to-turn-it-on">How to turn it on</a></li><li class="toc-h2"><a href="#configuration">Configuration</a></li><li class="toc-h3"><a href="#general">General</a></li><li class="toc-h3"><a href="#categories">Categories</a></li><li class="toc-h3"><a href="#offers">Offers</a></li><li class="toc-h3"><a href="#selling-rentals-from-another-shop">Selling rentals from another shop</a></li><li class="toc-h3"><a href="#safety">Safety</a></li><li class="toc-h2"><a href="#commands-and-permissions">Commands and permissions</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Optional extras</p><h1>Rentals</h1><p class="lead">Let players rent ranks and perks such as /fly with in-game money for a limited time, granted through LuckPerms and refunded automatically if anything fails.</p></header>
+<article class="prose">
+<p>Rentals give players a way to earn perks by playing. Instead of a rank or <code>/fly</code> being something only money from your store can buy, players rent it for a day or a week with in-game money. Paying customers keep the convenience; players who grind get a path of their own.</p>
+<p>Every rental is granted through LuckPerms with an expiry. There are no permanent rentals: a rental that never expires would be a sale.</p>
+<h2 id="how-to-turn-it-on"><a class="anchor" href="#how-to-turn-it-on" aria-hidden="true">#</a>How to turn it on</h2>
+<p>Rentals need <a href="https://www.spigotmc.org/resources/vault.34315/" rel="noopener">Vault</a> with an economy plugin, and <a href="https://luckperms.net/" rel="noopener">LuckPerms</a> for ranks and permissions.</p>
+<ol>
+<li>Write at least one offer under <code>Rental_Offers</code> in <code>plugins/Chatalyst/rentals.yml</code> (see below).</li>
+<li>Set <code>Rentals.Enabled: true</code> and run <code>/cht reload</code>.</li>
+<li>Grant <code>chatalyst.command.rental</code> to the groups that may rent.</li>
+</ol>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p><code>chatalyst.command.rental</code> is not declared with a default in <code>plugin.yml</code>, so only operators have it until you grant it. Give it to your default group with LuckPerms, for example <code>/lp group default permission set chatalyst.command.rental true</code>.</p>
+</div>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Rentals:
+  Enabled: false
+  Command: &quot;alquilar&quot;
+  Command_Aliases:
+    - &quot;rent&quot;
+    - &quot;alquiler&quot;
+  Flight_Permissions:
+    - &quot;essentials.fly&quot;</code></pre></div>
+<h2 id="configuration"><a class="anchor" href="#configuration" aria-hidden="true">#</a>Configuration</h2>
+<h3 id="general"><a class="anchor" href="#general" aria-hidden="true">#</a>General</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns the rental menu and command on. It ships off because there are no offers until you write them.</td>
+</tr>
+<tr>
+<td><code>Command</code></td>
+<td><code>alquilar</code></td>
+<td>The command name.</td>
+</tr>
+<tr>
+<td><code>Command_Aliases</code></td>
+<td><code>rent</code>, <code>alquiler</code></td>
+<td>Extra names. A name another plugin already owns is skipped.</td>
+</tr>
+<tr>
+<td><code>Flight_Permissions</code></td>
+<td><code>essentials.fly</code></td>
+<td>Nodes that give flight. When such a rental expires, flight is turned off on the spot, with a warning a minute before and a soft landing.</td>
+</tr>
+</tbody></table></div>
+<p>The command is registered while the server runs, not in <code>plugin.yml</code>, so a server that does not use rentals keeps those names free.</p>
+<h3 id="categories"><a class="anchor" href="#categories" aria-hidden="true">#</a>Categories</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Rental_Categories:
+  rangos:
+    Name: &quot;Ranks&quot;
+    Name_es: &quot;Rangos&quot;
+    Icon: PAPER
+    Order: 1
+  cosmeticos:
+    Name: &quot;Cosmetics&quot;
+    Name_es: &quot;Cosméticos&quot;
+    Icon: ENDER_EYE
+    Order: 2
+  comandos:
+    Name: &quot;Commands&quot;
+    Name_es: &quot;Comandos&quot;
+    Icon: FEATHER
+    Order: 3</code></pre></div>
+<p>An empty category is not shown. An offer that points to a category that does not exist appears under &quot;Uncategorised&quot;.</p>
+<h3 id="offers"><a class="anchor" href="#offers" aria-hidden="true">#</a>Offers</h3>
+<p><code>Rental_Offers</code> is empty by default. The file includes this commented example:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Rental_Offers: {}
+#  vuelo-1d:
+#    Name: &quot;&lt;#7BFFB0&gt;&lt;bold&gt;Flight for a day&lt;/bold&gt;&quot;
+#    Name_es: &quot;&lt;#7BFFB0&gt;&lt;bold&gt;Vuelo por un dia&lt;/bold&gt;&quot;
+#    Icon: FEATHER
+#    Glow: true
+#    Description:
+#      - &quot;&lt;#C0B3D9&gt;Use /fly wherever you are allowed to&quot;
+#    Description_es:
+#      - &quot;&lt;#C0B3D9&gt;Usa /fly donde tengas permitido&quot;
+#    Permissions:
+#      - essentials.fly
+#    Duration: 1d
+#    Price: 5000</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Name</code> / <code>Name_es</code></td>
+<td>Name in the menu, per language.</td>
+</tr>
+<tr>
+<td><code>Icon</code>, <code>Glow</code></td>
+<td>Menu item and enchanted glint.</td>
+</tr>
+<tr>
+<td><code>Description</code> / <code>Description_es</code></td>
+<td>Lines under the offer.</td>
+</tr>
+<tr>
+<td><code>Category</code></td>
+<td>The category id it belongs to.</td>
+</tr>
+<tr>
+<td><code>Permissions</code></td>
+<td>LuckPerms nodes granted for the duration.</td>
+</tr>
+<tr>
+<td><code>Rank</code></td>
+<td>A LuckPerms group, to rent a whole rank.</td>
+</tr>
+<tr>
+<td><code>Duration</code></td>
+<td>Required and never permanent: <code>12h</code>, <code>1d</code>, <code>7d</code>, <code>1w</code>.</td>
+</tr>
+<tr>
+<td><code>Price</code></td>
+<td>Price in in-game money, through Vault.</td>
+</tr>
+</tbody></table></div>
+<p>An offer with no duration, no price or nothing to grant is not shown.</p>
+<h3 id="selling-rentals-from-another-shop"><a class="anchor" href="#selling-rentals-from-another-shop" aria-hidden="true">#</a>Selling rentals from another shop</h3>
+<p>Other shops can sell rentals without knowing anything about Chatalyst:</p>
+<ul>
+<li><strong>By command.</strong> A shop, sign or NPC runs <code>alquilar &lt;offer id&gt;</code> as the player. Charging, expiry and refund still happen in Chatalyst.</li>
+<li><strong>By voucher.</strong> Some shops can only sell items. Sell a paper whose lore contains a line <code>vale: &lt;offer id&gt;</code>. Right-clicking it redeems the rental without charging again. Vouchers keep working even if the rental menu is disabled, and players cannot forge them because lore cannot be written in survival.</li>
+</ul>
+<h3 id="safety"><a class="anchor" href="#safety" aria-hidden="true">#</a>Safety</h3>
+<p>The player is charged first and the rank or permission is granted after. If LuckPerms cannot grant it (for example the group was deleted), the money is refunded and the player and console are told.</p>
+<h2 id="commands-and-permissions"><a class="anchor" href="#commands-and-permissions" aria-hidden="true">#</a>Commands and permissions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Permission (default)</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/alquilar</code> (<code>/rent</code>, <code>/alquiler</code>)</td>
+<td><code>chatalyst.command.rental</code> (op until granted)</td>
+<td>Opens the rental menu.</td>
+</tr>
+<tr>
+<td><code>/alquilar &lt;offer id&gt;</code></td>
+<td><code>chatalyst.command.rental</code></td>
+<td>Rents an offer directly.</td>
+</tr>
+</tbody></table></div>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>A rental is a temporary LuckPerms node. Chatalyst does not add time to a rental that is still running: renting the same offer again while it is active may charge without extending it. Check the player&#39;s nodes in LuckPerms to see what they have.</li>
+<li>Without Vault and an economy plugin nothing can be rented, including vouchers.</li>
+<li>The same offer ids are used in commands, vouchers and the menu. Keep them short, lowercase and permanent.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="market.html"><span>Previous</span><strong>Market &amp; trading</strong></a><a class="pager-next" href="gifts.html"><span>Next</span><strong>Gifts</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

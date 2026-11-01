@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Filter, anti-spam &amp; anti-bot · Chatalyst Docs</title>
+  <meta name="description" content="Keep chat clean automatically. A swear filter that sees through tricks, anti-spam with escalating mutes, anti-bot join delay, hidden-character protection, a command blocker and cooldowns.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/chat-filter.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/chat-filter.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/chat-filter.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/chat-filter.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Filter, anti-spam &amp; anti-bot">
+  <meta property="og:description" content="Keep chat clean automatically. A swear filter that sees through tricks, anti-spam with escalating mutes, anti-bot join delay, hidden-character protection, a command blocker and cooldowns.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/chat-filter.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/chat-filter.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Chat</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link is-active" aria-current="page" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#swear-filter">Swear filter</a></li><li class="toc-h2"><a href="#anti-spam">Anti-spam</a></li><li class="toc-h2"><a href="#anti-bot">Anti-bot</a></li><li class="toc-h2"><a href="#chat-security">Chat security</a></li><li class="toc-h2"><a href="#command-blocker">Command blocker</a></li><li class="toc-h2"><a href="#command-cooldowns">Command cooldowns</a></li><li class="toc-h2"><a href="#staff-chat-controls">Staff chat controls</a></li><li class="toc-h2"><a href="#bypass-permissions">Bypass permissions</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Chat</p><h1>Filter, anti-spam &amp; anti-bot</h1><p class="lead">Keep chat clean automatically. A swear filter that sees through tricks, anti-spam with escalating mutes, anti-bot join delay, hidden-character protection, a command blocker and cooldowns.</p></header>
+<article class="prose">
+<p>These tools protect your chat without staff having to watch it all day. The swear filter catches insults even when players disguise them. The anti-spam stops floods and repeated messages and mutes repeat offenders for longer each time. The anti-bot stops accounts that join and spam in the same second. And staff get quick controls for when things get out of hand: lock the chat, slow it down or clear it.</p>
+<p>Most of these are on by default and live in <code>moderation.yml</code>; the swear filter has its own file, <code>swear.yml</code>. For custom patterns (advertising, links…) see the <a href="rules-engine.html">rules engine</a>.</p>
+<h2 id="swear-filter"><a class="anchor" href="#swear-filter" aria-hidden="true">#</a>Swear filter</h2>
+<p>The filter looks for whole words, so it does not flag normal words that happen to contain a bad one (&quot;disputa&quot;, &quot;class&quot;, &quot;cultura&quot;). And it sees through the usual tricks:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Trick</th>
+<th>Example it still catches</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Repeated letters</td>
+<td><code>putooooo</code></td>
+</tr>
+<tr>
+<td>Separators</td>
+<td><code>p.u.t.o</code>, <code>p u t o</code>, <code>p-u-t-o</code></td>
+</tr>
+<tr>
+<td>Leet speak</td>
+<td><code>put0</code>, <code>@</code>, <code>4</code>, <code>3</code>, <code>1</code>, <code>$</code></td>
+</tr>
+<tr>
+<td>Accents</td>
+<td><code>pútà</code></td>
+</tr>
+<tr>
+<td>Look-alike letters</td>
+<td>Cyrillic letters that look Latin</td>
+</tr>
+<tr>
+<td>Sound-alike swaps</td>
+<td><code>kabron</code>, <code>pvto</code></td>
+</tr>
+<tr>
+<td>CamelCase</td>
+<td><code>LaPutaDeTuMadre</code></td>
+</tr>
+</tbody></table></div>
+<p>The word list covers Spanish (Latin America and Spain), English and Portuguese. Settings in <code>swear.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Enabled: true
+Action: CENSOR
+Censor_Char: &quot;*&quot;
+Points: 1
+Use_Player_Language: true
+Warn: &quot;&lt;#FF4D6D&gt;Watch your language.&quot;
+Warn_es: &quot;&lt;#FF4D6D&gt;Cuida tu lenguaje.&quot;
+Bypass_Permission: chatalyst.bypass.swear
+
+Name_Alert:
+  Enabled: true
+
+Normalize:
+  Collapse_Repeats: true
+  Strip_Separators: true
+  Leet: true
+  Camel_Boundaries: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Action</code></td>
+<td><code>CENSOR</code></td>
+<td><code>CENSOR</code> masks the letters and sends the message; <code>DENY</code> cancels it</td>
+</tr>
+<tr>
+<td><code>Censor_Char</code></td>
+<td><code>*</code></td>
+<td>Character used to mask</td>
+</tr>
+<tr>
+<td><code>Points</code></td>
+<td><code>1</code></td>
+<td><a href="punishments.html#warning-points">Warning points</a> added per infraction</td>
+</tr>
+<tr>
+<td><code>Warn</code> / <code>Warn_es</code></td>
+<td>see above</td>
+<td>Private warning to the player</td>
+</tr>
+<tr>
+<td><code>Bypass_Permission</code></td>
+<td><code>chatalyst.bypass.swear</code></td>
+<td>Players with it are not filtered (op by default)</td>
+</tr>
+<tr>
+<td><code>Name_Alert.Enabled</code></td>
+<td><code>true</code></td>
+<td>Alerts staff (<code>chatalyst.notify.security</code>) when someone joins with an offensive account name. It never kicks on its own</td>
+</tr>
+<tr>
+<td><code>Normalize.*</code></td>
+<td><code>true</code></td>
+<td>Each anti-evasion technique can be turned off separately</td>
+</tr>
+</tbody></table></div>
+<p>The file has three lists:</p>
+<ul>
+<li><code>Words</code>: banned words written normally. The filter works out the disguised variants itself. Plurals and common forms are listed separately.</li>
+<li><code>Contains</code>: phrases matched anywhere inside a word, for insults glued together (<code>laputadetumadre</code>, <code>fuckyou</code>). Only add long, unambiguous fragments: <code>puta</code> here would flag <code>computadora</code>.</li>
+<li><code>Whitelist</code>: real words that should never be touched in your community.</li>
+</ul>
+<p>Messages from Discord also pass through the filter before reaching the game.</p>
+<h2 id="anti-spam"><a class="anchor" href="#anti-spam" aria-hidden="true">#</a>Anti-spam</h2>
+<p>Stops players from sending messages too fast or repeating the same message.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Anti_Spam:
+  Enabled: true
+  Delay_Seconds: 1.5
+  Similarity: 0.9
+  Repeat_Seconds: 30
+  Min_Repeat_Length: 5
+  Bypass_Permission: chatalyst.bypass.spam
+  Auto_Mute:
+    Enabled: true
+    Warnings_Before_Mute: 4
+    Escalation:
+      - &quot;15m&quot;
+      - &quot;30m&quot;
+      - &quot;1h&quot;
+      - &quot;5h&quot;
+      - &quot;12h&quot;
+      - &quot;1d&quot;
+    Warning_Reset: 60
+    Escalation_Reset: &quot;6h&quot;
+    Delete_Messages: true
+    Delete_Count: 10
+    Clear_Chat: false</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Delay_Seconds</code></td>
+<td><code>1.5</code></td>
+<td>Minimum time between two messages from the same player</td>
+</tr>
+<tr>
+<td><code>Similarity</code></td>
+<td><code>0.9</code></td>
+<td>How similar a message must be to the previous one to count as a repeat (1 = identical only)</td>
+</tr>
+<tr>
+<td><code>Repeat_Seconds</code></td>
+<td><code>30</code></td>
+<td>How long the previous message is remembered for the repeat check. <code>0</code> = the whole session</td>
+</tr>
+<tr>
+<td><code>Min_Repeat_Length</code></td>
+<td><code>5</code></td>
+<td>Shorter messages (&quot;ok&quot;, &quot;gg&quot;, &quot;hola&quot;) never count as repeats</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Warnings_Before_Mute</code></td>
+<td><code>4</code></td>
+<td>Spam warnings before an automatic mute</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Escalation</code></td>
+<td>15m → 1d</td>
+<td>Mute length for the 1st, 2nd, 3rd… offense. The last value repeats</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Warning_Reset</code></td>
+<td><code>60</code></td>
+<td>Seconds without spam before the warning count resets</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Escalation_Reset</code></td>
+<td><code>6h</code></td>
+<td>Time without auto-mutes before the escalation level drops</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Delete_Messages</code></td>
+<td><code>true</code></td>
+<td>On auto-mute, removes the spammer&#39;s recent messages from everyone&#39;s chat</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Delete_Count</code></td>
+<td><code>10</code></td>
+<td>How many recent messages to remove</td>
+</tr>
+<tr>
+<td><code>Auto_Mute.Clear_Chat</code></td>
+<td><code>false</code></td>
+<td>Also pushes everyone&#39;s chat up with blank lines (except staff). A blunt tool, off by default</td>
+</tr>
+</tbody></table></div>
+<p>Per-rank delays are set in <code>config.yml</code> with <code>Groups.List.&lt;group&gt;.Chat_Delay_Seconds</code> (see <a href="configuration.html#per-group-overrides">configuration</a>).</p>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>Removing a message from other players&#39; screens only works for lines that Minecraft signed. Almost all normal chat is signed; lines sent as system messages (for example translated chat) cannot be pulled back.</p>
+</div>
+<h2 id="anti-bot"><a class="anchor" href="#anti-bot" aria-hidden="true">#</a>Anti-bot</h2>
+<p>Makes new arrivals wait a few seconds before they can chat or use commands, which stops bots that join and spam instantly. Off by default.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Anti_Bot:
+  Enabled: false
+  Chat_Delay_After_Join: 3
+  Command_Delay_After_Join: 2
+  Bypass_Permission: chatalyst.bypass.antibot
+  Allowed_Commands:
+    - &quot;/login&quot;
+    - &quot;/register&quot;
+    - &quot;/l&quot;
+    - &quot;/reg&quot;</code></pre></div>
+<p>Login commands in <code>Allowed_Commands</code> always work, so players can log in during the wait.</p>
+<h2 id="chat-security"><a class="anchor" href="#chat-security" aria-hidden="true">#</a>Chat security</h2>
+<p>Cleans every message before any other filter runs. It removes invisible and control characters (used to sneak insults past filters by hiding zero-width characters between the letters, or to flip the text direction) and caps the message length. Leave it on.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Chat_Security:
+  Enabled: true
+  Max_Length: 256
+  Strip_Control_Chars: true
+  Strip_Invisible: true
+  Notify_Staff: true
+  Bypass_Permission: chatalyst.bypass.security</code></pre></div>
+<p>With <code>Notify_Staff: true</code>, staff with <code>chatalyst.notify.security</code> are alerted when someone uses hidden characters to dodge the filter. The bypass permission is not given to anyone by default, not even operators.</p>
+<h2 id="command-blocker"><a class="anchor" href="#command-blocker" aria-hidden="true">#</a>Command blocker</h2>
+<p>Blocks commands completely, whichever plugin registered them. Each entry is a literal command (<code>/op</code>) or a regular expression (<code>regex:...</code>). By default it hides server information: <code>/plugins</code>, <code>/version</code>, <code>/tps</code>, <code>/timings</code>, <code>/seed</code> and their variants, including namespaced forms like <code>/bukkit:plugins</code>.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Command_Blocker:
+  Enabled: true
+  Bypass_Permission: chatalyst.bypass.blocker
+  Blocked:
+    - &quot;regex:(?i)/(\\w+:)?(plugins|pl|version|ver|about|icanhasbukkit|help|\\?)(\\s.*)?&quot;
+    - &quot;regex:(?i)/(\\w+:)?(timings|tps|mspt|lag|gc|memory|entities|spark|health|sysinfo)(\\s.*)?&quot;
+    - &quot;regex:(?i)/(\\w+:)?(seed|datapack)(\\s.*)?&quot;</code></pre></div>
+<p>A blocked command answers with a short &quot;That command is blocked&quot; message (<code>blocker.blocked</code> in the lang files). Operators are never blocked. Tab completion hides the same kind of commands (<code>Tab_Complete</code> in <code>chat.yml</code>), so players do not see them in the first place. With <a href="integrations.html#packetevents">PacketEvents</a>, blocked commands are stopped even earlier.</p>
+<h2 id="command-cooldowns"><a class="anchor" href="#command-cooldowns" aria-hidden="true">#</a>Command cooldowns</h2>
+<p>Makes players wait between uses of specific commands, such as <code>/kit</code>, <code>/home</code> or <code>/rtp</code>, whichever plugin owns them.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Command_Cooldowns:
+  Bypass_Permission: chatalyst.bypass.cooldown
+  Commands: {}</code></pre></div>
+<p>Add commands with their wait in seconds:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Command_Cooldowns:
+  Bypass_Permission: chatalyst.bypass.cooldown
+  Commands:
+    &quot;/kit&quot;: 60
+    &quot;/home&quot;: 5</code></pre></div>
+<h2 id="staff-chat-controls"><a class="anchor" href="#staff-chat-controls" aria-hidden="true">#</a>Staff chat controls</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Permission</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/chatlock</code> (<code>/mutechat</code>)</td>
+<td><code>chatalyst.command.chatlock</code></td>
+<td>Locks the global chat</td>
+</tr>
+<tr>
+<td><code>/chatunlock</code> (<code>/unmutechat</code>)</td>
+<td><code>chatalyst.command.chatlock</code></td>
+<td>Unlocks it</td>
+</tr>
+<tr>
+<td><code>/slowmode &lt;seconds&gt;</code> / <code>/slowmode off</code></td>
+<td><code>chatalyst.command.slowmode</code></td>
+<td>Forces a wait between messages for everyone</td>
+</tr>
+<tr>
+<td><code>/clearchat</code> (<code>/cc</code>)</td>
+<td><code>chatalyst.command.clearchat</code></td>
+<td>Pushes everyone&#39;s chat out of view with <code>Chat.Clear_Lines</code> blank lines (150)</td>
+</tr>
+<tr>
+<td><code>/chatalyst purge &lt;player&gt;</code></td>
+<td><code>chatalyst.admin</code></td>
+<td>Removes a player&#39;s recent messages from everyone&#39;s chat, even up to 5 minutes after they left</td>
+</tr>
+<tr>
+<td>The <strong>X</strong> next to a message</td>
+<td><code>chatalyst.deletemessages</code></td>
+<td>Deletes that one message for everyone</td>
+</tr>
+</tbody></table></div>
+<p>All are op by default. <code>chatalyst.chat.bypass</code> lets a player keep talking in a locked or slowed chat, and <code>chatalyst.command.clearchat.bypass</code> keeps a staff member&#39;s chat when someone clears it, so they can review what was said.</p>
+<h2 id="bypass-permissions"><a class="anchor" href="#bypass-permissions" aria-hidden="true">#</a>Bypass permissions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Skips</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.bypass.swear</code></td>
+<td>Swear filter</td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.spam</code></td>
+<td>Anti-spam and the character-repeat rule</td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.antibot</code></td>
+<td>Anti-bot wait</td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.security</code></td>
+<td>Chat security cleaning</td>
+<td>nobody</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.blocker</code></td>
+<td>Command blocker</td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.cooldown</code></td>
+<td>Command cooldowns</td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.caps</code></td>
+<td>Anti-caps</td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>chatalyst.bypass.ads</code></td>
+<td>Anti-advertising rules</td>
+<td>op</td>
+</tr>
+</tbody></table></div>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>No filter is perfect. The swear filter is tuned to avoid false positives, so a very creative spelling can still get through. Add it to <code>Words</code> or <code>Contains</code> when you see it.</li>
+<li>The command blocker blocks by name. It cannot stop a plugin that offers the same information through a different command name; add that name too.</li>
+<li>The anti-bot only delays chat and commands. It does not stop bot accounts from joining; use a dedicated anti-bot plugin or your proxy for that.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="join-messages.html"><span>Previous</span><strong>Join, quit &amp; death messages</strong></a><a class="pager-next" href="rules-engine.html"><span>Next</span><strong>Rules engine</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

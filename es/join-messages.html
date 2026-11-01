@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Mensajes de entrada, salida y muerte · Docs de Chatalyst</title>
+  <meta name="description" content="Cambia las líneas de entrada, salida y muerte de vanilla por otras con estilo, da la bienvenida con un MOTD y prepara una entrada especial para los rangos altos.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/join-messages.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/join-messages.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/join-messages.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/join-messages.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Mensajes de entrada, salida y muerte">
+  <meta property="og:description" content="Cambia las líneas de entrada, salida y muerte de vanilla por otras con estilo, da la bienvenida con un MOTD y prepara una entrada especial para los rangos altos.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/join-messages.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/join-messages.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Chat</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link is-active" aria-current="page" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#lineas-de-entrada-y-salida">Líneas de entrada y salida</a></li><li class="toc-h2"><a href="#lineas-distintas-para-jugadores-distintos">Líneas distintas para jugadores distintos</a></li><li class="toc-h2"><a href="#entradas-especiales">Entradas especiales</a></li><li class="toc-h2"><a href="#mensajes-de-muerte">Mensajes de muerte</a></li><li class="toc-h2"><a href="#mensaje-de-bienvenida-motd">Mensaje de bienvenida (MOTD)</a></li><li class="toc-h2"><a href="#mensajes-de-expulsion">Mensajes de expulsión</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Chat</p><h1>Mensajes de entrada, salida y muerte</h1><p class="lead">Cambia las líneas de entrada, salida y muerte de vanilla por otras con estilo, da la bienvenida con un MOTD y prepara una entrada especial para los rangos altos.</p></header>
+<article class="prose">
+<p>Son las líneas que ve todo el mundo cuando un jugador entra, sale o muere, más el mensaje de bienvenida que recibe un jugador al entrar. Chatalyst cambia las líneas simples de vanilla por otras con estilo y en el idioma de cada jugador, y puede preparar un pequeño espectáculo cuando llega alguien de rango importante.</p>
+<p>Los mensajes de entrada, salida y muerte y el MOTD vienen <strong>encendidos</strong>. Los de expulsión, las entradas especiales y los efectos de muerte vienen apagados. Todo está en <code>plugins/Chatalyst/messages.yml</code>.</p>
+<h2 id="lineas-de-entrada-y-salida"><a class="anchor" href="#lineas-de-entrada-y-salida" aria-hidden="true">#</a>Líneas de entrada y salida</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Join:
+  # Interruptor general en este servidor. false oculta la entrada vanilla, normal y especial.
+  Enabled: true
+  # true = cada jugador conectado ve la línea de entrada en el idioma de su cliente.
+  # false = usa Message tal cual está escrito para todos.
+  Use_Player_Language: true
+  Message: &quot;&lt;#7B68A0&gt;[&lt;#3DFFA8&gt;+&lt;#7B68A0&gt;] &lt;#FBF2FF&gt;{player_name} &lt;#C0B3D9&gt;joined&quot;
+  # Sonido que oye el jugador que entra. Déjalo vacío para ninguno.
+  Sound: &quot;minecraft:entity.player.levelup&quot;</code></pre></div>
+<p><code>Quit</code> funciona igual. Algunas cosas a saber:</p>
+<ul>
+<li>Con <code>Use_Player_Language: true</code> (lo de fábrica), el texto sale de los archivos de idioma, así cada jugador lo lee en su idioma. Ponlo en <code>false</code> para usar tu <code>Message</code> tal cual lo escribes.</li>
+<li><code>Enabled: false</code> oculta la línea por completo, también la de vanilla.</li>
+<li>El staff en vanish nunca se anuncia.</li>
+<li>Los jugadores pueden ocultarse estas líneas con <code>/toggle joinquit</code>.</li>
+</ul>
+<h2 id="lineas-distintas-para-jugadores-distintos"><a class="anchor" href="#lineas-distintas-para-jugadores-distintos" aria-hidden="true">#</a>Líneas distintas para jugadores distintos</h2>
+<p>Añade <code>Groups</code> para dar a algunos jugadores sus propias líneas. Gana el primer grupo cuyas condiciones se cumplan, y se elige al azar uno de sus mensajes:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Groups:
+    vips:
+      Require_Permission: chatalyst.vip
+      Messages:
+        - &quot;&lt;#FBF2FF&gt;{player_name} &lt;#C0B3D9&gt;has arrived!&quot;
+        - &quot;&lt;#C0B3D9&gt;Make way for &lt;#FBF2FF&gt;{player_name}&lt;#C0B3D9&gt;!&quot;</code></pre></div>
+<p>Un grupo puede pedir un permiso (<code>Require_Permission</code>), una lista de mundos (<code>Require_Worlds</code>) y, en las muertes, un asesino (<code>Require_Killer_Contains</code>).</p>
+<h2 id="entradas-especiales"><a class="anchor" href="#entradas-especiales" aria-hidden="true">#</a>Entradas especiales</h2>
+<p>Una entrada especial es un pequeño espectáculo cuando entra un jugador de rango alto: un sonido que oyen todos, un rayo que no hace daño, una línea para todos y un título en pantalla. Enciéndela en <code>messages.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Fancy:
+    Enabled: false
+    # true = los jugadores con rango muestran SOLO la entrada especial (sin duplicar la normal).
+    Replace_Normal_Message: true</code></pre></div>
+<p>Los niveles de fábrica son <code>owner</code>, <code>admin</code> y <code>vip</code>, que se asignan por grupo de LuckPerms o por los permisos <code>chatalyst.fancyjoin.owner</code>, <code>chatalyst.fancyjoin.admin</code> y <code>chatalyst.fancyjoin.vip</code>. Con <code>Auto_Detect_LuckPerms</code>, el resto de grupos de LuckPerms reciben una entrada sencilla automáticamente. También puedes editar los niveles en el juego desde <code>/cht gui</code>, con vista previa.</p>
+<h2 id="mensajes-de-muerte"><a class="anchor" href="#mensajes-de-muerte" aria-hidden="true">#</a>Mensajes de muerte</h2>
+<p>Chatalyst cambia las líneas de muerte de vanilla. Elige lo primero que encaje en este orden: un jugador matado con un <strong>objeto con nombre</strong> (el objeto sale con su descripción), un grupo que coincida, la línea de la causa de la muerte y, por último, el <code>Message</code> genérico.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Causes:
+    PVP: &quot;&lt;#FBF2FF&gt;{player_name} &lt;#C0B3D9&gt;was eliminated by &lt;#FF4D6D&gt;{killer}&quot;
+    MOB: &quot;&lt;#FBF2FF&gt;{player_name} &lt;#C0B3D9&gt;was killed by a &lt;#FBF2FF&gt;{killer}&quot;
+    FALL: &quot;&lt;#FBF2FF&gt;{player_name} &lt;#C0B3D9&gt;fell from a high place&quot;</code></pre></div>
+<p><code>{killer}</code> es el nombre propio del asesino cuando lo tiene, así un jefe con nombre se anuncia por su nombre. Pon <code>Death.Enabled: false</code> para mantener los mensajes de vanilla. <code>Death.Effects</code> (apagado) añade un título y un sonido para el que mata y el que muere en las peleas entre jugadores.</p>
+<h2 id="mensaje-de-bienvenida-motd"><a class="anchor" href="#mensaje-de-bienvenida-motd" aria-hidden="true">#</a>Mensaje de bienvenida (MOTD)</h2>
+<p>Al entrar, el jugador recibe una bienvenida corta en el chat, distinta la primera vez:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Motd:
+  Enabled: true
+  # true = usa lang/&lt;locale&gt;.yml -&gt; server-messages.motd.* según el idioma del cliente de cada jugador.
+  # false = usa las líneas de respaldo de abajo tal cual están escritas.
+  Use_Player_Language: true</code></pre></div>
+<p>Con <code>Use_Player_Language: true</code> el texto sale de los archivos de idioma; ponlo en <code>false</code> para usar las líneas <code>First_Time</code> y <code>Default</code> de <code>messages.yml</code>. Los jugadores pueden volver a leerlo con <code>/motd</code>.</p>
+<h2 id="mensajes-de-expulsion"><a class="anchor" href="#mensajes-de-expulsion" aria-hidden="true">#</a>Mensajes de expulsión</h2>
+<p><code>Kick.Enabled: true</code> anuncia una línea cuando expulsan a un jugador, en lugar de la línea normal de salida. Viene apagado.</p>
+<div class="callout callout-tip"><p class="callout-title">Consejo</p><p>Para una gran bienvenida a quien entra por primera vez, con comandos como un kit inicial, mira <a href="newcomers.html">Recién llegados</a>.</p>
+</div>
+</article>
+      <nav class="pager"><a class="pager-prev" href="nicknames.html"><span>Anterior</span><strong>Colores y apodos</strong></a><a class="pager-next" href="chat-filter.html"><span>Siguiente</span><strong>Filtro, antispam y antibot</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Anuncios · Docs de Chatalyst</title>
+  <meta name="description" content="Anuncios automáticos que esperan a que el chat esté vivo, avisos rápidos en chat, título, barra de acción, bossbar o notificación, y un compositor animado.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/announcements.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/announcements.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/announcements.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/announcements.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Anuncios">
+  <meta property="og:description" content="Anuncios automáticos que esperan a que el chat esté vivo, avisos rápidos en chat, título, barra de acción, bossbar o notificación, y un compositor animado.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/announcements.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/announcements.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link is-active" aria-current="page" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#anunciador-automatico">Anunciador automático</a></li><li class="toc-h3"><a href="#avisos-rapidos">Avisos rápidos</a></li><li class="toc-h3"><a href="#el-compositor-announce">El compositor /announce</a></li><li class="toc-h3"><a href="#anuncios-a-toda-la-red">Anuncios a toda la red</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Anuncios</h1><p class="lead">Anuncios automáticos que esperan a que el chat esté vivo, avisos rápidos en chat, título, barra de acción, bossbar o notificación, y un compositor animado.</p></header>
+<article class="prose">
+<p>Chatalyst tiene dos tipos de anuncios. El <strong>anunciador</strong> rota tus mensajes solo y, en modo inteligente, solo habla cuando el chat está vivo de verdad, así que un servidor tranquilo no se llena de spam. Para avisos puntuales, el staff usa <code>/broadcast</code> o el compositor <code>/announce</code>, que añade pantallas, sonidos, estilos y animaciones desde un menú.</p>
+<p>Los anuncios automáticos se enseñan en el idioma de cada jugador: los clientes en inglés leen <code>Messages</code> y los clientes en español leen <code>Messages_es</code>.</p>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>El anunciador es un extra opcional y viene apagado. Pon <code>Enabled: true</code> y ejecuta <code>/cht reload</code>. Está en <code>plugins/Chatalyst/bot.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Announcer:
+  Enabled: false
+  Interval: 300          # segundos entre anuncios
+  Random: false          # true = orden aleatorio
+  Smart:
+    Enabled: true
+    Min_Players: 2         # por debajo de estos conectados, nunca anuncia
+    Min_Chatters: 3        # mínimo fijo de jugadores distintos escribiendo
+    Chatters_Percent: 10   # ...o este % de los conectados, lo que sea mayor
+  Prefix: &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Info&lt;#7B68A0&gt;] &lt;reset&gt;&quot;
+  # Título mostrado en &quot;/broadcast toast &lt;mensaje&gt;&quot; (texto plano; los toasts no admiten colores).
+  Toast_Title: &quot;Announcement&quot;
+  Toast_Title_es: &quot;Anuncio&quot;
+  Messages:
+    - &quot;&lt;#C0B3D9&gt;Remember to respect other players.&quot;
+    - &quot;&lt;#C0B3D9&gt;Switch channels with &lt;#FBF2FF&gt;/channel&lt;#C0B3D9&gt;.&quot;
+    - &quot;&lt;#C0B3D9&gt;Send mail to anyone with &lt;#FBF2FF&gt;/inbox&lt;#C0B3D9&gt;.&quot;
+  Messages_es:
+    - &quot;&lt;#C0B3D9&gt;Recuerda respetar a los demas jugadores.&quot;
+    - &quot;&lt;#C0B3D9&gt;Cambia de canal con &lt;#FBF2FF&gt;/channel&lt;#C0B3D9&gt;.&quot;
+    - &quot;&lt;#C0B3D9&gt;Envia correo a cualquiera con &lt;#FBF2FF&gt;/inbox&lt;#C0B3D9&gt;.&quot;</code></pre></div>
+<p>Edita los mensajes y ejecuta <code>/cht reload</code>.</p>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<h3 id="anunciador-automatico"><a class="anchor" href="#anunciador-automatico" aria-hidden="true">#</a>Anunciador automático</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>true</code></td>
+<td>Enciende el anunciador.</td>
+</tr>
+<tr>
+<td><code>Interval</code></td>
+<td><code>300</code></td>
+<td>Segundos entre anuncios.</td>
+</tr>
+<tr>
+<td><code>Random</code></td>
+<td><code>false</code></td>
+<td><code>true</code> = orden aleatorio en vez del orden de la lista.</td>
+</tr>
+<tr>
+<td><code>Smart.Enabled</code></td>
+<td><code>true</code></td>
+<td>Solo anuncia cuando el chat está activo (ver abajo).</td>
+</tr>
+<tr>
+<td><code>Smart.Min_Players</code></td>
+<td><code>2</code></td>
+<td>Con menos jugadores conectados, nunca anuncia.</td>
+</tr>
+<tr>
+<td><code>Smart.Min_Chatters</code></td>
+<td><code>3</code></td>
+<td>Mínimo de jugadores distintos que tienen que haber escrito desde el último anuncio.</td>
+</tr>
+<tr>
+<td><code>Smart.Chatters_Percent</code></td>
+<td><code>10</code></td>
+<td>O este porcentaje de los conectados, lo que sea mayor.</td>
+</tr>
+<tr>
+<td><code>Prefix</code></td>
+<td><code>[Info]</code></td>
+<td>Texto delante de cada anuncio automático.</td>
+</tr>
+<tr>
+<td><code>Messages</code> / <code>Messages_es</code></td>
+<td>3 ejemplos</td>
+<td>Los anuncios. Las dos listas se emparejan por posición.</td>
+</tr>
+</tbody></table></div>
+<p>En modo inteligente, con 100 jugadores y <code>Chatters_Percent: 10</code>, tienen que haber escrito diez jugadores distintos desde el anuncio anterior. Con 5 jugadores se aplica el mínimo fijo de 3. Si el chat está callado, el anuncio espera a un intervalo posterior; no se pierde nada.</p>
+<p>Si falta una línea en español, los jugadores en español ven la inglesa. La consola usa inglés.</p>
+<h3 id="avisos-rapidos"><a class="anchor" href="#avisos-rapidos" aria-hidden="true">#</a>Avisos rápidos</h3>
+<p><code>/broadcast [chat|title|actionbar|bossbar|toast] &lt;mensaje&gt;</code> manda un mensaje estático a una pantalla. Sin pantalla, va al chat. <code>Toast_Title</code> y <code>Toast_Title_es</code> fijan el título de los avisos tipo notificación.</p>
+<h3 id="el-compositor-announce"><a class="anchor" href="#el-compositor-announce" aria-hidden="true">#</a>El compositor /announce</h3>
+<p><code>/announce</code> abre un menú para un anuncio cuidado:</p>
+<ol>
+<li>Elige la pantalla: <code>EPIC</code> (título animado, chat enmarcado y bossbar animada a la vez), chat, título, barra de acción, bossbar o notificación.</li>
+<li>Elige un sonido, un estilo de la paleta de colores del chat y una animación.</li>
+<li>Pulsa el objeto del mensaje y escribe el texto en el chat (<code>cancelar</code> lo anula).</li>
+<li>Elige el alcance: este servidor o toda la red.</li>
+<li>Míralo antes en privado, o envíalo.</li>
+</ol>
+<p>Animaciones disponibles: estática, máquina de escribir, expansión, glitch, onda de color, fotogramas, pulso, destello de alerta, marquesina y cuenta atrás. Se aplican al título, la barra de acción y la bossbar; el chat y la notificación son estáticos. Las animaciones duran unos ocho segundos.</p>
+<p>La animación de <strong>fotogramas</strong> usa tus propias plantillas de <code>bot.yml</code>, donde <code>{msg}</code> es el texto compuesto:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Animation:
+    Interval_Ticks: 6
+    Frames:
+      - &quot;&lt;gradient:#240046:#7B2CBF&gt;{msg}&lt;/gradient&gt;&quot;
+      - &quot;&lt;gradient:#7B2CBF:#9D4EDD&gt;{msg}&lt;/gradient&gt;&quot;
+      - &quot;&lt;gradient:#9D4EDD:#C77DFF&gt;{msg}&lt;/gradient&gt;&quot;
+      - &quot;&lt;gradient:#C77DFF:#E0AAFF&gt;{msg}&lt;/gradient&gt;&quot;</code></pre></div>
+<p><code>Interval_Ticks</code> admite de 2 a 200.</p>
+<h3 id="anuncios-a-toda-la-red"><a class="anchor" href="#anuncios-a-toda-la-red" aria-hidden="true">#</a>Anuncios a toda la red</h3>
+<p>El alcance «toda la red» aparece cuando <code>Proxy.Enabled</code> y <code>Network_Admin.Announcements.Enabled</code> (en <code>network.yml</code>) están encendidos. Cada servidor dibuja el anuncio por su cuenta, con la misma pantalla, estilo, sonido y animación. Ver <a href="network.html">Redes con proxy y Redis</a>.</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Permiso (por defecto)</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/announce</code></td>
+<td><code>chatalyst.command.announce</code> (op)</td>
+<td>Abre el compositor.</td>
+</tr>
+<tr>
+<td><code>/broadcast [pantalla] &lt;mensaje&gt;</code> (<code>/bc</code>)</td>
+<td><code>chatalyst.command.broadcast</code> (op)</td>
+<td>Manda un aviso estático.</td>
+</tr>
+<tr>
+<td><code>/toggle announcements</code></td>
+<td><code>chatalyst.command.toggle</code> (true)</td>
+<td>El jugador deja de ver el anunciador automático.</td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permiso</th>
+<th>Por defecto</th>
+<th>Qué permite</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.admin.network.announce</code></td>
+<td>op</td>
+<td>Enviar <code>/announce</code> a toda la red.</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.broadcast.chat</code>, <code>.title</code>, <code>.actionbar</code>, <code>.bossbar</code>, <code>.toast</code></td>
+<td>false</td>
+<td>Una pantalla cada uno (ver Límites).</td>
+</tr>
+</tbody></table></div>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li><code>/toggle announcements</code> solo oculta el anunciador automático. Los avisos del staff y <code>/announce</code> siguen llegando a todos.</li>
+<li>El servidor comprueba <code>chatalyst.command.broadcast</code> antes de ejecutar <code>/broadcast</code>, y ese nodo ya permite todas las pantallas. Así que hoy los nodos por pantalla no sirven por sí solos para dar a alguien una sola pantalla.</li>
+<li>El destello de alerta cambia de color muy rápido. Para avisos de rutina, usa pulso u onda de color.</li>
+<li>Los anuncios automáticos son por servidor. Para un mensaje a toda la red, usa el alcance de red del compositor.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="newcomers.html"><span>Anterior</span><strong>Recién llegados</strong></a><a class="pager-next" href="mail.html"><span>Siguiente</span><strong>Correo</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

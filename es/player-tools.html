@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Herramientas del jugador · Docs de Chatalyst</title>
+  <meta name="description" content="Las herramientas del día a día para los jugadores, como AFK, preferencias, ignorar, /me, colores, objetos en el chat, renombrar objetos, carteles y la lista de jugadores.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/player-tools.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/player-tools.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/player-tools.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/player-tools.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Herramientas del jugador">
+  <meta property="og:description" content="Las herramientas del día a día para los jugadores, como AFK, preferencias, ignorar, /me, colores, objetos en el chat, renombrar objetos, carteles y la lista de jugadores.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/player-tools.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/player-tools.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link is-active" aria-current="page" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#afk">AFK</a></li><li class="toc-h2"><a href="#preferencias-personales">Preferencias personales</a></li><li class="toc-h2"><a href="#ignorar-jugadores">Ignorar jugadores</a></li><li class="toc-h2"><a href="#me">/me</a></li><li class="toc-h2"><a href="#color-de-chat">Color de chat</a></li><li class="toc-h2"><a href="#ensenar-cosas-en-el-chat">Enseñar cosas en el chat</a></li><li class="toc-h2"><a href="#renombrar-objetos">Renombrar objetos</a></li><li class="toc-h2"><a href="#carteles-de-colores">Carteles de colores</a></li><li class="toc-h2"><a href="#lista-de-jugadores">Lista de jugadores</a></li><li class="toc-h2"><a href="#mensaje-de-bienvenida">Mensaje de bienvenida</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Herramientas del jugador</h1><p class="lead">Las herramientas del día a día para los jugadores, como AFK, preferencias, ignorar, /me, colores, objetos en el chat, renombrar objetos, carteles y la lista de jugadores.</p></header>
+<article class="prose">
+<p>Además del chat, Chatalyst da a los jugadores un conjunto de herramientas pequeñas que hacen el servidor más cómodo: marcarse como ausente, apagar lo que no quieren ver, ignorar a alguien, elegir un color de chat, enseñar un objeto o su inventario en el chat, y más. La mayoría funcionan para todos desde el principio; unas pocas están pensadas como ventaja de rango y piden un permiso.</p>
+<p>Las funciones más grandes tienen su propia página: <a href="private-messages.html">mensajes privados</a>, <a href="mail.html">correo</a>, <a href="nicknames.html">apodos y colores</a>, <a href="books.html">libros</a>, <a href="market.html">mercado</a> y <a href="marriage.html">matrimonios</a>.</p>
+<h2 id="afk"><a class="anchor" href="#afk" aria-hidden="true">#</a>AFK</h2>
+<p>Los jugadores se marcan como ausentes tras un rato sin moverse, chatear ni usar comandos. Solo se le avisa al jugador, en privado; no se anuncia a nadie. <code>/afk</code> lo activa o quita a mano.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Afk:
+  Enabled: true
+  Timeout_Seconds: 300
+  Tab_Suffix: &quot; &lt;#C0B3D9&gt;[AFK]&quot;
+  Notify: true
+  Ignore_Vanished: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Timeout_Seconds</code></td>
+<td><code>300</code></td>
+<td>Tiempo sin actividad antes de marcar AFK</td>
+</tr>
+<tr>
+<td><code>Tab_Suffix</code></td>
+<td><code>&quot; &lt;#C0B3D9&gt;[AFK]&quot;</code></td>
+<td>Lo que muestra <code>{afk_tag}</code> en la lista de jugadores</td>
+</tr>
+<tr>
+<td><code>Notify</code></td>
+<td><code>true</code></td>
+<td>Avisa al jugador cuando pasa a AFK y cuando vuelve</td>
+</tr>
+<tr>
+<td><code>Ignore_Vanished</code></td>
+<td><code>true</code></td>
+<td>El staff en vanish nunca se marca AFK solo (<code>/afk</code> a mano sigue funcionando)</td>
+</tr>
+</tbody></table></div>
+<p>El estado está disponible como <code>{afk_tag}</code> en los formatos y como <code>%chatalyst_afk%</code> para PlaceholderAPI y TAB.</p>
+<h2 id="preferencias-personales"><a class="anchor" href="#preferencias-personales" aria-hidden="true">#</a>Preferencias personales</h2>
+<p><code>/toggle</code> abre un menú donde cada jugador enciende o apaga funciones para sí mismo. También funciona directo: <code>/toggle &lt;nombre&gt;</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Preferencia</th>
+<th>Por defecto</th>
+<th>Qué controla</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pm</code></td>
+<td>activada</td>
+<td>Recibir mensajes privados</td>
+</tr>
+<tr>
+<td><code>announcements</code></td>
+<td>activada</td>
+<td>Ver los anuncios automáticos</td>
+</tr>
+<tr>
+<td><code>mentions</code></td>
+<td>activada</td>
+<td>El sonido cuando alguien te menciona</td>
+</tr>
+<tr>
+<td><code>joinquit</code></td>
+<td>activada</td>
+<td>Ver los mensajes de entrada y salida de otros jugadores</td>
+</tr>
+<tr>
+<td><code>translate</code></td>
+<td>desactivada</td>
+<td><a href="translation.html">Traducción en vivo</a> del chat a tu idioma (solo aparece si el servidor la tiene configurada)</td>
+</tr>
+</tbody></table></div>
+<p>La elección se guarda y se mantiene al reconectar.</p>
+<h2 id="ignorar-jugadores"><a class="anchor" href="#ignorar-jugadores" aria-hidden="true">#</a>Ignorar jugadores</h2>
+<p><code>/ignore &lt;jugador&gt;</code> impide que los mensajes privados y el correo de ese jugador te lleguen. Vuelve a usarlo para dejar de ignorarlo. Por defecto también oculta su chat público:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Chat:
+  Ignore:
+    Hide_In_Chat: true</code></pre></div>
+<p>Con <code>Hide_In_Chat: true</code>, los mensajes de un jugador ignorado se reducen a una marca pequeña &quot;[ignorado] nombre · [ver]&quot;. Al hacer clic en <strong>[ver]</strong> ves solo ese mensaje. Pon <code>false</code> para que <code>/ignore</code> afecte únicamente a los mensajes privados.</p>
+<h2 id="me"><a class="anchor" href="#me" aria-hidden="true">#</a>/me</h2>
+<p>Una acción en tercera persona en el chat: <code>/me saluda</code> se ve como &quot;* Steve saluda&quot;. El aspecto está en <code>chat.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Me:
+  Format: &quot;&lt;#C0B3D9&gt;* &lt;#FBF2FF&gt;{player_name} &lt;#C0B3D9&gt;{message}&quot;</code></pre></div>
+<p>Los jugadores muteados no pueden usar <code>/me</code> (ver <a href="punishments.html#mutear-a-un-jugador">castigos</a>).</p>
+<h2 id="color-de-chat"><a class="anchor" href="#color-de-chat" aria-hidden="true">#</a>Color de chat</h2>
+<p><code>/chatcolor</code> abre un menú para elegir el color de tus mensajes. Los 16 colores de Minecraft están siempre disponibles; los colores y degradados extra de <code>players.yml</code> piden cada uno su permiso, así que puedes darlos como ventaja de rango.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Chat_Color:
+  Colors:
+    blush: &quot;&lt;#FF6B9B&gt;&quot;
+    coral: &quot;&lt;#FF7A59&gt;&quot;
+    # ...
+  Gradients:
+    sunset: &quot;&lt;gradient:#FF512F:#F09819&gt;&quot;
+    ocean: &quot;&lt;gradient:#2E3192:#1BFFFF&gt;&quot;
+    # ...</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permiso</th>
+<th>Qué desbloquea</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.command.chatcolor</code> (todos)</td>
+<td>Abrir el menú y usar los 16 colores básicos</td>
+</tr>
+<tr>
+<td><code>chatalyst.color.&lt;id&gt;</code> / <code>chatalyst.color.*</code></td>
+<td>Un color extra / todos</td>
+</tr>
+<tr>
+<td><code>chatalyst.gradient.&lt;id&gt;</code> / <code>chatalyst.gradient.*</code></td>
+<td>Un degradado / todos</td>
+</tr>
+<tr>
+<td><code>chatalyst.chat.style.bold</code>, <code>.italic</code>, <code>.underlined</code>, <code>.strikethrough</code> (todos)</td>
+<td>Estilos de texto</td>
+</tr>
+<tr>
+<td><code>chatalyst.chat.style.obfuscated</code> (op)</td>
+<td>El estilo &quot;mágico&quot; que se revuelve</td>
+</tr>
+<tr>
+<td><code>chatalyst.chat.color.others</code> (op)</td>
+<td>Cambiar el color de otro jugador: <code>/chatcolor &lt;jugador&gt; &lt;color&gt;</code></td>
+</tr>
+</tbody></table></div>
+<p><code>/chatcolor reset</code> vuelve al color por defecto. Los mismos colores se usan para los apodos (ver <a href="nicknames.html">apodos</a>).</p>
+<h2 id="ensenar-cosas-en-el-chat"><a class="anchor" href="#ensenar-cosas-en-el-chat" aria-hidden="true">#</a>Enseñar cosas en el chat</h2>
+<p>Los jugadores pueden escribir estas etiquetas en cualquier mensaje:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Etiqueta</th>
+<th>Qué aparece</th>
+<th>Permiso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[item]</code> o <code>[i]</code></td>
+<td>El objeto de tu mano, con toda su descripción al pasar el ratón</td>
+<td><code>chatalyst.chat.item</code> (todos)</td>
+</tr>
+<tr>
+<td><code>[inv]</code>, <code>[inventory]</code>, <code>[inventario]</code></td>
+<td>Un botón <strong>Abrir</strong> que muestra tu inventario</td>
+<td><code>chatalyst.chat.shareinv</code> (todos)</td>
+</tr>
+<tr>
+<td><code>[ec]</code>, <code>[ender]</code>, <code>[enderchest]</code></td>
+<td>Un botón <strong>Abrir</strong> que muestra tu cofre de ender</td>
+<td><code>chatalyst.chat.shareinv</code> (todos)</td>
+</tr>
+<tr>
+<td><code>:heart:</code>, <code>[creeper]</code>…</td>
+<td>Emojis y pequeñas etiquetas estilo píxel</td>
+<td><code>chatalyst.chat.emoji</code>, <code>chatalyst.chat.pixel</code> (todos)</td>
+</tr>
+</tbody></table></div>
+<p>Los inventarios compartidos son en vivo y de solo lectura, cualquiera puede abrirlos durante 5 minutos, y las shulkers de dentro se abren con un clic. El botón nunca lleva tu nombre real, así que compartir no delata a un jugador en <a href="anonymous.html">modo anónimo</a>. Los interruptores están en <code>chat.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Chat:
+  Item_Placeholder: true
+  Item_Custom_Ids: true
+  Inventory_Share: true</code></pre></div>
+<p><code>Item_Custom_Ids</code> añade el ID de ItemsAdder o Nexo de un objeto propio a la etiqueta <code>[item]</code>.</p>
+<h2 id="renombrar-objetos"><a class="anchor" href="#renombrar-objetos" aria-hidden="true">#</a>Renombrar objetos</h2>
+<p><code>/itemname &lt;nombre&gt;</code> renombra el objeto de tu mano con colores (<code>&amp;4&amp;lESPADA OSCURA</code> o MiniMessage). Es una ventaja de rango con un número limitado de usos por jugador.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Item_Name:
+  Enabled: true
+  Uses: 1
+  Max_Length: 40</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Uses</code></td>
+<td><code>1</code></td>
+<td>Renombrados que recibe cada jugador. <code>0</code> o menos = ilimitados</td>
+</tr>
+<tr>
+<td><code>Max_Length</code></td>
+<td><code>40</code></td>
+<td>Nombre más largo, sin contar los códigos de color</td>
+</tr>
+</tbody></table></div>
+<p><code>/itemname reset</code> quita el nombre sin gastar un uso. Permisos: <code>chatalyst.command.itemname</code> (op) para usarlo, <code>chatalyst.bypass.itemname</code> (op) para usos ilimitados. Los objetos con nombre aparecen en los mensajes de muerte.</p>
+<h2 id="carteles-de-colores"><a class="anchor" href="#carteles-de-colores" aria-hidden="true">#</a>Carteles de colores</h2>
+<p>Los jugadores con el rango adecuado pueden escribir colores, degradados y arcoíris en carteles de verdad.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Fancy_Signs:
+  Enabled: true
+  Permission: &quot;chatalyst.sign.colors&quot;
+  Styles:
+    galaxy:
+      Format: &quot;&lt;gradient:#6A00FF:#00D4FF:#FF4FD8&gt;&lt;bold&gt;{text}&lt;/bold&gt;&lt;/gradient&gt;&quot;
+    sunset:
+      Format: &quot;&lt;gradient:#FF512F:#F09819&gt;{text}&lt;/gradient&gt;&quot;</code></pre></div>
+<p>Una línea de cartel admite unos 15 caracteres, así que una etiqueta <code>&lt;gradient:...&gt;</code> completa no cabe al escribirla. Los estilos con nombre lo resuelven: <code>&lt;galaxy&gt;Hola</code> sí cabe. Chatalyst incluye <code>galaxy</code>, <code>sunset</code>, <code>ocean</code>, <code>fire</code>, <code>mint</code>, <code>rose</code> e <code>ice</code>, y puedes añadir los tuyos.</p>
+<p>Un solo permiso, <code>chatalyst.sign.colors</code>, desbloquea todos los colores, degradados, arcoíris y estilos con nombre. Los jugadores pueden escribir <code>&amp;4&amp;lImportante</code>, <code>&lt;gradient:#ff0000:#0000ff&gt;Hola&lt;/gradient&gt;</code>, <code>&lt;rainbow&gt;Hola&lt;/rainbow&gt;</code> o un estilo con nombre como <code>&lt;galaxy&gt;Hola</code>. También se aceptan alias en español como <code>&lt;gradiente:...&gt;</code> y <code>&lt;arcoiris&gt;</code>. Solo se permiten etiquetas visuales; los clics, textos al pasar el ratón y comandos están siempre bloqueados. Los nombres de estilo usan minúsculas, números, <code>_</code> o <code>-</code>, y su <code>Format</code> tiene que llevar <code>{text}</code>.</p>
+<h2 id="lista-de-jugadores"><a class="anchor" href="#lista-de-jugadores" aria-hidden="true">#</a>Lista de jugadores</h2>
+<p><code>/players</code> (también <code>/list</code>, <code>/jugadores</code>) abre un menú con todos los conectados. Al hacer clic en una cabeza puedes escribirle, ignorarle, mandarle correo o comerciar con él. El staff ve ahí botones extra de moderación (ver <a href="staff-suite.html">suite de staff</a>).</p>
+<p>Con <code>Nick.Hide_Real_Names_In_List: true</code> en <code>players.yml</code>, la respuesta del <code>/list</code> de Minecraft también muestra los apodos en lugar de los nombres reales de las cuentas.</p>
+<h2 id="mensaje-de-bienvenida"><a class="anchor" href="#mensaje-de-bienvenida" aria-hidden="true">#</a>Mensaje de bienvenida</h2>
+<p><code>/motd</code> vuelve a mostrar el mensaje de entrada; <code>/motd first</code> muestra la versión de la primera vez. Las líneas están en <code>messages.yml</code> bajo <code>Motd</code> y, por defecto, en el idioma de cada jugador desde los archivos de idioma.</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Permiso</th>
+<th>Por defecto</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/afk</code></td>
+<td><code>chatalyst.command.afk</code></td>
+<td>todos</td>
+</tr>
+<tr>
+<td><code>/toggle [nombre]</code></td>
+<td><code>chatalyst.command.toggle</code></td>
+<td>todos</td>
+</tr>
+<tr>
+<td><code>/ignore &lt;jugador&gt;</code></td>
+<td><code>chatalyst.command.ignore</code></td>
+<td>todos</td>
+</tr>
+<tr>
+<td><code>/me &lt;acción&gt;</code></td>
+<td><code>chatalyst.command.me</code></td>
+<td>todos</td>
+</tr>
+<tr>
+<td><code>/chatcolor [color]</code>, <code>/chatcolor reset</code></td>
+<td><code>chatalyst.command.chatcolor</code></td>
+<td>todos</td>
+</tr>
+<tr>
+<td><code>/itemname &lt;nombre&gt;</code>, <code>/itemname reset</code></td>
+<td><code>chatalyst.command.itemname</code></td>
+<td>op</td>
+</tr>
+<tr>
+<td><code>/players</code></td>
+<td><code>chatalyst.command.players</code></td>
+<td>todos</td>
+</tr>
+<tr>
+<td><code>/motd [first]</code></td>
+<td><code>chatalyst.command.motd</code></td>
+<td>todos</td>
+</tr>
+</tbody></table></div>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>El AFK se detecta por servidor; no sigue al jugador por la red.</li>
+<li>Los inventarios compartidos se pueden abrir durante 5 minutos; después el botón caduca.</li>
+<li>Los emojis son símbolos Unicode que dibuja la fuente de Minecraft. Los emojis a todo color necesitan ItemsAdder.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="translation.html"><span>Anterior</span><strong>Traducción en vivo</strong></a><a class="pager-next" href="auto-responses.html"><span>Siguiente</span><strong>Respuestas automáticas</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

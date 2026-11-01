@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Rules engine · Chatalyst Docs</title>
+  <meta name="description" content="Write your own chat rules with patterns, conditions and actions. Block advertising, clean up spam, warn, punish, alert staff or run commands, in chat, signs, books and more.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/rules-engine.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/rules-engine.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/rules-engine.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/rules-engine.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Rules engine">
+  <meta property="og:description" content="Write your own chat rules with patterns, conditions and actions. Block advertising, clean up spam, warn, punish, alert staff or run commands, in chat, signs, books and more.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/rules-engine.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/rules-engine.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Chat</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link is-active" aria-current="page" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#turning-it-on">Turning it on</a></li><li class="toc-h2"><a href="#anatomy-of-a-rule">Anatomy of a rule</a></li><li class="toc-h3"><a href="#matching">Matching</a></li><li class="toc-h3"><a href="#what-the-rule-does">What the rule does</a></li><li class="toc-h2"><a href="#reusable-groups">Reusable groups</a></li><li class="toc-h2"><a href="#conditions">Conditions</a></li><li class="toc-h2"><a href="#saved-player-data">Saved player data</a></li><li class="toc-h2"><a href="#anti-caps">Anti-caps</a></li><li class="toc-h2"><a href="#sharing-rules-between-servers">Sharing rules between servers</a></li><li class="toc-h2"><a href="#managing-rules">Managing rules</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Chat</p><h1>Rules engine</h1><p class="lead">Write your own chat rules with patterns, conditions and actions. Block advertising, clean up spam, warn, punish, alert staff or run commands, in chat, signs, books and more.</p></header>
+<article class="prose">
+<p>The rules engine lets you decide what happens when someone writes something specific. Each rule looks for a pattern and, when it matches, does whatever you choose: block the message, replace part of it, warn the player, add warning points, tell staff, run a command, open a book, and more.</p>
+<p>Rules check more than chat. By default they also check commands, signs, books, item names in anvils and nicknames, so a player cannot dodge the anti-advertising rule by writing a server IP on a sign.</p>
+<p>Chatalyst ships with ready-made rules: anti-IP, anti-domain, anti-Discord-invite, a character-repeat cleaner and anti-caps. Everything lives in <code>rules.yml</code>.</p>
+<h2 id="turning-it-on"><a class="anchor" href="#turning-it-on" aria-hidden="true">#</a>Turning it on</h2>
+<p>It is on by default:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Enabled: true
+
+Apply_To:
+  Commands: true
+  Signs: true
+  Books: true
+  Anvil: true
+  Nicks: true
+  Ignore_Commands:
+    - &quot;/login&quot;
+    - &quot;/register&quot;
+    - &quot;/l&quot;
+    - &quot;/reg&quot;
+    - &quot;/changepassword&quot;</code></pre></div>
+<p><code>Apply_To</code> decides where rules run besides chat. <code>Ignore_Commands</code> lists commands that are never checked; keep your login and password commands here.</p>
+<h2 id="anatomy-of-a-rule"><a class="anchor" href="#anatomy-of-a-rule" aria-hidden="true">#</a>Anatomy of a rule</h2>
+<p>This is the anti-IP rule from the real file:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Rules:
+
+  anti-ip:
+    Match: '\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?::\d{1,5})?\b'
+    Priority: 100
+    Use_Groups: [audited-filter]
+    Contexts: [CHAT, COMMAND, SIGN, BOOK, ANVIL, NICK]
+    Ignore_Permission: chatalyst.bypass.ads
+    Ignore_Contains:
+      - &quot;version&quot;
+      - &quot;coord&quot;
+      - &quot;pos&quot;
+      - &quot;warp&quot;
+      - &quot; tp &quot;
+      - &quot;x:&quot;
+      - &quot;y:&quot;
+      - &quot;z:&quot;
+    Deny: true
+    Points: 2
+    Warn: &quot;&lt;#FF4D6D&gt;Advertising other servers' IPs is not allowed.&quot;
+    Warn_es: &quot;&lt;#FF4D6D&gt;No esta permitido anunciar IPs de otros servidores.&quot;
+    Notify:
+      Message: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;ADVERT&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+      Message_es: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;ANUNCIO&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+    Actions:
+      Commands:
+        - &quot;warnings {player} clear&quot;</code></pre></div>
+<h3 id="matching"><a class="anchor" href="#matching" aria-hidden="true">#</a>Matching</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Match</code></td>
+<td>The regular expression to look for. Case-insensitive unless <code>Case_Sensitive: true</code></td>
+</tr>
+<tr>
+<td><code>Priority</code></td>
+<td>Higher runs first. Default <code>0</code></td>
+</tr>
+<tr>
+<td><code>Contexts</code></td>
+<td>Where the rule applies: <code>CHAT</code>, <code>COMMAND</code>, <code>SIGN</code>, <code>BOOK</code>, <code>ANVIL</code>, <code>NICK</code>. Empty = everywhere</td>
+</tr>
+<tr>
+<td><code>Ignore_Permission</code></td>
+<td>Players with this permission skip the rule</td>
+</tr>
+<tr>
+<td><code>Ignore_Contains</code></td>
+<td>If the message contains any of these texts, the rule is skipped</td>
+</tr>
+<tr>
+<td><code>Strip_Accents</code></td>
+<td><code>true</code> ignores accents while searching, so <code>pütä</code> matches <code>puta</code>. The rest of the message is not changed</td>
+</tr>
+<tr>
+<td><code>Stop_After</code></td>
+<td><code>true</code> stops checking more rules after this one matches</td>
+</tr>
+<tr>
+<td><code>Begins</code> / <code>Expires</code></td>
+<td>Dates <code>yyyy-MM-dd HH:mm</code> between which the rule is active (seasonal rules)</td>
+</tr>
+<tr>
+<td><code>Delay_Seconds</code> / <code>Player_Delay_Seconds</code></td>
+<td>Cooldown between two runs of the rule, for everyone / per player</td>
+</tr>
+</tbody></table></div>
+<h3 id="what-the-rule-does"><a class="anchor" href="#what-the-rule-does" aria-hidden="true">#</a>What the rule does</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Deny</code></td>
+<td><code>true</code> cancels the message</td>
+</tr>
+<tr>
+<td><code>Deny_Silently</code></td>
+<td>Cancels it without the sender noticing</td>
+</tr>
+<tr>
+<td><code>Replace</code></td>
+<td>Replaces the matched text (<code>&quot;&quot;</code> removes it)</td>
+</tr>
+<tr>
+<td><code>Replace_Raw</code></td>
+<td><code>true</code> allows <code>$1</code>-style groups in <code>Replace</code></td>
+</tr>
+<tr>
+<td><code>Replace_Prolong</code></td>
+<td>One character that masks the match, keeping its length (<code>puta</code> → <code>****</code>)</td>
+</tr>
+<tr>
+<td><code>Warn</code> / <code>Warn_es</code></td>
+<td>A private warning to the sender</td>
+</tr>
+<tr>
+<td><code>Notify</code></td>
+<td><code>Permission</code> and <code>Message</code> (<code>Message_es</code>) sent to staff</td>
+</tr>
+<tr>
+<td><code>Points</code></td>
+<td><a href="punishments.html#warning-points">Warning points</a> added to the player</td>
+</tr>
+<tr>
+<td><code>Kick</code></td>
+<td>Kicks the player with this message</td>
+</tr>
+<tr>
+<td><code>Fine</code></td>
+<td>Takes this amount of money (needs Vault)</td>
+</tr>
+<tr>
+<td><code>Sound</code>, <code>Title</code>, <code>Actionbar</code>, <code>Bossbar</code>, <code>Toast</code></td>
+<td>Show something to the player</td>
+</tr>
+<tr>
+<td><code>Actions.Commands</code></td>
+<td>Console commands</td>
+</tr>
+<tr>
+<td><code>Actions.Player_Commands</code></td>
+<td>Commands run as the player, with their own permissions</td>
+</tr>
+<tr>
+<td><code>Actions.Proxy_Commands</code></td>
+<td><code>&quot;&lt;server&gt; &lt;command&gt;&quot;</code>: a console command on another server (see <a href="network.html#rule-commands-on-other-servers">network</a>)</td>
+</tr>
+<tr>
+<td><code>Actions.Rewrite_In_World</code></td>
+<td>Replaces the whole message when the sender is in a given world</td>
+</tr>
+<tr>
+<td><code>Actions.Set_Data</code> / <code>Remove_Data</code></td>
+<td>Saves or deletes a value for the player (see below)</td>
+</tr>
+<tr>
+<td><code>Actions.Open_Book</code></td>
+<td>Opens a <a href="books.html">book</a></td>
+</tr>
+<tr>
+<td><code>Actions.Audit</code></td>
+<td>Writes a <code>RULE</code> entry in the audit log</td>
+</tr>
+<tr>
+<td><code>Actions.Discord_Staff</code></td>
+<td>Sends the match to the private staff Discord channel</td>
+</tr>
+</tbody></table></div>
+<p>Placeholders in texts and commands: <code>{player}</code>, <code>{message}</code>, <code>{original_message}</code>, <code>{rule}</code>, <code>{context}</code>, plus every Chatalyst placeholder, your custom variables and PlaceholderAPI.</p>
+<h2 id="reusable-groups"><a class="anchor" href="#reusable-groups" aria-hidden="true">#</a>Reusable groups</h2>
+<p>A group is a template that does nothing on its own. Rules include it with <code>Use_Groups</code>, so you write shared actions and conditions once:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Groups:
+  audited-filter:
+    Notify:
+      Permission: chatalyst.notify.rules
+      Message: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;RULE&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+      Message_es: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;REGLA&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+    Actions:
+      Audit: true
+
+  survival-only:
+    Require:
+      Worlds: [world, world_nether, world_the_end]</code></pre></div>
+<p>When a rule uses several groups, later groups override earlier ones, and whatever you write in the rule itself wins over all of them.</p>
+<h2 id="conditions"><a class="anchor" href="#conditions" aria-hidden="true">#</a>Conditions</h2>
+<p><code>Require</code> (everything must match) and <code>Ignore</code> (anything matching skips the rule) let a rule depend on who wrote it and where:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Require:
+  Permission: rank.member
+  Worlds: [world]
+  Gamemodes: [SURVIVAL, ADVENTURE]
+  Channels: [global]
+  Regions: [spawn]
+  Variables:
+    &quot;%vault_eco_balance%&quot;: &quot;&gt;=100&quot;
+  Data:
+    onboarding.step: &quot;equals:pending&quot;
+  Scripts:
+    - &quot;player.getPing() &lt; 250&quot;
+Ignore:
+  Worlds: [jail]
+  Muted: true
+  Uuid: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Permission</code></td>
+<td>The player has this permission</td>
+</tr>
+<tr>
+<td><code>Worlds</code>, <code>Gamemodes</code>, <code>Channels</code>, <code>Regions</code></td>
+<td>Where the player is and what channel they write in (regions need WorldGuard)</td>
+</tr>
+<tr>
+<td><code>Variables</code></td>
+<td>The value of a placeholder</td>
+</tr>
+<tr>
+<td><code>Data</code></td>
+<td>A value saved with <code>Actions.Set_Data</code></td>
+</tr>
+<tr>
+<td><code>Scripts</code></td>
+<td>A JavaScript expression that must return true</td>
+</tr>
+<tr>
+<td><code>Muted</code> (Ignore)</td>
+<td>Skips muted players</td>
+</tr>
+<tr>
+<td><code>Uuid</code> (Ignore)</td>
+<td>Hides UUIDs from the pattern, so <code>/whitelist add &lt;uuid&gt;</code> does not trip a number rule</td>
+</tr>
+<tr>
+<td><code>Discord</code></td>
+<td>Whether the message came from Discord (only for players who linked their account)</td>
+</tr>
+</tbody></table></div>
+<p>Values in <code>Variables</code> and <code>Data</code> can be compared with: plain text (equal), <code>equals:</code>, <code>!=</code>, <code>contains:</code>, <code>starts:</code>, <code>ends:</code>, <code>in:a,b,c</code>, <code>regex:</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.</p>
+<h2 id="saved-player-data"><a class="anchor" href="#saved-player-data" aria-hidden="true">#</a>Saved player data</h2>
+<p><code>Actions.Set_Data</code> stores a small value per player, and <code>Require.Data</code> / <code>Ignore.Data</code> read it back. This lets rules remember things, for example &quot;this player already got the first warning&quot;:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Actions:
+  Set_Data:
+    onboarding.step: complete
+  Remove_Data: [temporary.flag]</code></pre></div>
+<p>The values are saved in your normal <a href="storage.html">storage</a> (YAML, SQLite or MySQL).</p>
+<h2 id="anti-caps"><a class="anchor" href="#anti-caps" aria-hidden="true">#</a>Anti-caps</h2>
+<p>Limits messages written mostly in capital letters. It is also in <code>rules.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Anti_Caps:
+  Enabled: true
+  Min_Length: 8
+  Percentage: 0.7
+  To_Lowercase: true
+  Bypass_Permission: chatalyst.bypass.caps
+  Warn: &quot;&lt;#C0B3D9&gt;Avoid typing in all caps.&quot;
+  Warn_es: &quot;&lt;#C0B3D9&gt;Evita escribir todo en mayusculas.&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Min_Length</code></td>
+<td><code>8</code></td>
+<td>Shorter messages are never checked</td>
+</tr>
+<tr>
+<td><code>Percentage</code></td>
+<td><code>0.7</code></td>
+<td>Share of capital letters that triggers it (0.7 = 70%)</td>
+</tr>
+<tr>
+<td><code>To_Lowercase</code></td>
+<td><code>true</code></td>
+<td>Converts the message to lowercase. Add <code>Deny: true</code> to block it instead</td>
+</tr>
+</tbody></table></div>
+<h2 id="sharing-rules-between-servers"><a class="anchor" href="#sharing-rules-between-servers" aria-hidden="true">#</a>Sharing rules between servers</h2>
+<p>Keep common rules in separate files next to <code>rules.yml</code> and import them:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Import:
+  - shared-rules.yml</code></pre></div>
+<p>Only file names are accepted (no folders), imports are not recursive, and if a rule name appears twice the first one wins.</p>
+<h2 id="managing-rules"><a class="anchor" href="#managing-rules" aria-hidden="true">#</a>Managing rules</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/chatalyst rule</code></td>
+<td>Lists the loaded rules</td>
+</tr>
+<tr>
+<td><code>/chatalyst rule toggle &lt;name&gt;</code></td>
+<td>Turns a rule on or off without editing the file</td>
+</tr>
+<tr>
+<td><code>/chatalyst reload</code></td>
+<td>Reloads <code>rules.yml</code> and imported files</td>
+</tr>
+</tbody></table></div>
+<p>These need <code>chatalyst.admin</code>. Staff with <code>chatalyst.notify.rules</code> (op by default) receive the <code>Notify</code> alerts.</p>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p>If <code>rules.yml</code> has a syntax error, the reload keeps your previous rules instead of loading an empty set. Check the console after reloading.</p>
+</div>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>Up to 512 rules are loaded; extra ones are skipped with a console warning.</li>
+<li>Every pattern has a time budget per message. A badly written pattern that takes too long is treated as &quot;no match&quot; instead of freezing the chat, and <code>/chatalyst perf</code> shows how often that happened (see <a href="performance.html">performance</a>).</li>
+<li>Login and password commands are never written to logs or alerts in clear text, even if a rule matches them. Still, keep them in <code>Ignore_Commands</code>.</li>
+<li>Test broad patterns on a test server first: a pattern that matches too much blocks normal conversation.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="chat-filter.html"><span>Previous</span><strong>Filter, anti-spam &amp; anti-bot</strong></a><a class="pager-next" href="punishments.html"><span>Next</span><strong>Mutes, bans &amp; warnings</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

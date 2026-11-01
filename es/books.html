@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Libros y normas · Docs de Chatalyst</title>
+  <meta name="description" content="Libros del servidor que se abren como un libro de Minecraft de verdad. Escribe tus normas o una guía una vez, ábrela con un comando y edítala en el juego sin tocar archivos.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/books.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/books.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/books.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/books.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Libros y normas">
+  <meta property="og:description" content="Libros del servidor que se abren como un libro de Minecraft de verdad. Escribe tus normas o una guía una vez, ábrela con un comando y edítala en el juego sin tocar archivos.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/books.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/books.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link is-active" aria-current="page" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h2"><a href="#escribir-libros-en-el-juego">Escribir libros en el juego</a></li><li class="toc-h2"><a href="#abrir-libros">Abrir libros</a></li><li class="toc-h2"><a href="#mostrar-las-normas-en-el-momento-justo">Mostrar las normas en el momento justo</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Libros y normas</h1><p class="lead">Libros del servidor que se abren como un libro de Minecraft de verdad. Escribe tus normas o una guía una vez, ábrela con un comando y edítala en el juego sin tocar archivos.</p></header>
+<article class="prose">
+<p>Los libros son la forma más cómoda de mostrar textos largos: las normas del servidor, una guía para nuevos, una lista de comandos. Chatalyst los abre como un libro escrito de verdad, con colores, texto clicable y placeholders como el nombre del jugador. Los jugadores abren un libro con <code>/book &lt;nombre&gt;</code>; el staff puede escribir y editar libros en el juego escribiendo en un libro normal y guardándolo.</p>
+<p>Vienen dos libros listos para editar: <code>rules</code> y <code>help</code>.</p>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<p>Los libros están en <code>books.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Books:
+
+  rules:
+    Title: &quot;&lt;#D8B4FE&gt;Rules&quot;
+    Author: &quot;Server&quot;
+    Permission: &quot;&quot;
+    Pages:
+      - &quot;&lt;bold&gt;&lt;dark_red&gt;Server rules&lt;/dark_red&gt;&lt;/bold&gt;\n\n&lt;black&gt;1. Respect all players.\n\n2. No spam or advertising.\n\n3. No hacks or bug abuse.&quot;
+      - &quot;&lt;black&gt;4. Watch your language.\n\n5. Have fun and be kind.\n\n&lt;#C0B3D9&gt;&lt;i&gt;Thanks for reading, {player_name}.&lt;/i&gt;&quot;
+
+  help:
+    Title: &quot;&lt;#B56CFF&gt;Help&quot;
+    Author: &quot;Server&quot;
+    Permission: &quot;&quot;
+    Pages:
+      - &quot;&lt;bold&gt;&lt;dark_aqua&gt;Useful commands&lt;/dark_aqua&gt;&lt;/bold&gt;\n\n&lt;black&gt;/msg &lt;player&gt; - private message\n/r - reply\n/channel - switch channel\n/mail - mailbox\n/nick - nickname&quot;
+      - &quot;&lt;black&gt;/chatcolor - chat color\n/ignore - ignore someone\n\n&lt;#C0B3D9&gt;&lt;i&gt;Type /book to see the books.&lt;/i&gt;&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clave</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Title</code></td>
+<td>El título del libro (MiniMessage)</td>
+</tr>
+<tr>
+<td><code>Author</code></td>
+<td>El autor que aparece en el libro</td>
+</tr>
+<tr>
+<td><code>Permission</code></td>
+<td>Permiso necesario para abrirlo. Vacío = todos</td>
+</tr>
+<tr>
+<td><code>Pages</code></td>
+<td>Una entrada por página. Usa <code>\n</code> para saltar de línea</td>
+</tr>
+</tbody></table></div>
+<p>Las páginas usan <a href="https://docs.advntr.dev/minimessage/format.html" rel="noopener">MiniMessage</a>, así que puedes poner colores, textos al pasar el ratón y comandos clicables. También funcionan los placeholders: <code>{player_name}</code>, tus <a href="integrations.html#variables-propias">variables propias</a> y los valores de PlaceholderAPI.</p>
+<div class="callout callout-tip"><p class="callout-title">Consejo</p><p>Una página de libro es pequeña. Si el texto se sale, pártelo en dos páginas en lugar de encogerlo.</p>
+</div>
+<h2 id="escribir-libros-en-el-juego"><a class="anchor" href="#escribir-libros-en-el-juego" aria-hidden="true">#</a>Escribir libros en el juego</h2>
+<p>No hace falta editar YAML. El staff con <code>chatalyst.book.admin</code> puede:</p>
+<ol>
+<li>Ejecutar <code>/book new</code> para recibir un libro y pluma vacío.</li>
+<li>Escribir las páginas como en cualquier libro de Minecraft. Los colores y el formato se conservan.</li>
+<li>Tenerlo en la mano y ejecutar <code>/book save &lt;nombre&gt; [permiso]</code> para guardarlo. Usa <code>-</code> como permiso para que sea público. El título y el autor se toman del libro si lo firmaste.</li>
+</ol>
+<p>Para cambiar un libro que ya existe, <code>/book edit &lt;nombre&gt;</code> te da una copia editable con sus páginas actuales; cámbiala y guárdala otra vez con el mismo nombre. <code>/book delete &lt;nombre&gt;</code> lo borra.</p>
+<h2 id="abrir-libros"><a class="anchor" href="#abrir-libros" aria-hidden="true">#</a>Abrir libros</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Quién</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/book &lt;nombre&gt;</code></td>
+<td>todos</td>
+<td>Abre un libro para ti</td>
+</tr>
+<tr>
+<td><code>/book list</code></td>
+<td>todos</td>
+<td>Lista los libros que puedes abrir</td>
+</tr>
+<tr>
+<td><code>/book open &lt;nombre&gt; &lt;jugador&gt;</code></td>
+<td>staff</td>
+<td>Abre un libro en la pantalla de otro jugador</td>
+</tr>
+<tr>
+<td><code>/book new</code></td>
+<td>staff</td>
+<td>Te da un libro vacío para escribir</td>
+</tr>
+<tr>
+<td><code>/book edit &lt;nombre&gt;</code></td>
+<td>staff</td>
+<td>Te da una copia editable de un libro</td>
+</tr>
+<tr>
+<td><code>/book save &lt;nombre&gt; [permiso]</code></td>
+<td>staff</td>
+<td>Guarda el libro que tienes en la mano</td>
+</tr>
+<tr>
+<td><code>/book delete &lt;nombre&gt;</code></td>
+<td>staff</td>
+<td>Borra un libro</td>
+</tr>
+</tbody></table></div>
+<p><code>/books</code> es un alias de <code>/book</code>. Permisos: <code>chatalyst.command.book</code> (todos) para abrir libros, <code>chatalyst.book.admin</code> (op) para escribir, editar, borrar y abrir libros a otros. El staff puede abrir todos los libros, tengan el <code>Permission</code> que tengan.</p>
+<h2 id="mostrar-las-normas-en-el-momento-justo"><a class="anchor" href="#mostrar-las-normas-en-el-momento-justo" aria-hidden="true">#</a>Mostrar las normas en el momento justo</h2>
+<ul>
+<li>Una <a href="rules-engine.html">regla</a> puede abrir un libro automáticamente con <code>Actions.Open_Book</code>, por ejemplo el libro de normas cuando alguien se salta una.</li>
+<li>El <a href="auto-responses.html">bot de respuestas automáticas</a> ya trae una respuesta para &quot;dónde están las normas&quot;.</li>
+<li>Puedes abrir el libro de normas a quien acaba de entrar por primera vez con un comando de <a href="newcomers.html">recién llegados</a>: <code>book open rules {player_name}</code>.</li>
+</ul>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Los libros son iguales para todos los idiomas. Si quieres un libro de normas en español, crea un segundo libro (por ejemplo <code>normas</code>).</li>
+<li>Los libros que escriben los jugadores en supervivencia no son libros de este sistema. De esos se encargan el <a href="spying.html">espía</a> y el <a href="rules-engine.html">motor de reglas</a>, y los jugadores muteados no pueden firmarlos.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="custom-commands.html"><span>Anterior</span><strong>Comandos personalizados</strong></a><a class="pager-next" href="economy.html"><span>Siguiente</span><strong>Ranking de dinero</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

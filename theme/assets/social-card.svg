@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Chatalyst documentation</title>
+  <desc id="description">Your server. Your kind of chat. A Minecraft chat plugin for Paper, Purpur and Folia.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="630" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#240046"/>
+      <stop offset=".65" stop-color="#240046"/>
+      <stop offset="1" stop-color="#7B2CBF"/>
+    </linearGradient>
+    <linearGradient id="chat" x1="4" y1="3" x2="29" y2="29" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7B2CBF"/>
+      <stop offset=".48" stop-color="#9D4EDD"/>
+      <stop offset="1" stop-color="#C77DFF"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="72" y1="0" x2="1128" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B56CFF"/>
+      <stop offset="1" stop-color="#7B2CBF" stop-opacity=".2"/>
+    </linearGradient>
+    <g id="mark">
+      <path d="M10 3h12a8 8 0 0 1 8 8v7a8 8 0 0 1-8 8h-9l-7 5v-8.1A8 8 0 0 1 2 16v-5a8 8 0 0 1 8-8Z" fill="url(#chat)"/>
+      <path d="m18 6 2.5 6.5L27 15l-6.5 2.5L18 24l-2.5-6.5L9 15l6.5-2.5Z" fill="#FBF2FF"/>
+    </g>
+  </defs>
+  <path fill="url(#background)" d="M0 0h1200v630H0Z"/>
+  <path d="M72 148h1056" stroke="#C77DFF" stroke-opacity=".22"/>
+  <use href="#mark" transform="translate(69 53) scale(1.7)"/>
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="141" y="94" fill="#FBF2FF" font-size="33" font-weight="700" letter-spacing="-1.2">Chatalyst</text>
+    <text x="1128" y="91" text-anchor="end" fill="#E0AAFF" font-size="19">Documentation</text>
+    <text x="72" y="211" fill="#C77DFF" font-size="14" font-weight="700" letter-spacing="2.6">MINECRAFT CHAT PLUGIN</text>
+    <text x="67" y="303" fill="#FBF2FF" font-size="76" font-weight="700" letter-spacing="-3">Your server.</text>
+    <text x="67" y="388" fill="#E0AAFF" font-size="76" font-weight="700" letter-spacing="-3">Your kind of chat.</text>
+    <text x="72" y="449" fill="#FBF2FF" font-size="21">Chat first. Extras when you need them.</text>
+    <text x="72" y="576" fill="#E0AAFF" font-size="16">Minecraft 1.21.1–26.3</text>
+    <text x="1128" y="576" text-anchor="end" fill="#E0AAFF" font-size="16">Paper · Purpur · Folia</text>
+  </g>
+  <g transform="translate(816 205)">
+    <rect x="-34" y="-34" width="332" height="332" rx="88" fill="none" stroke="#C77DFF" stroke-opacity=".13"/>
+    <rect x="-12" y="-12" width="288" height="288" rx="72" fill="#7B2CBF" fill-opacity=".16" stroke="#C77DFF" stroke-opacity=".25"/>
+    <use href="#mark" transform="scale(8.25)"/>
+  </g>
+  <path d="M72 532h1056" stroke="url(#rule)"/>
+</svg>

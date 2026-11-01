@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Motor de reglas · Docs de Chatalyst</title>
+  <meta name="description" content="Escribe tus propias reglas de chat con patrones, condiciones y acciones. Bloquea publicidad, limpia spam, avisa, castiga, alerta al staff o ejecuta comandos, en chat, carteles, libros y más.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/rules-engine.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/rules-engine.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/rules-engine.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/rules-engine.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Motor de reglas">
+  <meta property="og:description" content="Escribe tus propias reglas de chat con patrones, condiciones y acciones. Bloquea publicidad, limpia spam, avisa, castiga, alerta al staff o ejecuta comandos, en chat, carteles, libros y más.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/rules-engine.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/rules-engine.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Chat</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link is-active" aria-current="page" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#activarlo">Activarlo</a></li><li class="toc-h2"><a href="#anatomia-de-una-regla">Anatomía de una regla</a></li><li class="toc-h3"><a href="#que-busca">Qué busca</a></li><li class="toc-h3"><a href="#que-hace-la-regla">Qué hace la regla</a></li><li class="toc-h2"><a href="#grupos-reutilizables">Grupos reutilizables</a></li><li class="toc-h2"><a href="#condiciones">Condiciones</a></li><li class="toc-h2"><a href="#datos-guardados-del-jugador">Datos guardados del jugador</a></li><li class="toc-h2"><a href="#antimayusculas">Antimayúsculas</a></li><li class="toc-h2"><a href="#compartir-reglas-entre-servidores">Compartir reglas entre servidores</a></li><li class="toc-h2"><a href="#gestionar-las-reglas">Gestionar las reglas</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Chat</p><h1>Motor de reglas</h1><p class="lead">Escribe tus propias reglas de chat con patrones, condiciones y acciones. Bloquea publicidad, limpia spam, avisa, castiga, alerta al staff o ejecuta comandos, en chat, carteles, libros y más.</p></header>
+<article class="prose">
+<p>El motor de reglas te deja decidir qué pasa cuando alguien escribe algo concreto. Cada regla busca un patrón y, cuando coincide, hace lo que elijas: bloquear el mensaje, cambiar una parte, avisar al jugador, sumar puntos de advertencia, avisar al staff, ejecutar un comando, abrir un libro y más.</p>
+<p>Las reglas revisan más que el chat. Por defecto también revisan comandos, carteles, libros, nombres de objetos en el yunque y apodos, así que nadie puede saltarse la regla antipublicidad escribiendo la IP de otro servidor en un cartel.</p>
+<p>Chatalyst trae reglas listas: anti-IP, anti-dominios, anti-invitaciones de Discord, un limpiador de letras repetidas y antimayúsculas. Todo está en <code>rules.yml</code>.</p>
+<h2 id="activarlo"><a class="anchor" href="#activarlo" aria-hidden="true">#</a>Activarlo</h2>
+<p>Viene activado:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Enabled: true
+
+Apply_To:
+  Commands: true
+  Signs: true
+  Books: true
+  Anvil: true
+  Nicks: true
+  Ignore_Commands:
+    - &quot;/login&quot;
+    - &quot;/register&quot;
+    - &quot;/l&quot;
+    - &quot;/reg&quot;
+    - &quot;/changepassword&quot;</code></pre></div>
+<p><code>Apply_To</code> decide dónde se aplican las reglas además del chat. <code>Ignore_Commands</code> lista comandos que nunca se revisan; deja aquí tus comandos de login y contraseña.</p>
+<h2 id="anatomia-de-una-regla"><a class="anchor" href="#anatomia-de-una-regla" aria-hidden="true">#</a>Anatomía de una regla</h2>
+<p>Esta es la regla anti-IP del archivo real:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Rules:
+
+  anti-ip:
+    Match: '\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?::\d{1,5})?\b'
+    Priority: 100
+    Use_Groups: [audited-filter]
+    Contexts: [CHAT, COMMAND, SIGN, BOOK, ANVIL, NICK]
+    Ignore_Permission: chatalyst.bypass.ads
+    Ignore_Contains:
+      - &quot;version&quot;
+      - &quot;coord&quot;
+      - &quot;pos&quot;
+      - &quot;warp&quot;
+      - &quot; tp &quot;
+      - &quot;x:&quot;
+      - &quot;y:&quot;
+      - &quot;z:&quot;
+    Deny: true
+    Points: 2
+    Warn: &quot;&lt;#FF4D6D&gt;Advertising other servers' IPs is not allowed.&quot;
+    Warn_es: &quot;&lt;#FF4D6D&gt;No esta permitido anunciar IPs de otros servidores.&quot;
+    Notify:
+      Message: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;ADVERT&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+      Message_es: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;ANUNCIO&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+    Actions:
+      Commands:
+        - &quot;warnings {player} clear&quot;</code></pre></div>
+<h3 id="que-busca"><a class="anchor" href="#que-busca" aria-hidden="true">#</a>Qué busca</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clave</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Match</code></td>
+<td>La expresión regular que se busca. No distingue mayúsculas salvo con <code>Case_Sensitive: true</code></td>
+</tr>
+<tr>
+<td><code>Priority</code></td>
+<td>Las más altas se ejecutan antes. Por defecto <code>0</code></td>
+</tr>
+<tr>
+<td><code>Contexts</code></td>
+<td>Dónde se aplica: <code>CHAT</code>, <code>COMMAND</code>, <code>SIGN</code>, <code>BOOK</code>, <code>ANVIL</code>, <code>NICK</code>. Vacío = en todas partes</td>
+</tr>
+<tr>
+<td><code>Ignore_Permission</code></td>
+<td>Los jugadores con este permiso se saltan la regla</td>
+</tr>
+<tr>
+<td><code>Ignore_Contains</code></td>
+<td>Si el mensaje contiene alguno de estos textos, la regla no se aplica</td>
+</tr>
+<tr>
+<td><code>Strip_Accents</code></td>
+<td><code>true</code> ignora las tildes al buscar, así <code>pütä</code> coincide con <code>puta</code>. El resto del mensaje no cambia</td>
+</tr>
+<tr>
+<td><code>Stop_After</code></td>
+<td><code>true</code> deja de revisar más reglas si esta coincide</td>
+</tr>
+<tr>
+<td><code>Begins</code> / <code>Expires</code></td>
+<td>Fechas <code>yyyy-MM-dd HH:mm</code> entre las que la regla está activa (reglas de temporada)</td>
+</tr>
+<tr>
+<td><code>Delay_Seconds</code> / <code>Player_Delay_Seconds</code></td>
+<td>Espera entre dos ejecuciones de la regla, para todos / por jugador</td>
+</tr>
+</tbody></table></div>
+<h3 id="que-hace-la-regla"><a class="anchor" href="#que-hace-la-regla" aria-hidden="true">#</a>Qué hace la regla</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clave</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Deny</code></td>
+<td><code>true</code> cancela el mensaje</td>
+</tr>
+<tr>
+<td><code>Deny_Silently</code></td>
+<td>Lo cancela sin que el autor lo note</td>
+</tr>
+<tr>
+<td><code>Replace</code></td>
+<td>Sustituye el texto encontrado (<code>&quot;&quot;</code> lo borra)</td>
+</tr>
+<tr>
+<td><code>Replace_Raw</code></td>
+<td><code>true</code> permite grupos tipo <code>$1</code> en <code>Replace</code></td>
+</tr>
+<tr>
+<td><code>Replace_Prolong</code></td>
+<td>Un carácter que tapa lo encontrado manteniendo su longitud (<code>puta</code> → <code>****</code>)</td>
+</tr>
+<tr>
+<td><code>Warn</code> / <code>Warn_es</code></td>
+<td>Un aviso privado al autor</td>
+</tr>
+<tr>
+<td><code>Notify</code></td>
+<td><code>Permission</code> y <code>Message</code> (<code>Message_es</code>) que se envían al staff</td>
+</tr>
+<tr>
+<td><code>Points</code></td>
+<td><a href="punishments.html#puntos-de-advertencia">Puntos de advertencia</a> que se suman al jugador</td>
+</tr>
+<tr>
+<td><code>Kick</code></td>
+<td>Expulsa al jugador con este mensaje</td>
+</tr>
+<tr>
+<td><code>Fine</code></td>
+<td>Le cobra esta cantidad de dinero (necesita Vault)</td>
+</tr>
+<tr>
+<td><code>Sound</code>, <code>Title</code>, <code>Actionbar</code>, <code>Bossbar</code>, <code>Toast</code></td>
+<td>Muestran algo al jugador</td>
+</tr>
+<tr>
+<td><code>Actions.Commands</code></td>
+<td>Comandos de consola</td>
+</tr>
+<tr>
+<td><code>Actions.Player_Commands</code></td>
+<td>Comandos ejecutados como el jugador, con sus propios permisos</td>
+</tr>
+<tr>
+<td><code>Actions.Proxy_Commands</code></td>
+<td><code>&quot;&lt;servidor&gt; &lt;comando&gt;&quot;</code>: un comando de consola en otro servidor (ver <a href="network.html#comandos-de-reglas-en-otros-servidores">red</a>)</td>
+</tr>
+<tr>
+<td><code>Actions.Rewrite_In_World</code></td>
+<td>Sustituye el mensaje entero cuando el autor está en cierto mundo</td>
+</tr>
+<tr>
+<td><code>Actions.Set_Data</code> / <code>Remove_Data</code></td>
+<td>Guarda o borra un valor del jugador (ver abajo)</td>
+</tr>
+<tr>
+<td><code>Actions.Open_Book</code></td>
+<td>Abre un <a href="books.html">libro</a></td>
+</tr>
+<tr>
+<td><code>Actions.Audit</code></td>
+<td>Escribe una entrada <code>RULE</code> en el registro de auditoría</td>
+</tr>
+<tr>
+<td><code>Actions.Discord_Staff</code></td>
+<td>Envía la coincidencia al canal privado del staff en Discord</td>
+</tr>
+</tbody></table></div>
+<p>Placeholders en textos y comandos: <code>{player}</code>, <code>{message}</code>, <code>{original_message}</code>, <code>{rule}</code>, <code>{context}</code>, además de todos los de Chatalyst, tus variables propias y PlaceholderAPI.</p>
+<h2 id="grupos-reutilizables"><a class="anchor" href="#grupos-reutilizables" aria-hidden="true">#</a>Grupos reutilizables</h2>
+<p>Un grupo es una plantilla que no hace nada por sí sola. Las reglas la incluyen con <code>Use_Groups</code>, así escribes una vez las acciones y condiciones que comparten:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Groups:
+  audited-filter:
+    Notify:
+      Permission: chatalyst.notify.rules
+      Message: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;RULE&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+      Message_es: &quot;&lt;#7B68A0&gt;[&lt;#D8B4FE&gt;REGLA&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;{player}: &lt;#FBF2FF&gt;{message}&quot;
+    Actions:
+      Audit: true
+
+  survival-only:
+    Require:
+      Worlds: [world, world_nether, world_the_end]</code></pre></div>
+<p>Cuando una regla usa varios grupos, los últimos pisan a los primeros, y lo que escribas en la propia regla gana sobre todos.</p>
+<h2 id="condiciones"><a class="anchor" href="#condiciones" aria-hidden="true">#</a>Condiciones</h2>
+<p><code>Require</code> (todo tiene que cumplirse) e <code>Ignore</code> (cualquier coincidencia salta la regla) hacen que una regla dependa de quién escribe y dónde:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Require:
+  Permission: rank.member
+  Worlds: [world]
+  Gamemodes: [SURVIVAL, ADVENTURE]
+  Channels: [global]
+  Regions: [spawn]
+  Variables:
+    &quot;%vault_eco_balance%&quot;: &quot;&gt;=100&quot;
+  Data:
+    onboarding.step: &quot;equals:pending&quot;
+  Scripts:
+    - &quot;player.getPing() &lt; 250&quot;
+Ignore:
+  Worlds: [jail]
+  Muted: true
+  Uuid: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Condición</th>
+<th>Qué comprueba</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Permission</code></td>
+<td>El jugador tiene este permiso</td>
+</tr>
+<tr>
+<td><code>Worlds</code>, <code>Gamemodes</code>, <code>Channels</code>, <code>Regions</code></td>
+<td>Dónde está el jugador y en qué canal escribe (las regiones necesitan WorldGuard)</td>
+</tr>
+<tr>
+<td><code>Variables</code></td>
+<td>El valor de un placeholder</td>
+</tr>
+<tr>
+<td><code>Data</code></td>
+<td>Un valor guardado con <code>Actions.Set_Data</code></td>
+</tr>
+<tr>
+<td><code>Scripts</code></td>
+<td>Una expresión JavaScript que tiene que devolver verdadero</td>
+</tr>
+<tr>
+<td><code>Muted</code> (Ignore)</td>
+<td>Salta a los jugadores muteados</td>
+</tr>
+<tr>
+<td><code>Uuid</code> (Ignore)</td>
+<td>Oculta los UUID al patrón, para que <code>/whitelist add &lt;uuid&gt;</code> no active una regla de números</td>
+</tr>
+<tr>
+<td><code>Discord</code></td>
+<td>Si el mensaje vino de Discord (solo para jugadores que vincularon su cuenta)</td>
+</tr>
+</tbody></table></div>
+<p>Los valores de <code>Variables</code> y <code>Data</code> se pueden comparar con: texto simple (igual), <code>equals:</code>, <code>!=</code>, <code>contains:</code>, <code>starts:</code>, <code>ends:</code>, <code>in:a,b,c</code>, <code>regex:</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> y <code>&lt;=</code>.</p>
+<h2 id="datos-guardados-del-jugador"><a class="anchor" href="#datos-guardados-del-jugador" aria-hidden="true">#</a>Datos guardados del jugador</h2>
+<p><code>Actions.Set_Data</code> guarda un valor pequeño por jugador, y <code>Require.Data</code> / <code>Ignore.Data</code> lo vuelven a leer. Así las reglas pueden recordar cosas, por ejemplo &quot;este jugador ya recibió el primer aviso&quot;:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Actions:
+  Set_Data:
+    onboarding.step: complete
+  Remove_Data: [temporary.flag]</code></pre></div>
+<p>Los valores se guardan en tu <a href="storage.html">almacenamiento</a> normal (YAML, SQLite o MySQL).</p>
+<h2 id="antimayusculas"><a class="anchor" href="#antimayusculas" aria-hidden="true">#</a>Antimayúsculas</h2>
+<p>Limita los mensajes escritos casi todo en mayúsculas. También está en <code>rules.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Anti_Caps:
+  Enabled: true
+  Min_Length: 8
+  Percentage: 0.7
+  To_Lowercase: true
+  Bypass_Permission: chatalyst.bypass.caps
+  Warn: &quot;&lt;#C0B3D9&gt;Avoid typing in all caps.&quot;
+  Warn_es: &quot;&lt;#C0B3D9&gt;Evita escribir todo en mayusculas.&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Min_Length</code></td>
+<td><code>8</code></td>
+<td>Los mensajes más cortos nunca se revisan</td>
+</tr>
+<tr>
+<td><code>Percentage</code></td>
+<td><code>0.7</code></td>
+<td>Proporción de mayúsculas que lo activa (0.7 = 70%)</td>
+</tr>
+<tr>
+<td><code>To_Lowercase</code></td>
+<td><code>true</code></td>
+<td>Pasa el mensaje a minúsculas. Añade <code>Deny: true</code> para bloquearlo en su lugar</td>
+</tr>
+</tbody></table></div>
+<h2 id="compartir-reglas-entre-servidores"><a class="anchor" href="#compartir-reglas-entre-servidores" aria-hidden="true">#</a>Compartir reglas entre servidores</h2>
+<p>Guarda las reglas comunes en archivos aparte junto a <code>rules.yml</code> e impórtalos:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Import:
+  - shared-rules.yml</code></pre></div>
+<p>Solo se aceptan nombres de archivo (sin carpetas), las importaciones no son recursivas y, si un nombre de regla aparece dos veces, gana el primero.</p>
+<h2 id="gestionar-las-reglas"><a class="anchor" href="#gestionar-las-reglas" aria-hidden="true">#</a>Gestionar las reglas</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/chatalyst rule</code></td>
+<td>Lista las reglas cargadas</td>
+</tr>
+<tr>
+<td><code>/chatalyst rule toggle &lt;nombre&gt;</code></td>
+<td>Activa o desactiva una regla sin editar el archivo</td>
+</tr>
+<tr>
+<td><code>/chatalyst reload</code></td>
+<td>Recarga <code>rules.yml</code> y los archivos importados</td>
+</tr>
+</tbody></table></div>
+<p>Necesitan <code>chatalyst.admin</code>. El staff con <code>chatalyst.notify.rules</code> (op por defecto) recibe los avisos de <code>Notify</code>.</p>
+<div class="callout callout-warning"><p class="callout-title">Aviso</p><p>Si <code>rules.yml</code> tiene un error de sintaxis, la recarga conserva tus reglas anteriores en lugar de cargar un conjunto vacío. Mira la consola después de recargar.</p>
+</div>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Se cargan hasta 512 reglas; las que sobran se omiten con un aviso en consola.</li>
+<li>Cada patrón tiene un tiempo máximo por mensaje. Un patrón mal escrito que tarda demasiado se trata como &quot;no coincide&quot; en lugar de congelar el chat, y <code>/chatalyst perf</code> muestra cuántas veces pasó (ver <a href="performance.html">rendimiento</a>).</li>
+<li>Los comandos de login y contraseña nunca se escriben en claro en registros ni alertas, aunque una regla coincida con ellos. Aun así, déjalos en <code>Ignore_Commands</code>.</li>
+<li>Prueba antes los patrones amplios en un servidor de pruebas: un patrón que coincide con demasiado bloquea la conversación normal.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="chat-filter.html"><span>Anterior</span><strong>Filtro, antispam y antibot</strong></a><a class="pager-next" href="punishments.html"><span>Siguiente</span><strong>Muteos, baneos y avisos</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

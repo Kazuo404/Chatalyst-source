@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Suite de staff · Docs de Chatalyst</title>
+  <meta name="description" content="Un kit de moderación opcional y manejado con menús, con baneos, expulsiones, congelar, baneos de conexión, vanish, modo staff y revisión de inventarios.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/staff-suite.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/staff-suite.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/staff-suite.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/staff-suite.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Suite de staff">
+  <meta property="og:description" content="Un kit de moderación opcional y manejado con menús, con baneos, expulsiones, congelar, baneos de conexión, vanish, modo staff y revisión de inventarios.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/staff-suite.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/staff-suite.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Moderación</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link is-active" aria-current="page" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#encenderla">Encenderla</a></li><li class="toc-h2"><a href="#que-incluye">Qué incluye</a></li><li class="toc-h2"><a href="#quien-se-queda-con-ban-kick-y-vanish">Quién se queda con /ban, /kick y /vanish</a></li><li class="toc-h2"><a href="#motivos-sin-escribir">Motivos sin escribir</a></li><li class="toc-h2"><a href="#posibles-multicuentas">Posibles multicuentas</a></li><li class="toc-h2"><a href="#responsabilidad">Responsabilidad</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Moderación</p><h1>Suite de staff</h1><p class="lead">Un kit de moderación opcional y manejado con menús, con baneos, expulsiones, congelar, baneos de conexión, vanish, modo staff y revisión de inventarios.</p></header>
+<article class="prose">
+<p>La suite de staff le da a tu equipo todo lo necesario para tratar con un jugador problemático desde un solo menú: banear, expulsar, congelar, ponerse en vanish, revisar inventarios y leer el historial de un jugador. El staff no tiene que memorizar comandos; <code>/staff</code> abre un panel con un botón para cada acción.</p>
+<p>Viene <strong>apagada</strong>, para que Chatalyst nunca se pelee con un plugin de staff que ya uses. Enciéndela solo si quieres que Chatalyst sea tu plugin de moderación.</p>
+<h2 id="encenderla"><a class="anchor" href="#encenderla" aria-hidden="true">#</a>Encenderla</h2>
+<p>En <code>moderation.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Staff_Moderation:
+  Enabled: true</code></pre></div>
+<p>Después reinicia el servidor o ejecuta <code>/cht reload</code>. Mientras está apagada, ninguno de sus comandos se registra.</p>
+<h2 id="que-incluye"><a class="anchor" href="#que-incluye" aria-hidden="true">#</a>Qué incluye</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Herramienta</th>
+<th>Comandos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Panel</td>
+<td><code>/staff</code> abre el menú: lista de jugadores, reportes, jugadores congelados y herramientas.</td>
+</tr>
+<tr>
+<td>Castigos</td>
+<td><code>/kick</code>, <code>/warn</code>, <code>/ban</code>, <code>/tempban</code>, <code>/unban</code>. Los motivos salen de una lista o se escriben en privado.</td>
+</tr>
+<tr>
+<td>Baneos de conexión</td>
+<td><code>/banip</code>, <code>/unbanip</code>: bloquean la cuenta y su conexión, expulsan las cuentas que la comparten y banean las cuentas nuevas.</td>
+</tr>
+<tr>
+<td>Congelar</td>
+<td><code>/freeze</code>, <code>/unfreeze</code>: detiene a un jugador para revisarlo. Salir durante la revisión da un baneo permanente.</td>
+</tr>
+<tr>
+<td>Vanish y modo staff</td>
+<td><code>/vanish</code>: invisible, silencioso y sin poder cambiar el mundo mientras observas.</td>
+</tr>
+<tr>
+<td>Revisión</td>
+<td><code>/invsee</code>, <code>/echest</code>, <code>/seen</code>, <code>/check</code> (historial, posibles multicuentas, notas).</td>
+</tr>
+<tr>
+<td>Notas</td>
+<td><code>/note</code>: notas privadas sobre un jugador, compartidas por el equipo.</td>
+</tr>
+<tr>
+<td>Teletransporte</td>
+<td><code>/tpto</code>, <code>/tphere</code>.</td>
+</tr>
+</tbody></table></div>
+<p>Cada herramienta tiene también alias en español. La lista completa con permisos está en <a href="commands.html">Comandos</a>; <code>chatalyst.staff.*</code> da todos.</p>
+<h2 id="quien-se-queda-con-ban-kick-y-vanish"><a class="anchor" href="#quien-se-queda-con-ban-kick-y-vanish" aria-hidden="true">#</a>Quién se queda con /ban, /kick y /vanish</h2>
+<p>Con la suite encendida, Chatalyst se queda con los nombres normales de los comandos aunque otro plugin los registrara antes, para que respondan sus herramientas. Si vuelves a apagar la suite, el otro plugin los recupera.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Command_Priority: true
+  Exempt_Ops: true</code></pre></div>
+<ul>
+<li><code>Command_Priority: false</code> solo toma los nombres que no use ningún otro plugin. La forma <code>/chatalyst:ban</code> funciona siempre.</li>
+<li><code>Exempt_Ops: true</code> significa que a los operadores no se les puede castigar ni congelar. Ponlo en <code>false</code> en servidores pequeños donde los jugadores de confianza tienen OP.</li>
+</ul>
+<h2 id="motivos-sin-escribir"><a class="anchor" href="#motivos-sin-escribir" aria-hidden="true">#</a>Motivos sin escribir</h2>
+<p>Los menús ofrecen motivos ya preparados, así el staff hace clic en vez de escribir. Siempre está también &quot;Motivo personalizado&quot;: el staff lo escribe en el chat y se recoge en privado. Edita las listas en <code>moderation.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Reason_Presets:
+    - &quot;Hacks / modified client&quot;
+    - &quot;X-Ray&quot;
+    - &quot;Toxicity / harassment&quot;
+    - &quot;Advertising&quot;
+    - &quot;Griefing&quot;
+    - &quot;Punishment evasion&quot;</code></pre></div>
+<p><code>Reason_Presets_es</code> guarda las versiones en español.</p>
+<h2 id="posibles-multicuentas"><a class="anchor" href="#posibles-multicuentas" aria-hidden="true">#</a>Posibles multicuentas</h2>
+<p><code>/check</code> puede enseñar los nombres que entraron desde la misma conexión. Por privacidad, la IP nunca se guarda, solo un hash de ella. Recuerda que hermanos o un cibercafé también comparten conexión: es una pista, no una prueba. Solo lo ve el staff con <code>chatalyst.staff.alts</code>.</p>
+<h2 id="responsabilidad"><a class="anchor" href="#responsabilidad" aria-hidden="true">#</a>Responsabilidad</h2>
+<p>Cada castigo queda en el historial del jugador, que enseñan <code>/check</code> y el menú de historial. Con la <strong>Seguridad del staff</strong> encendida (<code>Staff_Security.Enabled</code> en <code>moderation.yml</code>), los comandos sensibles del staff se copian también en la consola y en el canal privado del staff en Discord. Mira <a href="spying.html">Espía y registros</a>.</p>
+<div class="callout callout-tip"><p class="callout-title">Consejo</p><p>La suite incluye más vigilancias opcionales en <code>moderation.yml</code>: <code>Staff_Item_Audit</code> (objetos que crea el staff), <code>Item_Watch</code> (objetos valiosos en inventarios) y <code>Anti_Exploit</code>. Cada una tiene su propio <code>Enabled</code>.</p>
+</div>
+</article>
+      <nav class="pager"><a class="pager-prev" href="punishments.html"><span>Anterior</span><strong>Muteos, baneos y avisos</strong></a><a class="pager-next" href="reports.html"><span>Siguiente</span><strong>Reportes y soporte</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Respuestas automáticas · Docs de Chatalyst</title>
+  <meta name="description" content="Un bot de chat que responde solo a las preguntas habituales de los jugadores, en el idioma de cada uno, y que solo ofrece lo que tu servidor tiene de verdad.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/auto-responses.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/auto-responses.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/auto-responses.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/auto-responses.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Respuestas automáticas">
+  <meta property="og:description" content="Un bot de chat que responde solo a las preguntas habituales de los jugadores, en el idioma de cada uno, y que solo ofrece lo que tu servidor tiene de verdad.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/auto-responses.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/auto-responses.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link is-active" aria-current="page" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#activarlo">Activarlo</a></li><li class="toc-h2"><a href="#escribir-una-respuesta">Escribir una respuesta</a></li><li class="toc-h3"><a href="#palabras-exactas">Palabras exactas</a></li><li class="toc-h3"><a href="#cuando-coinciden-varias-respuestas">Cuando coinciden varias respuestas</a></li><li class="toc-h2"><a href="#respuestas-inteligentes">Respuestas inteligentes</a></li><li class="toc-h2"><a href="#como-encaja-con-el-resto-del-chat">Cómo encaja con el resto del chat</a></li><li class="toc-h2"><a href="#actualizar-desde-una-version-anterior">Actualizar desde una versión anterior</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Respuestas automáticas</h1><p class="lead">Un bot de chat que responde solo a las preguntas habituales de los jugadores, en el idioma de cada uno, y que solo ofrece lo que tu servidor tiene de verdad.</p></header>
+<article class="prose">
+<p>Los jugadores nuevos preguntan lo mismo una y otra vez: cómo gano dinero, cómo protejo mi terreno, dónde está mi compra. El bot de respuestas automáticas contesta por ti. Cuando un mensaje parece una pregunta conocida, el bot responde un momento después con la respuesta que escribiste, en el idioma del jugador.</p>
+<p>Entiende cómo escribe la gente de verdad. &quot;komo gano din3ro!!!&quot; y &quot;cómo gano dinero&quot; llevan a la misma respuesta. Y sus respuestas se adaptan a tu servidor: una respuesta sobre dinero solo menciona <code>/jobs</code> si <code>/jobs</code> existe, y solo habla del mercado si tu mercado está activo.</p>
+<p>Chatalyst trae 44 respuestas listas en inglés y español (dinero, saldo, mensajes privados, correo, canales, reportes, Discord, rangos, casas, warps, protección de terreno, kits, votos, PvP, lag y más). Edítalas, bórralas o añade las tuyas en <code>bot.yml</code>.</p>
+<h2 id="activarlo"><a class="anchor" href="#activarlo" aria-hidden="true">#</a>Activarlo</h2>
+<p>Es un extra opcional y viene apagado. Pon <code>Enabled: true</code> y ejecuta <code>/cht reload</code>. Los ajustes generales están al principio de la sección <code>Auto_Responses</code> de <code>bot.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Auto_Responses:
+  Enabled: false
+  Bypass_Permission: &quot;chatalyst.bypass.autoresponse&quot;
+  Auto_Language: true
+  Language: &quot;en&quot;
+  Private_Questions: true
+  Private_Questions_Mode: explicit
+  Precision:
+    Require_Question: true
+    Max_Words: 14
+    Question_Words: []
+  Player_Cooldown_Seconds: 60
+  Global_Cooldown_Seconds: 10
+  Delay_Ticks: 15</code></pre></div>
+<div class="callout callout-warning"><p class="callout-title">Aviso</p><p>Recuerda encender el bot: viene con <code>Enabled: false</code>. Pueden usarlo tanto los jugadores como los op.</p>
+</div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Enciende o apaga todo el bot</td>
+</tr>
+<tr>
+<td><code>Bypass_Permission</code></td>
+<td><code>chatalyst.bypass.autoresponse</code></td>
+<td>Los mensajes de quien tenga este permiso nunca activan el bot. Nadie lo tiene por defecto, tampoco los op: dáselo al staff si quieres silenciarlo</td>
+</tr>
+<tr>
+<td><code>Auto_Language</code></td>
+<td><code>true</code></td>
+<td>Cada jugador recibe la respuesta en el idioma de su cliente (inglés o español)</td>
+</tr>
+<tr>
+<td><code>Language</code></td>
+<td><code>en</code></td>
+<td>Idioma fijo (<code>en</code> o <code>es</code>) cuando <code>Auto_Language</code> es <code>false</code></td>
+</tr>
+<tr>
+<td><code>Private_Questions</code></td>
+<td><code>true</code></td>
+<td>La respuesta va solo a quien pregunta, y una pregunta clara se saca del chat público para que quede limpio</td>
+</tr>
+<tr>
+<td><code>Private_Questions_Mode</code></td>
+<td><code>explicit</code></td>
+<td><code>explicit</code> oculta un mensaje solo si coincidió un disparador y es de verdad una pregunta, o casi todo el mensaje es el disparador. Con una coincidencia por palabras clave el mensaje sigue en el chat. <code>all</code> oculta con cualquier coincidencia</td>
+</tr>
+<tr>
+<td><code>Precision.Require_Question</code></td>
+<td><code>true</code></td>
+<td>Los disparadores y las palabras clave necesitan que el mensaje parezca una pregunta. También vale un disparador que ocupe al menos la mitad del mensaje</td>
+</tr>
+<tr>
+<td><code>Precision.Max_Words</code></td>
+<td><code>14</code></td>
+<td>Los mensajes más largos se tratan como conversación (<code>0</code> = sin límite). Las expresiones regulares no tienen este límite</td>
+</tr>
+<tr>
+<td><code>Precision.Question_Words</code></td>
+<td><code>[]</code></td>
+<td>Palabras extra que abren una pregunta, además de las que ya trae en inglés y español</td>
+</tr>
+<tr>
+<td><code>Player_Cooldown_Seconds</code></td>
+<td><code>60</code></td>
+<td>Espera por defecto antes de que el mismo jugador reciba otra vez la misma respuesta</td>
+</tr>
+<tr>
+<td><code>Global_Cooldown_Seconds</code></td>
+<td><code>10</code></td>
+<td>Espera por defecto antes de repetir una respuesta que ve todo el servidor. Las respuestas privadas no la usan</td>
+</tr>
+<tr>
+<td><code>Delay_Ticks</code></td>
+<td><code>15</code></td>
+<td>Pausa corta antes de responder, para que parezca natural (20 ticks = 1 segundo)</td>
+</tr>
+</tbody></table></div>
+<h2 id="escribir-una-respuesta"><a class="anchor" href="#escribir-una-respuesta" aria-hidden="true">#</a>Escribir una respuesta</h2>
+<p>Cada entrada de <code>Responses</code> necesita al menos una forma de detectar la pregunta y una respuesta. Esta sale del archivo real:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">    ignore-player:
+      Keywords:
+        - &quot;ignor|=block|bloquear|bloqueo|bloquea|mutear|callar|molest|acos&quot;
+        - &quot;jugador|player|persona|alguien|user|chico|tipo|como|komo|how|puedo|can&quot;
+      Reply:
+        - &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Bot&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;Ignore someone with &lt;#E0AAFF&gt;/ignore &lt;player&gt;&lt;#C0B3D9&gt;: you stop seeing their chat and private messages. Run it again to unignore.&quot;
+      Reply_es:
+        - &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Bot&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;Ignora a alguien con &lt;#E0AAFF&gt;/ignore &lt;jugador&gt;&lt;#C0B3D9&gt;: dejas de ver su chat y sus privados. Ejecutalo otra vez para dejar de ignorarlo.&quot;
+      To: player</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clave</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Triggers</code></td>
+<td>Una frase, o una expresión regular completa con el prefijo <code>regex:</code>. Escribe los dos idiomas. Una frase necesita que el mensaje sea una pregunta o sea casi entero esa frase; una expresión regular siempre cuenta</td>
+</tr>
+<tr>
+<td><code>Keywords</code></td>
+<td>Detección flexible. Cada línea es un grupo de palabras separadas por una barra vertical; la respuesta salta cuando el mensaje contiene una palabra de <strong>cada</strong> grupo</td>
+</tr>
+<tr>
+<td><code>Reply</code> / <code>Reply_es</code></td>
+<td>Las líneas de respuesta para clientes en inglés y en español. Si falta una, se usa la otra. <code>{player}</code> es el nombre de quien pregunta</td>
+</tr>
+<tr>
+<td><code>If_Plugin</code></td>
+<td>Respuestas alternativas que solo se usan si hay cierto plugin instalado</td>
+</tr>
+<tr>
+<td><code>Smart</code></td>
+<td>Una respuesta hecha de partes que dependen de lo que tiene tu servidor (ver abajo)</td>
+</tr>
+<tr>
+<td><code>To</code></td>
+<td><code>player</code> responde solo a quien pregunta; <code>everyone</code> lo envía a todo el servidor, cada uno en su idioma</td>
+</tr>
+<tr>
+<td><code>Require_Question</code></td>
+<td>Sustituye a <code>Precision.Require_Question</code> en esta respuesta</td>
+</tr>
+<tr>
+<td><code>Priority</code></td>
+<td>Suma o resta puntos cuando coinciden varias respuestas por palabras clave. Usa un número negativo en las respuestas genéricas</td>
+</tr>
+<tr>
+<td><code>Player_Cooldown_Seconds</code>, <code>Global_Cooldown_Seconds</code>, <code>Delay_Ticks</code></td>
+<td>Sustituyen los valores generales para esta respuesta</td>
+</tr>
+</tbody></table></div>
+<p>Una respuesta salta si <strong>cualquiera</strong> de sus detecciones coincide. Antes de comparar, el mensaje se normaliza: minúsculas, sin tildes, sin leet (<code>din3r0</code> pasa a <code>dinero</code>), letras estiradas acortadas (<code>holaaaa</code> pasa a <code>hola</code>), sin apóstrofos (<code>what&#39;s</code> pasa a <code>whats</code>) y la puntuación convertida en espacios.</p>
+<div class="callout callout-tip"><p class="callout-title">Consejo</p><p>En <code>Keywords</code>, usa raíces cortas como <code>gan</code>, <code>consig</code> o <code>earn</code>. Una raíz atrapa todas las formas de la palabra: <code>gano</code>, <code>ganar</code>, <code>ganando</code>.</p>
+</div>
+<h3 id="palabras-exactas"><a class="anchor" href="#palabras-exactas" aria-hidden="true">#</a>Palabras exactas</h3>
+<p>Una raíz también atrapa cualquier otra palabra que empiece igual: <code>ban</code> coincide con <code>banco</code>, y <code>spawn</code> con <code>spawner</code>. Pon <code>=</code> delante para exigir la palabra entera: <code>=ban</code>, <code>=spawn</code>. Las palabras de una o dos letras siempre coinciden enteras, y una palabra clave con espacio se busca como frase.</p>
+<h3 id="cuando-coinciden-varias-respuestas"><a class="anchor" href="#cuando-coinciden-varias-respuestas" aria-hidden="true">#</a>Cuando coinciden varias respuestas</h3>
+<ul>
+<li>Un disparador gana a cualquier coincidencia por palabras clave. Entre disparadores, gana el que cubre más texto.</li>
+<li>Entre respuestas por palabras clave, cuenta la palabra más larga que coincidió, y el primer grupo vale el doble. Pon el tema en el primer grupo y la intención en el segundo.</li>
+<li><code>Priority</code> ajusta esa puntuación. La respuesta <code>how-to-buy</code> que trae el plugin usa <code>-5</code>, así &quot;como compro un kit&quot; llega a la respuesta de kits.</li>
+<li>Si hay empate, gana la primera respuesta del archivo.</li>
+<li>Si la ganadora está en enfriamiento, el bot se calla. No contesta con la segunda mejor.</li>
+</ul>
+<h2 id="respuestas-inteligentes"><a class="anchor" href="#respuestas-inteligentes" aria-hidden="true">#</a>Respuestas inteligentes</h2>
+<p>Una respuesta inteligente se arma con partes, y cada parte solo se dice si lo que indica <code>Needs</code> está disponible en ese momento. Si no aplica ninguna parte, se usa la línea <code>Unavailable</code>. Una parte sin <code>Needs</code> se dice siempre.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">    how-to-money:
+      Keywords:
+        - &quot;dinero|plata|money|coin|moneda|lana|feria|billete|cash|guita|varo|bucks|dosh|moolah|dough|rich|rico&quot;
+        - &quot;gan|consig|hag|hac|sac|junt|farm|earn|make|get|neces|need|wanna|gimme|grind|start&quot;
+      Smart:
+        Intro: &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Bot&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;Hi &lt;#FBF2FF&gt;{player}&lt;#C0B3D9&gt;, ways to earn money here:&quot;
+        Intro_es: &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Bot&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;Hola &lt;#FBF2FF&gt;{player}&lt;#C0B3D9&gt;, formas de ganar dinero aqui:&quot;
+        Parts:
+          - Needs: &quot;command:jobs&quot;
+            Text: &quot;&lt;#C0B3D9&gt;• Work a job with &lt;#E0AAFF&gt;/jobs&lt;#C0B3D9&gt;.&quot;
+            Text_es: &quot;&lt;#C0B3D9&gt;• Trabaja un empleo con &lt;#E0AAFF&gt;/jobs&lt;#C0B3D9&gt;.&quot;
+          - Needs: &quot;market&quot;
+            Text: &quot;&lt;#C0B3D9&gt;• Sell your own items on &lt;#E0AAFF&gt;/market&lt;#C0B3D9&gt;.&quot;
+            Text_es: &quot;&lt;#C0B3D9&gt;• Vende tus propios items en &lt;#E0AAFF&gt;/market&lt;#C0B3D9&gt;.&quot;
+        Unavailable: &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Bot&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;There's no money system enabled on this server yet.&quot;
+        Unavailable_es: &quot;&lt;#7B68A0&gt;[&lt;#B56CFF&gt;Bot&lt;#7B68A0&gt;] &lt;#C0B3D9&gt;Aun no hay un sistema de dinero activo en este servidor.&quot;
+      To: player</code></pre></div>
+<p>Lo que puede necesitar una parte:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Needs</th>
+<th>Disponible cuando</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>command:&lt;nombre&gt;</code></td>
+<td>Ese comando existe en el servidor, por ejemplo <code>command:jobs</code></td>
+</tr>
+<tr>
+<td><code>plugin:&lt;Nombre&gt;</code></td>
+<td>Ese plugin está instalado y activo (nombre como sale en <code>/plugins</code>)</td>
+</tr>
+<tr>
+<td><code>pm</code></td>
+<td>Los mensajes privados están activos</td>
+</tr>
+<tr>
+<td><code>mail</code></td>
+<td>El correo está activo</td>
+</tr>
+<tr>
+<td><code>market</code> / <code>trade</code></td>
+<td>El mercado / el comercio directo están activos</td>
+</tr>
+<tr>
+<td><code>channels</code></td>
+<td>Los canales de chat están activos</td>
+</tr>
+<tr>
+<td><code>announcements</code></td>
+<td>El anunciador está activo</td>
+</tr>
+<tr>
+<td><code>economy</code> / <code>baltop</code></td>
+<td>Hay un plugin de economía / el ranking de dinero está activo</td>
+</tr>
+<tr>
+<td><code>store</code> / <code>ranks</code></td>
+<td>Las entregas de objetos / la tienda de rangos están activas</td>
+</tr>
+<tr>
+<td><code>rent</code></td>
+<td>El alquiler de ventajas está activo, con economía y al menos una oferta</td>
+</tr>
+<tr>
+<td><code>discordlink</code></td>
+<td>La vinculación con Discord se puede usar de verdad</td>
+</tr>
+</tbody></table></div>
+<p>En los textos, <code>{ranks_command}</code> se sustituye por el nombre actual del comando de tu tienda (ver <a href="store.html">tienda</a>). La disponibilidad se comprueba cada vez que el bot responde, así que encender o apagar una función se nota al momento.</p>
+<h2 id="como-encaja-con-el-resto-del-chat"><a class="anchor" href="#como-encaja-con-el-resto-del-chat" aria-hidden="true">#</a>Cómo encaja con el resto del chat</h2>
+<p>El bot solo responde a mensajes que han pasado: si el <a href="rules-engine.html">motor de reglas</a> o el <a href="chat-filter.html#antispam">antispam</a> bloquearon antes el mensaje, el bot no dice nada. El filtro de groserías y los registros se siguen aplicando a la pregunta como siempre. Los comandos nunca llegan al bot, y no lee sus propias respuestas.</p>
+<p>Cada respuesta queda en el registro de chat como <code>[BOT]</code>, con la respuesta que saltó y si vino de un disparador o de palabras clave. Léelo para ajustar <code>bot.yml</code> con lo que preguntan de verdad los jugadores.</p>
+<h2 id="actualizar-desde-una-version-anterior"><a class="anchor" href="#actualizar-desde-una-version-anterior" aria-hidden="true">#</a>Actualizar desde una versión anterior</h2>
+<p>Los servidores instalados conservan su <code>bot.yml</code>, así que las respuestas nuevas y las palabras clave mejoradas no se añaden solas. Las mejoras del motor se aplican al momento. Para tener las palabras clave nuevas, compara tu archivo con el del jar nuevo, o borra <code>bot.yml</code> para recibir una copia limpia si nunca lo editaste.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Las respuestas están solo en inglés y español. Los jugadores con otro idioma en el cliente reciben la respuesta en inglés.</li>
+<li>El idioma sigue al cliente, no a la pregunta. Un jugador con el cliente en inglés que pregunta en español recibe la respuesta en inglés.</li>
+<li>El bot responde preguntas en el chat; no mantiene una conversación ni recuerda lo que un jugador preguntó antes.</li>
+<li>La detección se basa en las palabras y patrones que escribes. Si los jugadores preguntan de una forma que ningún disparador cubre, añade un disparador o una palabra clave.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="player-tools.html"><span>Anterior</span><strong>Herramientas del jugador</strong></a><a class="pager-next" href="custom-commands.html"><span>Siguiente</span><strong>Comandos personalizados</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

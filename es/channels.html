@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Canales · Docs de Chatalyst</title>
+  <meta name="description" content="Salas de chat separadas para global, comercio, staff, radio, región y party, con historial y un enrutador que saca las ventas del chat global.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/channels.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/channels.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/channels.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/channels.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Canales">
+  <meta property="og:description" content="Salas de chat separadas para global, comercio, staff, radio, región y party, con historial y un enrutador que saca las ventas del chat global.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/channels.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/channels.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Chat</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link is-active" aria-current="page" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#tipos-de-canal">Tipos de canal</a></li><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#opciones-generales">Opciones generales</a></li><li class="toc-h3"><a href="#definir-un-canal">Definir un canal</a></li><li class="toc-h3"><a href="#canales-exclusivos">Canales exclusivos</a></li><li class="toc-h3"><a href="#frecuencia-de-radio-chat-local">Frecuencia de radio (chat local)</a></li><li class="toc-h3"><a href="#canales-de-comercio-y-subastas">Canales de comercio y subastas</a></li><li class="toc-h3"><a href="#regiones-de-chat-sin-worldguard">Regiones de chat sin WorldGuard</a></li><li class="toc-h3"><a href="#enrutador-inteligente">Enrutador inteligente</a></li><li class="toc-h3"><a href="#formato-y-retardo-por-grupo">Formato y retardo por grupo</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Chat</p><h1>Canales</h1><p class="lead">Salas de chat separadas para global, comercio, staff, radio, región y party, con historial y un enrutador que saca las ventas del chat global.</p></header>
+<article class="prose">
+<p>Los canales dividen el chat en salas. Cada jugador escribe en un canal a la vez y lee los canales que tiene permitido escuchar. En un survival puedes dejar las ventas en <code>trade</code>, al staff en <code>staff</code> y las charlas cercanas en una frecuencia de radio, y el chat global sigue siendo legible.</p>
+<p>Los canales vienen activados. La configuración de fábrica trae <code>global</code>, <code>local</code> (radio), <code>staff</code>, <code>region</code> y <code>party</code> listos para usar, y <code>trade</code> y <code>auction</code> preparados pero apagados.</p>
+<h2 id="tipos-de-canal"><a class="anchor" href="#tipos-de-canal" aria-hidden="true">#</a>Tipos de canal</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Quién recibe el mensaje</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GLOBAL</code></td>
+<td>Todo el servidor. Con <code>Proxy: true</code>, toda la red.</td>
+</tr>
+<tr>
+<td><code>WORLD</code></td>
+<td>Los jugadores del mismo mundo.</td>
+</tr>
+<tr>
+<td><code>FREQUENCY</code></td>
+<td>Los jugadores sintonizados en la misma frecuencia de radio, a cualquier distancia.</td>
+</tr>
+<tr>
+<td><code>REGION</code></td>
+<td>Los jugadores que están en la misma región de chat (regiones de Chatalyst o de WorldGuard).</td>
+</tr>
+<tr>
+<td><code>PARTY</code></td>
+<td>Los miembros de la misma party (plugin Parties).</td>
+</tr>
+</tbody></table></div>
+<div class="callout callout-note"><p class="callout-title">Nota</p><p>Sin WorldGuard o sin Parties, los canales <code>REGION</code> y <code>PARTY</code> funcionan como un canal normal, así que no se rompe nada.</p>
+</div>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>Todo está en <code>plugins/Chatalyst/chat.yml</code>, dentro de <code>Channels</code>. El módulo viene encendido:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Channels:
+  Enabled: true
+  Default: global
+  # Canal en el que ESCRIBEN los jugadores al entrar al servidor:
+  #   default = todos vuelven a empezar en el canal por defecto (el chat general)
+  #   last    = recuerda el canal que usaban al salir
+  On_Join: default
+  Exclusive: true</code></pre></div>
+<p>Tras editar, ejecuta <code>/cht reload</code>.</p>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<h3 id="opciones-generales"><a class="anchor" href="#opciones-generales" aria-hidden="true">#</a>Opciones generales</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>true</code></td>
+<td>Interruptor general del sistema de canales.</td>
+</tr>
+<tr>
+<td><code>Default</code></td>
+<td><code>global</code></td>
+<td>El chat principal. Los jugadores nuevos escriben aquí.</td>
+</tr>
+<tr>
+<td><code>On_Join</code></td>
+<td><code>default</code></td>
+<td><code>default</code> devuelve a todos al canal principal al entrar. <code>last</code> recuerda el canal en el que salieron.</td>
+</tr>
+<tr>
+<td><code>Exclusive</code></td>
+<td><code>true</code></td>
+<td>Los canales son salas separadas (ver abajo). Con <code>false</code> vuelven a solaparse.</td>
+</tr>
+<tr>
+<td><code>History.Enabled</code></td>
+<td><code>true</code></td>
+<td>Guarda un historial corto en memoria por cada canal <code>GLOBAL</code>.</td>
+</tr>
+<tr>
+<td><code>History.Size</code></td>
+<td><code>20</code></td>
+<td>Mensajes que se guardan por canal.</td>
+</tr>
+<tr>
+<td><code>History.Show_On_Switch</code></td>
+<td><code>10</code></td>
+<td>Mensajes que se repiten al entrar en un canal. <code>0</code> = solo a petición.</td>
+</tr>
+<tr>
+<td><code>History.Retention_Minutes</code></td>
+<td><code>30</code></td>
+<td>Los mensajes más antiguos se descartan.</td>
+</tr>
+<tr>
+<td><code>Frequency.Default</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Frecuencia con la que empiezan los jugadores nuevos. Vacío = radio apagada hasta que sintonicen.</td>
+</tr>
+</tbody></table></div>
+<h3 id="definir-un-canal"><a class="anchor" href="#definir-un-canal" aria-hidden="true">#</a>Definir un canal</h3>
+<p>Cada canal es una entrada dentro de <code>Channels.List</code>. Así vienen <code>global</code> y <code>staff</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  List:
+    global:
+      Aliases: [g, global]
+      Type: GLOBAL
+      Permission: &quot;&quot;
+      Format: chat
+      Auto_Listen: true
+      # Proxy: true reenvía este canal a toda la red (necesita Proxy.Enabled más abajo).
+      Proxy: false
+    staff:
+      Aliases: [s, sc, staff]
+      Type: GLOBAL
+      Permission: chatalyst.channel.staff
+      Format: staff
+      Auto_Listen: true
+      # El staff nunca debe perderse mensajes de staff, incluso con Channels.Exclusive activo.
+      Force_Listen: true
+      # Necesario para escalar soporte y para el chat de staff en Velocity/Bungee.
+      Proxy: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code> oculta el canal de comandos, alias, autocompletado, enrutador y menú.</td>
+</tr>
+<tr>
+<td><code>Aliases</code></td>
+<td>Nombres cortos para <code>/channel &lt;alias&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Type</code></td>
+<td>Uno de los cinco tipos de arriba.</td>
+</tr>
+<tr>
+<td><code>Permission</code></td>
+<td>Vacío = cualquiera. Si no, hace falta para leer y escribir.</td>
+</tr>
+<tr>
+<td><code>Format</code></td>
+<td>El archivo de <code>formats/</code> que usa el canal. Ver <a href="formats.html">Formatos de chat</a>.</td>
+</tr>
+<tr>
+<td><code>Auto_Listen</code></td>
+<td><code>true</code> = se oye sin estar dentro (solo con <code>Exclusive</code> apagado).</td>
+</tr>
+<tr>
+<td><code>Force_Listen</code></td>
+<td>Siempre se oye, incluso con <code>Exclusive</code> activo. Lo usan <code>staff</code> y <code>local</code> de fábrica.</td>
+</tr>
+<tr>
+<td><code>Proxy</code></td>
+<td>Lleva el canal a toda la red Velocity/BungeeCord/Redis. Ver <a href="network.html">Redes con proxy y Redis</a>.</td>
+</tr>
+<tr>
+<td><code>Auto_Enable_With_Market_Plugins</code></td>
+<td>Deja que un <code>trade</code> o <code>auction</code> apagado aparezca al detectar un plugin de mercado compatible.</td>
+</tr>
+</tbody></table></div>
+<h3 id="canales-exclusivos"><a class="anchor" href="#canales-exclusivos" aria-hidden="true">#</a>Canales exclusivos</h3>
+<p>Con <code>Exclusive: true</code> (lo de fábrica) cada canal es una sala propia. Siempre oyes el canal principal (salvo que lo silencies) y el canal en el que escribes. Estar en <code>global</code> oculta <code>trade</code>, <code>auction</code> y los demás. Excepciones:</p>
+<ul>
+<li>los canales con <code>Force_Listen: true</code>;</li>
+<li>los canales a los que te suscribes con <code>/channel listen &lt;nombre&gt;</code>;</li>
+<li>los jugadores con <code>chatalyst.channel.seeall</code>.</li>
+</ul>
+<p>Al cambiar de canal se repiten los últimos mensajes, marcados como ya enviados, para que te pongas al día al momento.</p>
+<h3 id="frecuencia-de-radio-chat-local"><a class="anchor" href="#frecuencia-de-radio-chat-local" aria-hidden="true">#</a>Frecuencia de radio (chat local)</h3>
+<p>El canal <code>local</code> es una radio, no un chat por cercanía. Cada jugador sintoniza una frecuencia entre <code>10.00</code> y <code>99.99</code> y solo oye a quien está en la misma, a cualquier distancia. Con <code>Frequency.Default</code> vacío nadie está en la radio hasta que sintoniza. La frecuencia elegida se guarda.</p>
+<ul>
+<li><code>/frequency</code> abre el sintonizador, <code>/frequency 42.50</code> sintoniza directamente y <code>/frequency off</code> apaga la radio.</li>
+<li><code>/f &lt;mensaje&gt;</code> habla una vez por tu frecuencia sin salir del canal en el que estás.</li>
+</ul>
+<p>Los mensajes de radio pasan por silencios, reglas, antispam, formato y registros como cualquier otro. El staff con <code>chatalyst.bypass.range</code> oye todas las frecuencias.</p>
+<h3 id="canales-de-comercio-y-subastas"><a class="anchor" href="#canales-de-comercio-y-subastas" aria-hidden="true">#</a>Canales de comercio y subastas</h3>
+<p><code>trade</code> y <code>auction</code> vienen con <code>Enabled: false</code>. Con <code>Auto_Enable_With_Market_Plugins: true</code>, Chatalyst los enciende en marcha al detectar un plugin de subastas o tiendas compatible (AuctionHouse, zAuctionHouse, CrazyAuctions, PlayerAuctions, AuctionMaster, QuickShop, ChestShop, ShopGUI+, EconomyShopGUI, DynamicShop, BossShopPro). Pon <code>Enabled: true</code> para que uno se vea siempre. El mercado integrado también publica aquí: ver <a href="market.html">Mercado e intercambios</a>.</p>
+<h3 id="regiones-de-chat-sin-worldguard"><a class="anchor" href="#regiones-de-chat-sin-worldguard" aria-hidden="true">#</a>Regiones de chat sin WorldGuard</h3>
+<p>Los canales <code>REGION</code> funcionan sin WorldGuard. Ponte en una esquina y ejecuta <code>/cht region pos1</code>, ve a la esquina opuesta y ejecuta <code>/cht region pos2</code>, y luego <code>/cht region add &lt;nombre&gt; [canal]</code>. Las regiones se guardan en <code>regions.yml</code>. Si le das un canal a la región, los jugadores cambian a él al entrar y vuelven al salir. Con WorldGuard instalado, sus regiones también cuentan.</p>
+<h3 id="enrutador-inteligente"><a class="anchor" href="#enrutador-inteligente" aria-hidden="true">#</a>Enrutador inteligente</h3>
+<p>El enrutador mantiene el chat global libre de spam de ventas. Los mensajes escritos en el canal principal que encajan con un patrón se mueven solos al canal de destino (o se bloquean con una pista).</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Channel_Router:
+  Enabled: true
+  Action: move           # move = entregar en el canal de destino · block = cancelar + pista
+  Notify: true           # avisar al jugador de que su mensaje se movió (como mucho una vez por minuto)
+  # Atajos puntuales: empezar un mensaje con el prefijo lo envía a ese canal sin
+  # cambiar de canal (elección explícita del jugador; el prefijo se quita). Ejemplo abajo.
+  Shortcut_Prefixes: {}
+  # Shortcut_Prefixes:
+  #   &quot;!&quot;: trade
+  #   &quot;?&quot;: auction</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>true</code></td>
+<td>Enciende el enrutador.</td>
+</tr>
+<tr>
+<td><code>Action</code></td>
+<td><code>move</code></td>
+<td><code>move</code> entrega el mensaje en el canal de destino. <code>block</code> lo cancela y muestra una pista.</td>
+</tr>
+<tr>
+<td><code>Notify</code></td>
+<td><code>true</code></td>
+<td>Avisa al jugador de que su mensaje se movió, como mucho una vez por minuto.</td>
+</tr>
+<tr>
+<td><code>Shortcut_Prefixes</code></td>
+<td><code>{}</code></td>
+<td>Prefijos que mandan un mensaje a un canal sin cambiar de canal.</td>
+</tr>
+<tr>
+<td><code>Rules.&lt;canal&gt;.Patterns</code></td>
+<td>palabras de venta/subasta en español e inglés</td>
+<td>Expresiones regulares de Java, sin distinguir mayúsculas.</td>
+</tr>
+</tbody></table></div>
+<p>El staff con <code>chatalyst.bypass.router</code> nunca se enruta.</p>
+<h3 id="formato-y-retardo-por-grupo"><a class="anchor" href="#formato-y-retardo-por-grupo" aria-hidden="true">#</a>Formato y retardo por grupo</h3>
+<p><code>config.yml</code> tiene una sección <code>Groups</code> indexada por el grupo principal de LuckPerms (o el de Vault). Cada grupo puede tener su propio <code>Format</code> (se aplica a los canales que usan el formato base) y <code>Chat_Delay_Seconds</code> (sustituye el retardo del antispam; <code>0</code> = sin retardo).</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Permiso</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/channel</code> (<code>/ch</code>)</td>
+<td><code>chatalyst.command.channel</code></td>
+<td>Abre el menú de canales.</td>
+</tr>
+<tr>
+<td><code>/channel &lt;nombre&gt;</code></td>
+<td><code>chatalyst.command.channel</code></td>
+<td>Cambia el canal en el que escribes.</td>
+</tr>
+<tr>
+<td><code>/channel list</code></td>
+<td><code>chatalyst.command.channel</code></td>
+<td>Lista los canales en texto.</td>
+</tr>
+<tr>
+<td><code>/channel mute &lt;nombre&gt;</code></td>
+<td><code>chatalyst.command.channel</code></td>
+<td>Oculta o muestra un canal.</td>
+</tr>
+<tr>
+<td><code>/channel listen &lt;nombre&gt;</code></td>
+<td><code>chatalyst.command.channel</code></td>
+<td>Te suscribe a un canal sin escribir en él.</td>
+</tr>
+<tr>
+<td><code>/channel history [nombre]</code></td>
+<td><code>chatalyst.command.channel</code></td>
+<td>Muestra el historial reciente de un canal.</td>
+</tr>
+<tr>
+<td><code>/channel send &lt;nombre&gt; &lt;msg&gt;</code></td>
+<td><code>chatalyst.channel.send</code></td>
+<td>Manda un mensaje a un canal sin entrar en él.</td>
+</tr>
+<tr>
+<td><code>/channel sendas &lt;jugador&gt; &lt;nombre&gt; &lt;msg&gt;</code></td>
+<td><code>chatalyst.channel.sendas</code></td>
+<td>Manda un mensaje como otro jugador conectado (vale desde consola).</td>
+</tr>
+<tr>
+<td><code>/frequency [NN.NN|off]</code></td>
+<td><code>chatalyst.command.frequency</code></td>
+<td>Sintoniza la radio.</td>
+</tr>
+<tr>
+<td><code>/f &lt;mensaje&gt;</code></td>
+<td><code>chatalyst.command.frequency</code></td>
+<td>Habla una vez por tu frecuencia.</td>
+</tr>
+<tr>
+<td><code>/staffchat &lt;msg&gt;</code> (<code>/sc</code>)</td>
+<td><code>chatalyst.channel.staff</code></td>
+<td>Manda un mensaje al canal de staff.</td>
+</tr>
+<tr>
+<td><code>/cht region pos1|pos2|add|remove|list</code></td>
+<td><code>chatalyst.admin</code></td>
+<td>Gestiona las regiones de chat.</td>
+</tr>
+</tbody></table></div>
+<p>Otros nodos: <code>chatalyst.channel.seeall</code> (oír todos los canales con <code>Exclusive</code> activo, por defecto <code>false</code>), <code>chatalyst.bypass.range</code> (oír todas las frecuencias, por defecto op) y <code>chatalyst.bypass.router</code> (nunca se enruta, por defecto op). Consulta <a href="commands.html">todos los comandos</a> y <a href="permissions.html">todos los permisos</a>.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>El historial vive solo en memoria y se borra al reiniciar. Solo se guardan los canales <code>GLOBAL</code>: repetir la radio, el mundo, la región o la party podría enseñar mensajes que el lector nunca debió ver.</li>
+<li>El chat de radio (<code>FREQUENCY</code>) se queda en un servidor. No lo pases por el proxy. Para hablar en toda la red, usa un canal <code>GLOBAL</code> aparte.</li>
+<li>El enrutador solo revisa los mensajes de quien escribe en el canal principal.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="formats.html"><span>Anterior</span><strong>Formatos de chat</strong></a><a class="pager-next" href="mentions.html"><span>Siguiente</span><strong>Menciones</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

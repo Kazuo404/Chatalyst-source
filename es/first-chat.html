@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Tu primer chat · Docs de Chatalyst</title>
+  <meta name="description" content="Una guía paso a paso para cambiar cómo se ve tu chat, del separador a la tarjeta del nombre, con ejemplos listos para copiar.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/first-chat.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/first-chat.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/first-chat.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/first-chat.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Tu primer chat">
+  <meta property="og:description" content="Una guía paso a paso para cambiar cómo se ve tu chat, del separador a la tarjeta del nombre, con ejemplos listos para copiar.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/first-chat.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/first-chat.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Empezar</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link is-active" aria-current="page" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-construye-una-linea-de-chat">Cómo se construye una línea de chat</a></li><li class="toc-h2"><a href="#paso-1-cambia-el-separador">Paso 1: cambia el separador</a></li><li class="toc-h2"><a href="#paso-2-recarga-y-mira">Paso 2: recarga y mira</a></li><li class="toc-h2"><a href="#paso-3-colorea-el-mensaje">Paso 3: colorea el mensaje</a></li><li class="toc-h2"><a href="#paso-4-edita-la-tarjeta-del-nombre">Paso 4: edita la tarjeta del nombre</a></li><li class="toc-h2"><a href="#paso-5-usa-el-editor-del-juego-opcional">Paso 5: usa el editor del juego (opcional)</a></li><li class="toc-h2"><a href="#paso-6-un-formato-distinto-por-rango-opcional">Paso 6: un formato distinto por rango (opcional)</a></li><li class="toc-h2"><a href="#que-leer-despues">Qué leer después</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Empezar</p><h1>Tu primer chat</h1><p class="lead">Una guía paso a paso para cambiar cómo se ve tu chat, del separador a la tarjeta del nombre, con ejemplos listos para copiar.</p></header>
+<article class="prose">
+<p>Esta guía te acompaña en tu primer cambio del chat. Vas a editar un archivo, recargar y ver el resultado en el juego. No necesitas experiencia previa.</p>
+<p><img src="../img/es/formats.png" alt="El formato de chat de fábrica de Chatalyst con la tarjeta del rango" loading="lazy"></p>
+<h2 id="como-se-construye-una-linea-de-chat"><a class="anchor" href="#como-se-construye-una-linea-de-chat" aria-hidden="true">#</a>Cómo se construye una línea de chat</h2>
+<p>Una línea de chat está hecha de piezas pequeñas llamadas <strong>partes</strong>, que se muestran en orden. El formato de fábrica tiene estas:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Parte</th>
+<th>Qué enseña</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>delete</code></td>
+<td>Un pequeño <code>[x]</code> que solo ve el staff, para borrar el mensaje.</td>
+</tr>
+<tr>
+<td><code>prefix</code></td>
+<td>La etiqueta del rango del jugador, por ejemplo <code>[VIP]</code>.</td>
+</tr>
+<tr>
+<td><code>party</code></td>
+<td>El nombre de la party, solo si el jugador está en una.</td>
+</tr>
+<tr>
+<td><code>player-name</code></td>
+<td>El nombre (o apodo) del jugador, con la tarjeta al pasar el ratón.</td>
+</tr>
+<tr>
+<td><code>suffix</code></td>
+<td>El sufijo del rango, si tiene.</td>
+</tr>
+<tr>
+<td><code>separator</code></td>
+<td>El <code>»</code> entre el nombre y el mensaje.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>Lo que escribió el jugador.</td>
+</tr>
+</tbody></table></div>
+<p>Todas están en un único archivo: <code>plugins/Chatalyst/formats/chat.yml</code>.</p>
+<h2 id="paso-1-cambia-el-separador"><a class="anchor" href="#paso-1-cambia-el-separador" aria-hidden="true">#</a>Paso 1: cambia el separador</h2>
+<p>Abre <code>plugins/Chatalyst/formats/chat.yml</code> y busca la parte <code>separator</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  separator:
+    Message: &quot; &lt;#7B68A0&gt;» &lt;reset&gt;&quot;</code></pre></div>
+<p>Cambia el <code>»</code> por dos puntos:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  separator:
+    Message: &quot;&lt;#7B68A0&gt;: &lt;reset&gt;&quot;</code></pre></div>
+<p>El texto usa MiniMessage: <code>&lt;#7B68A0&gt;</code> es un color, <code>&lt;bold&gt;</code> pone el texto en negrita y <code>&lt;reset&gt;</code> quita el estilo. Los códigos antiguos con <code>&amp;</code>, como <code>&amp;7</code>, también funcionan.</p>
+<h2 id="paso-2-recarga-y-mira"><a class="anchor" href="#paso-2-recarga-y-mira" aria-hidden="true">#</a>Paso 2: recarga y mira</h2>
+<p>Guarda el archivo y ejecuta, en el juego o en la consola:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/cht reload</code></pre></div>
+<p>Escribe algo en el chat. El separador nuevo aparece al momento. Si algo se ve mal, ejecuta <code>/cht doctor</code> para encontrar el error.</p>
+<h2 id="paso-3-colorea-el-mensaje"><a class="anchor" href="#paso-3-colorea-el-mensaje" aria-hidden="true">#</a>Paso 3: colorea el mensaje</h2>
+<p>La parte <code>message</code> decide el color de lo que escriben los jugadores. De fábrica usa el color del rango:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  message:
+    Message: &quot;{rank_color}{message}&quot;</code></pre></div>
+<p>Para que todos los mensajes salgan en blanco, escribe tú el color:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  message:
+    Message: &quot;&lt;white&gt;{message}&quot;</code></pre></div>
+<p><code>{message}</code> es un <strong>placeholder</strong>: Chatalyst lo cambia por el texto real. En <a href="placeholders.html">Placeholders</a> están todos.</p>
+<h2 id="paso-4-edita-la-tarjeta-del-nombre"><a class="anchor" href="#paso-4-edita-la-tarjeta-del-nombre" aria-hidden="true">#</a>Paso 4: edita la tarjeta del nombre</h2>
+<p>Al pasar el ratón por un nombre sale una tarjeta con rango, party, dinero, tiempo jugado y ping. Es la lista <code>Hover</code> de la parte <code>player-name</code>. Cada línea de la lista es una línea de la tarjeta:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">    Hover:
+      - &quot; {rank_color}✦ &lt;bold&gt;{rank_nick}&lt;/bold&gt;&quot;
+      - &quot; {rank_gradient}&lt;strikethrough&gt;                        &lt;/strikethrough&gt;&lt;/gradient&gt;&quot;
+      - &quot; &quot;
+      - &quot; &lt;#C0B3D9&gt;{$rank} &lt;#7B68A0&gt;» {player_prefix}&lt;reset&gt;&quot;
+      - &quot; &lt;#C0B3D9&gt;{$party} &lt;#7B68A0&gt;» &lt;#FBF2FF&gt;{party}&quot;
+      - &quot; &lt;#C0B3D9&gt;{$money} &lt;#7B68A0&gt;» &lt;#3DFFA8&gt;{balance}&quot;
+      - &quot; &lt;#C0B3D9&gt;{$playtime} &lt;#7B68A0&gt;» &lt;#FBF2FF&gt;{playtime}&quot;
+      - &quot; &lt;#C0B3D9&gt;{$ping} &lt;#7B68A0&gt;» {ping_ms} &lt;#7B68A0&gt;· {ping_quality}&quot;</code></pre></div>
+<p>Borra la línea que no quieras o añade las tuyas. Las líneas con <code>{party}</code> o <code>{balance}</code> se ocultan solas cuando no hay nada que enseñar (sin party, o sin plugin de economía). <code>{$rank}</code> y las demás etiquetas <code>{$...}</code> se traducen al idioma de cada jugador.</p>
+<h2 id="paso-5-usa-el-editor-del-juego-opcional"><a class="anchor" href="#paso-5-usa-el-editor-del-juego-opcional" aria-hidden="true">#</a>Paso 5: usa el editor del juego (opcional)</h2>
+<p>¿Prefieres no tocar archivos? Ejecuta:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/formatedit chat</code></pre></div>
+<p>Abre un menú donde puedes cambiar cada parte y guardar. Necesita <code>chatalyst.command.editor</code>.</p>
+<h2 id="paso-6-un-formato-distinto-por-rango-opcional"><a class="anchor" href="#paso-6-un-formato-distinto-por-rango-opcional" aria-hidden="true">#</a>Paso 6: un formato distinto por rango (opcional)</h2>
+<p>Puedes darle a un rango su propio formato. Copia <code>formats/chat.yml</code> a, por ejemplo, <code>formats/vip.yml</code>, cámbialo y asígnalo al rango en <code>plugins/Chatalyst/config.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Groups:
+  Enabled: true
+  List: {}</code></pre></div>
+<p>Cambia <code>List: {}</code> por una entrada con el nombre del grupo de LuckPerms, donde <code>Format</code> es el nombre del archivo sin <code>.yml</code>. La explicación completa está en <a href="formats.html">Formatos de chat</a>.</p>
+<h2 id="que-leer-despues"><a class="anchor" href="#que-leer-despues" aria-hidden="true">#</a>Qué leer después</h2>
+<ul>
+<li><a href="formats.html">Formatos de chat</a>: todas las opciones de una parte (acciones al hacer clic, permisos, condiciones).</li>
+<li><a href="channels.html">Canales</a>: salas separadas como el chat del staff o el chat local.</li>
+<li><a href="features.html">Activar extras</a>: enciende anuncios, correo, nametags y más.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="install.html"><span>Anterior</span><strong>Instalación en 5 minutos</strong></a><a class="pager-next" href="features.html"><span>Siguiente</span><strong>Activar extras</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

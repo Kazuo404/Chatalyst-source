@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Storage &amp; database · Chatalyst Docs</title>
+  <meta name="description" content="Where Chatalyst keeps player data. YAML by default, SQLite for a single server, or MySQL to share data across a network, with safe live reloads.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/storage.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/storage.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/storage.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/storage.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Storage &amp; database">
+  <meta property="og:description" content="Where Chatalyst keeps player data. YAML by default, SQLite for a single server, or MySQL to share data across a network, with safe live reloads.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/storage.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/storage.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Network &amp; proxy</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link is-active" aria-current="page" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#choosing-a-backend">Choosing a backend</a></li><li class="toc-h2"><a href="#configuration">Configuration</a></li><li class="toc-h2"><a href="#network-mode">Network mode</a></li><li class="toc-h2"><a href="#how-data-is-kept-safe">How data is kept safe</a></li><li class="toc-h2"><a href="#reload-and-restart">Reload and restart</a></li><li class="toc-h2"><a href="#changing-backend">Changing backend</a></li><li class="toc-h2"><a href="#other-files">Other files</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Network &amp; proxy</p><h1>Storage &amp; database</h1><p class="lead">Where Chatalyst keeps player data. YAML by default, SQLite for a single server, or MySQL to share data across a network, with safe live reloads.</p></header>
+<article class="prose">
+<p>Chatalyst saves player data such as mutes, warnings, nicknames, chat colors, toggles, mail, reports and purchases. Out of the box it uses plain YAML files and needs nothing else. For bigger servers you can switch to SQLite, and for a network you can point every server to the same MySQL or MariaDB database so the data is shared.</p>
+<p>Your choice does not change how any feature works; only where the data lives.</p>
+<h2 id="choosing-a-backend"><a class="anchor" href="#choosing-a-backend" aria-hidden="true">#</a>Choosing a backend</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Backend</th>
+<th>Setting</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>YAML</td>
+<td><code>Enabled: false</code> (default)</td>
+<td>Small and medium servers. Files in <code>plugins/Chatalyst/data/</code></td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td><code>Enabled: true</code>, <code>Type: SQLITE</code></td>
+<td>A single server with a lot of data. One file, <code>plugins/Chatalyst/data/chatalyst.db</code>, no database server needed</td>
+</tr>
+<tr>
+<td>MySQL / MariaDB</td>
+<td><code>Enabled: true</code>, <code>Type: MYSQL</code></td>
+<td>Networks that want to share data between servers</td>
+</tr>
+</tbody></table></div>
+<p>The database drivers are downloaded by Paper at startup; they are not bundled in the plugin jar.</p>
+<h2 id="configuration"><a class="anchor" href="#configuration" aria-hidden="true">#</a>Configuration</h2>
+<p>In <code>config.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Database:
+  Enabled: false
+  Type: SQLITE
+  Host: localhost
+  Port: 3306
+  Database: chatalyst
+  User: root
+  Password: &quot;&quot;
+  SSL_Mode: PREFERRED
+  Network_Shared: true
+  Shared_Refresh_Seconds: 30
+  Server_Id: &quot;&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td><code>false</code> stores everything in YAML files</td>
+</tr>
+<tr>
+<td><code>Type</code></td>
+<td><code>SQLITE</code></td>
+<td><code>SQLITE</code> or <code>MYSQL</code></td>
+</tr>
+<tr>
+<td><code>Host</code> / <code>Port</code> / <code>Database</code> / <code>User</code> / <code>Password</code></td>
+<td><code>localhost</code> / <code>3306</code> / <code>chatalyst</code> / <code>root</code> / <code>&quot;&quot;</code></td>
+<td>MySQL connection</td>
+</tr>
+<tr>
+<td><code>SSL_Mode</code></td>
+<td><code>PREFERRED</code></td>
+<td><code>DISABLED</code>, <code>PREFERRED</code>, <code>REQUIRED</code>, <code>VERIFY_CA</code> or <code>VERIFY_IDENTITY</code>. <code>PREFERRED</code> uses TLS when the server offers it. Use <code>REQUIRED</code> or stronger for a remote MySQL</td>
+</tr>
+<tr>
+<td><code>Network_Shared</code></td>
+<td><code>true</code></td>
+<td>With a shared MySQL: <code>true</code> shares the data between servers, <code>false</code> keeps each server&#39;s data apart</td>
+</tr>
+<tr>
+<td><code>Shared_Refresh_Seconds</code></td>
+<td><code>30</code></td>
+<td>How often a shared database is re-read as a safety net</td>
+</tr>
+<tr>
+<td><code>Server_Id</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>This server&#39;s name for storage. Empty uses a name based on the port</td>
+</tr>
+</tbody></table></div>
+<h2 id="network-mode"><a class="anchor" href="#network-mode" aria-hidden="true">#</a>Network mode</h2>
+<p>With several servers on the same MySQL, <code>Network_Shared</code> decides how they behave:</p>
+<ul>
+<li><strong><code>true</code></strong>: reports, mutes, nicknames, mail, tickets and toggles are the same on every server. Best for one network.</li>
+<li><strong><code>false</code></strong>: each server keeps its own data on the same database, kept apart by <code>Server_Id</code>.</li>
+</ul>
+<p>Give every server a stable, unique <code>Server_Id</code>. Even with sharing on, some data stays per server on purpose, such as the <a href="market.html">market</a>, so the same listing can never be sold on two servers.</p>
+<p>With sharing on, each server re-reads the database every <code>Shared_Refresh_Seconds</code>. Add <a href="network.html#redis">Redis</a> for instant updates: a report claimed on one server shows on the others right away.</p>
+<p>SQLite is always per server, because it is a local file.</p>
+<h2 id="how-data-is-kept-safe"><a class="anchor" href="#how-data-is-kept-safe" aria-hidden="true">#</a>How data is kept safe</h2>
+<ul>
+<li><strong>Writes are batched.</strong> Changes update memory at once and are written in the background every couple of seconds. A batch that fails stays queued and is retried, and everything is written on shutdown.</li>
+<li><strong>No lost updates between servers.</strong> Operations that two servers might do at the same moment (claiming a report, replying to a ticket, adding mail) are checked against the database and retried with the new value instead of overwriting it.</li>
+<li><strong>Atomic files.</strong> YAML files are written to a temporary file first and then moved into place, so a crash never leaves a half-written file. A file that cannot be read is kept as <code>&lt;name&gt;.corrupt-&lt;time&gt;.yml</code> instead of being overwritten.</li>
+<li><strong>Fail-closed on startup.</strong> If the configured database cannot be reached, Chatalyst does not start with empty YAML files. That would create a second, empty version of your data and could overwrite the real one when MySQL comes back.</li>
+</ul>
+<h2 id="reload-and-restart"><a class="anchor" href="#reload-and-restart" aria-hidden="true">#</a>Reload and restart</h2>
+<p><code>/chatalyst reload</code> applies these MySQL changes live, without a restart: <code>Host</code>, <code>Port</code>, <code>Database</code>, <code>User</code>, <code>Password</code>, <code>SSL_Mode</code> and <code>Shared_Refresh_Seconds</code>. Chatalyst pauses storage for a moment, writes everything pending, tests the new connection and switches to it. If anything fails, the previous connection is restored.</p>
+<p>These need a full server restart, because they change where the data is or how it is named: <code>Enabled</code>, <code>Type</code>, <code>Network_Shared</code> and <code>Server_Id</code>. The reload tells you so and keeps the current storage active.</p>
+<h2 id="changing-backend"><a class="anchor" href="#changing-backend" aria-hidden="true">#</a>Changing backend</h2>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p>Switching between YAML, SQLite and MySQL does <strong>not</strong> copy your existing data. Back up the server and move the data yourself before changing <code>Database.Enabled</code> or <code>Database.Type</code>, or you start with empty player data on the new backend.</p>
+</div>
+<h2 id="other-files"><a class="anchor" href="#other-files" aria-hidden="true">#</a>Other files</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Folder</th>
+<th>What is inside</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>data/</code></td>
+<td>Player data when using YAML, and the SQLite file</td>
+</tr>
+<tr>
+<td><code>logs/</code></td>
+<td>Daily audit logs <code>chat-YYYY-MM-DD.log</code> (see <a href="spying.html#chat-logs">spy &amp; logs</a>)</td>
+</tr>
+</tbody></table></div>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>There is no built-in migration between backends.</li>
+<li>A shared database without Redis shows changes from other servers after at most <code>Shared_Refresh_Seconds</code>, not instantly.</li>
+<li>The marriage shared chest is single-server: on a shared database, two spouses on different servers would open separate copies.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="network.html"><span>Previous</span><strong>Proxy &amp; Redis networks</strong></a><a class="pager-next" href="integrations.html"><span>Next</span><strong>Integrations</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

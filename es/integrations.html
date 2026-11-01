@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Integraciones · Docs de Chatalyst</title>
+  <meta name="description" content="Los plugins con los que trabaja Chatalyst, qué aporta cada conexión y los ajustes de chat de voz, dynmap, PacketEvents, variables propias y comandos propios.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/integrations.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/integrations.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/integrations.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/integrations.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Integraciones">
+  <meta property="og:description" content="Los plugins con los que trabaja Chatalyst, qué aporta cada conexión y los ajustes de chat de voz, dynmap, PacketEvents, variables propias y comandos propios.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/integrations.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/integrations.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Integraciones</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link is-active" aria-current="page" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#se-detectan-solos">Se detectan solos</a></li><li class="toc-h2"><a href="#clanes-ciudades-y-otros-grupos">Clanes, ciudades y otros grupos</a></li><li class="toc-h2"><a href="#muteos-de-otros-plugins">Muteos de otros plugins</a></li><li class="toc-h2"><a href="#otros-plugins">Otros plugins</a></li><li class="toc-h2"><a href="#chat-de-voz">Chat de voz</a></li><li class="toc-h2"><a href="#dynmap">dynmap</a></li><li class="toc-h2"><a href="#packetevents">PacketEvents</a></li><li class="toc-h2"><a href="#variables-propias">Variables propias</a></li><li class="toc-h2"><a href="#comandos-propios">Comandos propios</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Integraciones</p><h1>Integraciones</h1><p class="lead">Los plugins con los que trabaja Chatalyst, qué aporta cada conexión y los ajustes de chat de voz, dynmap, PacketEvents, variables propias y comandos propios.</p></header>
+<article class="prose">
+<p>Chatalyst funciona por sí solo, pero mejora junto a los plugins que seguramente ya tienes. Todas las integraciones son opcionales: se detectan al arrancar el servidor y se omiten sin ruido si el otro plugin no está. Nunca tienes que instalar nada solo para que Chatalyst arranque.</p>
+<p>Esta página resume qué aporta cada conexión. Las más grandes tienen su propia página: el <a href="discord-bot.html">bot de Discord</a>, <a href="store.html">Tebex y la tienda</a>, el <a href="network.html">proxy y Redis</a> y la <a href="translation.html">traducción en vivo</a>.</p>
+<h2 id="se-detectan-solos"><a class="anchor" href="#se-detectan-solos" aria-hidden="true">#</a>Se detectan solos</h2>
+<p>No necesitan configuración. Instala el otro plugin y Chatalyst lo usa.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Plugin</th>
+<th>Qué hace Chatalyst con él</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LuckPerms</td>
+<td>Lee rangos, prefijos y sufijos para los formatos del chat; ajustes por grupo; sincronía de rangos con Discord y Tebex</td>
+</tr>
+<tr>
+<td>Vault</td>
+<td>Alternativa para rangos y prefijos si no hay LuckPerms; la economía de <code>/baltop</code>, el mercado, los alquileres y el dinero de la tienda</td>
+</tr>
+<tr>
+<td>PlaceholderAPI</td>
+<td>Cualquier <code>%placeholder%</code> funciona en formatos y mensajes, y Chatalyst añade los suyos <code>%chatalyst_...%</code> (ver <a href="placeholders.html">placeholders</a>)</td>
+</tr>
+<tr>
+<td>ItemsAdder</td>
+<td>Imágenes de fuente y emojis en el chat, iconos propios en menús y tarjetas de la tienda, IDs de objetos propios en <code>[item]</code></td>
+</tr>
+<tr>
+<td>Nexo</td>
+<td>Imágenes de fuente en el chat e ids de objetos propios en <code>[item]</code></td>
+</tr>
+<tr>
+<td>WorldGuard</td>
+<td>Canales de chat por región (ver <a href="channels.html">canales</a>)</td>
+</tr>
+<tr>
+<td>Parties</td>
+<td>Canal de chat del grupo y el placeholder <code>{party_tag}</code></td>
+</tr>
+<tr>
+<td>TAB</td>
+<td>Placeholders que respetan el anonimato y sincronía de apodos, para que TAB y Chatalyst no se peleen por la lista de jugadores</td>
+</tr>
+<tr>
+<td>EssentialsX</td>
+<td>Los apodos se copian a Essentials (<code>/tpa &lt;apodo&gt;</code> funciona); Chatalyst carga antes y se queda con nombres como <code>/msg</code>, <code>/nick</code>, <code>/afk</code> y <code>/me</code></td>
+</tr>
+<tr>
+<td>Lib&#39;s Disguises / Morphy</td>
+<td>El nametag y el rango de un jugador disfrazado se ocultan para no delatar el disfraz; el staff en vanish puede conservar un cuerpo disfrazado (ver <a href="staff-suite.html#que-incluye">suite de staff</a>)</td>
+</tr>
+<tr>
+<td>MythicMobs</td>
+<td>Los nombres de los mobs propios salen bien en los mensajes de muerte</td>
+</tr>
+<tr>
+<td>AuthMe, nLogin y parecidos</td>
+<td>La vinculación obligatoria con Discord espera a que el jugador haya iniciado sesión</td>
+</tr>
+<tr>
+<td>AdvancedKits, PlayerKits2, PlayerKits</td>
+<td>La tienda puede mostrar el contenido real de un kit (ver <a href="store.html">tienda</a>)</td>
+</tr>
+<tr>
+<td>PlayerVaultsX</td>
+<td>El staff con <code>chatalyst.command.vaultsee</code> revisa las mochilas de cualquiera, conectado o no, con <code>/vaultsee &lt;jugador&gt; [número]</code> o el botón del menú del jugador: una copia de solo lectura que nunca abre la mochila. Con <code>chatalyst.command.vaultsee.edit</code>, el clic derecho abre la mochila real a través del propio PlayerVaultsX (ver <a href="staff-suite.html">suite de staff</a>)</td>
+</tr>
+<tr>
+<td>Plugins de mercado y subastas</td>
+<td>Sus publicaciones se pueden anunciar en el canal de comercio (ver <a href="market.html">mercado</a>)</td>
+</tr>
+</tbody></table></div>
+<div class="callout callout-note"><p class="callout-title">Nota</p><p>Chatalyst nunca se queda con un comando que ya tiene otro plugin, salvo que la función lo diga (por ejemplo, <code>/ranks</code> o <code>/store</code> se omiten con un aviso en consola si están ocupados). La única excepción es la <a href="staff-suite.html">suite de staff</a>, que activas a propósito.</p>
+</div>
+<h2 id="clanes-ciudades-y-otros-grupos"><a class="anchor" href="#clanes-ciudades-y-otros-grupos" aria-hidden="true">#</a>Clanes, ciudades y otros grupos</h2>
+<p>Un canal <code>Type: PARTY</code> usa el plugin Parties por defecto. Añade <code>Party:</code> para usar otro plugin, y así solo verán los mensajes los miembros del mismo clan, ciudad o isla:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Channels:
+  List:
+    clan:
+      Type: PARTY
+      Party: simpleclans-clan
+      Format: chat</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Valor de <code>Party:</code></th>
+<th>Plugin</th>
+<th>Quién comparte el canal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>simpleclans-clan</code></td>
+<td>SimpleClans</td>
+<td>Miembros del mismo clan</td>
+</tr>
+<tr>
+<td><code>simpleclans-ally</code></td>
+<td>SimpleClans</td>
+<td>Miembros del mismo clan y sus aliados</td>
+</tr>
+<tr>
+<td><code>towny-town</code></td>
+<td>Towny</td>
+<td>Residentes de la misma ciudad</td>
+</tr>
+<tr>
+<td><code>towny-nation</code></td>
+<td>Towny</td>
+<td>Residentes de la misma nación</td>
+</tr>
+<tr>
+<td><code>factions</code></td>
+<td>FactionsUUID</td>
+<td>Miembros de la misma facción</td>
+</tr>
+<tr>
+<td><code>lands</code></td>
+<td>Lands</td>
+<td>Miembros de la misma tierra</td>
+</tr>
+<tr>
+<td><code>plotsquared-plot</code></td>
+<td>PlotSquared</td>
+<td>Jugadores en la misma parcela</td>
+</tr>
+<tr>
+<td><code>bentobox-island</code></td>
+<td>BentoBox</td>
+<td>Miembros de la misma isla</td>
+</tr>
+<tr>
+<td><code>mcmmo</code></td>
+<td>mcMMO</td>
+<td>Miembros de la misma party</td>
+</tr>
+<tr>
+<td><code>party-and-friends</code></td>
+<td>Party and Friends</td>
+<td>Miembros de la misma party; necesita Spigot-Party-API-PAF</td>
+</tr>
+<tr>
+<td><code>zelteams</code></td>
+<td>ZelTeams</td>
+<td>Miembros del mismo equipo</td>
+</tr>
+</tbody></table></div>
+<p>Si el plugin no está instalado, el canal se omite y la consola explica por qué. Cualquier otro plugin puede añadir su propio valor con la <a href="api.html">API para desarrolladores</a>. Para un plugin que solo ofrece un placeholder, usa <code>Type: GROUP</code> (ver <a href="channels.html">canales</a>).</p>
+<h2 id="muteos-de-otros-plugins"><a class="anchor" href="#muteos-de-otros-plugins" aria-hidden="true">#</a>Muteos de otros plugins</h2>
+<p>Con LiteBans, AdvancedBan, BanManager, CMI o EssentialsX en el mismo servidor, un jugador muteado allí también queda muteado en Chatalyst: sin chat, mensajes privados, correo, carteles, libros ni renombrar en yunque. Chatalyst lo comprueba cada pocos segundos, así que un muteo nuevo puede tardar hasta 3 segundos en aplicarse.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">External_Mutes:
+  Enabled: true</code></pre></div>
+<p>Ponlo en <code>false</code> para ignorar esos plugins. Si el plugin de muteos solo corre en el proxy, instálalo también en cada servidor, porque Chatalyst solo ve lo que corre en su propio servidor.</p>
+<h2 id="otros-plugins"><a class="anchor" href="#otros-plugins" aria-hidden="true">#</a>Otros plugins</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Plugin</th>
+<th>Qué hace Chatalyst con él</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Multiverse-Core</td>
+<td><code>{world}</code> muestra el alias del mundo en vez del nombre de la carpeta</td>
+</tr>
+<tr>
+<td>DiscordSRV</td>
+<td>Los mensajes de los canales llegan a DiscordSRV con el nombre del canal. Se apaga con <code>DiscordSRV_Bridge.Enabled: false</code>. Chatalyst también tiene su propio <a href="discord-bot.html">bot de Discord</a>; usa uno de los dos</td>
+</tr>
+<tr>
+<td>AuthMe, nLogin</td>
+<td>Sin mensaje de salida para quien no llegó a iniciar sesión. nLogin solo cuenta si corre en el mismo servidor</td>
+</tr>
+<tr>
+<td>CMI, EssentialsX</td>
+<td>Su estado AFK cuenta como AFK en Chatalyst</td>
+</tr>
+</tbody></table></div>
+<p>InteractiveChat puede chocar con los colores hex. Si se rompen, quita el patrón <code>#RRGGBB</code> de <code>Settings.FormattingTags.AdditionalRGBFormats</code> en su <code>config.yml</code>.</p>
+<h2 id="chat-de-voz"><a class="anchor" href="#chat-de-voz" aria-hidden="true">#</a>Chat de voz</h2>
+<p>Mantiene callados en el chat de voz a los jugadores muteados, venga el muteo de Chatalyst o de otro plugin. Con Simple Voice Chat el micrófono se corta en el servidor y no hace falta ningún comando. Plasmo Voice usa los comandos de abajo.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Voice:
+  Enabled: false
+  Provider: auto
+  Mute_Command: &quot;vmute {player} {duration} {reason}&quot;
+  Unmute_Command: &quot;vunmute {player}&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Activa el puente</td>
+</tr>
+<tr>
+<td><code>Provider</code></td>
+<td><code>auto</code></td>
+<td><code>auto</code> prueba primero Plasmo Voice y luego los comandos de abajo; <code>plasmo</code> prefiere los nombres de Plasmo Voice; <code>custom</code> solo usa los comandos de abajo</td>
+</tr>
+<tr>
+<td><code>Mute_Command</code></td>
+<td><code>vmute {player} {duration} {reason}</code></td>
+<td>Comando de consola que se ejecuta al mutear</td>
+</tr>
+<tr>
+<td><code>Unmute_Command</code></td>
+<td><code>vunmute {player}</code></td>
+<td>Comando de consola que se ejecuta al terminar el muteo</td>
+</tr>
+</tbody></table></div>
+<h2 id="dynmap"><a class="anchor" href="#dynmap" aria-hidden="true">#</a>dynmap</h2>
+<p>Pone un marcador en el mapa web por cada <a href="reports.html">reporte</a> abierto, en el sitio donde se hizo, para que el staff vea dónde están pasando los problemas.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Dynmap:
+  Reports:
+    Enabled: false
+    Set_Id: &quot;chatalyst.reports&quot;
+    Set_Label: &quot;Chatalyst Reports&quot;
+    Icon: &quot;exclamation&quot;
+    Persistent: false
+    Hide_By_Default: false
+    Show_Labels: false
+    Layer_Priority: 10</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Activa los marcadores de reportes</td>
+</tr>
+<tr>
+<td><code>Set_Id</code> / <code>Set_Label</code></td>
+<td><code>chatalyst.reports</code> / <code>Chatalyst Reports</code></td>
+<td>El id de la capa y el nombre que se ve en el mapa</td>
+</tr>
+<tr>
+<td><code>Icon</code></td>
+<td><code>exclamation</code></td>
+<td>Icono de dynmap para cada marcador</td>
+</tr>
+<tr>
+<td><code>Persistent</code></td>
+<td><code>false</code></td>
+<td>Si dynmap conserva los marcadores tras reiniciar</td>
+</tr>
+<tr>
+<td><code>Hide_By_Default</code></td>
+<td><code>false</code></td>
+<td>La capa empieza oculta</td>
+</tr>
+<tr>
+<td><code>Show_Labels</code></td>
+<td><code>false</code></td>
+<td>Muestra la etiqueta junto a cada marcador</td>
+</tr>
+<tr>
+<td><code>Layer_Priority</code></td>
+<td><code>10</code></td>
+<td>Posición de la capa en la lista de capas del mapa</td>
+</tr>
+</tbody></table></div>
+<h2 id="packetevents"><a class="anchor" href="#packetevents" aria-hidden="true">#</a>PacketEvents</h2>
+<p>PacketEvents permite a Chatalyst trabajar a nivel de red. Es opcional, pero algunas funciones lo necesitan.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">PacketEvents:
+  Enabled: false</code></pre></div>
+<p>Con PacketEvents instalado y <code>Enabled: true</code>:</p>
+<ul>
+<li>Los comandos bloqueados se paran antes de que el servidor llegue a procesarlos.</li>
+<li>Las respuestas propias de Minecraft (<code>/tp</code>, <code>/give</code>…) se muestran con estilo en el idioma de cada jugador (ver <a href="localization.html#los-mensajes-propios-de-minecraft">idiomas</a>).</li>
+<li>El <a href="anonymous.html">modo anónimo</a> también puede ocultar el nombre real en títulos, barras de acción, barras de jefe y títulos de menú que escriben otros plugins.</li>
+</ul>
+<p>Sin él todo lo demás sigue funcionando, y la consola te dice al arrancar qué extras quedan apagados.</p>
+<h2 id="variables-propias"><a class="anchor" href="#variables-propias" aria-hidden="true">#</a>Variables propias</h2>
+<p>Textos reutilizables que puedes poner en cualquier formato o mensaje como <code>{nombre}</code>. Los cambias una vez aquí y se actualizan en todos los sitios donde se usan.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Variables:
+  server_name: &quot;&lt;gradient:#240046:#9D4EDD:#E0AAFF&gt;YourServer&lt;/gradient&gt;&quot;
+  discord_link: &quot;discord.gg/example&quot;
+  vip_tag: &quot;js: player.hasPermission('chatalyst.vip') ? '&lt;#D8B4FE&gt;[VIP] ' : ''&quot;
+  name_len: &quot;js: player.getName().length()&quot;</code></pre></div>
+<p>Un valor que empieza por <code>js:</code> es una pequeña expresión JavaScript que se evalúa para cada jugador. Solo recibe <code>player</code> y <code>playerName</code>, se ejecuta en un motor filtrado que bloquea las clases peligrosas y se compila una vez y queda en caché.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Scripting:
+  Enabled: true</code></pre></div>
+<p>Pon <code>Scripting.Enabled: false</code> si no usas variables <code>js:</code>. Paper descarga el motor de JavaScript al arrancar; no va dentro del jar del plugin.</p>
+<h2 id="comandos-propios"><a class="anchor" href="#comandos-propios" aria-hidden="true">#</a>Comandos propios</h2>
+<p>Comandos sencillos que envían unas líneas y/o ejecutan comandos de consola, como <code>/discord</code> o <code>/web</code>.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Command_Aliases:
+  discord:
+    Aliases: [dc]
+    Permission: &quot;&quot;
+    Messages:
+      - &quot;&lt;#5865F2&gt;Our Discord: &lt;#FBF2FF&gt;&lt;underlined&gt;https://discord.gg/example&quot;
+    Messages_es:
+      - &quot;&lt;#5865F2&gt;Nuestro Discord: &lt;#FBF2FF&gt;&lt;underlined&gt;https://discord.gg/example&quot;
+    Commands: []
+  web:
+    Aliases: [website, pagina]
+    Messages:
+      - &quot;&lt;#3DFFA8&gt;Our website: &lt;#FBF2FF&gt;&lt;underlined&gt;https://example.com&quot;
+    Messages_es:
+      - &quot;&lt;#3DFFA8&gt;Nuestra web: &lt;#FBF2FF&gt;&lt;underlined&gt;https://example.com&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Aliases</code></td>
+<td>Otros nombres para el mismo comando</td>
+</tr>
+<tr>
+<td><code>Permission</code></td>
+<td>Permiso necesario para usarlo (vacío = todos)</td>
+</tr>
+<tr>
+<td><code>Messages</code> / <code>Messages_es</code></td>
+<td>Líneas que recibe el jugador (clientes en inglés / en español)</td>
+</tr>
+<tr>
+<td><code>Commands</code></td>
+<td>Comandos de consola que se ejecutan</td>
+</tr>
+</tbody></table></div>
+<div class="callout callout-warning"><p class="callout-title">Aviso</p><p>Los comandos propios se registran al arrancar el servidor. Editar uno que ya existe se aplica con <code>/chatalyst reload</code>, pero añadir o quitar uno necesita reiniciar.</p>
+</div>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Chatalyst habla con otros plugins mediante su API pública o detectándolos. Si alguno cambia su API en una actualización grande, la integración se apaga sola en lugar de romper tu servidor, y la consola lo avisa.</li>
+<li>El puente de voz solo ejecuta los comandos que configures. No puede mutear la voz en un plugin que no tenga comando de muteo.</li>
+<li>Las alertas de seguridad y la auditoría de comandos del staff están en <a href="spying.html#seguridad-del-staff">espía y registros</a>.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="storage.html"><span>Anterior</span><strong>Almacenamiento y base de datos</strong></a><a class="pager-next" href="discord-bot.html"><span>Siguiente</span><strong>Bot de Discord</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

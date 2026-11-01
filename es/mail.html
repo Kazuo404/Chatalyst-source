@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Correo · Docs de Chatalyst</title>
+  <meta name="description" content="Un buzón en el juego para jugadores conectados y desconectados, con menú, escritura en libro, amigos, carpeta de spam y aviso al entrar.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/mail.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/mail.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/mail.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/mail.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Correo">
+  <meta property="og:description" content="Un buzón en el juego para jugadores conectados y desconectados, con menú, escritura en libro, amigos, carpeta de spam y aviso al entrar.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/mail.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/mail.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link is-active" aria-current="page" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#amigos-spam-y-bloqueos">Amigos, spam y bloqueos</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Correo</h1><p class="lead">Un buzón en el juego para jugadores conectados y desconectados, con menú, escritura en libro, amigos, carpeta de spam y aviso al entrar.</p></header>
+<article class="prose">
+<p>El correo deja que los jugadores se escriban aunque el otro no esté conectado. La bandeja de entrada es un menú: cada carta enseña la cabeza del remitente, su apodo y un avance del texto. Al pulsarla se abre como un libro escrito con botones de <strong>Responder</strong> y <strong>Borrar</strong>. Para escribir se usa el libro y pluma de siempre.</p>
+<p>El correo es independiente de los <a href="private-messages.html">Mensajes privados</a>. Es un extra opcional y viene apagado; al activarlo, es lo que se sugiere al pulsar el nombre de un jugador en el chat.</p>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>Actívalo en <code>plugins/Chatalyst/players.yml</code> y ejecuta <code>/cht reload</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Mail:
+  Enabled: false
+  Send_Cooldown_Seconds: 3
+  Max_Message_Length: 1024
+  Max_Messages: 100
+  Msg_Fallback: false
+  Require_Friend: false
+  Notifications:
+    Enabled: true
+    Toast: true
+    Sound:
+      Enabled: true
+      Key: &quot;minecraft:block.note_block.chime&quot;
+      Volume: 0.65
+      Pitch: 1.35</code></pre></div>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>true</code></td>
+<td>Interruptor general del buzón.</td>
+</tr>
+<tr>
+<td><code>Send_Cooldown_Seconds</code></td>
+<td><code>3</code></td>
+<td>Segundos de espera entre dos cartas. <code>0</code> lo desactiva.</td>
+</tr>
+<tr>
+<td><code>Max_Message_Length</code></td>
+<td><code>1024</code></td>
+<td>Caracteres máximos por carta. Se mantiene entre 64 y 4096.</td>
+</tr>
+<tr>
+<td><code>Max_Messages</code></td>
+<td><code>100</code></td>
+<td>Cartas guardadas por carpeta (entrada y spam). Si se llena, se borra la más antigua. <code>0</code> o menos = sin límite.</td>
+</tr>
+<tr>
+<td><code>Msg_Fallback</code></td>
+<td><code>false</code></td>
+<td>Entrega un <code>/msg</code> en el buzón si el destinatario apagó los mensajes privados.</td>
+</tr>
+<tr>
+<td><code>Require_Friend</code></td>
+<td><code>false</code></td>
+<td><code>true</code> = el correo de quien no es tu amigo va a spam en vez de a la bandeja.</td>
+</tr>
+<tr>
+<td><code>Notifications.Enabled</code></td>
+<td><code>true</code></td>
+<td>Avisa de las cartas nuevas con una línea clicable en el chat y en la barra de acción.</td>
+</tr>
+<tr>
+<td><code>Notifications.Toast</code></td>
+<td><code>true</code></td>
+<td>Muestra también una notificación tipo logro.</td>
+</tr>
+<tr>
+<td><code>Notifications.Sound.*</code></td>
+<td>chime, <code>0.65</code>, <code>1.35</code></td>
+<td>Sonido del aviso, volumen y tono.</td>
+</tr>
+</tbody></table></div>
+<p>Quien tiene cartas sin leer también recibe el aviso al entrar.</p>
+<h3 id="amigos-spam-y-bloqueos"><a class="anchor" href="#amigos-spam-y-bloqueos" aria-hidden="true">#</a>Amigos, spam y bloqueos</h3>
+<ul>
+<li><strong>Amigos.</strong> Se piden con <code>/inbox friend &lt;jugador&gt;</code>. La petición llega con botones de <strong>Aceptar</strong> y <strong>Rechazar</strong>. El menú de amigos enseña las skins reales y los apodos actuales.</li>
+<li><strong>Carpeta de spam.</strong> Con <code>Require_Friend: true</code>, el correo de desconocidos no se rechaza: va a spam para no molestar.</li>
+<li><strong>Bloqueos.</strong> Cualquier remitente se puede bloquear desde una carta. La lista de bloqueados se gestiona desde el menú de ajustes.</li>
+<li><strong>Privacidad.</strong> Cada jugador puede dejar de recibir correo desde el menú de ajustes.</li>
+</ul>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<p>Todos los comandos de correo necesitan <code>chatalyst.command.mail</code> (por defecto <code>true</code>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/inbox</code></td>
+<td>Abre la bandeja de entrada.</td>
+</tr>
+<tr>
+<td><code>/inbox spam</code></td>
+<td>Abre la carpeta de spam.</td>
+</tr>
+<tr>
+<td><code>/inbox friends</code></td>
+<td>Abre el menú de amigos.</td>
+</tr>
+<tr>
+<td><code>/inbox friend &lt;jugador&gt;</code></td>
+<td>Envía una petición de amistad.</td>
+</tr>
+<tr>
+<td><code>/inbox accept &lt;jugador&gt;</code> / <code>/inbox deny &lt;jugador&gt;</code></td>
+<td>Responde a una petición de amistad.</td>
+</tr>
+<tr>
+<td><code>/inbox send &lt;jugador&gt; &lt;mensaje&gt;</code></td>
+<td>Envía una carta desde la línea de comandos.</td>
+</tr>
+<tr>
+<td><code>/inbox read</code></td>
+<td>Muestra tu bandeja en el chat y la marca como leída.</td>
+</tr>
+<tr>
+<td><code>/inbox reply &lt;mensaje&gt;</code></td>
+<td>Responde a la carta más reciente.</td>
+</tr>
+<tr>
+<td><code>/inbox clear</code></td>
+<td>Vacía tu bandeja.</td>
+</tr>
+</tbody></table></div>
+<p><code>chatalyst.bypass.mailcooldown</code> (op) se salta la espera entre envíos. El comando se llama <code>/inbox</code> a propósito: así no choca con el <code>/mail</code> de EssentialsX.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>El correo se guarda en tu sistema de almacenamiento. Con una base de datos MySQL compartida acompaña al jugador por toda la red: ver <a href="storage.html">Almacenamiento y base de datos</a>.</li>
+<li>Un jugador silenciado no puede enviar cartas mientras dure el silencio.</li>
+<li>Quien está en <a href="anonymous.html">modo anónimo</a> envía el correo con su alias.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="announcements.html"><span>Anterior</span><strong>Anuncios</strong></a><a class="pager-next" href="tags.html"><span>Siguiente</span><strong>Tags, títulos y efectos</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

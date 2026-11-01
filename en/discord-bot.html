@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Discord bot · Chatalyst Docs</title>
+  <meta name="description" content="A two-way Discord bot built into Chatalyst. Chat bridge, account linking, rank and ban sync, punishment roles, and staff tools from Discord, with no DiscordSRV.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/discord-bot.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/discord-bot.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/discord-bot.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/discord-bot.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Discord bot">
+  <meta property="og:description" content="A two-way Discord bot built into Chatalyst. Chat bridge, account linking, rank and ban sync, punishment roles, and staff tools from Discord, with no DiscordSRV.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/discord-bot.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/discord-bot.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Integrations</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link is-active" aria-current="page" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#creating-the-bot">Creating the bot</a></li><li class="toc-h2"><a href="#chat-bridge">Chat bridge</a></li><li class="toc-h3"><a href="#market-cards">Market cards</a></li><li class="toc-h2"><a href="#account-linking">Account linking</a></li><li class="toc-h3"><a href="#mandatory-linking">Mandatory linking</a></li><li class="toc-h2"><a href="#rank-sync">Rank sync</a></li><li class="toc-h2"><a href="#ban-sync">Ban sync</a></li><li class="toc-h2"><a href="#punishment-roles">Punishment roles</a></li><li class="toc-h2"><a href="#staff-channel">Staff channel</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Integrations</p><h1>Discord bot</h1><p class="lead">A two-way Discord bot built into Chatalyst. Chat bridge, account linking, rank and ban sync, punishment roles, and staff tools from Discord, with no DiscordSRV.</p></header>
+<article class="prose">
+<p>Chatalyst includes its own Discord bot. It connects when your server starts and disconnects when it stops, so there is no DiscordSRV, no external process and no webhook to maintain. One bot does everything: it mirrors chat both ways, links Minecraft accounts to Discord, keeps ranks and bans in sync, and gives your staff a private channel to handle reports and moderation from Discord.</p>
+<p>Everything is off by default. You turn on only the parts you want, in the <code>Discord</code> section of <code>integrations.yml</code>.</p>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>This bot is yours: you create it and it serves your community. Kagi is a different bot. It runs the support tickets and author-issued licenses on the <a href="https://discord.gg/uWTNeBmMT3" rel="noopener">Kazuo Community Discord</a>, is not part of the plugin and never connects to your server.</p>
+</div>
+<h2 id="creating-the-bot"><a class="anchor" href="#creating-the-bot" aria-hidden="true">#</a>Creating the bot</h2>
+<ol>
+<li>Open the <a href="https://discord.com/developers/applications" rel="noopener">Discord Developer Portal</a>, click <strong>New Application</strong>, give it a name and create it.</li>
+<li>Open <strong>Bot</strong> and press <strong>Reset Token</strong>. Copy the token: it works like a password. Never share it.</li>
+<li>Under <strong>Privileged Gateway Intents</strong>, enable <strong>MESSAGE CONTENT INTENT</strong>. Enable <strong>SERVER MEMBERS INTENT</strong> too if you will sync ranks from Discord to Minecraft.</li>
+<li>Open <strong>Installation</strong>, keep <strong>Guild Install</strong>, and add the <code>bot</code> scope. Give it <strong>View Channels</strong>, <strong>Send Messages</strong> and <strong>Read Message History</strong>. Add <strong>Manage Roles</strong> for rank sync or the linked role, and <strong>Ban Members</strong> for ban sync.</li>
+<li>Use the install link to add the bot to your Discord server.</li>
+<li>In Discord, open <strong>User Settings &gt; Advanced</strong> and turn on <strong>Developer Mode</strong>. Right-click your server and your chat channel to copy their IDs.</li>
+<li>Fill in <code>integrations.yml</code>:</li>
+</ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Enabled: true
+  Bot_Token: &quot;YOUR_PRIVATE_TOKEN&quot;
+  Guild_Id: &quot;123456789012345678&quot;
+  Channel_Id: &quot;234567890123456789&quot;</code></pre></div>
+<ol start="8">
+<li>Restart the server or run <code>/chatalyst reload</code>. The console confirms which bot account connected.</li>
+</ol>
+<p>Run <code>/chatalyst doctor discord</code> at any time: it asks Discord directly whether the bot has the permissions, role position and intents your configuration needs.</p>
+<div class="callout callout-danger"><p class="callout-title">Danger</p><p>If your token is ever exposed, reset it in the Developer Portal immediately. Anyone with the token controls the bot.</p>
+</div>
+<div class="callout callout-tip"><p class="callout-title">Tip</p><p>For rank sync, the linked role, ban sync and punishment roles, move the bot&#39;s role <strong>above</strong> every role it has to give, take or ban in <strong>Server Settings &gt; Roles</strong>. Discord does not let a bot manage roles at or above its own.</p>
+</div>
+<h2 id="chat-bridge"><a class="anchor" href="#chat-bridge" aria-hidden="true">#</a>Chat bridge</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Activity: &quot;with {online}/{max} players&quot;
+  Activity_Refresh_Seconds: 60
+  Minecraft_To_Discord: true
+  Discord_To_Minecraft: true
+  Channel_Ids: {}
+  To_Discord_Format: &quot;**{player}**: {message}&quot;
+  Channel_Formats: {}
+  To_Minecraft_Format: &quot;&lt;#5865F2&gt;[Discord] &lt;#FBF2FF&gt;{discord_user}&lt;#C0B3D9&gt;: &lt;reset&gt;{message}&quot;
+  Max_Inbound_Length: 256
+  Announce_Join_Quit: false
+  Join_Message: &quot;{player} joined&quot;
+  Quit_Message: &quot;{player} left&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Activity</code></td>
+<td><code>with {online}/{max} players</code></td>
+<td>The bot&#39;s &quot;Playing…&quot; status. <code>{online}</code> never counts vanished staff</td>
+</tr>
+<tr>
+<td><code>Activity_Refresh_Seconds</code></td>
+<td><code>60</code></td>
+<td>How often the status updates</td>
+</tr>
+<tr>
+<td><code>Minecraft_To_Discord</code></td>
+<td><code>true</code></td>
+<td>Sends game chat to Discord</td>
+</tr>
+<tr>
+<td><code>Discord_To_Minecraft</code></td>
+<td><code>true</code></td>
+<td>Sends Discord messages into the game</td>
+</tr>
+<tr>
+<td><code>Channel_Ids</code></td>
+<td><code>{}</code></td>
+<td>Maps a game channel to its own Discord channel, e.g. <code>trade: &quot;123...&quot;</code></td>
+</tr>
+<tr>
+<td><code>To_Discord_Format</code></td>
+<td><code>**{player}**: {message}</code></td>
+<td>How a game message looks in Discord</td>
+</tr>
+<tr>
+<td><code>Channel_Formats</code></td>
+<td><code>{}</code></td>
+<td>A different look per game channel, so trade and auctions sharing one Discord room read differently. Placeholders: <code>{player}</code>, <code>{message}</code>, <code>{channel}</code></td>
+</tr>
+<tr>
+<td><code>To_Minecraft_Format</code></td>
+<td>see above</td>
+<td>How a Discord message looks in game</td>
+</tr>
+<tr>
+<td><code>Max_Inbound_Length</code></td>
+<td><code>256</code></td>
+<td>Longest Discord message accepted into the game</td>
+</tr>
+<tr>
+<td><code>Announce_Join_Quit</code></td>
+<td><code>false</code></td>
+<td>Posts joins and quits to Discord</td>
+</tr>
+</tbody></table></div>
+<p>The main channel mirrors global chat. Private and local channels never leave the game unless you map them in <code>Channel_Ids</code>. Messages from Discord go through the swear filter before anyone in game sees them, the bot ignores other bots and webhooks, and nothing typed in game can ping <code>@everyone</code> or a role in Discord.</p>
+<h3 id="market-cards"><a class="anchor" href="#market-cards" aria-hidden="true">#</a>Market cards</h3>
+<p>When a sale or auction closes on the <a href="market.html">market</a>, the bot can post a card with the seller, the buyer, the item and the price.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Market:
+    Enabled: false
+    Channel_Id: &quot;&quot;
+    Sales: true
+    Auctions: true
+    Returns: false</code></pre></div>
+<p><code>Channel_Id</code> empty uses the main channel. <code>Returns</code> (expired, withdrawn or unsold listings) is off because it is the noisiest.</p>
+<h2 id="account-linking"><a class="anchor" href="#account-linking" aria-hidden="true">#</a>Account linking</h2>
+<p>Players link their Minecraft account to Discord in two steps:</p>
+<ol>
+<li>In game: <code>/discord link</code>. They receive a short code.</li>
+<li>In Discord: they send <code>!link CODE</code> to the bot, by private message or in the configured channel.</li>
+</ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Linking:
+    Enabled: true
+    Command: &quot;!link&quot;
+    Channel_Id: &quot;&quot;
+    Linked_Role_Id: &quot;&quot;
+    Code_Expires_Seconds: 600</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>true</code></td>
+<td>Allows linking</td>
+</tr>
+<tr>
+<td><code>Command</code></td>
+<td><code>!link</code></td>
+<td>The Discord command that completes the link</td>
+</tr>
+<tr>
+<td><code>Channel_Id</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Channel where the command is accepted. Empty = any channel. Private messages to the bot always work</td>
+</tr>
+<tr>
+<td><code>Linked_Role_Id</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Role given when an account links and removed when it unlinks. Empty = none</td>
+</tr>
+<tr>
+<td><code>Code_Expires_Seconds</code></td>
+<td><code>600</code></td>
+<td>How long a code stays valid</td>
+</tr>
+</tbody></table></div>
+<p>The link is stored by the account&#39;s UUID, so a name change or a <code>/nick</code> never breaks it. <code>/discord unlink</code> removes it and <code>/discord status</code> shows it. Codes are single-use and work across servers that share a database.</p>
+<h3 id="mandatory-linking"><a class="anchor" href="#mandatory-linking" aria-hidden="true">#</a>Mandatory linking</h3>
+<p><code>Linking.Required</code> makes linking a condition for playing. An unlinked player is held when they join: they get their code automatically and cannot chat or use commands until they link.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">    Required:
+      Enabled: false
+      Only_Buyers: true
+      Bypass_Permission: &quot;chatalyst.discord.exempt&quot;
+      After_Auth_Login: true
+      Auth_Fallback_Seconds: 20
+      Auth_Login_Event: &quot;&quot;
+      Announce_Delay_Ticks: 20
+      Reminder_Seconds: 45
+      Kick_After_Seconds: 0
+      Auto_Code: true
+      Sound: &quot;minecraft:entity.experience_orb.pickup&quot;
+      Restrict:
+        Chat: true
+        Commands: true
+        Movement: false
+        Interaction: true
+        Damage: true
+      Allowed_Commands:
+        - &quot;/discord&quot;
+        - &quot;/login&quot;
+        - &quot;/register&quot;
+        - &quot;/l&quot;
+        - &quot;/reg&quot;
+        - &quot;/premium&quot;
+        - &quot;/help&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Only_Buyers</code></td>
+<td><code>true</code></td>
+<td>Holds only players who bought a rank whose Discord role cannot be delivered until they link. <code>false</code> holds everyone</td>
+</tr>
+<tr>
+<td><code>Bypass_Permission</code></td>
+<td><code>chatalyst.discord.exempt</code></td>
+<td>Players with this permission are never held (op by default)</td>
+</tr>
+<tr>
+<td><code>After_Auth_Login</code></td>
+<td><code>true</code></td>
+<td>With AuthMe, nLogin or similar, waits until the player has logged in</td>
+</tr>
+<tr>
+<td><code>Auth_Fallback_Seconds</code></td>
+<td><code>20</code></td>
+<td>If the login plugin&#39;s event cannot be detected, shows the prompt this many seconds after joining</td>
+</tr>
+<tr>
+<td><code>Auth_Login_Event</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Event class of an unlisted login plugin</td>
+</tr>
+<tr>
+<td><code>Reminder_Seconds</code></td>
+<td><code>45</code></td>
+<td>How often the reminder repeats</td>
+</tr>
+<tr>
+<td><code>Kick_After_Seconds</code></td>
+<td><code>0</code></td>
+<td>Disconnects a player still unlinked after this time. <code>0</code> never kicks</td>
+</tr>
+<tr>
+<td><code>Auto_Code</code></td>
+<td><code>true</code></td>
+<td>Issues the code automatically</td>
+</tr>
+<tr>
+<td><code>Restrict.*</code></td>
+<td>see above</td>
+<td>What a held player cannot do. <code>Damage</code> blocks damage taken and dealt</td>
+</tr>
+<tr>
+<td><code>Allowed_Commands</code></td>
+<td>see above</td>
+<td>Commands a held player may use. <code>/discord</code> always works; add your login plugin&#39;s commands</td>
+</tr>
+</tbody></table></div>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>Mandatory linking is <strong>fail-open</strong>. It only holds players while the whole chain really works: the bot enabled, a valid token, the connection to Discord ready and your server reachable. If Discord is down or the bot was removed, nobody is held and anyone waiting is released. Players are never locked out for something outside their control.</p>
+</div>
+<h2 id="rank-sync"><a class="anchor" href="#rank-sync" aria-hidden="true">#</a>Rank sync</h2>
+<p>Keeps LuckPerms groups and Discord roles matched. Ranks are declared once in the central <code>Rank_Catalog</code> at the top of <code>integrations.yml</code>, which is shared with Tebex (see <a href="store.html#the-rank-catalog">store</a>).</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Rank_Sync:
+    Enabled: false
+    Direction: BOTH
+    Initial_Source: MINECRAFT
+    Exclusive_Discord_Roles: true
+    Remove_On_Discord_Role_Loss: true
+    Fallback_Group: &quot;default&quot;
+    Sync_On_Ready: true
+    Ready_Sync_Limit: 500
+    Debounce_Milliseconds: 350</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Direction</code></td>
+<td><code>BOTH</code></td>
+<td><code>BOTH</code>, <code>MINECRAFT_TO_DISCORD</code> or <code>DISCORD_TO_MINECRAFT</code></td>
+</tr>
+<tr>
+<td><code>Initial_Source</code></td>
+<td><code>MINECRAFT</code></td>
+<td>Which side wins right after an account is linked</td>
+</tr>
+<tr>
+<td><code>Exclusive_Discord_Roles</code></td>
+<td><code>true</code></td>
+<td>A member wears one rank role at a time: giving the role of their rank removes the other managed rank roles. <code>Discord_Priority</code> decides which wins when a member holds several</td>
+</tr>
+<tr>
+<td><code>Remove_On_Discord_Role_Loss</code></td>
+<td><code>true</code></td>
+<td>Losing the role in Discord removes the group in game</td>
+</tr>
+<tr>
+<td><code>Fallback_Group</code></td>
+<td><code>default</code></td>
+<td>Group given when a player loses their synced rank</td>
+</tr>
+<tr>
+<td><code>Sync_On_Ready</code></td>
+<td><code>true</code></td>
+<td>Checks linked members when the bot connects</td>
+</tr>
+<tr>
+<td><code>Ready_Sync_Limit</code></td>
+<td><code>500</code></td>
+<td>Maximum members checked at that moment</td>
+</tr>
+<tr>
+<td><code>Debounce_Milliseconds</code></td>
+<td><code>350</code></td>
+<td>Groups quick changes into one update</td>
+</tr>
+</tbody></table></div>
+<p>Discord can never grant a LuckPerms group that is not in the catalog, and it can never take away a rank that was paid for through Tebex.</p>
+<h2 id="ban-sync"><a class="anchor" href="#ban-sync" aria-hidden="true">#</a>Ban sync</h2>
+<p>One ban, both sides. A player banned in Minecraft loses their Discord seat, and someone banned on Discord stops playing.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Ban_Sync:
+    Enabled: false
+    Direction: BOTH
+    Minecraft_Reason: &quot;Banned on our Discord server&quot;</code></pre></div>
+<p><code>Direction</code> is <code>BOTH</code>, <code>TO_DISCORD</code> or <code>TO_MINECRAFT</code>. Accounts are matched only through the link, never by name, so an unlinked player is simply not mirrored. The bot needs the <strong>Ban Members</strong> permission.</p>
+<p>Only a <strong>permanent</strong> Minecraft ban becomes a Discord ban, because a Discord ban has no expiry and would outlive a temporary one. A temporary ban is shown with a punishment role instead (see below), if that feature is on. Before banning, the bot sends the player a private message, since afterwards Discord may no longer let it reach them.</p>
+<h2 id="punishment-roles"><a class="anchor" href="#punishment-roles" aria-hidden="true">#</a>Punishment roles</h2>
+<p>The bot can create and maintain roles that show a punishment in the member list: banned, frozen or muted, with a rough idea of how long is left. It creates the roles itself.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Punishment_Roles:
+    Enabled: false
+    Refresh_Seconds: 300
+    Server_Name: &quot;our server&quot;
+    Ban:
+      Remove_On_Permanent: true
+      Dm: &quot;You were permanently banned from **{server}**.\nReason: {reason}&quot;
+      Appeal: &quot;If you believe this is a mistake, you can appeal by replying to this message.&quot;
+      Tiers:
+        month:
+          Name: &quot;Banned · 1+ month&quot;
+          Color: &quot;#8B0000&quot;
+          Min_Remaining_Seconds: 2592000
+        week:
+          Name: &quot;Banned · 1+ week&quot;
+          Color: &quot;#FF4D6D&quot;
+          Min_Remaining_Seconds: 604800
+        days:
+          Name: &quot;Banned · days&quot;
+          Color: &quot;#FF7A9E&quot;
+          Min_Remaining_Seconds: 86400
+        hours:
+          Name: &quot;Banned · hours&quot;
+          Color: &quot;#FF4D6D&quot;
+          Min_Remaining_Seconds: 0</code></pre></div>
+<p>The same structure exists for <code>Freeze</code> (one tier, &quot;Frozen · under review&quot;) and <code>Mute</code> (&quot;Muted · 1+ day&quot; and &quot;Muted&quot;). Tiers are matched from the longest down, so keep the last one at <code>0</code>. <code>Refresh_Seconds</code> moves members down a tier as their time runs out and removes the role when the punishment ends. With <code>Remove_On_Permanent: true</code> a permanent ban removes the member from Discord (after the <code>Dm</code> message); with <code>false</code> they stay and wear the ban role. Renaming a tier leaves the old role in place on purpose: delete it by hand in Discord.</p>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>Tiers exist because a Discord role name is shared by everyone who wears it, so it cannot show each member&#39;s exact time. The exact time goes in the private message.</p>
+</div>
+<h2 id="staff-channel"><a class="anchor" href="#staff-channel" aria-hidden="true">#</a>Staff channel</h2>
+<p>Reports, staff chat and security alerts can go to a private Discord channel through the same bot.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Discord:
+  Staff:
+    Enabled: false
+    Channel_Id: &quot;&quot;
+    Priority_Channel_Id: &quot;&quot;
+    Reports: true
+    Staff_Chat: true
+    Alerts: true
+    Handle_From_Discord: false
+    Commands_From_Discord: false
+    Command_Prefix: &quot;!&quot;
+    Allowed_Channel_Ids: []
+    Allowed_User_Ids: []
+    Allowed_Role_Ids: []
+    DM_Reporter: false
+    Priority_From_Discord: false</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Channel_Id</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>The private staff channel</td>
+</tr>
+<tr>
+<td><code>Priority_Channel_Id</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Separate channel for priority reports. Empty uses <code>Channel_Id</code></td>
+</tr>
+<tr>
+<td><code>Reports</code> / <code>Staff_Chat</code> / <code>Alerts</code></td>
+<td><code>true</code></td>
+<td>What is posted there</td>
+</tr>
+<tr>
+<td><code>Handle_From_Discord</code></td>
+<td><code>false</code></td>
+<td>Lets staff manage reports from Discord</td>
+</tr>
+<tr>
+<td><code>Commands_From_Discord</code></td>
+<td><code>false</code></td>
+<td>Lets staff run moderation commands from Discord</td>
+</tr>
+<tr>
+<td><code>Allowed_Channel_Ids</code></td>
+<td><code>[]</code></td>
+<td>Channels where commands are accepted</td>
+</tr>
+<tr>
+<td><code>Allowed_User_Ids</code> / <code>Allowed_Role_Ids</code></td>
+<td><code>[]</code></td>
+<td>Who may use them (user IDs or role IDs)</td>
+</tr>
+<tr>
+<td><code>DM_Reporter</code></td>
+<td><code>false</code></td>
+<td>Sends the reporter a private message about their report, if their account is linked</td>
+</tr>
+<tr>
+<td><code>Priority_From_Discord</code></td>
+<td><code>false</code></td>
+<td>Allows priority reports to be listed and handled from Discord</td>
+</tr>
+</tbody></table></div>
+<p>A command is accepted only when it comes from an allowed channel <strong>and</strong> from an allowed user or role. A private channel alone is never treated as permission.</p>
+<p><strong>Report commands</strong> (with <code>Handle_From_Discord</code>): <code>!reports</code>, <code>!info &lt;id&gt;</code>, <code>!claim &lt;id&gt;</code>, <code>!reply &lt;id&gt; &lt;message&gt;</code>, <code>!resolve &lt;id&gt; [note]</code>, <code>!pending &lt;id&gt; [note]</code>, <code>!reject &lt;id&gt; [note]</code>, <code>!reopen &lt;id&gt;</code>. Report cards also carry buttons.</p>
+<p><strong>Moderation commands</strong> (with <code>Commands_From_Discord</code>): the <a href="staff-suite.html">staff suite</a> tools that make sense from outside the game, such as <code>!ban</code>, <code>!kick</code>, <code>!freeze</code>, <code>!mute</code>, <code>!check</code> and <code>!seen</code>. They run as the console and their answer comes back to the channel. Tools that need you in the game (<code>/invsee</code>, <code>/tpto</code>, <code>/vanish</code>…) are refused with the reason, and <code>/clearinventory</code> is refused because it cannot be undone.</p>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>The bot uses text commands (<code>!link</code>, <code>!reports</code>), not slash commands.</li>
+<li>Linking needs the player to be online in game to get a code.</li>
+<li>Moderation commands from Discord only work while the <a href="staff-suite.html">staff suite</a> is enabled.</li>
+<li>If you run another Discord bridge (such as DiscordSRV) at the same time, it keeps posting on its own, including real names of <a href="anonymous.html">anonymous</a> players. Remove it once the built-in bot is on.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="integrations.html"><span>Previous</span><strong>Integrations</strong></a><a class="pager-next" href="store.html"><span>Next</span><strong>Store, ranks &amp; Tebex</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

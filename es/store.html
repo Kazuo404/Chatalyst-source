@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Tienda, rangos y Tebex · Docs de Chatalyst</title>
+  <meta name="description" content="Vende rangos y productos de un solo uso con Tebex y entregas que nunca se pierden. Catálogo de rangos, tienda dentro del juego, reclamación de objetos y celebración de compras.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/store.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/store.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/store.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/store.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Tienda, rangos y Tebex">
+  <meta property="og:description" content="Vende rangos y productos de un solo uso con Tebex y entregas que nunca se pierden. Catálogo de rangos, tienda dentro del juego, reclamación de objetos y celebración de compras.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/store.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/store.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Integraciones</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link is-active" aria-current="page" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#el-catalogo-de-rangos">El catálogo de rangos</a></li><li class="toc-h2"><a href="#vender-rangos-con-tebex">Vender rangos con Tebex</a></li><li class="toc-h3"><a href="#nada-pagado-se-pierde">Nada pagado se pierde</a></li><li class="toc-h3"><a href="#pagos-fuera-de-tebex">Pagos fuera de Tebex</a></li><li class="toc-h2"><a href="#vender-objetos-comandos-y-dinero">Vender objetos, comandos y dinero</a></li><li class="toc-h2"><a href="#la-tienda-ranks">La tienda: /ranks</a></li><li class="toc-h3"><a href="#secciones">Secciones</a></li><li class="toc-h2"><a href="#celebracion-de-la-compra">Celebración de la compra</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Integraciones</p><h1>Tienda, rangos y Tebex</h1><p class="lead">Vende rangos y productos de un solo uso con Tebex y entregas que nunca se pierden. Catálogo de rangos, tienda dentro del juego, reclamación de objetos y celebración de compras.</p></header>
+<article class="prose">
+<p>Chatalyst conecta tu tienda de Tebex con el juego sin una segunda cola ni un plugin aparte. Vende dos tipos de cosas y las trata distinto a propósito:</p>
+<ul>
+<li>Los <strong>rangos</strong> son un <em>estado</em>. El jugador tiene el rango, puede caducar y, si alguna vez desaparece, Chatalyst lo vuelve a poner. Se definen en <code>integrations.yml</code> y se reparan continuamente.</li>
+<li>Los <strong>productos</strong> (objetos, comandos, dinero) son un <em>evento</em>. Se entregan exactamente una vez y nunca se repiten, aunque el comando llegue dos veces. Se definen en <code>store.yml</code>.</li>
+</ul>
+<p>En los dos casos la compra se escribe en disco antes de entregar nada, porque Tebex da un comando por hecho en cuanto lo envía y nunca lo reenvía. Nada depende de que Tebex lo reintente.</p>
+<p>Los jugadores ven todo en una tienda dentro del juego, <code>/ranks</code>, y recogen sus productos con <code>/store</code>.</p>
+<div class="callout callout-note"><p class="callout-title">Nota</p><p>Necesitas el plugin oficial de Tebex instalado. Chatalyst usa su ejecutor de comandos y nunca consulta Tebex una segunda vez, lo que podría entregar la misma compra dos veces.</p>
+</div>
+<h2 id="el-catalogo-de-rangos"><a class="anchor" href="#el-catalogo-de-rangos" aria-hidden="true">#</a>El catálogo de rangos</h2>
+<p>Cada rango se declara una sola vez en <code>Rank_Catalog</code>, al principio de <code>integrations.yml</code>. La clave (<code>vip</code> abajo) es un ID estable que usan Tebex, Discord y la tienda. Viene vacío:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Rank_Catalog: {}</code></pre></div>
+<p>Un ejemplo, sacado de los comentarios del archivo real:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Rank_Catalog:
+  vip:
+    LuckPerms_Group: &quot;vip&quot;
+    Discord_Role_Id: &quot;222222222222222222&quot;
+    Discord_Priority: 100
+    Tebex_Enabled: true
+    Tebex_Duration: &quot;permanent&quot;
+    Presentation:
+      Use_Global: true
+    Shop:
+      Visible: true
+      Display_Name: &quot;&lt;gradient:#B56CFF:#E4A8FF&gt;&lt;bold&gt;VIP&lt;/bold&gt;&lt;/gradient&gt;&quot;
+      Description:
+        - &quot;&lt;#C0B3D9&gt;Exclusive chat colors and cosmetics&quot;
+      Icon: EMERALD
+      Price: &quot;$9.99 USD&quot;
+      Purchase_Url: &quot;https://your-store.tebex.io/package/1234567&quot;
+      Order: 10
+      Featured: true
+      View_Permission: &quot;&quot;
+      Preview:
+        - Icon: DIAMOND_HELMET
+          Name: &quot;&lt;#E0AAFF&gt;Rank prefix&quot;
+          Lore:
+            - &quot;&lt;#C0B3D9&gt;Shown in chat and the tab list&quot;</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LuckPerms_Group</code></td>
+<td>El grupo exacto de LuckPerms que da este rango</td>
+</tr>
+<tr>
+<td><code>Discord_Role_Id</code></td>
+<td>El rol de Discord que va con él (ver <a href="discord-bot.html#sincronia-de-rangos">bot de Discord</a>)</td>
+</tr>
+<tr>
+<td><code>Discord_Priority</code></td>
+<td>Qué rol gana cuando un miembro tiene varios</td>
+</tr>
+<tr>
+<td><code>Tebex_Enabled</code></td>
+<td>Si Tebex puede entregar este rango</td>
+</tr>
+<tr>
+<td><code>Tebex_Duration</code></td>
+<td><code>permanent</code>, o una duración como <code>30d</code> o <code>12h</code></td>
+</tr>
+<tr>
+<td><code>Presentation</code></td>
+<td>Celebración al entregarlo; <code>Use_Global: true</code> usa la global</td>
+</tr>
+<tr>
+<td><code>Shop</code></td>
+<td>La tarjeta que se ve en <code>/ranks</code>. Necesita <code>Visible: true</code> y un <code>Purchase_Url</code> HTTPS real</td>
+</tr>
+<tr>
+<td><code>Shop.Icon</code></td>
+<td>Un material vanilla (<code>EMERALD</code>) o un ID de ItemsAdder (<code>miservidor:icono_vip</code>)</td>
+</tr>
+<tr>
+<td><code>Shop.Preview</code></td>
+<td>Lo que ve el comprador antes de pagar. Escribe aquí exactamente lo que incluye el rango</td>
+</tr>
+</tbody></table></div>
+<p>Cada texto admite su versión <code>_es</code> (<code>Display_Name_es</code>, <code>Description_es</code>…) para los clientes en español.</p>
+<h2 id="vender-rangos-con-tebex"><a class="anchor" href="#vender-rangos-con-tebex" aria-hidden="true">#</a>Vender rangos con Tebex</h2>
+<p>Actívalo en <code>integrations.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Tebex:
+  Enabled: false
+  Console_Only: true
+  Reconcile:
+    Interval_Seconds: 300
+    Batch_Size: 10
+  Allowed_Groups: []
+  Notify_Discord: true</code></pre></div>
+<p>Luego, en el panel de Tebex, pon estos comandos en el paquete (<code>vip</code> es el ID del catálogo):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">Initial:  chatalyst tebex grant {id} vip {transaction}
+Expiry:   chatalyst tebex revoke {id} vip {transaction}</code></pre></div>
+<p>Usa la misma línea <code>revoke</code> para reembolsos y contracargos. Usa siempre <code>{id}</code> (el UUID del jugador), no <code>{username}</code>: el nombre puede cambiar, el UUID nunca.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Activa la entrega de rangos</td>
+</tr>
+<tr>
+<td><code>Console_Only</code></td>
+<td><code>true</code></td>
+<td>Solo la consola (Tebex) puede ejecutar los comandos de entrega. Déjalo activado</td>
+</tr>
+<tr>
+<td><code>Reconcile.Interval_Seconds</code></td>
+<td><code>300</code></td>
+<td>Cada cuánto pasa la revisión en segundo plano</td>
+</tr>
+<tr>
+<td><code>Reconcile.Batch_Size</code></td>
+<td><code>10</code></td>
+<td>Jugadores revisados por pasada. La mitad se reserva para rangos recién caducados</td>
+</tr>
+<tr>
+<td><code>Allowed_Groups</code></td>
+<td><code>[]</code></td>
+<td>Grupos que Tebex puede dar. Vacío = cualquier grupo existente; pon tus rangos de tienda para más seguridad</td>
+</tr>
+<tr>
+<td><code>Notify_Discord</code></td>
+<td><code>true</code></td>
+<td>Anuncia las entregas en el canal privado del staff en Discord</td>
+</tr>
+</tbody></table></div>
+<h3 id="nada-pagado-se-pierde"><a class="anchor" href="#nada-pagado-se-pierde" aria-hidden="true">#</a>Nada pagado se pierde</h3>
+<p>Una compra se guarda como lo que el jugador posee: el rango, su caducidad exacta y la transacción. El grupo de LuckPerms y el rol de Discord salen de ese registro. Chatalyst compara el registro con la realidad y repara cualquier diferencia cuando el jugador entra, tras cada compra, cuando un comprador vincula Discord y en una revisión lenta en segundo plano.</p>
+<p>Eso cubre una entrega fallida, pero también cosas que ningún reintento notaría: un rango quitado a mano, una sincronía de Discord que pisa un grupo pagado o una copia de seguridad restaurada.</p>
+<p>Un rango termina cuando se acaba su <code>Tebex_Duration</code>. La caducidad se escribe en el propio grupo de LuckPerms, así que los permisos dejan de aplicarse en el segundo exacto, y la revisión actualiza después el rol de Discord y el registro.</p>
+<div class="callout callout-warning"><p class="callout-title">Aviso</p><p>Chatalyst solo toca los grupos que entregó él, así que un rango que diste a mano nunca se quita. La otra cara: si quitas a mano en LuckPerms un rango <strong>pagado</strong>, vuelve en la siguiente revisión, porque la compra dice que el jugador lo sigue teniendo. Usa <code>/chatalyst tebex revoke</code> o deja que termine su duración.</p>
+</div>
+<h3 id="pagos-fuera-de-tebex"><a class="anchor" href="#pagos-fuera-de-tebex" aria-hidden="true">#</a>Pagos fuera de Tebex</h3>
+<p>Para un pago cobrado por otra vía (una transferencia, un trato en Discord), entrégalo a mano con la referencia del pago:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/chatalyst tebex grant &lt;jugador-o-uuid&gt; &lt;rango&gt; &lt;id-del-pago&gt;</code></pre></div>
+<p>La duración sale del <code>Tebex_Duration</code> del rango. El pago entra en el mismo registro que una compra de Tebex, así que se repara, se renueva y se reembolsa igual.</p>
+<h2 id="vender-objetos-comandos-y-dinero"><a class="anchor" href="#vender-objetos-comandos-y-dinero" aria-hidden="true">#</a>Vender objetos, comandos y dinero</h2>
+<p>Los productos viven en <code>store.yml</code>. La tienda viene apagada y el catálogo vacío:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Store:
+  Enabled: false
+  Console_Only: true
+  Command: &quot;store&quot;
+  Command_Aliases:
+    - &quot;tienda&quot;
+    - &quot;claimitems&quot;
+  Delivery: AUTO
+  Join_Delay_Ticks: 40
+  Retry_Interval_Seconds: 60
+  Required_Free_Slots: 2
+  Notify_Discord: true
+
+Store_Catalog: {}</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Activa la tienda de objetos</td>
+</tr>
+<tr>
+<td><code>Console_Only</code></td>
+<td><code>true</code></td>
+<td>Solo la consola (Tebex) puede ejecutar el comando de entrega</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>store</code> / <code>tienda</code>, <code>claimitems</code></td>
+<td>El comando del jugador. Solo se registra con la tienda activa, y se omite con un aviso si otro plugin lo tiene. <code>/chatalyst:store</code> siempre funciona</td>
+</tr>
+<tr>
+<td><code>Delivery</code></td>
+<td><code>AUTO</code></td>
+<td><code>AUTO</code> entrega en cuanto el comprador está conectado y tiene sitio. <code>MANUAL</code> espera a <code>/store claim</code></td>
+</tr>
+<tr>
+<td><code>Join_Delay_Ticks</code></td>
+<td><code>40</code></td>
+<td>Espera tras entrar antes de una entrega automática</td>
+</tr>
+<tr>
+<td><code>Retry_Interval_Seconds</code></td>
+<td><code>60</code></td>
+<td>Cada cuánto se reintentan las entregas pendientes</td>
+</tr>
+<tr>
+<td><code>Required_Free_Slots</code></td>
+<td><code>2</code></td>
+<td>Huecos libres necesarios en el inventario antes de entregar objetos</td>
+</tr>
+<tr>
+<td><code>Notify_Discord</code></td>
+<td><code>true</code></td>
+<td>Anuncia las entregas en el canal privado del staff en Discord</td>
+</tr>
+</tbody></table></div>
+<p>El paquete de Tebex ejecuta:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">chatalyst store give {id} &lt;id_producto&gt; {transaction}</code></pre></div>
+<p>Cada producto de <code>Store_Catalog</code> tiene un <code>Type</code>: <code>ITEMS</code> (materiales con cantidad, nombre, lore, encantamientos, model data y brillo), <code>COMMANDS</code> (comandos de consola con <code>{player}</code> y <code>{uuid}</code>, para llaves de cajas, mascotas o cualquier cosa de otro plugin) o <code>MONEY</code> (un ingreso por Vault). Un producto puede combinar varios; llegan juntos o no llega ninguno. Ejemplo del archivo:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Store_Catalog:
+  starter-kit:
+    Name: &quot;&lt;gradient:#B56CFF:#E4A8FF&gt;&lt;bold&gt;Starter kit&lt;/bold&gt;&lt;/gradient&gt;&quot;
+    Type: ITEMS
+    Items:
+      - Material: DIAMOND_SWORD
+        Amount: 1
+        Enchantments:
+          sharpness: 3
+          unbreaking: 2
+      - Material: GOLDEN_APPLE
+        Amount: 8
+  crate-keys:
+    Name: &quot;&lt;#E4A8FF&gt;5 crate keys&quot;
+    Type: COMMANDS
+    Commands:
+      - &quot;crates give {player} legendary 5&quot;
+  coin-pouch:
+    Name: &quot;&lt;#FFD166&gt;5,000 coins&quot;
+    Type: MONEY
+    Amount: 5000</code></pre></div>
+<p>Cómo se comporta una entrega:</p>
+<ul>
+<li><strong>Comprador conectado y con sitio</strong>: se entrega al momento.</li>
+<li><strong>Comprador desconectado</strong>: la entrega espera, sobrevive a reinicios y llega cuando entre. El dinero se puede ingresar sin conexión si tu plugin de economía lo admite.</li>
+<li><strong>Inventario lleno</strong>: no se tira nada al suelo. La entrega queda pendiente y se reintenta.</li>
+<li><strong>Entregado</strong>: la entrega se consume. Una transacción reenviada o un segundo servidor con la misma base de datos no pueden repetirla.</li>
+</ul>
+<p>Solo se pueden entregar los IDs que están en el catálogo, así que un comando mal escrito o malintencionado no puede inventarse un producto.</p>
+<p>Los jugadores usan <code>/store</code> para abrir un menú con lo que se les debe, <code>/store claim</code> para recogerlo todo y <code>/store list</code> para verlo en el chat. Permiso: <code>chatalyst.command.store</code> (todos).</p>
+<h2 id="la-tienda-ranks"><a class="anchor" href="#la-tienda-ranks" aria-hidden="true">#</a>La tienda: /ranks</h2>
+<p>Una sola tienda dentro del juego muestra tus rangos y, si quieres, tus productos.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Tebex:
+  Shop:
+    Enabled: false
+    Command: &quot;ranks&quot;
+    Command_Aliases:
+      - &quot;rangos&quot;
+    Sign:
+      Enabled: true
+      Tag: &quot;[ranks]&quot;
+    Title: &quot;&lt;gradient:#240046:#9D4EDD:#E0AAFF&gt;&lt;bold&gt;Rank Store&lt;/bold&gt;&lt;/gradient&gt;&quot;
+    Rank_Url_Template: &quot;&quot;
+    Home_Url: &quot;&quot;
+    Close_After_Select: true
+    Show_Raw_Link: false</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Activa la tienda</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>ranks</code> / <code>rangos</code></td>
+<td>El comando del jugador. No es <code>shop</code> a propósito, porque <code>/shop</code> suele ser de un plugin de tienda. <code>/chatalyst ranks</code> siempre funciona</td>
+</tr>
+<tr>
+<td><code>Sign.Enabled</code> / <code>Sign.Tag</code></td>
+<td><code>true</code> / <code>[ranks]</code></td>
+<td>Escribe la etiqueta en la primera línea de un cartel y se convierte en una entrada a la tienda. Requiere <code>chatalyst.sign.shop</code></td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td>ver arriba</td>
+<td>Título del menú</td>
+</tr>
+<tr>
+<td><code>Rank_Url_Template</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Patrón de URL opcional con <code>{rank_id}</code>, <code>{player}</code>, <code>{uuid}</code> para rangos sin <code>Purchase_Url</code></td>
+</tr>
+<tr>
+<td><code>Home_Url</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Enlace a la portada de tu tienda</td>
+</tr>
+<tr>
+<td><code>Show_Raw_Link</code></td>
+<td><code>false</code></td>
+<td>Imprime también la URL en el chat</td>
+</tr>
+</tbody></table></div>
+<p>Al hacer clic en una tarjeta se abre una vista previa; el botón de compra está dentro, así que un clic sin querer nunca abre un enlace. Minecraft siempre pregunta al jugador antes de abrir el navegador. Solo se publican enlaces HTTPS válidos.</p>
+<p>Un producto de <code>store.yml</code> aparece en la misma tienda cuando tiene un bloque <code>Shop:</code> con <code>Visible: true</code> y un <code>Purchase_Url</code> real. Con <code>Preview_Kit</code> puede mostrar el contenido real de un kit que ya tengas en AdvancedKits, PlayerKits2 o PlayerKits.</p>
+<h3 id="secciones"><a class="anchor" href="#secciones" aria-hidden="true">#</a>Secciones</h3>
+<p><code>Store_Sections</code> en <code>store.yml</code> agrupa la tienda en secciones (rangos, kits…). Viene apagado, lo que deja una sola lista:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Store_Sections:
+  Enabled: false
+  Categories: {}</code></pre></div>
+<p>Cada entrada indica su sección en <code>Shop.Category</code>. Una sección sin nada visible se oculta, y una entrada que nombra una sección que no existe va a una sección final &quot;Otros&quot; en lugar de desaparecer.</p>
+<h2 id="celebracion-de-la-compra"><a class="anchor" href="#celebracion-de-la-compra" aria-hidden="true">#</a>Celebración de la compra</h2>
+<p>Cuando se entrega un rango, Chatalyst puede celebrarlo con una línea de chat, un aviso tipo logro, un título, la barra de acción, un sonido y fuegos artificiales decorativos. Edítalo en el juego con <code>/chatalyst tebex gui</code> o en <code>integrations.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Tebex:
+  Presentation:
+    Enabled: true
+    Audience: PURCHASER
+    Preset: SUBTLE
+    Offline_Delivery: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Audience</code></td>
+<td><code>PURCHASER</code></td>
+<td><code>PURCHASER</code> solo lo ve el comprador; <code>GLOBAL</code>, todo el servidor</td>
+</tr>
+<tr>
+<td><code>Preset</code></td>
+<td><code>SUBTLE</code></td>
+<td><code>SUBTLE</code>, <code>FANCY</code>, <code>SILENT</code> o <code>CUSTOM</code>. Un preset solo enciende o apaga efectos; tus textos se quedan</td>
+</tr>
+<tr>
+<td><code>Offline_Delivery</code></td>
+<td><code>true</code></td>
+<td>Si el comprador estaba desconectado, se lo muestra al volver</td>
+</tr>
+</tbody></table></div>
+<p>Cada rango puede usar el diseño global o uno propio (<code>Presentation.Use_Global: false</code>). Placeholders: <code>{player}</code>, <code>{rank_id}</code>, <code>{rank}</code>, <code>{group}</code>, <code>{duration}</code>, <code>{transaction}</code>. Cada texto tiene su versión <code>_es</code>, que se elige por espectador. Los fuegos artificiales son decorativos y nunca hacen daño.</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Permiso</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/ranks</code></td>
+<td><code>chatalyst.command.ranks</code> (todos)</td>
+<td>Abre la tienda</td>
+</tr>
+<tr>
+<td><code>/store</code></td>
+<td><code>chatalyst.command.store</code> (todos)</td>
+<td>Muestra y recoge tus compras</td>
+</tr>
+<tr>
+<td><code>/chatalyst tebex gui</code></td>
+<td><code>chatalyst.admin.tebex.presentation</code> o <code>chatalyst.admin</code></td>
+<td>Edita y previsualiza la celebración de compra</td>
+</tr>
+<tr>
+<td><code>/chatalyst tebex status</code></td>
+<td>consola</td>
+<td>Cuántas compras hay registradas</td>
+</tr>
+<tr>
+<td><code>/chatalyst tebex grant …</code> y <code>revoke …</code></td>
+<td>consola</td>
+<td>Entrega o retira un rango</td>
+</tr>
+<tr>
+<td><code>/chatalyst store give …</code></td>
+<td>consola</td>
+<td>Entrega un producto</td>
+</tr>
+<tr>
+<td>—</td>
+<td><code>chatalyst.sign.shop</code> (op)</td>
+<td>Crear un cartel de entrada a la tienda</td>
+</tr>
+</tbody></table></div>
+<p>Con <code>Console_Only: false</code>, los jugadores con <code>chatalyst.admin.tebex</code> (rangos) o <code>chatalyst.admin.store</code> (productos) también pueden ejecutar los comandos de consola. Deja <code>Console_Only: true</code> salvo que tengas un motivo.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Chatalyst no procesa pagos. Eso lo hace Tebex (que ya acepta PayPal y tarjetas); Chatalyst entrega lo que se pagó.</li>
+<li>Los productos <code>COMMANDS</code> necesitan al comprador conectado, así que esperan a que entre.</li>
+<li>Las ventajas de un rango viven en LuckPerms y en tus otros plugins. La tienda no puede conocerlas, así que escríbelas tú en <code>Shop.Preview</code>.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="discord-bot.html"><span>Anterior</span><strong>Bot de Discord</strong></a><a class="pager-next" href="commands.html"><span>Siguiente</span><strong>Comandos</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

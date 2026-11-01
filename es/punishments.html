@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Muteos, baneos y avisos · Docs de Chatalyst</title>
+  <meta name="description" content="Silencia a jugadores con un muteo o un muteo silencioso, deja que los puntos de advertencia castiguen solos a los reincidentes, y bloquea o frena el chat.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/punishments.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/punishments.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/punishments.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/punishments.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Muteos, baneos y avisos">
+  <meta property="og:description" content="Silencia a jugadores con un muteo o un muteo silencioso, deja que los puntos de advertencia castiguen solos a los reincidentes, y bloquea o frena el chat.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/punishments.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/punishments.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Moderación</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link is-active" aria-current="page" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#mutear-a-un-jugador">Mutear a un jugador</a></li><li class="toc-h2"><a href="#muteo-silencioso">Muteo silencioso</a></li><li class="toc-h2"><a href="#puntos-de-advertencia">Puntos de advertencia</a></li><li class="toc-h2"><a href="#muteo-automatico-por-spam">Muteo automático por spam</a></li><li class="toc-h2"><a href="#controlar-todo-el-chat">Controlar todo el chat</a></li><li class="toc-h2"><a href="#baneos-expulsiones-y-congelar">Baneos, expulsiones y congelar</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Moderación</p><h1>Muteos, baneos y avisos</h1><p class="lead">Silencia a jugadores con un muteo o un muteo silencioso, deja que los puntos de advertencia castiguen solos a los reincidentes, y bloquea o frena el chat.</p></header>
+<article class="prose">
+<p>Estas son las herramientas para moderar el chat. Un <strong>muteo</strong> impide hablar a un jugador. Un <strong>muteo silencioso</strong> le deja seguir escribiendo, pero nadie más ve sus mensajes. Los <strong>puntos de advertencia</strong> se suman cada vez que alguien rompe una norma del chat y lo castigan solos cuando llega a un límite.</p>
+<p>Los muteos, los puntos de advertencia y los controles del chat funcionan de fábrica. Los baneos, las expulsiones y el congelar son parte de la <a href="staff-suite.html">suite de staff</a>, que es opcional.</p>
+<h2 id="mutear-a-un-jugador"><a class="anchor" href="#mutear-a-un-jugador" aria-hidden="true">#</a>Mutear a un jugador</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/mute &lt;jugador&gt; [tiempo] [motivo]
+/unmute &lt;jugador&gt;</code></pre></div>
+<p>El tiempo es opcional: <code>10m</code>, <code>2h</code>, <code>1d</code>, <code>1w</code>. Sin tiempo, el muteo es permanente. Los muteos se mantienen tras reiniciar. Los dos comandos necesitan <code>chatalyst.command.mute</code> (los operadores lo tienen).</p>
+<p>Un jugador muteado no puede hablar en el chat. De fábrica tampoco puede enviar correo, escribir en carteles ni libros, renombrar objetos en el yunque ni usar algunos comandos de chat. Todo eso lo eliges en <code>moderation.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Mute:
+  Block_Mail: true       # los jugadores muteados no pueden enviar correo con /inbox
+  Block_Signs: true      # los jugadores muteados no pueden poner texto en carteles
+  Block_Books: true      # los jugadores muteados no pueden escribir ni firmar libros
+  Block_Anvil: true      # los jugadores muteados no pueden dar un nombre NUEVO a objetos en el yunque (reparar sigue funcionando)
+  Blocked_Commands: [me, say, msg, tell, w, whisper, m, r, reply, mail]</code></pre></div>
+<p><code>/helpop</code> se deja fuera a propósito: un jugador muteado puede seguir avisando al staff.</p>
+<h2 id="muteo-silencioso"><a class="anchor" href="#muteo-silencioso" aria-hidden="true">#</a>Muteo silencioso</h2>
+<p>Añade <code>-s</code> para mutear a alguien sin que lo sepa:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/mute -s &lt;jugador&gt; [tiempo] [motivo]</code></pre></div>
+<p>El jugador puede seguir escribiendo y ve sus propios mensajes con normalidad, pero nadie más los recibe. Es útil con alguien sospechoso de spam o troleo que se haría otra cuenta tras un muteo normal. El muteo silencioso solo oculta el chat público; las opciones de <code>Mute</code> de arriba no se le aplican.</p>
+<h2 id="puntos-de-advertencia"><a class="anchor" href="#puntos-de-advertencia" aria-hidden="true">#</a>Puntos de advertencia</h2>
+<p>Los puntos de advertencia vienen encendidos. Cada regla con <code>Points</code> en <code>rules.yml</code> (y el filtro de palabrotas) suma puntos cuando alguien la rompe. Cuando el total llega a un umbral, Chatalyst ejecuta los comandos que pongas. Los puntos se reinician tras un tiempo sin infracciones nuevas.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Warning_Points:
+  Enabled: true
+  # Tras este tiempo sin infracciones nuevas, los puntos del jugador se reinician.
+  # Formatos: 10m, 2h, 1d, 1w, o &quot;perm&quot; para que nunca caduquen.
+  Decay_After: 1d
+  # Puntos que suma un /warn manual del staff (0 = avisa y registra, pero no suma puntos).
+  Manual_Warn_Points: 1
+  Thresholds:
+    3:
+      - &quot;mute {player} 10m Too many chat infractions&quot;
+    5:
+      - &quot;kick {player} Repeated chat infractions&quot;</code></pre></div>
+<p><code>{player}</code> y <code>{points}</code> se sustituyen en los comandos. Consulta o borra los puntos de un jugador con <code>/warnings &lt;jugador&gt; [clear]</code> (<code>chatalyst.command.warnings</code>).</p>
+<h2 id="muteo-automatico-por-spam"><a class="anchor" href="#muteo-automatico-por-spam" aria-hidden="true">#</a>Muteo automático por spam</h2>
+<p>El antispam da avisos a quien hace spam y después lo mutea cada vez durante más tiempo: 15 minutos, 30 minutos, 1 hora, etc. Se ajusta en <code>Anti_Spam.Auto_Mute</code> de <code>moderation.yml</code>. Mira <a href="chat-filter.html">Filtro, antispam y antibot</a>.</p>
+<h2 id="controlar-todo-el-chat"><a class="anchor" href="#controlar-todo-el-chat" aria-hidden="true">#</a>Controlar todo el chat</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Qué hace</th>
+<th>Permiso</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/clearchat</code></td>
+<td>Saca de la vista el chat de todos. El staff con <code>chatalyst.command.clearchat.bypass</code> conserva el suyo.</td>
+<td><code>chatalyst.command.clearchat</code></td>
+</tr>
+<tr>
+<td><code>/chatlock</code></td>
+<td>Bloquea el chat público. <code>/chatunlock</code> lo abre otra vez.</td>
+<td><code>chatalyst.command.chatlock</code></td>
+</tr>
+<tr>
+<td><code>/slowmode &lt;segundos|off&gt;</code></td>
+<td>Obliga a todos a esperar entre mensajes.</td>
+<td><code>chatalyst.command.slowmode</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="baneos-expulsiones-y-congelar"><a class="anchor" href="#baneos-expulsiones-y-congelar" aria-hidden="true">#</a>Baneos, expulsiones y congelar</h2>
+<p><code>/ban</code>, <code>/tempban</code>, <code>/kick</code>, <code>/warn</code>, <code>/freeze</code> y el resto vienen con la <a href="staff-suite.html">suite de staff</a>, que viene apagada para no pelearse nunca con un plugin de staff que ya uses.</p>
+</article>
+      <nav class="pager"><a class="pager-prev" href="rules-engine.html"><span>Anterior</span><strong>Motor de reglas</strong></a><a class="pager-next" href="staff-suite.html"><span>Siguiente</span><strong>Suite de staff</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

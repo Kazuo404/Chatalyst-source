@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Placeholders · Docs de Chatalyst</title>
+  <meta name="description" content="Todos los {placeholders} que puedes usar en formatos y mensajes de Chatalyst, tus variables propias y los %chatalyst_...% para PlaceholderAPI y TAB.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/placeholders.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/placeholders.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/placeholders.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/placeholders.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Placeholders">
+  <meta property="og:description" content="Todos los {placeholders} que puedes usar en formatos y mensajes de Chatalyst, tus variables propias y los %chatalyst_...% para PlaceholderAPI y TAB.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/placeholders.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/placeholders.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Referencia</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link is-active" aria-current="page" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#placeholders-del-jugador">Placeholders del jugador</a></li><li class="toc-h3"><a href="#placeholders-del-mensaje">Placeholders del mensaje</a></li><li class="toc-h3"><a href="#variables-propias">Variables propias</a></li><li class="toc-h3"><a href="#placeholders-de-placeholderapi">Placeholders de PlaceholderAPI</a></li><li class="toc-h3"><a href="#placeholders-de-tab">Placeholders de TAB</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Referencia</p><h1>Placeholders</h1><p class="lead">Todos los {placeholders} que puedes usar en formatos y mensajes de Chatalyst, tus variables propias y los %chatalyst_...% para PlaceholderAPI y TAB.</p></header>
+<article class="prose">
+<p>Los placeholders son palabras entre llaves que Chatalyst cambia por datos en vivo: <code>{player_nick}</code> se convierte en el apodo del jugador y <code>{ping_ms}</code> en su latencia coloreada. Se usan en los <a href="formats.html">formatos de chat</a>, el tabulador, los <a href="nametags.html">nametags</a>, los mensajes de entrada y casi cualquier otro texto.</p>
+<p>Chatalyst también funciona al revés: publica placeholders <code>%chatalyst_...%</code> para que PlaceholderAPI, TAB, los scoreboards y otros plugins enseñen datos de Chatalyst.</p>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>Los placeholders internos <code>{...}</code> funcionan siempre. Para usar en Chatalyst los <code>%...%</code> de otros plugins, o los <code>%chatalyst_...%</code> en otros plugins, instala <a href="https://www.spigotmc.org/resources/placeholderapi.6245/" rel="noopener">PlaceholderAPI</a>. Chatalyst registra su expansión solo; no hay nada que descargar.</p>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<h3 id="placeholders-del-jugador"><a class="anchor" href="#placeholders-del-jugador" aria-hidden="true">#</a>Placeholders del jugador</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{player_name}</code> / <code>{player}</code></td>
+<td>El nombre de la cuenta.</td>
+</tr>
+<tr>
+<td><code>{player_nick}</code></td>
+<td>El apodo con sus colores, o el nombre si no tiene.</td>
+</tr>
+<tr>
+<td><code>{rank_nick}</code></td>
+<td>El apodo con el color de apodo del jugador, o con el color del rango si no eligió ninguno.</td>
+</tr>
+<tr>
+<td><code>{nick_color}</code></td>
+<td>El color del apodo como etiqueta MiniMessage, o vacío.</td>
+</tr>
+<tr>
+<td><code>{player_display}</code></td>
+<td>El display name de Bukkit como texto plano.</td>
+</tr>
+<tr>
+<td><code>{player_prefix}</code> / <code>{player_suffix}</code></td>
+<td>Prefijo y sufijo del rango, de LuckPerms o, si no está, de Vault.</td>
+</tr>
+<tr>
+<td><code>{player_group}</code></td>
+<td>El id interno del grupo principal (por ejemplo <code>mvpplusplus</code>).</td>
+</tr>
+<tr>
+<td><code>{rank_tag}</code></td>
+<td>El prefijo del rango, o el nombre del grupo si el grupo no tiene prefijo.</td>
+</tr>
+<tr>
+<td><code>{rank_color}</code></td>
+<td>El primer color del prefijo del rango.</td>
+</tr>
+<tr>
+<td><code>{rank_gradient}</code></td>
+<td>Un degradado neón hecho a partir del color del rango. Siempre abre una etiqueta <code>&lt;gradient&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>{world}</code></td>
+<td>El nombre del mundo.</td>
+</tr>
+<tr>
+<td><code>{balance}</code></td>
+<td>El dinero del jugador por Vault, con el formato de tu economía. Vacío si no hay economía. En los hovers del chat, una línea con este dato desaparece si queda vacío.</td>
+</tr>
+<tr>
+<td><code>{playtime}</code></td>
+<td>Tiempo jugado en este servidor, como <code>3d 4h</code> o <code>2h 15m</code>.</td>
+</tr>
+<tr>
+<td><code>{ping}</code></td>
+<td>La latencia en milisegundos, como número.</td>
+</tr>
+<tr>
+<td><code>{ping_ms}</code></td>
+<td>La latencia coloreada según la calidad (<code>23ms</code> en verde, <code>320ms</code> en rojo).</td>
+</tr>
+<tr>
+<td><code>{ping_quality}</code></td>
+<td>Excellent, Good, Fair, Slow o Laggy. En los hovers del chat la palabra sale en el idioma de quien lo ve.</td>
+</tr>
+<tr>
+<td><code>{ping_bars}</code></td>
+<td>Barras de señal de colores.</td>
+</tr>
+<tr>
+<td><code>{party}</code> / <code>{party_tag}</code></td>
+<td>El nombre de la party de Parties y la etiqueta decorada de <code>Chat.Party_Tag</code>. Vacíos sin party.</td>
+</tr>
+<tr>
+<td><code>{afk}</code> / <code>{afk_tag}</code></td>
+<td><code>yes</code>/<code>no</code>, y el sufijo de AFK o vacío.</td>
+</tr>
+<tr>
+<td><code>{tag_prefix}</code> / <code>{tag_suffix}</code></td>
+<td>El <a href="tags.html">título</a> equipado o el tag personal, en su lado.</td>
+</tr>
+<tr>
+<td><code>{nametag_title}</code></td>
+<td>El título del <a href="nametags.html">nametag</a> flotante.</td>
+</tr>
+<tr>
+<td><code>{nametag_icon_left}</code> / <code>{nametag_icon_right}</code></td>
+<td>Los iconos laterales del nametag.</td>
+</tr>
+<tr>
+<td><code>{married_to}</code> / <code>{married_tag}</code></td>
+<td>El nombre de la pareja y la línea de hover de <code>Marriage.Tag</code>. Vacíos si está soltero. Ver <a href="marriage.html">Matrimonios</a>.</td>
+</tr>
+<tr>
+<td><code>{msg_command}</code></td>
+<td>Lo que se sugiere al pulsar el nombre: <code>/inbox send &lt;nombre&gt;</code> o <code>/msg &lt;nombre&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>{ranks_command}</code></td>
+<td>El comando de la tienda de rangos con su nombre actual.</td>
+</tr>
+</tbody></table></div>
+<h3 id="placeholders-del-mensaje"><a class="anchor" href="#placeholders-del-mensaje" aria-hidden="true">#</a>Placeholders del mensaje</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Dónde</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{message}</code></td>
+<td>Formatos de chat</td>
+<td>El mensaje del jugador. Se inserta de forma segura: nadie puede colar formato a través de él.</td>
+</tr>
+<tr>
+<td><code>{message_uuid}</code></td>
+<td>Formatos de chat</td>
+<td>Id que usa el botón de borrar.</td>
+</tr>
+<tr>
+<td><code>{sender_name}</code> / <code>{receiver_name}</code></td>
+<td>Formatos de mensajes privados</td>
+<td>Los dos lados de un <a href="private-messages.html">mensaje privado</a>.</td>
+</tr>
+<tr>
+<td><code>{$etiqueta}</code></td>
+<td>Cualquier formato</td>
+<td>Una etiqueta traducida de los archivos de idioma, por ejemplo <code>{$rank}</code> o <code>{$ping}</code>. Cada lector la ve en su idioma.</td>
+</tr>
+</tbody></table></div>
+<h3 id="variables-propias"><a class="anchor" href="#variables-propias" aria-hidden="true">#</a>Variables propias</h3>
+<p>Define un texto reutilizable una vez en <code>integrations.yml</code> y úsalo en cualquier sitio como <code>{nombre}</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Variables:
+  server_name: &quot;&lt;gradient:#240046:#9D4EDD:#E0AAFF&gt;YourServer&lt;/gradient&gt;&quot;
+  discord_link: &quot;discord.gg/example&quot;
+  # Variables con SCRIPT (JavaScript). Empieza el valor con &quot;js:&quot;. Recibes 'player'
+  # (el jugador) y 'playerName'. Ejemplos:
+  #   {vip_tag}  -&gt;  enseña [VIP] solo si el jugador tiene el permiso.
+  vip_tag: &quot;js: player.hasPermission('chatalyst.vip') ? '&lt;#D8B4FE&gt;[VIP] ' : ''&quot;
+  #   {name_len} -&gt;  la longitud del nombre del jugador.
+  name_len: &quot;js: player.getName().length()&quot;</code></pre></div>
+<p>Un valor que empieza por <code>js:</code> es una pequeña expresión de JavaScript. Solo recibe <code>player</code> y <code>playerName</code>, y las clases peligrosas están bloqueadas. Las variables con script necesitan <code>Scripting.Enabled: true</code> (lo de fábrica) y la librería Nashorn, que Paper descarga al arrancar.</p>
+<h3 id="placeholders-de-placeholderapi"><a class="anchor" href="#placeholders-de-placeholderapi" aria-hidden="true">#</a>Placeholders de PlaceholderAPI</h3>
+<p>Con PlaceholderAPI instalado, otros plugins pueden leer:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%chatalyst_nick%</code></td>
+<td>El apodo, o el nombre.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_nickcolor%</code></td>
+<td>El color principal del apodo como código legacy (<code>&amp;c</code> o <code>&amp;#RRGGBB</code>).</td>
+</tr>
+<tr>
+<td><code>%chatalyst_channel%</code></td>
+<td>El canal en el que escribe el jugador.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_chatcolor%</code></td>
+<td>La etiqueta del color de chat elegido.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_muted%</code> / <code>%chatalyst_mute_reason%</code></td>
+<td><code>yes</code>/<code>no</code> y el motivo del silencio.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_warnings%</code></td>
+<td>Puntos de advertencia.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_afk%</code></td>
+<td><code>yes</code>/<code>no</code>.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_prefix%</code> / <code>%chatalyst_suffix%</code> / <code>%chatalyst_group%</code></td>
+<td>Prefijo, sufijo y grupo del rango. En <a href="anonymous.html">modo anónimo</a> enseñan el disfraz.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_anonymous%</code></td>
+<td><code>yes</code>/<code>no</code>.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_partner%</code> / <code>%chatalyst_married%</code></td>
+<td>Nombre de la pareja y <code>yes</code>/<code>no</code>.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_fx_&lt;nombre&gt;%</code> / <code>%chatalyst_fx_auto%</code></td>
+<td>Fotograma actual de un tag de rango animado. Ver <a href="tags.html">Tags, títulos y efectos</a>.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_title_id%</code>, <code>_name</code>, <code>_text</code>, <code>_prefix</code>, <code>_suffix</code>, <code>_rarity</code>, <code>_category</code>, <code>_position</code>, <code>_season</code>, <code>_points</code></td>
+<td>El título equipado.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_achievement_points%</code>, <code>%chatalyst_achievements_earned%</code>, <code>_total</code>, <code>_percent</code></td>
+<td>Progreso de logros.</td>
+</tr>
+<tr>
+<td><code>%chatalyst_collections_completed%</code> / <code>%chatalyst_collections_total%</code></td>
+<td>Progreso de colecciones.</td>
+</tr>
+</tbody></table></div>
+<div class="callout callout-tip"><p class="callout-title">Consejo</p><p>En TAB y en los scoreboards, usa <code>%chatalyst_prefix%</code> en vez de <code>%luckperms_prefix%</code>: no delata el rango real de quien está en modo anónimo.</p>
+</div>
+<h3 id="placeholders-de-tab"><a class="anchor" href="#placeholders-de-tab" aria-hidden="true">#</a>Placeholders de TAB</h3>
+<p>Con el plugin TAB instalado, Chatalyst registra <code>%chatalyst_nick%</code>, <code>%chatalyst_nick_plain%</code>, <code>%chatalyst_channel%</code>, <code>%chatalyst_muted%</code>, <code>%chatalyst_warnings%</code> y <code>%chatalyst_chatcolor%</code> directamente en TAB, sin PlaceholderAPI. Ver <a href="nametags.html">Nametags flotantes</a>.</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<p>Los placeholders no tienen comandos ni permisos propios.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Un <code>{token}</code> desconocido se deja tal cual, así que las erratas se ven enseguida.</li>
+<li>Los placeholders se sustituyen en una sola pasada. Un valor que contenga <code>{...}</code> (por ejemplo un apodo) no se vuelve a sustituir, así que nadie puede colar placeholders.</li>
+<li>En <a href="anonymous.html">modo anónimo</a>, los placeholders de rango, tags, party, matrimonio y nametag se cambian por el disfraz o quedan vacíos, y <code>{player_name}</code> pasa a ser el alias.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="permissions.html"><span>Anterior</span><strong>Permisos</strong></a><a class="pager-next" href="variables.html"><span>Siguiente</span><strong>Variables</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

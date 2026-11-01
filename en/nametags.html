@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Tab list &amp; nametags · Chatalyst Docs</title>
+  <meta name="description" content="Replace the one-color vanilla name above the head with a floating tag that shows gradients, rank, icons, a title line and animations, plus the tab list.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/nametags.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/nametags.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/nametags.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/nametags.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Tab list &amp; nametags">
+  <meta property="og:description" content="Replace the one-color vanilla name above the head with a floating tag that shows gradients, rank, icons, a title line and animations, plus the tab list.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/nametags.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/nametags.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Optional extras</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link is-active" aria-current="page" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#how-to-turn-it-on">How to turn it on</a></li><li class="toc-h2"><a href="#configuration">Configuration</a></li><li class="toc-h3"><a href="#floating-tag">Floating tag</a></li><li class="toc-h3"><a href="#side-icons">Side icons</a></li><li class="toc-h3"><a href="#title-line">Title line</a></li><li class="toc-h3"><a href="#animation">Animation</a></li><li class="toc-h3"><a href="#classic-nametag">Classic nametag</a></li><li class="toc-h3"><a href="#tab-list">Tab list</a></li><li class="toc-h3"><a href="#tab-plugin">TAB plugin</a></li><li class="toc-h2"><a href="#commands-and-permissions">Commands and permissions</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Optional extras</p><h1>Tab list &amp; nametags</h1><p class="lead">Replace the one-color vanilla name above the head with a floating tag that shows gradients, rank, icons, a title line and animations, plus the tab list.</p></header>
+<article class="prose">
+<p>Minecraft can only draw the name above a player&#39;s head in one solid color. The floating nametag replaces it with a floating text line that shows the full style: gradients letter by letter, bold, the rank prefix, ItemsAdder icons and the AFK tag. You can add a second line above it for a title such as &quot;KING OF EVERYTHING&quot;, and animate it.</p>
+<p>The same file (<code>nametag.yml</code>) also holds the classic scoreboard nametag and Chatalyst&#39;s own tab list.</p>
+<h2 id="how-to-turn-it-on"><a class="anchor" href="#how-to-turn-it-on" aria-hidden="true">#</a>How to turn it on</h2>
+<p>Everything is off by default. In <code>plugins/Chatalyst/nametag.yml</code>, set <code>Nametag.Fancy.Enabled: true</code> and run <code>/cht reload</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Nametag:
+  Enabled: false
+  Prefix: &quot;{player_prefix}&quot;
+  Suffix: &quot;{player_suffix}&quot;
+  Name_Color: &quot;{rank_color}&quot;
+  Update_Interval: 30
+  Fancy:
+    Enabled: false
+    Format: &quot;{nametag_icon_left}{player_prefix}{player_nick}{afk_tag}{nametag_icon_right}&quot;
+    Height: 0.3
+    Update_Interval: 2
+    Hide_Sneaking: true</code></pre></div>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p>Without TAB, Chatalyst hides the vanilla name by itself. With TAB installed, also set <code>scoreboard-teams</code> → <code>invisible-nametags: true</code> in TAB&#39;s <code>config.yml</code>, or the vanilla name shows behind the floating one.</p>
+</div>
+<h2 id="configuration"><a class="anchor" href="#configuration" aria-hidden="true">#</a>Configuration</h2>
+<h3 id="floating-tag"><a class="anchor" href="#floating-tag" aria-hidden="true">#</a>Floating tag</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Fancy.Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns the floating nametag on.</td>
+</tr>
+<tr>
+<td><code>Fancy.Format</code></td>
+<td>icons, prefix, nickname, AFK tag</td>
+<td>What the line shows. Accepts every <a href="placeholders.html">placeholder</a>.</td>
+</tr>
+<tr>
+<td><code>Fancy.Height</code></td>
+<td><code>0.3</code></td>
+<td>How high the text floats above the head.</td>
+</tr>
+<tr>
+<td><code>Fancy.Update_Interval</code></td>
+<td><code>2</code></td>
+<td>Seconds between refreshes when nothing is animating.</td>
+</tr>
+<tr>
+<td><code>Fancy.Hide_Sneaking</code></td>
+<td><code>true</code></td>
+<td>Dims the tag while the player sneaks.</td>
+</tr>
+</tbody></table></div>
+<p>The tag follows the player through teleports, deaths and world changes, and hides in vanish and spectator mode.</p>
+<h3 id="side-icons"><a class="anchor" href="#side-icons" aria-hidden="true">#</a>Side icons</h3>
+<p><code>{nametag_icon_left}</code> and <code>{nametag_icon_right}</code> sit on each side of the tag and are set per player with <code>/nametagtitle iconleft</code> and <code>/nametagtitle iconright</code>. They are meant for ItemsAdder icons (a shield for a guardian, a crown, a clan emblem) but accept any MiniMessage. They are empty until set.</p>
+<h3 id="title-line"><a class="anchor" href="#title-line" aria-hidden="true">#</a>Title line</h3>
+<p>A second line above the tag:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">    Title:
+      Enabled: false
+      Format: &quot;{nametag_title}&quot;
+      Default_Format: &quot;&quot;
+      Height: 0.55
+      Max_Length: 32</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Title.Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns the title line on.</td>
+</tr>
+<tr>
+<td><code>Title.Format</code></td>
+<td><code>{nametag_title}</code></td>
+<td>The per-player title set with <code>/nametagtitle title</code>.</td>
+</tr>
+<tr>
+<td><code>Title.Default_Format</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>Used when the player has no title of their own. Point it at a LuckPerms meta value for per-rank titles, for example <code>%luckperms_meta_nametag_title%</code>.</td>
+</tr>
+<tr>
+<td><code>Title.Height</code></td>
+<td><code>0.55</code></td>
+<td>Height of the title line. Keep it above the tag&#39;s <code>Height</code>.</td>
+</tr>
+<tr>
+<td><code>Title.Max_Length</code></td>
+<td><code>32</code></td>
+<td>Maximum title length.</td>
+</tr>
+</tbody></table></div>
+<p>If the resolved title is empty, the whole line is removed.</p>
+<h3 id="animation"><a class="anchor" href="#animation" aria-hidden="true">#</a>Animation</h3>
+<p>One animation clock drives the floating tag, the tab list and the nickname frame used in new chat messages.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">    Animation:
+      Enabled: false
+      Mode: &quot;frames&quot;
+      Interval_Ticks: 6
+      Tab_Interval_Ticks: 10   # minimo 6; subelo en redes grandes
+      Apply_To:
+        Tab: true              # requiere Tab_List.Enabled o TAB.Sync_Nick
+        Chat: true             # snapshot vigente; no reenvia ni duplica mensajes
+      Frames:
+        - &quot;&lt;#FF4D6D&gt;{player_nick}&quot;
+        - &quot;&lt;#E0AAFF&gt;{player_nick}&quot;
+        - &quot;&lt;#3DFFA8&gt;{player_nick}&quot;
+        - &quot;&lt;#B56CFF&gt;{player_nick}&quot;
+      Wave:
+        Content: &quot;{player_nick}&quot;
+        Colors:
+          - &quot;#FFD700&quot;
+          - &quot;#FF4D6D&quot;
+          - &quot;#FFD700&quot;
+      Per_Player: false</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns the shared animation on.</td>
+</tr>
+<tr>
+<td><code>Mode</code></td>
+<td><code>frames</code></td>
+<td><code>frames</code> rotates the <code>Frames</code> list. <code>wave</code> slides the <code>Wave.Colors</code> gradient across <code>Wave.Content</code>.</td>
+</tr>
+<tr>
+<td><code>Interval_Ticks</code></td>
+<td><code>6</code></td>
+<td>Animation speed (2 to 200 ticks).</td>
+</tr>
+<tr>
+<td><code>Tab_Interval_Ticks</code></td>
+<td><code>10</code></td>
+<td>Tab list update speed (6 to 200). Raise it on large networks.</td>
+</tr>
+<tr>
+<td><code>Apply_To.Tab</code></td>
+<td><code>true</code></td>
+<td>Animates the tab list (needs <code>Tab_List.Enabled</code> or <code>TAB.Sync_Nick</code>).</td>
+</tr>
+<tr>
+<td><code>Apply_To.Chat</code></td>
+<td><code>true</code></td>
+<td>New chat messages use the current frame.</td>
+</tr>
+<tr>
+<td><code>Per_Player</code></td>
+<td><code>false</code></td>
+<td>Lets each player pick their own preset from <code>/nickcolor</code>.</td>
+</tr>
+</tbody></table></div>
+<p>With <code>Per_Player: true</code>, players choose one of the 32 shipped <code>Presets</code> (rainbow, fire, ocean, neon, gold, aurora and more, all editable). Per-player presets animate only the floating tag and the title line; the tab list and chat show the static gradient.</p>
+<p>The animation replaces the nickname <strong>color</strong> but keeps its styles (bold, italic and so on).</p>
+<h3 id="classic-nametag"><a class="anchor" href="#classic-nametag" aria-hidden="true">#</a>Classic nametag</h3>
+<p><code>Nametag.Enabled</code> uses scoreboard teams to put the rank prefix and suffix around the vanilla name. The name itself can only be one solid color: <code>{rank_color}</code> takes it from the rank, <code>{nick_color}</code> from the player&#39;s <code>/nickcolor</code> choice. <code>Update_Interval</code> is in seconds (minimum 5). Disable it if another nametag plugin already manages teams.</p>
+<h3 id="tab-list"><a class="anchor" href="#tab-list" aria-hidden="true">#</a>Tab list</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Tab_List:
+  Enabled: false
+  Name_Format: &quot;{player_prefix}{rank_color}{player_name}{afk_tag}&quot;
+  Update_Interval: 10
+  Header:
+    - &quot;&lt;gradient:#240046:#9D4EDD:#E0AAFF&gt;Your Server&lt;/gradient&gt;&quot;
+    - &quot;&quot;
+  Footer:
+    - &quot;&quot;
+    - &quot;&lt;#C0B3D9&gt;Connection: {ping_ms} &lt;#7B68A0&gt;· {ping_quality}&quot;</code></pre></div>
+<p><code>Update_Interval</code> is in seconds. <code>{ping_ms}</code> shows the latency as a colored number, <code>{ping_quality}</code> as a word and <code>{ping_bars}</code> as signal bars.</p>
+<h3 id="tab-plugin"><a class="anchor" href="#tab-plugin" aria-hidden="true">#</a>TAB plugin</h3>
+<p>When TAB is installed, Chatalyst registers its placeholders directly in TAB (no PlaceholderAPI needed): <code>%chatalyst_nick%</code>, <code>%chatalyst_nick_plain%</code>, <code>%chatalyst_channel%</code>, <code>%chatalyst_muted%</code>, <code>%chatalyst_warnings%</code> and <code>%chatalyst_chatcolor%</code>.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">TAB:
+  Sync_Nick: true</code></pre></div>
+<p><code>Sync_Nick</code> pushes nicknames and their animation frames straight into TAB&#39;s list. While TAB is present, Chatalyst&#39;s own <code>Tab_List</code> and classic <code>Nametag</code> stay off so the two do not fight.</p>
+<h2 id="commands-and-permissions"><a class="anchor" href="#commands-and-permissions" aria-hidden="true">#</a>Commands and permissions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Permission (default)</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/nametagtitle title &lt;text|off&gt;</code> (<code>/ntitle</code>)</td>
+<td><code>chatalyst.nametagtitle</code> (op)</td>
+<td>Sets your title line.</td>
+</tr>
+<tr>
+<td><code>/nametagtitle iconleft|iconright &lt;text|off&gt;</code></td>
+<td><code>chatalyst.nametagtitle</code> (op)</td>
+<td>Sets your side icons.</td>
+</tr>
+<tr>
+<td><code>/nametagtitle &lt;title|iconleft|iconright&gt; &lt;player&gt; &lt;text|off&gt;</code></td>
+<td><code>chatalyst.nametagtitle.others</code> (op)</td>
+<td>Changes another player&#39;s title or icons.</td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Default</th>
+<th>What it allows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.nametagtitle.color</code></td>
+<td>op</td>
+<td>Colors and ItemsAdder icons in the title and icons.</td>
+</tr>
+<tr>
+<td><code>chatalyst.nametag.seeself</code></td>
+<td>op</td>
+<td>See your own floating nametag (useful in F5 for testing).</td>
+</tr>
+</tbody></table></div>
+<p>Titles and icons pass the same checks as nicknames: invisible characters are removed, colors need the <code>.color</code> permission, the rules and swear filter apply, and click or hover tags are blocked.</p>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>The title line is a second floating entity. If the gap between the two lines looks wrong on your version, adjust <code>Height</code> and <code>Title.Height</code>.</li>
+<li>Icons need ItemsAdder (or a resource pack that maps the token). Without it, <code>:shield:</code> shows as text.</li>
+<li>Chat lines cannot be animated after they are sent: each new message uses the frame of that moment.</li>
+<li>In <a href="anonymous.html">anonymous mode</a>, the title and side icons are hidden.</li>
+<li>On Folia, classic nametags stay off and the vanilla name shows behind fancy nametags, because Folia does not support scoreboard teams. See <a href="compatibility.html#folia">Compatibility</a>.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="tags.html"><span>Previous</span><strong>Tags, titles &amp; effects</strong></a><a class="pager-next" href="translation.html"><span>Next</span><strong>Live translation</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

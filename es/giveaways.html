@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Sorteos · Docs de Chatalyst</title>
+  <meta name="description" content="Un sorteo en directo que ve todo el servidor, con cuenta atrás, ruleta de cabezas, inmunidad mientras gira y premios desde objetos hasta rangos y dinero.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Sorteos">
+  <meta property="og:description" content="Un sorteo en directo que ve todo el servidor, con cuenta atrás, ruleta de cabezas, inmunidad mientras gira y premios desde objetos hasta rangos y dinero.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/giveaways.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link is-active" aria-current="page" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#como-transcurre-un-sorteo">Cómo transcurre un sorteo</a></li><li class="toc-h3"><a href="#quien-participa">Quién participa</a></li><li class="toc-h3"><a href="#premios">Premios</a></li><li class="toc-h3"><a href="#rangos-como-premio">Rangos como premio</a></li><li class="toc-h3"><a href="#diseno-del-menu">Diseño del menú</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Sorteos</h1><p class="lead">Un sorteo en directo que ve todo el servidor, con cuenta atrás, ruleta de cabezas, inmunidad mientras gira y premios desde objetos hasta rangos y dinero.</p></header>
+<article class="prose">
+<p>En Chatalyst un sorteo es un evento en directo. El staff lo lanza, todo el mundo recibe una cuenta atrás y luego se abre, a la vez para todos los jugadores que participan, una ruleta con sus cabezas. La rueda gira, frena con un tic cada vez más agudo y se para en el ganador, que se lleva un título, un anuncio, un cohete y el premio.</p>
+<p>De fábrica el staff nunca gana, y nadie puede recibir daño mientras tiene la rueda en pantalla.</p>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>Los sorteos son un extra opcional y vienen apagados, con dos premios de ejemplo. Pon <code>Enabled: true</code> y ejecuta <code>/cht reload</code>. La configuración está en <code>plugins/Chatalyst/giveaway.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  Enabled: false
+  Command: &quot;sorteo&quot;
+  Command_Aliases:
+    - &quot;giveaway&quot;
+    - &quot;rifa&quot;
+    - &quot;raffle&quot;
+  Warmup_Seconds: 20
+  Countdown_Marks: [30, 20, 10, 5, 4, 3, 2, 1]
+  Ready_Seconds: 3
+  Spin_Seconds: 9
+  Winner_Seconds: 6
+  Reopen_If_Closed: true</code></pre></div>
+<p>El staff abre <code>/sorteo</code>, elige una categoría, luego un premio y lo lanza. O escribe <code>/sorteo start &lt;id del premio&gt; [segundos] [cantidad]</code>.</p>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<h3 id="como-transcurre-un-sorteo"><a class="anchor" href="#como-transcurre-un-sorteo" aria-hidden="true">#</a>Cómo transcurre un sorteo</h3>
+<ol>
+<li><strong>Calentamiento.</strong> Se avisa a todos de que el sorteo va a empezar, con una línea en el chat, un título y una bossbar que se vacía, y una cuenta atrás en los últimos segundos.</li>
+<li><strong>Inicio.</strong> La ruleta se abre a la vez para todos los participantes y se activa la inmunidad.</li>
+<li><strong>Giro.</strong> Las cabezas pasan y la rueda frena; el sonido del tic sube de tono.</li>
+<li><strong>Ganador.</strong> Se elige en el último momento, al azar entre los jugadores que siguen conectados. Después se entrega el premio y la inmunidad se retira unos segundos más tarde.</li>
+</ol>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>true</code></td>
+<td>Enciende los sorteos.</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>sorteo</code> / <code>giveaway</code>, <code>rifa</code>, <code>raffle</code></td>
+<td>Nombres del comando. Si otro plugin tiene un nombre, se salta; <code>/chatalyst:sorteo</code> siempre funciona.</td>
+</tr>
+<tr>
+<td><code>Warmup_Seconds</code></td>
+<td><code>20</code></td>
+<td>Tiempo entre el aviso y la apertura de la rueda. <code>0</code> empieza al momento.</td>
+</tr>
+<tr>
+<td><code>Countdown_Marks</code></td>
+<td><code>30, 20, 10, 5, 4, 3, 2, 1</code></td>
+<td>Segundos que se anuncian durante el calentamiento.</td>
+</tr>
+<tr>
+<td><code>Ready_Seconds</code></td>
+<td><code>3</code></td>
+<td>Pausa tras abrirse el menú, para que todos lean el premio.</td>
+</tr>
+<tr>
+<td><code>Spin_Seconds</code></td>
+<td><code>9</code></td>
+<td>Cuánto gira la rueda.</td>
+</tr>
+<tr>
+<td><code>Winner_Seconds</code></td>
+<td><code>6</code></td>
+<td>Cuánto se queda el ganador en pantalla.</td>
+</tr>
+<tr>
+<td><code>Reopen_If_Closed</code></td>
+<td><code>true</code></td>
+<td>Vuelve a abrir la ruleta a quien la cierre mientras gira.</td>
+</tr>
+<tr>
+<td><code>Immunity.Enabled</code></td>
+<td><code>true</code></td>
+<td>Sin daño, hambre ni fuego durante el sorteo.</td>
+</tr>
+<tr>
+<td><code>Immunity.Extra_Seconds</code></td>
+<td><code>5</code></td>
+<td>Protección extra tras anunciarse el ganador.</td>
+</tr>
+<tr>
+<td><code>Immunity.Cancel_Void</code></td>
+<td><code>true</code></td>
+<td>También anula el daño del vacío. Pon <code>false</code> si tu spawn está sobre el vacío.</td>
+</tr>
+<tr>
+<td><code>Firework</code></td>
+<td><code>true</code></td>
+<td>Un cohete inofensivo a los pies del ganador.</td>
+</tr>
+<tr>
+<td><code>Amount_Presets</code></td>
+<td><code>1000</code> … <code>100000</code></td>
+<td>Hasta 6 atajos de dinero en el menú.</td>
+</tr>
+<tr>
+<td><code>Notify_Discord</code></td>
+<td><code>true</code></td>
+<td>Publica el resultado en el canal de staff de Discord (necesita el canal de staff del <a href="discord-bot.html">bot de Discord</a>).</td>
+</tr>
+</tbody></table></div>
+<p><code>Sounds</code> fija el sonido de cada paso (inicio, cuenta atrás, tics de la rueda, tics finales, ganador) y el rango de tono de la rueda.</p>
+<h3 id="quien-participa"><a class="anchor" href="#quien-participa" aria-hidden="true">#</a>Quién participa</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Participants.Exempt_Permission</code></td>
+<td><code>chatalyst.giveaway.exempt</code></td>
+<td>Quien tenga este permiso mira pero nunca sale sorteado.</td>
+</tr>
+<tr>
+<td><code>Participants.Exclude_Staff</code></td>
+<td><code>true</code></td>
+<td>El staff nunca sale sorteado.</td>
+</tr>
+<tr>
+<td><code>Participants.Staff_Permissions</code></td>
+<td>nodos de moderación de Chatalyst, vanilla, EssentialsX y LiteBans</td>
+<td>Quien tenga alguno cuenta como staff.</td>
+</tr>
+<tr>
+<td><code>Participants.Staff_Groups</code></td>
+<td><code>owner</code>, <code>admin</code>, <code>mod</code>, <code>helper</code>…</td>
+<td>Grupos principales de LuckPerms que cuentan como staff.</td>
+</tr>
+<tr>
+<td><code>Participants.Exclude_Vanished</code></td>
+<td><code>true</code></td>
+<td>Los jugadores en vanish no participan.</td>
+</tr>
+<tr>
+<td><code>Participants.Include_Afk</code></td>
+<td><code>false</code></td>
+<td>Los jugadores AFK no participan.</td>
+</tr>
+<tr>
+<td><code>Participants.Excluded_Worlds</code></td>
+<td><code>[]</code></td>
+<td>Mundos cuyos jugadores ni participan ni ven el menú.</td>
+</tr>
+</tbody></table></div>
+<p>Los operadores siempre cuentan como staff. Los permisos de staff reconocen a un rango de staff se llame como se llame, incluso en otro idioma.</p>
+<h3 id="premios"><a class="anchor" href="#premios" aria-hidden="true">#</a>Premios</h3>
+<p>Cada premio está en <code>Giveaway_Prizes</code> y tiene un <code>Type</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Qué da</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ITEMS</code></td>
+<td>Objetos escritos en el archivo (<code>Material</code>, <code>Amount</code>, <code>Name</code>, <code>Lore</code>, <code>Enchantments</code>, <code>Model_Data</code>, <code>Glow</code>).</td>
+</tr>
+<tr>
+<td><code>COMMANDS</code></td>
+<td>Comandos de consola. <code>{player}</code> y <code>{uuid}</code> son el ganador.</td>
+</tr>
+<tr>
+<td><code>MONEY</code></td>
+<td>Dinero por Vault. La cantidad se escribe al lanzar el sorteo, como cifra (<code>50000</code>) o como franja (<code>15000-35000</code>) que se tira cada vez.</td>
+</tr>
+<tr>
+<td><code>STORE</code></td>
+<td>Un producto que ya vendes, por su id de <code>Store_Catalog</code> en <code>store.yml</code>. Ver <a href="store.html">Tienda, rangos y Tebex</a>.</td>
+</tr>
+<tr>
+<td><code>RANK</code></td>
+<td>Un rango. Si ese rango tiene Tebex activado, pasa por los mismos registros que una compra; si no, se escribe directamente en LuckPerms.</td>
+</tr>
+<tr>
+<td><code>PERMISSION</code></td>
+<td>Nodos de permiso de LuckPerms en <code>Permissions</code>, para una ventaja que no es un rango entero.</td>
+</tr>
+</tbody></table></div>
+<p>Cualquier premio puede llevar además <code>Commands</code> y <code>Permissions</code>. <code>Duration</code> (<code>7d</code>, <code>30d</code>, <code>12h</code> o <code>permanent</code>) dice cuánto duran el rango y los permisos. Este es uno de los premios de fábrica:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway_Prizes:
+  diamantes:
+    Name: &quot;&lt;gradient:#54A6FF:#B6F7D4&gt;&lt;bold&gt;Diamond stash&lt;/bold&gt;&lt;/gradient&gt;&quot;
+    Name_es: &quot;&lt;gradient:#54A6FF:#B6F7D4&gt;&lt;bold&gt;Alijo de diamantes&lt;/bold&gt;&lt;/gradient&gt;&quot;
+    Type: ITEMS
+    Icon: DIAMOND
+    Glow: true
+    Description:
+      - &quot;&lt;#C0B3D9&gt;32 diamonds and a netherite ingot&quot;
+    Description_es:
+      - &quot;&lt;#C0B3D9&gt;32 diamantes y un lingote de netherita&quot;
+    Items:
+      - Material: DIAMOND
+        Amount: 32
+      - Material: NETHERITE_INGOT
+        Amount: 1</code></pre></div>
+<p>El id del premio (<code>diamantes</code>) es lo que escribes en <code>/sorteo start &lt;id&gt;</code>. Que sea corto, en minúsculas y definitivo.</p>
+<p>La lista de permisos de un premio también se edita en el juego: <code>/sorteo</code>, clic derecho en el premio, añadir con el libro y shift+clic para quitar. Al guardar se escribe <code>giveaway.yml</code> conservando sus comentarios.</p>
+<h3 id="rangos-como-premio"><a class="anchor" href="#rangos-como-premio" aria-hidden="true">#</a>Rangos como premio</h3>
+<p>Con <code>Ranks.Auto_Detect: true</code>, los grupos de <code>Ranks.Names</code> (<code>vip</code>, <code>mvp++</code>, <code>legend</code>…) que existan en LuckPerms se ofrecen como premio automáticamente. Los grupos de <code>Ranks.Never</code> y cualquier grupo que dé un permiso de staff nunca se ofrecen. <code>Ranks.Duration</code> (por defecto <code>permanent</code>) es lo que dura un rango concedido directamente.</p>
+<h3 id="diseno-del-menu"><a class="anchor" href="#diseno-del-menu" aria-hidden="true">#</a>Diseño del menú</h3>
+<p><code>Giveaway_Categories</code> agrupa los premios en el menú (kits, rangos, dinero, ventajas, objetos). <code>Giveaway_Menu</code> fija la altura del menú, la rejilla de cartas y los huecos de los botones. Las cartas se centran solas.</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Permiso (por defecto)</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/sorteo</code> (<code>/giveaway</code>, <code>/rifa</code>, <code>/raffle</code>)</td>
+<td><code>chatalyst.command.giveaway</code> (true)</td>
+<td>Los jugadores ven el estado o vuelven a abrir la rueda en marcha. El staff abre el menú.</td>
+</tr>
+<tr>
+<td><code>/sorteo start &lt;id&gt; [segundos] [cantidad]</code></td>
+<td><code>chatalyst.command.giveaway.admin</code> (op)</td>
+<td>Lanza un sorteo. La cantidad es para premios de dinero.</td>
+</tr>
+<tr>
+<td><code>/sorteo cancel</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Cancela el sorteo en marcha.</td>
+</tr>
+<tr>
+<td><code>/sorteo list</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Lista los premios y cualquier problema que tengan.</td>
+</tr>
+<tr>
+<td><code>/sorteo give &lt;jugador&gt; &lt;id&gt;</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Entrega un premio a mano.</td>
+</tr>
+<tr>
+<td><code>/sorteo status</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Muestra el sorteo en marcha o el último ganador.</td>
+</tr>
+</tbody></table></div>
+<p><code>chatalyst.giveaway.exempt</code> (false) deja a un jugador fuera del sorteo.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Si el ganador se desconecta en el último segundo, cobra cuando vuelve. Si antes se reinicia el servidor, la consola avisa al staff para terminarlo con <code>/sorteo give</code>.</li>
+<li>Los objetos que no caben en el inventario del ganador caen a sus pies; el ganador está quieto e inmune cuando caen.</li>
+<li>Los premios <code>RANK</code> y <code>PERMISSION</code> necesitan LuckPerms. <code>MONEY</code> necesita Vault.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="gifts.html"><span>Anterior</span><strong>Regalos</strong></a><a class="pager-next" href="marriage.html"><span>Siguiente</span><strong>Matrimonios</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

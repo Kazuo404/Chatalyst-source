@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#240046">
+  <title>Market &amp; trading · Chatalyst Docs</title>
+  <meta name="description" content="A built-in market with escrow, auctions and barter, face-to-face trades where nothing moves until both accept, and announcements for external shop plugins.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/market.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/market.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/market.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/market.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Market &amp; trading">
+  <meta property="og:description" content="A built-in market with escrow, auctions and barter, face-to-face trades where nothing moves until both accept, and announcements for external shop plugins.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/market.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/favicon.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch (_) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img src="../theme/assets/logo.svg" width="32" height="32" alt="">
+        <span>Chatalyst</span><span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/market.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Optional extras</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link is-active" aria-current="page" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><span class="en">A little help goes a long way.</span><span class="es">Tu comunidad empieza con una conversación.</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#how-to-turn-it-on">How to turn it on</a></li><li class="toc-h2"><a href="#configuration">Configuration</a></li><li class="toc-h3"><a href="#market">Market</a></li><li class="toc-h3"><a href="#how-a-sale-works">How a sale works</a></li><li class="toc-h3"><a href="#direct-trade">Direct trade</a></li><li class="toc-h3"><a href="#external-shop-plugins">External shop plugins</a></li><li class="toc-h2"><a href="#commands-and-permissions">Commands and permissions</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Optional extras</p><h1>Market &amp; trading</h1><p class="lead">A built-in market with escrow, auctions and barter, face-to-face trades where nothing moves until both accept, and announcements for external shop plugins.</p></header>
+<article class="prose">
+<p>Chatalyst covers trading between players in three ways:</p>
+<ul>
+<li><strong>Market</strong> (<code>/market</code>): players list items for sale or auction. The item goes into escrow at once, the listing is announced in the trade channel with clickable buy and bid buttons, and sales are negotiated in a window where the buyer can offer money, items or both.</li>
+<li><strong>Direct trade</strong> (<code>/trade</code>): two players open a shared window, add items and money, and nothing moves until both confirm.</li>
+<li><strong>External shop announcements</strong>: if you use AuctionHouse, QuickShop or a similar plugin, Chatalyst announces their listings in the trade and auction channels.</li>
+</ul>
+<p><img src="../img/en/market.png" alt="The market window with a listing's seller, price and a button to negotiate" loading="lazy"></p>
+<p>The market and direct trade both ship <strong>disabled</strong>. Money needs <a href="https://www.spigotmc.org/resources/vault.34315/" rel="noopener">Vault</a> and an economy plugin.</p>
+<h2 id="how-to-turn-it-on"><a class="anchor" href="#how-to-turn-it-on" aria-hidden="true">#</a>How to turn it on</h2>
+<p>In <code>plugins/Chatalyst/economy.yml</code>, set <code>Market.Enabled: true</code> and/or <code>Trade.Enabled: true</code>, then run <code>/cht reload</code>. Enable the <code>trade</code> and <code>auction</code> <a href="channels.html">channels</a> too if you want the announcements to be visible (they are also turned on automatically when a supported market plugin is detected).</p>
+<h2 id="configuration"><a class="anchor" href="#configuration" aria-hidden="true">#</a>Configuration</h2>
+<h3 id="market"><a class="anchor" href="#market" aria-hidden="true">#</a>Market</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Market:
+  Enabled: false
+  Defer_To_Plugins: true
+  # Channels that receive the announcements (local only, never proxied).
+  Sale_Channel: trade
+  Auction_Channel: auction
+  Max_Listings: 10       # active listings per player (chatalyst.market.bypasslimit ignores it)
+  Listing_Days: 7        # sales expire after this many days (item returns to the seller)
+  Max_Stash: 54
+
+  # Barter: buyers may offer items (instead of, or on top of, money) in the negotiation.
+  Allow_Item_Offers: true
+  Auction:
+    Default_Minutes: 60      # duration when the seller doesn't say one
+    Max_Minutes: 1440        # hard cap for auction duration
+    Min_Increment_Percent: 5 # each bid must beat the previous one by at least this %</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns the built-in market on.</td>
+</tr>
+<tr>
+<td><code>Defer_To_Plugins</code></td>
+<td><code>true</code></td>
+<td>Steps aside when a dedicated market plugin is installed; Chatalyst then only announces that plugin&#39;s listings.</td>
+</tr>
+<tr>
+<td><code>Sale_Channel</code> / <code>Auction_Channel</code></td>
+<td><code>trade</code> / <code>auction</code></td>
+<td>Channels that receive the announcements.</td>
+</tr>
+<tr>
+<td><code>Max_Listings</code></td>
+<td><code>10</code></td>
+<td>Active listings per player.</td>
+</tr>
+<tr>
+<td><code>Listing_Days</code></td>
+<td><code>7</code></td>
+<td>Days before a sale expires and the item returns to the seller.</td>
+</tr>
+<tr>
+<td><code>Max_Stash</code></td>
+<td><code>54</code></td>
+<td>Item stacks that can wait in the claim stash. When full, new purchases and trades are refused until the player claims some.</td>
+</tr>
+<tr>
+<td><code>Allow_Item_Offers</code></td>
+<td><code>true</code></td>
+<td>Buyers may offer items instead of, or on top of, money.</td>
+</tr>
+<tr>
+<td><code>Auction.Default_Minutes</code></td>
+<td><code>60</code></td>
+<td>Auction length when the seller does not give one.</td>
+</tr>
+<tr>
+<td><code>Auction.Max_Minutes</code></td>
+<td><code>1440</code></td>
+<td>Maximum auction length.</td>
+</tr>
+<tr>
+<td><code>Auction.Min_Increment_Percent</code></td>
+<td><code>5</code></td>
+<td>Each bid must beat the previous one by at least this percentage.</td>
+</tr>
+<tr>
+<td><code>Highlight.Enabled</code></td>
+<td><code>false</code></td>
+<td>Colors the product name of listings by sellers with a highlight permission.</td>
+</tr>
+<tr>
+<td><code>Sound.Enabled</code></td>
+<td><code>true</code></td>
+<td>Plays a chime to players who receive market announcements.</td>
+</tr>
+</tbody></table></div>
+<p><code>Highlight.Ranks</code> pairs a permission with a color. The first permission the seller has wins:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">  Highlight:
+    Enabled: false
+    Ranks:
+      - Permission: chatalyst.market.highlight.mvp
+        Color: &quot;&lt;#C44FE0&gt;&quot;
+      - Permission: chatalyst.market.highlight.vip
+        Color: &quot;&lt;#D8B4FE&gt;&quot;</code></pre></div>
+<h3 id="how-a-sale-works"><a class="anchor" href="#how-a-sale-works" aria-hidden="true">#</a>How a sale works</h3>
+<ol>
+<li>The seller lists the held item with <code>/market sell &lt;price&gt;</code> or <code>/market auction &lt;price&gt; [minutes]</code>, or several items at once with <code>/market publish</code>, which opens a publishing window with exact price controls, a description and an optional scheduled launch.</li>
+<li>The item leaves the seller&#39;s inventory and waits in escrow. The listing is announced with the item tooltip and buttons.</li>
+<li><code>/market buy &lt;id&gt;</code> opens a negotiation with the online seller. The buyer can offer money, items or both. Any change resets both confirmations; the deal completes only when both accept the same offer.</li>
+<li>Auctions take bids with <code>/market bid &lt;id&gt; &lt;amount&gt;</code>. At the end the winner is charged and receives the item. If payment fails, the item returns to the seller.</li>
+<li>Anything that does not fit in an inventory, or belongs to an offline player, waits in <code>/market claim</code>.</li>
+</ol>
+<p><code>/market</code> opens a browser with all listings, direct sales, auctions and your own listings, sortable by newest, price or ending time.</p>
+<h3 id="direct-trade"><a class="anchor" href="#direct-trade" aria-hidden="true">#</a>Direct trade</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Trade:
+  Enabled: false
+  Allow_Money: true          # let each side add money (needs Vault); false = items only
+  Request_Timeout_Seconds: 60</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns <code>/trade</code> on.</td>
+</tr>
+<tr>
+<td><code>Allow_Money</code></td>
+<td><code>true</code></td>
+<td>Each side can add money. <code>false</code> = items only (no Vault needed).</td>
+</tr>
+<tr>
+<td><code>Request_Timeout_Seconds</code></td>
+<td><code>60</code></td>
+<td>How long a trade request stays open.</td>
+</tr>
+</tbody></table></div>
+<p>Both players must be online on the same server. Any change clears both confirmations. If someone disconnects or cancels, every item goes back to its owner. Delivery goes through the claim stash, so a full inventory never drops items on the ground.</p>
+<h3 id="external-shop-plugins"><a class="anchor" href="#external-shop-plugins" aria-hidden="true">#</a>External shop plugins</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Trade_Plugins:
+  Announce:
+    Enabled: true
+    Cooldown_Seconds: 60
+    # &quot;&lt;command without slash&gt;&quot;: &lt;channel that receives the announcement&gt;
+    Commands:
+      ah sell: auction
+      auc sell: auction
+      auction sell: auction
+      auctionhouse sell: auction
+      crazyauctions sell: auction
+      qs create: trade
+      quickshop create: trade</code></pre></div>
+<p>When a player runs one of these commands, Chatalyst announces it in the given channel, in each reader&#39;s language, with a per-player cooldown. Detected plugins include AuctionHouse, zAuctionHouse, CrazyAuctions, PlayerAuctions, AuctionMaster, QuickShop, ChestShop, ShopGUI+, EconomyShopGUI, DynamicShop and BossShopPro.</p>
+<h2 id="commands-and-permissions"><a class="anchor" href="#commands-and-permissions" aria-hidden="true">#</a>Commands and permissions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Permission (default)</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/market</code> (<code>/mercado</code>, <code>/mkt</code>)</td>
+<td><code>chatalyst.command.market</code> (true)</td>
+<td>Opens the market browser.</td>
+</tr>
+<tr>
+<td><code>/market publish</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Opens the publishing window.</td>
+</tr>
+<tr>
+<td><code>/market sell &lt;price&gt;</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Sells the held item.</td>
+</tr>
+<tr>
+<td><code>/market auction &lt;price&gt; [minutes]</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Auctions the held item.</td>
+</tr>
+<tr>
+<td><code>/market buy &lt;id&gt;</code> / <code>/market bid &lt;id&gt; &lt;amount&gt;</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Buys or bids.</td>
+</tr>
+<tr>
+<td><code>/market cancel &lt;id&gt;</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Cancels your listing and returns the item.</td>
+</tr>
+<tr>
+<td><code>/market claim</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Collects items waiting for you.</td>
+</tr>
+<tr>
+<td><code>/market history</code></td>
+<td><code>chatalyst.command.market</code></td>
+<td>Shows recent market activity.</td>
+</tr>
+<tr>
+<td><code>/market credits list|retry &lt;id&gt;|paid &lt;id&gt;</code></td>
+<td><code>chatalyst.market.reconcile</code> (op)</td>
+<td>Reconciles queued refunds.</td>
+</tr>
+<tr>
+<td><code>/market settlements list|paid &lt;id&gt;|unpaid &lt;id&gt;</code></td>
+<td><code>chatalyst.market.reconcile</code> (op)</td>
+<td>Resolves a payment interrupted by a crash. Check your economy&#39;s records first.</td>
+</tr>
+<tr>
+<td><code>/trade &lt;player&gt;</code> (<code>/intercambio</code>)</td>
+<td><code>chatalyst.command.trade</code> (true)</td>
+<td>Requests a trade.</td>
+</tr>
+<tr>
+<td><code>/trade accept [player]</code> / <code>/trade deny</code></td>
+<td><code>chatalyst.command.trade</code></td>
+<td>Answers a request.</td>
+</tr>
+<tr>
+<td><code>/trade settlements list|paid &lt;id&gt;|unpaid &lt;id&gt;</code></td>
+<td><code>chatalyst.market.reconcile</code> (op)</td>
+<td>Resolves a money trade interrupted by a crash.</td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Default</th>
+<th>What it allows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.market.bypasslimit</code></td>
+<td>op</td>
+<td>No limit on active listings.</td>
+</tr>
+<tr>
+<td><code>chatalyst.market.manage</code></td>
+<td>op</td>
+<td>Cancel anyone&#39;s listing.</td>
+</tr>
+<tr>
+<td><code>chatalyst.market.reconcile</code></td>
+<td>op</td>
+<td>Use the reconciliation tools (credits, settlements): they move money by hand, so keep them for owners.</td>
+</tr>
+<tr>
+<td><code>chatalyst.market.highlight.vip</code> / <code>.mvp</code></td>
+<td>false</td>
+<td>Highlighted product names.</td>
+</tr>
+</tbody></table></div>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>The market is per server on purpose, even with a shared database: listings, stashes, history and announcements never cross the proxy, so one item cannot be bought from two servers at once.</li>
+<li>Buying a direct sale needs the seller to be online, because both sides accept the deal.</li>
+<li>External shop announcements fire when the command runs. A listing the other plugin rejects may still be announced; raise <code>Cooldown_Seconds</code> to keep the channel calm.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="economy.html"><span>Previous</span><strong>Balance top</strong></a><a class="pager-next" href="rentals.html"><span>Next</span><strong>Rentals</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>
