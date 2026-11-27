@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101011">
+  <title>Giveaways · Chatalyst Docs</title>
+  <meta name="description" content="A live draw the whole server watches, with a spinning roulette of player heads, plus /giveall to give one prize to everyone online.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Giveaways">
+  <meta property="og:description" content="A live draw the whole server watches, with a spinning roulette of player heads, plus /giveall to give one prize to everyone online.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/documentation-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/CHATALYST_icono.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); document.documentElement.dataset.theme = theme === 'light' || theme === 'dark' ? theme : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (_) {} })();
+  </script>
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img class="brand-lockup" src="../theme/assets/CHATALYST_horizontal.svg" width="1040" height="334" alt="">
+        <span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/giveaways.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Optional extras</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="web-panel.html">Web panel</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link is-active" aria-current="page" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#how-to-turn-it-on">How to turn it on</a></li><li class="toc-h2"><a href="#configuration">Configuration</a></li><li class="toc-h3"><a href="#how-a-draw-runs">How a draw runs</a></li><li class="toc-h3"><a href="#the-wheel-show">The wheel show</a></li><li class="toc-h3"><a href="#who-takes-part">Who takes part</a></li><li class="toc-h3"><a href="#prizes">Prizes</a></li><li class="toc-h3"><a href="#units">Units</a></li><li class="toc-h3"><a href="#prizes-made-in-game">Prizes made in game</a></li><li class="toc-h3"><a href="#automatic-giveaways">Automatic giveaways</a></li><li class="toc-h3"><a href="#ranks-as-prizes">Ranks as prizes</a></li><li class="toc-h2"><a href="#the-menus">The menus</a></li><li class="toc-h3"><a href="#confirmation-screen">Confirmation screen</a></li><li class="toc-h3"><a href="#menu-options">Menu options</a></li><li class="toc-h2"><a href="#a-prize-for-everyone">A prize for everyone</a></li><li class="toc-h3"><a href="#what-you-can-give">What you can give</a></li><li class="toc-h3"><a href="#who-receives-it">Who receives it</a></li><li class="toc-h3"><a href="#settings">Settings</a></li><li class="toc-h2"><a href="#animations">Animations</a></li><li class="toc-h3"><a href="#styles">Styles</a></li><li class="toc-h3"><a href="#options">Options</a></li><li class="toc-h3"><a href="#per-prize-animation">Per-prize animation</a></li><li class="toc-h3"><a href="#preview">Preview</a></li><li class="toc-h2"><a href="#streamer-giveaway">Streamer giveaway</a></li><li class="toc-h3"><a href="#turn-it-on">Turn it on</a></li><li class="toc-h3"><a href="#how-it-works">How it works</a></li><li class="toc-h3"><a href="#commands-and-permissions-of-streamer-giveaways">Commands and permissions of streamer giveaways</a></li><li class="toc-h3"><a href="#streamer-options">Streamer options</a></li><li class="toc-h3"><a href="#when-something-goes-wrong">When something goes wrong</a></li><li class="toc-h2"><a href="#commands-and-permissions">Commands and permissions</a></li><li class="toc-h2"><a href="#limits">Limits</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Optional extras</p><h1>Giveaways</h1><p class="lead">A live draw the whole server watches, with a spinning roulette of player heads, plus /giveall to give one prize to everyone online.</p></header>
+<article class="prose">
+<p>A giveaway in Chatalyst is a live event. Staff start a draw, everyone gets a countdown, and then a roulette of player heads opens for every eligible player at the same moment. The wheel spins, slows down with rising ticks, and stops on the winner, who gets a title, a broadcast, fireworks and the prize.</p>
+<p>When you want no winner at all, <a href="#a-prize-for-everyone">/giveall</a> gives one prize to every player online. Staff never win a draw and do not receive <code>/giveall</code> prizes by default, and nobody can be hurt while the wheel is on their screen.</p>
+<h2 id="how-to-turn-it-on"><a class="anchor" href="#how-to-turn-it-on" aria-hidden="true">#</a>How to turn it on</h2>
+<p>Giveaways are an optional extra and ship off, with two example prizes. Set <code>Enabled: true</code> and run <code>/cht reload</code>. Settings live in <code>plugins/Chatalyst/giveaway.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  Enabled: false
+  Command: &quot;giveaway&quot;
+  Command_Aliases:
+    - &quot;sorteo&quot;
+    - &quot;rifa&quot;
+    - &quot;raffle&quot;
+  Warmup_Seconds: 20
+  Countdown_Marks: [30, 20, 10, 5, 4, 3, 2, 1]
+  Ready_Seconds: 3
+  Spin_Seconds: 9
+  Winner_Seconds: 6
+  Reopen_If_Closed: true</code></pre></div>
+<p>Staff open <code>/giveaway</code>, pick a category, then a prize, then start. Or they type <code>/giveaway start &lt;prize id&gt; [seconds] [units or amount] [winners:N]</code>, for example:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-text">/giveaway start diamonds 30 5 winners:2</code></pre></div>
+<p>That starts the shipped diamond prize after 30 seconds, with 5 units for each of 2 winners.</p>
+<p>Every word of the command works in English and in Spanish: <code>start</code> or <code>iniciar</code>, <code>all</code> or <code>todos</code>, <code>cancel</code> or <code>cancelar</code>, <code>list</code> or <code>lista</code>, <code>give</code> or <code>dar</code>.</p>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>A server that already had Chatalyst keeps its own <code>giveaway.yml</code>. There the command is still <code>/sorteo</code>, the example prizes keep their old ids and <code>All.Include_Staff</code> keeps the value written in the file. Nothing is changed for you.</p>
+</div>
+<h2 id="configuration"><a class="anchor" href="#configuration" aria-hidden="true">#</a>Configuration</h2>
+<h3 id="how-a-draw-runs"><a class="anchor" href="#how-a-draw-runs" aria-hidden="true">#</a>How a draw runs</h3>
+<ol>
+<li><strong>Warm-up.</strong> Everyone is told a draw is about to start, with a chat line, a title and a draining boss bar, and a countdown in the last seconds.</li>
+<li><strong>Start.</strong> The roulette opens for every eligible player at once and immunity switches on.</li>
+<li><strong>Spin.</strong> Heads scroll past and slow down; the tick sound rises in pitch.</li>
+<li><strong>Winner.</strong> Chosen at the very last step, at random among the entrants still online. Then the prize is handed over and immunity fades a few seconds later.</li>
+</ol>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns giveaways on.</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>giveaway</code> / <code>sorteo</code>, <code>rifa</code>, <code>raffle</code></td>
+<td>Command names. A name another plugin owns is skipped; <code>/chatalyst:giveaway</code> always works.</td>
+</tr>
+<tr>
+<td><code>Warmup_Seconds</code></td>
+<td><code>20</code></td>
+<td>Time between the announcement and the wheel opening. <code>0</code> starts at once.</td>
+</tr>
+<tr>
+<td><code>Countdown_Marks</code></td>
+<td><code>30, 20, 10, 5, 4, 3, 2, 1</code></td>
+<td>Seconds announced during the warm-up.</td>
+</tr>
+<tr>
+<td><code>Ready_Seconds</code></td>
+<td><code>3</code></td>
+<td>Pause after the menu opens, so everyone can read the prize.</td>
+</tr>
+<tr>
+<td><code>Spin_Seconds</code></td>
+<td><code>9</code></td>
+<td>How long the wheel spins.</td>
+</tr>
+<tr>
+<td><code>Winner_Seconds</code></td>
+<td><code>6</code></td>
+<td>How long the winner stays on screen.</td>
+</tr>
+<tr>
+<td><code>Reopen_If_Closed</code></td>
+<td><code>true</code></td>
+<td>Reopens the roulette for anyone who closes it during the spin.</td>
+</tr>
+<tr>
+<td><code>Immunity.Enabled</code></td>
+<td><code>true</code></td>
+<td>No damage, hunger or burning during the draw.</td>
+</tr>
+<tr>
+<td><code>Immunity.Extra_Seconds</code></td>
+<td><code>5</code></td>
+<td>Extra protection after the winner is announced.</td>
+</tr>
+<tr>
+<td><code>Immunity.Cancel_Void</code></td>
+<td><code>true</code></td>
+<td>Also cancels void damage. Set <code>false</code> if your spawn is over the void.</td>
+</tr>
+<tr>
+<td><code>Firework</code></td>
+<td><code>true</code></td>
+<td>A harmless firework at the winner&#39;s feet.</td>
+</tr>
+<tr>
+<td><code>Amount_Presets</code></td>
+<td><code>1000</code> … <code>100000</code></td>
+<td>Up to 6 money shortcuts in the menu.</td>
+</tr>
+<tr>
+<td><code>Notify_Discord</code></td>
+<td><code>true</code></td>
+<td>Posts the result in the staff Discord channel (needs the <a href="discord-bot.html">Discord bot</a> staff channel).</td>
+</tr>
+</tbody></table></div>
+<p><code>Sounds</code> sets the sound of each step of the wheel. Each sound can be written short, with only its name, or long, with its volume and pitch:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  Sounds:
+    Enabled: true
+    Start: &quot;BLOCK_NOTE_BLOCK_BELL&quot;
+    Countdown: { Sound: &quot;BLOCK_NOTE_BLOCK_PLING&quot;, Volume: 1.0, Pitch: 1.2 }</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sound</th>
+<th>Default</th>
+<th>When it plays</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Start</code></td>
+<td><code>BLOCK_NOTE_BLOCK_BELL</code></td>
+<td>When the warm-up starts.</td>
+</tr>
+<tr>
+<td><code>Countdown</code></td>
+<td><code>BLOCK_NOTE_BLOCK_PLING</code>, pitch <code>1.2</code></td>
+<td>On each countdown number.</td>
+</tr>
+<tr>
+<td><code>Countdown_Final</code></td>
+<td>The <code>Countdown</code> sound, pitch <code>1.6</code></td>
+<td>On the last three numbers.</td>
+</tr>
+<tr>
+<td><code>Ready</code></td>
+<td>The <code>Countdown</code> sound, volume <code>0.7</code>, pitch <code>1.4</code></td>
+<td>Each second between the wheel opening and moving.</td>
+</tr>
+<tr>
+<td><code>Tick</code> / <code>Tick_Final</code></td>
+<td><code>BLOCK_NOTE_BLOCK_HAT</code>, volume <code>0.6</code> / <code>BLOCK_NOTE_BLOCK_PLING</code></td>
+<td>Each step of the reel, and each step of the last quarter. Their pitch climbs from <code>Pitch_From</code> (<code>0.7</code>) to <code>Pitch_To</code> (<code>2.0</code>).</td>
+</tr>
+<tr>
+<td><code>Winner</code></td>
+<td><code>ENTITY_PLAYER_LEVELUP</code>, pitch <code>1.2</code></td>
+<td>The winner fanfare when <code>Show.Reveal.Enabled</code> is <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>Winner_Personal</code></td>
+<td><code>UI_TOAST_CHALLENGE_COMPLETE</code></td>
+<td>Only the winner hears it.</td>
+</tr>
+<tr>
+<td><code>Extra_Winner</code></td>
+<td><code>minecraft:block.note_block.chime</code>, pitch <code>1.2</code></td>
+<td>One per extra winner, a little higher each time.</td>
+</tr>
+</tbody></table></div>
+<p><code>Sound</code> is a Bukkit name (<code>BLOCK_NOTE_BLOCK_BELL</code>) or a key (<code>minecraft:block.bell.use</code>). A key from your resource pack works too. <code>Volume</code> goes from 0 to 10 and <code>Pitch</code> from 0.5 to 2.</p>
+<h3 id="the-wheel-show"><a class="anchor" href="#the-wheel-show" aria-hidden="true">#</a>The wheel show</h3>
+<p>The <code>Show</code> block controls how the draw looks. It never changes who wins. <code>Show.Enabled: false</code> gives back the plain draw.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Show.Enabled</code></td>
+<td><code>true</code></td>
+<td>Turns the whole show on.</td>
+</tr>
+<tr>
+<td><code>Show.Animated_Title</code></td>
+<td><code>true</code></td>
+<td>Animates the title of the wheel window. Bedrock players do not get it.</td>
+</tr>
+<tr>
+<td><code>Show.Suspense_Steps</code></td>
+<td><code>3</code></td>
+<td>Extra-slow &quot;almost&quot; steps at the end of the spin (0-3), each with a heartbeat. The spin does not get longer.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Bar_Colors</code></td>
+<td><code>true</code></td>
+<td>The boss bar changes color as the draw gets closer.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Segment_Below_Seconds</code></td>
+<td><code>10</code></td>
+<td>The bar turns into notches for the last seconds. <code>0</code> means never.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Action_Bar</code></td>
+<td><code>true</code></td>
+<td>Shows the number of entrants above the hotbar during the warm-up.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Heartbeat</code> / <code>Heartbeat_Seconds</code> / <code>Heartbeat_Sound</code></td>
+<td><code>true</code> / <code>3</code> / <code>minecraft:entity.warden.heartbeat</code></td>
+<td>A heartbeat that speeds up over the last seconds.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Animated_Countdown</code></td>
+<td><code>true</code></td>
+<td>The countdown number shimmers.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Pulse_Markers</code></td>
+<td><code>true</code></td>
+<td>The two arrows pulse on every step.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Progress</code></td>
+<td><code>true</code></td>
+<td>A progress bar of the spin.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Winner_Blink</code> / <code>Blink_Ticks</code></td>
+<td><code>true</code> / <code>6</code></td>
+<td>The winner&#39;s head blinks.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Winner_Row</code></td>
+<td><code>true</code></td>
+<td>With several winners, their heads appear one by one under the reel.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Enabled</code></td>
+<td><code>true</code></td>
+<td>Turns the winner reveal on.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Title_Seconds</code></td>
+<td><code>3</code></td>
+<td>How long the animated winner title runs.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Chat_Card</code></td>
+<td><code>true</code></td>
+<td>A winner card of several lines in chat instead of one line.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Fireworks</code></td>
+<td><code>4</code></td>
+<td>Harmless rockets around the winner (0-5).</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Firework_Look</code></td>
+<td>six colors, five shapes</td>
+<td>What those rockets look like: <code>Colors</code>, <code>Fade_Colors</code>, <code>Type</code>, <code>Flicker</code>, <code>Trail</code> and <code>Rotate_Colors</code>, as in <a href="#animations">Animations</a>. <code>Radius</code> (<code>2.0</code>) is how far from the winner they go up and <code>Stagger_Ticks</code> (<code>6</code>) is the pause between two of them.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Spiral</code> / <code>Spiral_Seconds</code></td>
+<td><code>true</code> / <code>2</code></td>
+<td>A particle spiral around the winner.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Spiral_Look</code></td>
+<td><code>DUST</code> in two colors</td>
+<td>The particles of the spiral: <code>Type</code>, <code>Count</code>, <code>Color</code>, <code>Second_Color</code> and <code>Accent</code>, as in <a href="#animations">Animations</a>. <code>Turns</code> (<code>1.5</code>), <code>Height</code> (<code>2.2</code>) and <code>Radius</code> (<code>0.9</code>) set its shape.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Totem</code></td>
+<td><code>true</code></td>
+<td>The totem animation on the winner.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Layer_Sounds</code></td>
+<td>4 sounds</td>
+<td>One line per sound: <code>&quot;sound pitch delay-ticks volume&quot;</code>. Only the sound is required.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Extra_Winner_Delay_Ticks</code></td>
+<td><code>30</code></td>
+<td>Pause between naming each winner. <code>0</code> names them all at once.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Title</code> / <code>Subtitle</code></td>
+<td><code>true</code></td>
+<td>The large text in the middle of the screen, and the line under it.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Action_Bar</code></td>
+<td><code>true</code></td>
+<td>The entrants line above the hotbar. It also needs <code>Show.Warmup.Action_Bar</code>.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Boss_Bar</code></td>
+<td><code>Enabled: true</code>, <code>Color: WHITE</code>, <code>Style: PROGRESS</code></td>
+<td>The countdown bar. Write <code>false</code> to hide it.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Chat</code></td>
+<td><code>true</code></td>
+<td>The chat lines: the announcement and the winner.</td>
+</tr>
+</tbody></table></div>
+<p>The texts of those messages are in the language files (<code>giveaway.*</code> and <code>giveaway-show.*</code>). The config only switches them on or off.</p>
+<p>A winner in vanish never gets effects that other players can see.</p>
+<p>To see the wheel and the reveal without running a draw, type <code>/giveaway preview &lt;prize id&gt;</code>. Only you see it. The winner is made up, nobody is entered and nothing is handed over. Closing the wheel ends the preview.</p>
+<h3 id="who-takes-part"><a class="anchor" href="#who-takes-part" aria-hidden="true">#</a>Who takes part</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Participants.Exempt_Permission</code></td>
+<td><code>chatalyst.giveaway.exempt</code></td>
+<td>Players with this permission watch but are never drawn.</td>
+</tr>
+<tr>
+<td><code>Participants.Exclude_Staff</code></td>
+<td><code>true</code></td>
+<td>Staff are never drawn.</td>
+</tr>
+<tr>
+<td><code>Participants.Staff_Permissions</code></td>
+<td>Chatalyst, vanilla, EssentialsX and LiteBans moderation nodes</td>
+<td>Any player with one of these counts as staff.</td>
+</tr>
+<tr>
+<td><code>Participants.Staff_Groups</code></td>
+<td><code>owner</code>, <code>admin</code>, <code>mod</code>, <code>helper</code>…</td>
+<td>Primary LuckPerms groups that count as staff.</td>
+</tr>
+<tr>
+<td><code>Participants.Exclude_Vanished</code></td>
+<td><code>true</code></td>
+<td>Vanished players are not entered.</td>
+</tr>
+<tr>
+<td><code>Participants.Include_Afk</code></td>
+<td><code>false</code></td>
+<td>AFK players are not entered.</td>
+</tr>
+<tr>
+<td><code>Participants.Excluded_Worlds</code></td>
+<td><code>[]</code></td>
+<td>Worlds whose players neither take part nor see the menu.</td>
+</tr>
+<tr>
+<td><code>Participants.Win_Cooldown</code></td>
+<td><code>12h</code></td>
+<td>A recent winner skips the draw for this long. <code>&quot;0&quot;</code> means no wait.</td>
+</tr>
+</tbody></table></div>
+<p>Operators always count as staff. The staff permissions catch a staff rank whatever it is called, even in another language.</p>
+<h3 id="prizes"><a class="anchor" href="#prizes" aria-hidden="true">#</a>Prizes</h3>
+<p>Each prize lives under <code>Giveaway_Prizes</code> and has a <code>Type</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it gives</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ITEMS</code></td>
+<td>Items written in the file (<code>Material</code>, <code>Amount</code>, <code>Name</code>, <code>Lore</code>, <code>Enchantments</code>, <code>Model_Data</code>, <code>Glow</code>).</td>
+</tr>
+<tr>
+<td><code>COMMANDS</code></td>
+<td>Console commands. <code>{player}</code> and <code>{uuid}</code> are the winner.</td>
+</tr>
+<tr>
+<td><code>MONEY</code></td>
+<td>Money through Vault. The amount is typed when the draw starts, as a figure (<code>50000</code>) or a band (<code>15000-35000</code>) rolled each time.</td>
+</tr>
+<tr>
+<td><code>STORE</code></td>
+<td>A product you already sell, by its <code>Store_Catalog</code> id in <code>store.yml</code>. See <a href="store.html">Store, ranks &amp; Tebex</a>.</td>
+</tr>
+<tr>
+<td><code>RANK</code></td>
+<td>A rank. With Tebex enabled for that rank it goes through the same records as a purchase; otherwise it is written to LuckPerms directly.</td>
+</tr>
+<tr>
+<td><code>PERMISSION</code></td>
+<td>LuckPerms permission nodes under <code>Permissions</code>, for a perk that is not a whole rank.</td>
+</tr>
+</tbody></table></div>
+<p>Any prize can also carry extra <code>Commands</code> and <code>Permissions</code>. <code>Duration</code> (<code>7d</code>, <code>30d</code>, <code>12h</code> or <code>permanent</code>) sets how long the rank and permissions last. This is one of the shipped prizes:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway_Prizes:
+  diamonds:
+    Category: items
+    Name: &quot;&lt;green&gt;&lt;bold&gt;Diamond stash&lt;/bold&gt;&lt;/green&gt;&quot;
+    Name_es: &quot;&lt;green&gt;&lt;bold&gt;Alijo de diamantes&lt;/bold&gt;&lt;/green&gt;&quot;
+    Type: ITEMS
+    Icon: DIAMOND
+    Glow: true
+    Description:
+      - &quot;&lt;gray&gt;32 diamonds and a netherite ingot&quot;
+    Description_es:
+      - &quot;&lt;gray&gt;32 diamantes y un lingote de netherita&quot;
+    Items:
+      - Material: DIAMOND
+        Amount: 32
+      - Material: NETHERITE_INGOT
+        Amount: 1</code></pre></div>
+<p>The prize id (<code>diamonds</code>) is what you type in <code>/giveaway start &lt;id&gt;</code>. Keep it short, lowercase and permanent. <code>Category</code> is the menu category the prize is filed under.</p>
+<p>A prize&#39;s permission list can also be edited in game: <code>/giveaway</code>, right-click the prize, add with the book and shift-click to remove. Saving writes <code>giveaway.yml</code> and keeps its comments.</p>
+<h3 id="units"><a class="anchor" href="#units" aria-hidden="true">#</a>Units</h3>
+<p>You can choose how many units of a prize to give when you launch it, from 1 to 64. This works for two kinds of prize:</p>
+<ul>
+<li><code>ITEMS</code> prizes: every stack is multiplied.</li>
+<li><code>COMMANDS</code> prizes that have <code>{amount}</code> in a command. <code>{amount}</code> in <code>Name</code> or <code>Description</code> shows the chosen number.</li>
+</ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Commands:
+  - &quot;crates give {player} legendary {amount}&quot;</code></pre></div>
+<p>In the menu, use the <strong>Amount</strong> button on the launch screen. In a command, write the number in the place shown in the tables below. A <code>COMMANDS</code> prize without <code>{amount}</code> takes no units.</p>
+<h3 id="prizes-made-in-game"><a class="anchor" href="#prizes-made-in-game" aria-hidden="true">#</a>Prizes made in game</h3>
+<p>You can build a prize without editing the file. <code>/giveaway create &lt;id&gt; [name]</code> creates it and opens a chest where you put the items.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/giveaway edit &lt;id&gt;</code></td>
+<td>Opens the prize&#39;s chest again.</td>
+</tr>
+<tr>
+<td><code>/giveaway name &lt;id&gt; &lt;text&gt;</code></td>
+<td>Changes the visible name.</td>
+</tr>
+<tr>
+<td><code>/giveaway description &lt;id&gt; &lt;text&gt;</code></td>
+<td>Adds a description line. Use <code>clear</code> as the text to clear them.</td>
+</tr>
+<tr>
+<td><code>/giveaway command &lt;id&gt; add|remove|list [command or number]</code></td>
+<td>Edits the console commands (<code>{player}</code>, <code>{uuid}</code>).</td>
+</tr>
+<tr>
+<td><code>/giveaway icon &lt;id&gt;</code></td>
+<td>Uses the item in your hand as the icon.</td>
+</tr>
+<tr>
+<td><code>/giveaway winners &lt;id&gt; &lt;n&gt;</code></td>
+<td>Default number of winners (1-10).</td>
+</tr>
+<tr>
+<td><code>/giveaway view &lt;id&gt;</code> / <code>/giveaway custom</code></td>
+<td>Shows one prize or lists them all.</td>
+</tr>
+<tr>
+<td><code>/giveaway delete &lt;id&gt; confirm</code></td>
+<td>Deletes a prize.</td>
+</tr>
+<tr>
+<td><code>/giveaway history [n]</code></td>
+<td>Shows recent winners.</td>
+</tr>
+</tbody></table></div>
+<p>All of them need <code>chatalyst.command.giveaway.admin</code>. The Spanish words (<code>crear</code>, <code>editar</code>, <code>nombre</code>, <code>borrar</code>…) work too.</p>
+<h3 id="automatic-giveaways"><a class="anchor" href="#automatic-giveaways" aria-hidden="true">#</a>Automatic giveaways</h3>
+<p><code>Schedules</code> starts draws by itself. Each entry runs at most once per day and time. The shipped example is off:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  Time_Zone: server
+  Schedules:
+    weekend-example:
+      Enabled: false
+      Time: &quot;21:00&quot;
+      Days: [SAT, SUN]
+      Prize: diamonds
+      Winners: 2
+      Warmup_Seconds: 60
+      Min_Players: 5</code></pre></div>
+<p><code>Time_Zone: server</code> uses the clock of the machine the server runs on. To pin it, write a zone name such as <code>Europe/Madrid</code>, <code>America/New_York</code> or <code>UTC</code>. A file that already names a zone keeps it.</p>
+<p>Days are written <code>MON, TUE, WED, THU, FRI, SAT, SUN</code>. Full names (<code>MONDAY</code>, <code>SATURDAY</code>) and the Spanish ones (<code>LUN</code>, <code>MIE</code>, <code>SABADO</code>) work too. An empty list means every day. In a network, set a schedule on one server only, or each server starts its own.</p>
+<h3 id="ranks-as-prizes"><a class="anchor" href="#ranks-as-prizes" aria-hidden="true">#</a>Ranks as prizes</h3>
+<p>With <code>Ranks.Auto_Detect: true</code>, groups named in <code>Ranks.Names</code> (<code>vip</code>, <code>mvp++</code>, <code>legend</code>…) that exist in LuckPerms are offered as prizes automatically. Groups in <code>Ranks.Never</code> and any group that grants a staff permission are never offered. <code>Ranks.Duration</code> (default <code>permanent</code>) is how long a directly granted rank lasts.</p>
+<p><code>/giveaway ranks</code> lists the ranks on offer. <code>/giveaway rank &lt;group&gt; &lt;duration|permanent|on|off|config&gt;</code> changes one: a duration such as <code>30d</code>, <code>on</code> or <code>off</code> to offer it or not, or <code>config</code> to go back to the file value.</p>
+<h2 id="the-menus"><a class="anchor" href="#the-menus" aria-hidden="true">#</a>The menus</h2>
+<p><code>Giveaway_Categories</code> groups prizes in the menu (kits, ranks, money, perks, items and custom prizes). Each prize names its category with <code>Category</code>. Two category ids have a job: ranks found in LuckPerms go under <code>ranks</code>, and prizes made in game go under <code>custom</code>. Cards are centered automatically, keep the order of the file, and go to more pages (previous / next) when they do not fit.</p>
+<p>The status button shows what is happening (nothing, countdown with its seconds, handing out, wheel spinning) and updates while the menu is open. Click it to cancel, if you have the permission.</p>
+<h3 id="confirmation-screen"><a class="anchor" href="#confirmation-screen" aria-hidden="true">#</a>Confirmation screen</h3>
+<p>Before a draw or a prize for everyone starts, a summary shows the prize with its icon, how many units or how much money, how many players receive it right now, who is left out and why, the countdown and the animation. It has three buttons:</p>
+<ul>
+<li><strong>Launch</strong>: starts it. It is greyed out, with the reason, when nobody would receive it, another giveaway is running or the prize hands out nothing.</li>
+<li><strong>Preview</strong>: plays the animation or the wheel for you only, then brings you back. Nothing is given.</li>
+<li><strong>Back</strong>: returns to the previous screen.</li>
+</ul>
+<p>Set <code>Giveaway_Menu.Confirm: false</code> to launch at once.</p>
+<h3 id="menu-options"><a class="anchor" href="#menu-options" aria-hidden="true">#</a>Menu options</h3>
+<p>All of these are under <code>Giveaway_Menu</code> in <code>giveaway.yml</code>. Slots start at 1.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Rows</code></td>
+<td><code>6</code></td>
+<td>Height of the prize list, 3 to 6 rows.</td>
+</tr>
+<tr>
+<td><code>Confirm</code></td>
+<td><code>true</code></td>
+<td>Show the confirmation screen.</td>
+</tr>
+<tr>
+<td><code>Grid.Columns</code></td>
+<td><code>7</code></td>
+<td>Columns used by the prize cards.</td>
+</tr>
+<tr>
+<td><code>Grid.Rows</code></td>
+<td><code>4</code></td>
+<td>Rows used by the prize cards.</td>
+</tr>
+<tr>
+<td><code>Buttons.Back</code></td>
+<td><code>46</code></td>
+<td>Slot of the back button.</td>
+</tr>
+<tr>
+<td><code>Buttons.Previous</code></td>
+<td><code>48</code></td>
+<td>Slot of the previous page button.</td>
+</tr>
+<tr>
+<td><code>Buttons.Status</code></td>
+<td><code>50</code></td>
+<td>Slot of the status button.</td>
+</tr>
+<tr>
+<td><code>Buttons.Next</code></td>
+<td><code>52</code></td>
+<td>Slot of the next page button.</td>
+</tr>
+<tr>
+<td><code>Buttons.Close</code></td>
+<td><code>54</code></td>
+<td>Slot of the close button.</td>
+</tr>
+<tr>
+<td><code>Buttons.Everyone</code></td>
+<td><code>5</code></td>
+<td>Slot of the button that switches between wheel and everyone.</td>
+</tr>
+<tr>
+<td><code>Confirm_Screen.Back</code></td>
+<td><code>30</code></td>
+<td>Slot of Back on the confirmation screen.</td>
+</tr>
+<tr>
+<td><code>Confirm_Screen.Preview</code></td>
+<td><code>32</code></td>
+<td>Slot of Preview.</td>
+</tr>
+<tr>
+<td><code>Confirm_Screen.Launch</code></td>
+<td><code>34</code></td>
+<td>Slot of Launch.</td>
+</tr>
+<tr>
+<td><code>Items.Back.Material</code></td>
+<td><code>SPECTRAL_ARROW</code></td>
+<td>Item of the back button.</td>
+</tr>
+<tr>
+<td><code>Items.Close.Material</code></td>
+<td><code>BARRIER</code></td>
+<td>Item of the close button.</td>
+</tr>
+<tr>
+<td><code>Items.Status.Material</code></td>
+<td><code>AUTO</code></td>
+<td>Item of the status button; <code>AUTO</code> changes with the state.</td>
+</tr>
+<tr>
+<td><code>Items.Everyone.Material</code></td>
+<td><code>AUTO</code></td>
+<td>Item of the wheel / everyone switch.</td>
+</tr>
+<tr>
+<td><code>Items.Previous.Material</code></td>
+<td><code>SPECTRAL_ARROW</code></td>
+<td>Item of the previous page button.</td>
+</tr>
+<tr>
+<td><code>Items.Next.Material</code></td>
+<td><code>SPECTRAL_ARROW</code></td>
+<td>Item of the next page button.</td>
+</tr>
+<tr>
+<td><code>Items.Launch.Material</code></td>
+<td><code>AUTO</code></td>
+<td>Item of the launch button.</td>
+</tr>
+<tr>
+<td><code>Items.Preview.Material</code></td>
+<td><code>ENDER_EYE</code></td>
+<td>Item of the preview button.</td>
+</tr>
+<tr>
+<td><code>Items.Filler.Material</code></td>
+<td><code>AIR</code></td>
+<td>Item that fills empty slots; <code>AIR</code> means none.</td>
+</tr>
+<tr>
+<td><code>Items.&lt;button&gt;.Model_Data</code></td>
+<td><code>0</code></td>
+<td>Custom model data for a resource pack; <code>0</code> means none.</td>
+</tr>
+</tbody></table></div>
+<p>A material that does not exist is reported once in the console and the default is used. A slot outside the menu goes back to its default. If two buttons share a slot, or one sits where the cards or the summary go, the whole screen uses the default slots. Apply changes with <code>/cht reload</code>.</p>
+<h2 id="a-prize-for-everyone"><a class="anchor" href="#a-prize-for-everyone" aria-hidden="true">#</a>A prize for everyone</h2>
+<p><code>/giveall</code> (also <code>/darall</code> and <code>/keyall</code>) gives one prize to every player online. Other servers call this a &quot;keyall&quot;. There is no menu for players and no wheel: a countdown runs, then the prize arrives in front of each player, in random order, and is handed over. Players keep moving the whole time. How the prize arrives is up to you: see <a href="#animations">Animations</a>.</p>
+<p>It needs giveaways turned on and <code>Giveaway.All.Enabled</code>, which ships as <code>true</code>.</p>
+<h3 id="what-you-can-give"><a class="anchor" href="#what-you-can-give" aria-hidden="true">#</a>What you can give</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>You type</th>
+<th>What everyone gets</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/giveall</code></td>
+<td>Nothing yet. It opens the catalogue so you can pick a prize. Players only.</td>
+</tr>
+<tr>
+<td><code>/giveall &lt;prize id&gt; [units or amount] [seconds]</code></td>
+<td>A prize from your catalogue.</td>
+</tr>
+<tr>
+<td><code>/giveall hand [amount] [seconds]</code></td>
+<td>Copies of the item in your main hand.</td>
+</tr>
+<tr>
+<td><code>/giveall money &lt;amount&gt; [seconds]</code></td>
+<td>That much money each.</td>
+</tr>
+<tr>
+<td><code>/giveall cancel</code></td>
+<td>Stops the one that is counting down.</td>
+</tr>
+<tr>
+<td><code>/giveall preview &lt;prize id or hand&gt; [style]</code></td>
+<td>Nothing. It plays the animation for you only. See <a href="#preview">Preview</a>.</td>
+</tr>
+</tbody></table></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-text">/giveall diamonds 3 15
+/giveall hand 2
+/giveall money 5000 30</code></pre></div>
+<ul>
+<li>The first line gives 3 units of the diamond prize after a 15 second countdown. The units come <strong>before</strong> the seconds. For a money prize from the catalogue, write the money amount in the units place.</li>
+<li>The second line gives every player 2 copies of the item you are holding, with its name, enchantments and lore. You keep yours. With no number, each player gets as many as you hold. The most is 64 per player.</li>
+<li>The third line pays every player 5000 after 30 seconds. You can also write a band, such as <code>1000-5000</code>, and each player gets a different amount inside it. It needs Vault and an economy plugin.</li>
+</ul>
+<p>Leave the seconds out and the countdown lasts <code>All.Warmup_Seconds</code>. Write <code>0</code> to give it at once.</p>
+<p>The Spanish words <code>mano</code>, <code>dinero</code>, <code>cancelar</code> and <code>vista</code> work too. If one of your prizes is called <code>hand</code> or <code>money</code>, the prize wins: your catalogue comes before these words. <code>/giveaway all</code> does the same as <code>/giveall</code>.</p>
+<p><code>/giveall cancel</code> works during the countdown. Once the handout starts it lasts a few seconds and cannot be stopped, so nobody is left out halfway.</p>
+<p>In the <code>/giveaway</code> menu, the button at the top switches between one winner by wheel and giving to everyone.</p>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p><code>/giveall hand</code> creates items: every player gets a copy of what you hold. Give <code>chatalyst.command.giveall.hand</code> only to people you trust with that.</p>
+</div>
+<h3 id="who-receives-it"><a class="anchor" href="#who-receives-it" aria-hidden="true">#</a>Who receives it</h3>
+<p>Operators do <strong>not</strong> receive it out of the box. A prize for everyone is a prize for your players. This includes the operator who launches it. Moderators and helpers receive it like any other player.</p>
+<p>When you launch one, the message tells you how many players receive it and how many staff were left out, so it never looks like a mistake.</p>
+<p>Who counts as staff:</p>
+<ul>
+<li>Operators.</li>
+<li>Anyone with the permission <code>chatalyst.giveall.staff</code>. Give it to a rank you also want left out.</li>
+<li>With <code>All.Staff_Includes_Moderators: true</code>, also anyone the <code>Participants.Staff_Permissions</code> and <code>Participants.Staff_Groups</code> lists recognise (see <a href="#who-takes-part">who takes part</a>). Use it if moderators and helpers should not receive prizes either.</li>
+</ul>
+<p>To let staff receive prizes like everybody else, change one line in <code>giveaway.yml</code> and run <code>/cht reload</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  All:
+    Include_Staff: true</code></pre></div>
+<p>For a bot or a test account that must never receive anything, give it <code>chatalyst.giveall.exempt</code>. It is left out whatever <code>Include_Staff</code> says.</p>
+<p>Whoever joins during the countdown also receives it. Vanished players receive it with no visible effect. <code>Excluded_Worlds</code> and <code>Countdown_Marks</code> apply here too. <code>Win_Cooldown</code> and <code>chatalyst.giveaway.exempt</code> do not: receiving this is not winning a draw.</p>
+<h3 id="settings"><a class="anchor" href="#settings" aria-hidden="true">#</a>Settings</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  All:
+    Enabled: true
+    Command: &quot;giveall&quot;
+    Command_Aliases:
+      - &quot;darall&quot;
+      - &quot;keyall&quot;
+    Warmup_Seconds: 10
+    Wave_Seconds: 4
+    Include_Staff: false
+    Include_Afk: true
+    Allowed_Kinds: [ITEMS, COMMANDS, MONEY, CUSTOM]
+    Allow_Hand: true
+    Allow_Money: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>All.Enabled</code></td>
+<td><code>true</code></td>
+<td>Turns prizes for everyone on.</td>
+</tr>
+<tr>
+<td><code>All.Command</code> / <code>All.Command_Aliases</code></td>
+<td><code>giveall</code> / <code>darall</code>, <code>keyall</code></td>
+<td>Command names. A name another plugin owns is skipped.</td>
+</tr>
+<tr>
+<td><code>All.Warmup_Seconds</code></td>
+<td><code>10</code></td>
+<td>Countdown before the prize drops. <code>0</code> gives it at once.</td>
+</tr>
+<tr>
+<td><code>All.Wave_Seconds</code></td>
+<td><code>4</code></td>
+<td>The handout is spread over about this long. A very full server takes a little longer.</td>
+</tr>
+<tr>
+<td><code>All.Include_Staff</code></td>
+<td><code>false</code></td>
+<td>Operators are left out. Set <code>true</code> and they receive it too.</td>
+</tr>
+<tr>
+<td><code>All.Staff_Includes_Moderators</code></td>
+<td><code>false</code></td>
+<td>Moderators and helpers receive it. Set <code>true</code> to leave them out as well.</td>
+</tr>
+<tr>
+<td><code>All.Include_Afk</code></td>
+<td><code>true</code></td>
+<td>AFK players receive it too.</td>
+</tr>
+<tr>
+<td><code>All.Allowed_Kinds</code></td>
+<td><code>ITEMS, COMMANDS, MONEY, CUSTOM</code></td>
+<td>Prize types that can go to everyone. <code>CUSTOM</code> are prizes made in game. <code>RANK</code>, <code>STORE</code> and <code>PERMISSION</code> are left out on purpose.</td>
+</tr>
+<tr>
+<td><code>All.Allow_Hand</code></td>
+<td><code>true</code></td>
+<td>Allows <code>/giveall hand</code>. It also needs <code>ITEMS</code> in <code>Allowed_Kinds</code>.</td>
+</tr>
+<tr>
+<td><code>All.Allow_Money</code></td>
+<td><code>true</code></td>
+<td>Allows <code>/giveall money</code>. It also needs <code>MONEY</code> in <code>Allowed_Kinds</code>.</td>
+</tr>
+<tr>
+<td><code>All.Effects.Display</code> / <code>Particles</code> / <code>Sounds</code></td>
+<td><code>true</code></td>
+<td>Master switches for the arriving prize (Bedrock players do not see it), the particles and the sounds. Off here means off for every prize.</td>
+</tr>
+<tr>
+<td><code>All.Animation</code></td>
+<td></td>
+<td>How the prize arrives, looks and sounds. See <a href="#animations">Animations</a>.</td>
+</tr>
+</tbody></table></div>
+<h2 id="animations"><a class="anchor" href="#animations" aria-hidden="true">#</a>Animations</h2>
+<p><code>Giveaway.All.Animation</code> decides how a prize for everyone arrives, what it looks like and how it sounds. It never changes who receives the prize or when. Out of the box it does what <code>/giveall</code> always did: the prize spins down in front of each player.</p>
+<h3 id="styles"><a class="anchor" href="#styles" aria-hidden="true">#</a>Styles</h3>
+<p>Choose one with <code>Animation.Style</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Style</th>
+<th>What the player sees</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SPIN_DOWN</code></td>
+<td>The prize spins down in front of their face and slows as it lands. This is the default.</td>
+</tr>
+<tr>
+<td><code>RAIN</code></td>
+<td>Several small copies fall around them, one after another. The last one falls in front of their face and is the one they get.</td>
+</tr>
+<tr>
+<td><code>BURST</code></td>
+<td>The prize appears above them, grows, swells and bursts into particles.</td>
+</tr>
+<tr>
+<td><code>ORBIT</code></td>
+<td>The prize circles them in a closing spiral, lower on each turn, until it reaches them.</td>
+</tr>
+<tr>
+<td><code>NONE</code></td>
+<td>No object and no particles. Only the sounds and the messages.</td>
+</tr>
+</tbody></table></div>
+<p>With <code>SPIN_DOWN</code> and <code>BURST</code> the prize stays in front of the player&#39;s face as they look around. With <code>RAIN</code> and <code>ORBIT</code> it stays where it started, so the player can turn and watch it.</p>
+<h3 id="options"><a class="anchor" href="#options" aria-hidden="true">#</a>Options</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  All:
+    Animation:
+      Style: SPIN_DOWN
+      Duration_Ticks: 26
+      Height: 2.5
+      Distance: 1.1
+      Scale_From: 0.2
+      Scale_To: 0.7
+      Spin_Speed: 27.7
+      Glow: false
+      Glow_Color: WHITE</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Style</code></td>
+<td><code>SPIN_DOWN</code></td>
+<td>The style, from the table above.</td>
+</tr>
+<tr>
+<td><code>Duration_Ticks</code></td>
+<td><code>26</code></td>
+<td>How long the arrival takes. 20 ticks are one second. The prize is handed over when it ends.</td>
+</tr>
+<tr>
+<td><code>Height</code></td>
+<td><code>2.5</code></td>
+<td>Blocks above the player&#39;s eyes where the prize starts.</td>
+</tr>
+<tr>
+<td><code>Distance</code></td>
+<td><code>1.1</code></td>
+<td>Blocks in front of the player.</td>
+</tr>
+<tr>
+<td><code>Scale_From</code> / <code>Scale_To</code></td>
+<td><code>0.2</code> / <code>0.7</code></td>
+<td>Size when it appears and once it has grown. <code>1.0</code> is the size of a held item.</td>
+</tr>
+<tr>
+<td><code>Spin_Speed</code></td>
+<td><code>27.7</code></td>
+<td>Degrees the prize turns per tick. A negative number spins it the other way. <code>0</code> keeps it still.</td>
+</tr>
+<tr>
+<td><code>Glow</code> / <code>Glow_Color</code></td>
+<td><code>false</code> / <code>WHITE</code></td>
+<td>An outline around the prize, and its color.</td>
+</tr>
+<tr>
+<td><code>Private_Display</code></td>
+<td><code>false</code></td>
+<td>With <code>true</code>, only the player the prize is for sees it and its particles. Useful on a crowded spawn.</td>
+</tr>
+<tr>
+<td><code>Rain_Copies</code></td>
+<td><code>6</code></td>
+<td><code>RAIN</code> only: how many copies fall (2-12).</td>
+</tr>
+<tr>
+<td><code>Orbit_Turns</code></td>
+<td><code>2</code></td>
+<td><code>ORBIT</code> only: full turns around the player (1-6).</td>
+</tr>
+<tr>
+<td><code>Max_Entities</code></td>
+<td><code>150</code></td>
+<td>The most prize objects alive at once on the whole server. When the limit is reached, the next players wait their turn and the handout takes a little longer. It cannot be set per prize.</td>
+</tr>
+<tr>
+<td><code>Particles.Type</code></td>
+<td><code>DUST</code></td>
+<td>A Bukkit particle name. Particles that need a block or an item (<code>BLOCK</code>, <code>ITEM</code>) cannot be used.</td>
+</tr>
+<tr>
+<td><code>Particles.Count</code></td>
+<td><code>2</code></td>
+<td>Particles per point.</td>
+</tr>
+<tr>
+<td><code>Particles.Color</code> / <code>Second_Color</code></td>
+<td><code>&quot;#F5F5F5&quot;</code> / <code>&quot;#FFD166&quot;</code></td>
+<td>The colors, for <code>DUST</code> and other colored particles.</td>
+</tr>
+<tr>
+<td><code>Particles.Accent</code></td>
+<td><code>END_ROD</code></td>
+<td>A spark that travels with each particle. <code>NONE</code> means no spark.</td>
+</tr>
+<tr>
+<td><code>Particles.Trail</code></td>
+<td><code>true</code></td>
+<td>Particles while the prize is on its way.</td>
+</tr>
+<tr>
+<td><code>Particles.On_Receive</code></td>
+<td><code>true</code></td>
+<td>A burst of particles when the prize is handed over.</td>
+</tr>
+<tr>
+<td><code>Particles.Receive_Type</code> / <code>Receive_Count</code></td>
+<td><code>TOTEM_OF_UNDYING</code> / <code>14</code></td>
+<td>The particles of that burst.</td>
+</tr>
+<tr>
+<td><code>Sounds.Start</code></td>
+<td><code>BLOCK_NOTE_BLOCK_BELL</code></td>
+<td>When the prize is announced.</td>
+</tr>
+<tr>
+<td><code>Sounds.Countdown</code></td>
+<td><code>BLOCK_NOTE_BLOCK_PLING</code></td>
+<td>On each countdown number. It rises by itself over the last ten seconds; <code>Pitch</code> shifts the whole climb.</td>
+</tr>
+<tr>
+<td><code>Sounds.Note</code></td>
+<td><code>BLOCK_NOTE_BLOCK_CHIME</code>, volume <code>0.8</code></td>
+<td>The chord each player hears while the prize arrives. <code>Pitch</code> shifts the chord.</td>
+</tr>
+<tr>
+<td><code>Sounds.Receive</code></td>
+<td><code>ENTITY_PLAYER_LEVELUP</code>, volume <code>0.8</code>, pitch <code>1.5</code></td>
+<td>When the prize is handed over.</td>
+</tr>
+<tr>
+<td><code>Sounds.Finish</code></td>
+<td><code>UI_TOAST_CHALLENGE_COMPLETE</code>, volume <code>0.8</code>, pitch <code>1.1</code></td>
+<td>When everybody has it.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Count</code></td>
+<td><code>8</code></td>
+<td>Harmless fireworks at the end, on at most this many random players. <code>0</code> means none.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Colors</code> / <code>Fade_Colors</code></td>
+<td><code>&quot;#F5F5F5&quot;</code>, <code>&quot;#FFD166&quot;</code> / <code>&quot;#C0C0C0&quot;</code></td>
+<td>The colors of each burst and the colors it fades into.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Type</code></td>
+<td><code>BALL_LARGE</code></td>
+<td><code>BALL</code>, <code>BALL_LARGE</code>, <code>STAR</code>, <code>BURST</code> or <code>CREEPER</code>. With a list, each rocket takes the next one.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Flicker</code> / <code>Trail</code></td>
+<td><code>true</code> / <code>true</code></td>
+<td>The twinkle after the burst, and the trail behind it.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Rotate_Colors</code></td>
+<td><code>false</code></td>
+<td>With <code>true</code>, each rocket takes two colors in turn instead of carrying all of them.</td>
+</tr>
+<tr>
+<td><code>Messages.Title</code> / <code>Subtitle</code></td>
+<td><code>true</code></td>
+<td>The large text in the middle of the screen, and the line under it.</td>
+</tr>
+<tr>
+<td><code>Messages.Action_Bar</code></td>
+<td><code>true</code></td>
+<td>The line above the hotbar when the prize is handed over.</td>
+</tr>
+<tr>
+<td><code>Messages.Boss_Bar</code></td>
+<td><code>Enabled: true</code>, <code>Color: WHITE</code>, <code>Style: NOTCHED_20</code>, <code>Warm_Colors: true</code></td>
+<td>The countdown bar. With <code>Warm_Colors</code> it turns pink and then yellow as it empties. Write <code>false</code> to hide the bar.</td>
+</tr>
+<tr>
+<td><code>Messages.Chat</code></td>
+<td><code>true</code></td>
+<td>The announcement and the summary in chat.</td>
+</tr>
+</tbody></table></div>
+<p>A few notes on how to write the values:</p>
+<ul>
+<li><strong>Sounds</strong> are written short (<code>Start: &quot;BLOCK_NOTE_BLOCK_BELL&quot;</code>) or long (<code>Start: { Sound: &quot;BLOCK_NOTE_BLOCK_BELL&quot;, Volume: 1.0, Pitch: 1.0 }</code>). <code>Volume</code> goes from 0 to 10 and <code>Pitch</code> from 0.5 to 2.</li>
+<li><strong>Colors</strong> are a name (<code>WHITE</code>, <code>RED</code>, <code>GOLD</code>, <code>AQUA</code>, <code>LIME</code>, <code>PURPLE</code>, <code>ORANGE</code>, <code>PINK</code>…) or <code>&quot;#RRGGBB&quot;</code>. Keep the quotes: without them YAML reads the <code>#</code> as a comment.</li>
+<li><strong>Boss bar</strong> colors are <code>PINK</code>, <code>BLUE</code>, <code>RED</code>, <code>GREEN</code>, <code>YELLOW</code>, <code>PURPLE</code> or <code>WHITE</code>. Styles are <code>PROGRESS</code>, <code>NOTCHED_6</code>, <code>NOTCHED_10</code>, <code>NOTCHED_12</code> or <code>NOTCHED_20</code>.</li>
+<li>The <strong>texts</strong> of the messages are in the language files (<code>giveaway-all.*</code>), in both languages. The config only switches them on or off.</li>
+</ul>
+<p>A mistyped value does not break anything. If a particle, sound, color or style does not exist, the console says so once, with the exact path of the option, and the default is used:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-text">giveaway.yml: Giveaway.All.Animation.Particles.Type 'SPARKLES' is not a known particle; using DUST</code></pre></div>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>A <code>giveaway.yml</code> from before 1.0.1 has <code>Sounds</code> and <code>Fireworks</code> directly under <code>All</code>. They keep working until you change the ones under <code>Animation</code>.</p>
+</div>
+<h3 id="per-prize-animation"><a class="anchor" href="#per-prize-animation" aria-hidden="true">#</a>Per-prize animation</h3>
+<p>Any prize in <code>Giveaway_Prizes</code> can carry its own <code>Animation</code> section, with the same keys. Write only what changes. Everything else comes from <code>Giveaway.All.Animation</code>.</p>
+<p>This key circles the player with a golden outline before it reaches them:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway_Prizes:
+  keys:
+    Name: &quot;&lt;white&gt;5 legendary keys&quot;
+    Type: COMMANDS
+    Icon: TRIPWIRE_HOOK
+    Commands:
+      - &quot;crates give {player} legendary 5&quot;
+    Animation:
+      Style: ORBIT
+      Duration_Ticks: 50
+      Orbit_Turns: 3
+      Glow: true
+      Glow_Color: GOLD
+      Particles:
+        Color: GOLD
+        Second_Color: YELLOW
+      Sounds:
+        Receive: { Sound: &quot;BLOCK_ENDER_CHEST_OPEN&quot;, Volume: 1.0, Pitch: 1.4 }
+      Fireworks:
+        Colors: [GOLD, YELLOW]
+        Type: STAR</code></pre></div>
+<p>When the same prize is drawn on the wheel, three parts of its <code>Animation</code> change the reveal: <code>Fireworks</code> (the rockets around the winner), <code>Particles</code> (the spiral) and <code>Sounds.Receive</code> (the sound only the winner hears). The rest of the section has no effect on the wheel.</p>
+<p>Prizes made in game, <code>/giveall hand</code> and <code>/giveall money</code> have no entry in the file, so they use the general animation.</p>
+<h3 id="preview"><a class="anchor" href="#preview" aria-hidden="true">#</a>Preview</h3>
+<p><code>/giveall preview &lt;prize id or hand&gt; [style]</code> plays the whole animation for you only. Nothing is handed over, nobody else sees or hears it, the server is not told and there is no countdown.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-text">/giveall preview keys
+/giveall preview diamonds rain
+/giveall preview hand orbit</code></pre></div>
+<ul>
+<li>The first line shows the <code>keys</code> prize with its own animation.</li>
+<li>The second shows the diamond prize with the <code>RAIN</code> style, just this once. Use it to compare styles without editing the file.</li>
+<li>The third shows the item in your hand arriving with <code>ORBIT</code>.</li>
+</ul>
+<p>It needs <code>chatalyst.command.giveall.preview</code>. The Spanish words <code>previa</code> and <code>vista</code> work too. After you edit <code>giveaway.yml</code>, run <code>/cht reload</code> and preview again.</p>
+<p>For the wheel, <code>/giveaway preview &lt;prize id&gt;</code> shows the roulette and the reveal to you only. See <a href="#the-wheel-show">the wheel show</a>.</p>
+<h2 id="streamer-giveaway"><a class="anchor" href="#streamer-giveaway" aria-hidden="true">#</a>Streamer giveaway</h2>
+<p>A streamer raffles <strong>their own items</strong>: a stack of crate keys somebody gave them, a sword, a full shulker box. Nothing is created and nothing comes from the catalogue. The items leave the streamer&#39;s inventory, wait in escrow and go to the winners.</p>
+<h3 id="turn-it-on"><a class="anchor" href="#turn-it-on" aria-hidden="true">#</a>Turn it on</h3>
+<p>It ships off. Giveaways must be on too. Set this in <code>giveaway.yml</code>, run <code>/cht reload</code>, and give <code>chatalyst.giveaway.streamer</code> to your streamer rank:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Giveaway:
+  Enabled: true
+  Streamer:
+    Enabled: true</code></pre></div>
+<h3 id="how-it-works"><a class="anchor" href="#how-it-works" aria-hidden="true">#</a>How it works</h3>
+<ol>
+<li>The streamer types <code>/streamgiveaway</code> (also <code>/sgiveaway</code>, <code>/sorteostream</code>). A chest opens.</li>
+<li>A click on an item in their inventory moves the whole stack into the chest. Shift-click on an item in the chest takes it back.</li>
+<li>At the bottom they choose the number of winners, the sign-up time and how players enter, then press <strong>Launch</strong>. A summary shows the stacks, the winners and how many players are online to take part. <strong>Confirm and launch</strong> starts it.</li>
+<li>The whole server is told, with every item listed. Hover an item to see its real tooltip. A bar counts down.</li>
+<li>When the time is up, the roulette spins once per winner. Stacks are dealt to the winners in turns, in the order they were put in. There are never more winners than stacks or participants.</li>
+</ol>
+<p>With <code>Entry: JOIN</code>, players press the button in the chat or type <code>/streamgiveaway join</code>. With <code>Entry: ALL</code>, everyone online with <code>chatalyst.giveaway.join</code> takes part. The streamer never takes part in their own giveaway, and vanished players are not drawn.</p>
+<p>Only one giveaway runs at a time: a streamer giveaway, a wheel and a <code>/giveall</code> wait for each other.</p>
+<h3 id="commands-and-permissions-of-streamer-giveaways"><a class="anchor" href="#commands-and-permissions-of-streamer-giveaways" aria-hidden="true">#</a>Commands and permissions of streamer giveaways</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Who</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/streamgiveaway</code></td>
+<td><code>chatalyst.giveaway.streamer</code> (nobody by default)</td>
+<td>Opens the chest.</td>
+</tr>
+<tr>
+<td><code>/streamgiveaway join</code></td>
+<td><code>chatalyst.giveaway.join</code> (everybody)</td>
+<td>Takes part.</td>
+</tr>
+<tr>
+<td><code>/streamgiveaway claim</code></td>
+<td>everybody</td>
+<td>Collects the items waiting for you.</td>
+</tr>
+<tr>
+<td><code>/streamgiveaway cancel</code></td>
+<td>the streamer, or <code>chatalyst.giveaway.admin</code> (op)</td>
+<td>Cancels the running one. Every item not yet won goes back. Works from the console.</td>
+</tr>
+</tbody></table></div>
+<h3 id="streamer-options"><a class="anchor" href="#streamer-options" aria-hidden="true">#</a>Streamer options</h3>
+<p>All under <code>Giveaway.Streamer</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Turns streamer giveaways on.</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>streamgiveaway</code> / <code>sgiveaway</code>, <code>sorteostream</code></td>
+<td>Command names. A name another plugin owns is skipped.</td>
+</tr>
+<tr>
+<td><code>Max_Stacks</code></td>
+<td><code>27</code></td>
+<td>Stacks that fit in the chest (1-45).</td>
+</tr>
+<tr>
+<td><code>Max_Winners</code></td>
+<td><code>5</code></td>
+<td>Most winners the streamer can pick.</td>
+</tr>
+<tr>
+<td><code>Durations_Seconds</code></td>
+<td><code>30, 60, 120, 300</code></td>
+<td>Sign-up times to choose from. The first is preselected.</td>
+</tr>
+<tr>
+<td><code>Entry</code></td>
+<td><code>JOIN</code></td>
+<td><code>JOIN</code> or <code>ALL</code>. The streamer can switch it in the chest.</td>
+</tr>
+<tr>
+<td><code>Min_Participants</code></td>
+<td><code>2</code></td>
+<td>With fewer, it is cancelled and everything goes back.</td>
+</tr>
+<tr>
+<td><code>Cooldown_Seconds</code></td>
+<td><code>300</code></td>
+<td>Wait between two launches of the same streamer.</td>
+</tr>
+<tr>
+<td><code>Blocked_Materials</code></td>
+<td>bedrock, barrier, command blocks, structure blocks, jigsaw, debug stick, light</td>
+<td>Items that cannot be raffled. Shulker boxes with contents are allowed.</td>
+</tr>
+</tbody></table></div>
+<p>The buttons of the chest are changed under <code>Giveaway_Menu</code>: <code>Streamer_Screen</code> and <code>Streamer_Confirm_Screen</code> set their column (1-9) in the bottom row, and <code>Items.Stream_*</code> their material and <code>Model_Data</code>.</p>
+<h3 id="when-something-goes-wrong"><a class="anchor" href="#when-something-goes-wrong" aria-hidden="true">#</a>When something goes wrong</h3>
+<p>The items are saved to disk before they leave the inventory, so each stack is always in exactly one place.</p>
+<ul>
+<li>Closing the chest without launching, <strong>Cancel</strong>, dying or leaving with the chest open: everything goes back.</li>
+<li>The streamer leaves during a giveaway: it is cancelled and everything not yet won goes back to them.</li>
+<li><code>/cht reload</code>, a restart or a crash: whatever had not been won goes back to the streamer, and what was won stays with the winner.</li>
+<li>A player on the death screen gets their items after respawning.</li>
+<li>A full inventory, or a player who is offline: the items wait, with no time limit. The player is told on joining and collects them with <code>/streamgiveaway claim</code>.</li>
+<li>Turning the feature off keeps <code>/streamgiveaway claim</code> working while something is waiting.</li>
+</ul>
+<p>Each streamer giveaway leaves lines in the console: who started it, which items, who got what and what was returned.</p>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>Items wait on the server where they were raffled. In a network, collect them there.</p>
+</div>
+<h2 id="commands-and-permissions"><a class="anchor" href="#commands-and-permissions" aria-hidden="true">#</a>Commands and permissions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Permission (default)</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/giveaway</code> (<code>/sorteo</code>, <code>/rifa</code>, <code>/raffle</code>)</td>
+<td><code>chatalyst.command.giveaway</code> (true)</td>
+<td>Players see the status or reopen a running wheel. Staff open the menu.</td>
+</tr>
+<tr>
+<td><code>/giveaway start &lt;id&gt; [seconds] [units or amount] [winners:N]</code></td>
+<td><code>chatalyst.command.giveaway.admin</code> (op)</td>
+<td>Starts a draw. The fourth value is the money amount for money prizes, otherwise the units.</td>
+</tr>
+<tr>
+<td><code>/giveaway cancel</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Cancels the running draw or the countdown for everyone.</td>
+</tr>
+<tr>
+<td><code>/giveaway list</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Lists prizes and any problem with them.</td>
+</tr>
+<tr>
+<td><code>/giveaway give &lt;player&gt; &lt;id&gt; [units or amount]</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Hands a prize over by hand.</td>
+</tr>
+<tr>
+<td><code>/giveaway status</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Shows the running draw or the last winner.</td>
+</tr>
+<tr>
+<td><code>/giveaway preview &lt;id&gt;</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Shows the wheel and the reveal to you only, with a made-up winner.</td>
+</tr>
+<tr>
+<td><code>/giveall</code> and <code>/giveall &lt;id&gt; [units or amount] [seconds]</code> (<code>/darall</code>, <code>/keyall</code>)</td>
+<td><code>chatalyst.command.giveall</code> (op)</td>
+<td>Opens the give-to-everyone menu, or gives a catalogue prize to everyone.</td>
+</tr>
+<tr>
+<td><code>/giveall hand [amount] [seconds]</code></td>
+<td><code>chatalyst.command.giveall.hand</code> (op)</td>
+<td>Gives everyone copies of the item in your hand.</td>
+</tr>
+<tr>
+<td><code>/giveall money &lt;amount&gt; [seconds]</code></td>
+<td><code>chatalyst.command.giveall.money</code> (op)</td>
+<td>Gives everyone that much money.</td>
+</tr>
+<tr>
+<td><code>/giveall cancel</code></td>
+<td><code>chatalyst.command.giveall.cancel</code> (op)</td>
+<td>Stops a prize for everyone during its countdown.</td>
+</tr>
+<tr>
+<td><code>/giveall preview &lt;id or hand&gt; [style]</code></td>
+<td><code>chatalyst.command.giveall.preview</code> (op)</td>
+<td>Plays the animation for you only. Nothing is handed over.</td>
+</tr>
+</tbody></table></div>
+<p>Three more permissions decide who receives and who wins:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.giveall.staff</code></td>
+<td>op</td>
+<td>Counts as staff for <code>/giveall</code>. Left out unless <code>All.Include_Staff</code> is <code>true</code>.</td>
+</tr>
+<tr>
+<td><code>chatalyst.giveall.exempt</code></td>
+<td>false</td>
+<td>Never receives a <code>/giveall</code> prize, staff or not. For bots and test accounts.</td>
+</tr>
+<tr>
+<td><code>chatalyst.giveaway.exempt</code></td>
+<td>false</td>
+<td>Never drawn as the winner of a wheel.</td>
+</tr>
+</tbody></table></div>
+<p><code>chatalyst.command.giveaway.admin</code> includes the five <code>/giveall</code> permissions and <code>chatalyst.giveall.staff</code>. Whoever already ran giveaways keeps everything.</p>
+<p>The <code>/giveall</code> permissions let you hand out less than the whole thing. A moderator with only <code>chatalyst.command.giveall</code> can give catalogue prizes to everyone, but cannot start a wheel, edit prizes, give away the item in their hand or give money. Add <code>.hand</code>, <code>.money</code>, <code>.cancel</code> and <code>.preview</code> on top of it, one by one, as you see fit. They are extras: give them together with <code>chatalyst.command.giveall</code>, which is what makes the command itself available.</p>
+<h2 id="limits"><a class="anchor" href="#limits" aria-hidden="true">#</a>Limits</h2>
+<ul>
+<li>A winner who is on the death screen gets the prize when they respawn.</li>
+<li>A winner who disconnects gets the prize when they return. If the server restarts first, the console shows the <code>/giveaway give</code> command staff need to run.</li>
+<li>Items that do not fit in the winner&#39;s inventory drop at their feet.</li>
+<li><code>RANK</code> and <code>PERMISSION</code> prizes need LuckPerms. <code>MONEY</code> and <code>/giveall money</code> need Vault.</li>
+<li>A <code>/giveall hand</code> or <code>/giveall money</code> prize is not saved in the catalogue. If a player disconnects before receiving it, they get it when they return, but only until the next restart: the console says so and staff hand it over by hand.</li>
+<li><code>/giveall hand</code> gives at most 64 of the item to each player. Only a player can use it: the console has no hand.</li>
+<li><code>/giveall cancel</code> cannot stop a handout that has already started.</li>
+<li>Bedrock players do not see the arriving prize, whatever the style. They get the particles, the sounds and the messages.</li>
+<li>A preview of the wheel leaves out the totem animation, which cannot be shown to one player alone. A real draw that starts while you watch a preview replaces it.</li>
+<li>You can watch one preview at a time. If the server is already at <code>Max_Entities</code>, <code>/giveall preview</code> asks you to try again in a few seconds.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="gifts.html"><span>Previous</span><strong>Gifts</strong></a><a class="pager-next" href="marriage.html"><span>Next</span><strong>Marriage</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

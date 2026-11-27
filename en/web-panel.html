@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101011">
+  <title>Web panel · Chatalyst Docs</title>
+  <meta name="description" content="Run your server from a browser. Players by game mode, live chat, punishments and feature switches, with access tied to each staff member's in-game rank.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/web-panel.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/web-panel.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/web-panel.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/web-panel.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Web panel">
+  <meta property="og:description" content="Run your server from a browser. Players by game mode, live chat, punishments and feature switches, with access tied to each staff member's in-game rank.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/web-panel.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/documentation-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/CHATALYST_icono.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); document.documentElement.dataset.theme = theme === 'light' || theme === 'dark' ? theme : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (_) {} })();
+  </script>
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img class="brand-lockup" src="../theme/assets/CHATALYST_horizontal.svg" width="1040" height="334" alt="">
+        <span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/web-panel.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Moderation</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link is-active" aria-current="page" href="web-panel.html">Web panel</a><a class="nav-link" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#turning-it-on">Turning it on</a></li><li class="toc-h2"><a href="#signing-in">Signing in</a></li><li class="toc-h3"><a href="#without-joining-the-game">Without joining the game</a></li><li class="toc-h2"><a href="#finding-your-way-around">Finding your way around</a></li><li class="toc-h2"><a href="#who-sees-what">Who sees what</a></li><li class="toc-h3"><a href="#losing-a-rank">Losing a rank</a></li><li class="toc-h2"><a href="#live-view">Live view</a></li><li class="toc-h3"><a href="#real-textures">Real textures</a></li><li class="toc-h2"><a href="#alerts-and-reports">Alerts and reports</a></li><li class="toc-h2"><a href="#using-it-from-your-own-panel">Using it from your own panel</a></li><li class="toc-h2"><a href="#staff-service-hours">Staff service hours</a></li><li class="toc-h2"><a href="#activity-log">Activity log</a></li><li class="toc-h2"><a href="#in-game-or-out-of-game">In game or out of game</a></li><li class="toc-h2"><a href="#opening-it-to-your-staff">Opening it to your staff</a></li><li class="toc-h3"><a href="#behind-an-https-reverse-proxy-recommended">Behind an HTTPS reverse proxy (recommended)</a></li><li class="toc-h3"><a href="#through-a-vpn">Through a VPN</a></li><li class="toc-h3"><a href="#directly-on-a-port">Directly on a port</a></li><li class="toc-h2"><a href="#how-it-is-protected">How it is protected</a></li><li class="toc-h2"><a href="#commands">Commands</a></li><li class="toc-h2"><a href="#troubleshooting">Troubleshooting</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Moderation</p><h1>Web panel</h1><p class="lead">Run your server from a browser. Players by game mode, live chat, punishments and feature switches, with access tied to each staff member's in-game rank.</p></header>
+<article class="prose">
+<p>The web panel lets your staff manage the server from a browser or a phone, without joining the game. They see who is online in every game mode, read the chat live, check a player&#39;s history, mute, kick, ban, and (if you allow it) turn features on and off.</p>
+<p>The panel has no accounts and no passwords of its own. A staff member proves who they are from inside the game, and the panel can do exactly what that person can already do with commands, nothing more. It ships <strong>off</strong>.</p>
+<h2 id="turning-it-on"><a class="anchor" href="#turning-it-on" aria-hidden="true">#</a>Turning it on</h2>
+<p>Open <code>config.yml</code>, set <code>Enabled: true</code> and restart the server.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Panel:
+  Enabled: false
+  Bind: &quot;127.0.0.1&quot;
+  Port: 8765
+  Public_Url: &quot;&quot;
+  Session_Minutes: 120
+  Allow_Offline_Actions: false
+  Allow_Console: false
+  Trust_Forwarded_For: false
+  Allowed_IPs: []
+  Lock_Session_To_IP: true
+  Discord_Login: true
+  Discord_OAuth:
+    Client_Id: &quot;&quot;
+    Client_Secret: &quot;&quot;
+  Service_Token: &quot;&quot;
+  Textures:
+    Download: false</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Starts the panel. Needs a restart</td>
+</tr>
+<tr>
+<td><code>Bind</code></td>
+<td><code>127.0.0.1</code></td>
+<td>Which address of the machine the panel listens on. See <a href="#opening-it-to-your-staff">Opening it to your staff</a></td>
+</tr>
+<tr>
+<td><code>Port</code></td>
+<td><code>8765</code></td>
+<td>The port. Pick any free one</td>
+</tr>
+<tr>
+<td><code>Public_Url</code></td>
+<td>empty</td>
+<td>The address shown to staff with their code, for example <code>https://panel.example.com</code></td>
+</tr>
+<tr>
+<td><code>Session_Minutes</code></td>
+<td><code>120</code></td>
+<td>How long a session lasts before a new code is needed (5 to 1440)</td>
+</tr>
+<tr>
+<td><code>Allow_Offline_Actions</code></td>
+<td><code>false</code></td>
+<td>Lets staff with <code>chatalyst.panel.offline</code> act while they are not in game</td>
+</tr>
+<tr>
+<td><code>Allow_Console</code></td>
+<td><code>false</code></td>
+<td>Lets staff with <code>chatalyst.panel.console</code> run any console command</td>
+</tr>
+<tr>
+<td><code>Trust_Forwarded_For</code></td>
+<td><code>false</code></td>
+<td>Read the visitor&#39;s real address from your own reverse proxy</td>
+</tr>
+<tr>
+<td><code>Allowed_IPs</code></td>
+<td>empty</td>
+<td>If not empty, only these addresses can load the panel at all</td>
+</tr>
+<tr>
+<td><code>Lock_Session_To_IP</code></td>
+<td><code>true</code></td>
+<td>A session only works from the address that opened it</td>
+</tr>
+<tr>
+<td><code>Discord_Login</code></td>
+<td><code>true</code></td>
+<td>Staff can get their code by Discord private message instead of joining the game</td>
+</tr>
+<tr>
+<td><code>Discord_OAuth.Client_Id</code></td>
+<td>empty</td>
+<td>The Application ID of your Discord application</td>
+</tr>
+<tr>
+<td><code>Discord_OAuth.Client_Secret</code></td>
+<td>empty</td>
+<td>The Client Secret from the OAuth2 tab; when both are set, the &quot;Sign in with Discord&quot; button appears</td>
+</tr>
+<tr>
+<td><code>Textures.Download</code></td>
+<td><code>false</code></td>
+<td>Real item icons, block textures and models, armor and the health and hunger icons. See <a href="#live-view">Live view</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="signing-in"><a class="anchor" href="#signing-in" aria-hidden="true">#</a>Signing in</h2>
+<ol>
+<li>The staff member joins the server and runs <code>/chatalyst panel</code>.</li>
+<li>They get a code such as <code>K7QM-4XWP</code> in chat. Clicking it copies it. It lasts 2 minutes and works once.</li>
+<li>They open the panel address and type the code.</li>
+</ol>
+<h3 id="without-joining-the-game"><a class="anchor" href="#without-joining-the-game" aria-hidden="true">#</a>Without joining the game</h3>
+<p><strong>Recommended — &quot;Sign in with Discord&quot; (OAuth2):</strong> The staff member clicks <strong>Sign in with Discord</strong> on the sign-in page, Discord asks them to authorise (only the <code>identify</code> permission: Chatalyst only reads who they are, nothing more), and they go straight in with the Minecraft account they linked with <code>/discord link</code>. If their Discord is not linked, the page tells them to link Discord and Minecraft first with <code>/discord link</code>. If it is linked but that account does not have <code>chatalyst.panel</code>, it tells them that as well. The Chatalyst bot does not need to be running and their Discord does not need to accept private messages; only the link has to exist.</p>
+<p>To turn it on:</p>
+<ol>
+<li>In <a href="https://discord.com/developers/applications" rel="noopener">https://discord.com/developers/applications</a>, open your application (the bot&#39;s own application works) and go to <strong>OAuth2</strong>.</li>
+<li>Copy the <strong>Client ID</strong> and <strong>Client Secret</strong> to <code>Panel.Discord_OAuth</code>.</li>
+<li>Under <strong>Redirects</strong>, add <code>&lt;Public_Url&gt;/api/login/discord/callback</code> <strong>exactly</strong>, for example <code>https://panel.example.com/api/login/discord/callback</code> (<code>Public_Url</code> must be the address staff open in their browser).</li>
+<li>Run <code>/chatalyst reload</code> or restart the server. The secret is a password: do not share it.</li>
+</ol>
+<p><strong>Code by private message (kept when <code>Discord_OAuth</code> is empty):</strong> If the Chatalyst Discord bot is running and the staff member has linked their account (<code>/discord link</code>), on the sign-in page, under <strong>Not in the game?</strong>, they type their Minecraft name and the bot sends the one-time code to their Discord by private message. Only an account that is linked and has <code>chatalyst.panel</code> gets a code. The page answers the same thing whatever name is typed, so it cannot be used to find out who is staff, and each account can ask once a minute. Their Discord must accept private messages from members of your server.</p>
+<p><code>Discord_Login: false</code> turns both ways off. Every sign-in and every failed attempt is written to the activity log.</p>
+<p>If you run your own Discord bot instead of the Chatalyst one, it can do the same: from the console or RCON, <code>chatalyst panelcode &lt;discord-id&gt;</code> writes <code>PANEL OK &lt;uuid&gt; &lt;player&gt; &lt;code&gt;</code> to the server log for the Minecraft account linked to that Discord user (or <code>PANEL DENIED &lt;reason&gt;</code>), and your bot hands the code over in private.</p>
+<p>Signed in this way and not in game, a staff member can watch everything their rank allows; to act they still need <code>Allow_Offline_Actions</code> and <code>chatalyst.panel.offline</code>.</p>
+<p>The player gets a chat notice every time a session is opened with their account, with the address it came from. <code>/chatalyst panel logout</code> closes their sessions at once.</p>
+<h2 id="finding-your-way-around"><a class="anchor" href="#finding-your-way-around" aria-hidden="true">#</a>Finding your way around</h2>
+<p>The <strong>overview</strong> opens with the numbers that matter right now (players, TPS, uptime, open reports) and two charts of the last hour: players online and TPS. A dip in the TPS line tells you the server stuttered even if you were not looking at the time. The charts fill in during the first minutes after a restart, and they are kept in memory only. Staff who can see the history also get the latest sanctions on that page.</p>
+<p>A few things work everywhere in the panel:</p>
+<ul>
+<li><strong>Quick search</strong>: press <code>Ctrl + K</code> (or the search button at the top) to jump to any section or to a player. Type a name that is not online and it offers to look that player up.</li>
+<li><strong>Menu counters</strong>: Alerts and Reports show how many are waiting, so you do not have to open them to find out.</li>
+<li><strong>Your session</strong>: click your name at the top to see your rank, whether you can act or only read, and when the session ends. You can sign out from there.</li>
+</ul>
+<p><strong>Sanctions</strong> can be narrowed down by type (bans, mutes, warnings, kicks) and searched by player, staff member or reason. <strong>Export CSV</strong> downloads what you are looking at, up to the 1,000 most recent rows, ready for a spreadsheet.</p>
+<h2 id="who-sees-what"><a class="anchor" href="#who-sees-what" aria-hidden="true">#</a>Who sees what</h2>
+<p>The panel reads the same permissions the game uses, so you set it up once in LuckPerms. A helper who can only mute sees a mute button and nothing else. Buttons a rank cannot use are not shown.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Default</th>
+<th>In the panel</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.panel</code></td>
+<td>op</td>
+<td>Sign in. See players and the live chat</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.kick</code></td>
+<td>op</td>
+<td>Kick</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.mute</code></td>
+<td>op</td>
+<td>Mute and unmute</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.ban</code></td>
+<td>op</td>
+<td>Ban, temporary ban and unban</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.warn</code></td>
+<td>op</td>
+<td>Warn</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.freeze</code></td>
+<td>op</td>
+<td>Freeze and unfreeze</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.history</code></td>
+<td>op</td>
+<td>A player&#39;s history and the server-wide punishment list</td>
+</tr>
+<tr>
+<td><code>chatalyst.staff.notes</code></td>
+<td>op</td>
+<td>Staff notes on a player</td>
+</tr>
+<tr>
+<td><code>chatalyst.channel.staff</code></td>
+<td>op</td>
+<td>Write in the staff channel</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.broadcast</code></td>
+<td>op</td>
+<td>Send a broadcast</td>
+</tr>
+<tr>
+<td><code>chatalyst.panel.live</code></td>
+<td>op</td>
+<td>Open a player&#39;s live view: the map around them and their status</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.invsee</code></td>
+<td>op</td>
+<td>See the inventory in the live view</td>
+</tr>
+<tr>
+<td><code>chatalyst.panel.alerts</code></td>
+<td>op</td>
+<td>See the moderation alerts: x-ray, autoclick, exploits, spam, filtered words</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.manage</code></td>
+<td>op</td>
+<td>See open reports, take them and close them</td>
+</tr>
+<tr>
+<td><code>chatalyst.panel.features</code></td>
+<td>op</td>
+<td>Turn features on and off</td>
+</tr>
+<tr>
+<td><code>chatalyst.panel.audit</code></td>
+<td>op</td>
+<td>See the activity log. Meant for the owner</td>
+</tr>
+<tr>
+<td><code>chatalyst.admin</code></td>
+<td>op</td>
+<td>Reload the configuration</td>
+</tr>
+<tr>
+<td><code>chatalyst.panel.offline</code></td>
+<td>nobody</td>
+<td>Act while not in game (also needs <code>Allow_Offline_Actions</code>)</td>
+</tr>
+<tr>
+<td><code>chatalyst.panel.console</code></td>
+<td>nobody</td>
+<td>Run console commands (also needs <code>Allow_Console</code>)</td>
+</tr>
+</tbody></table></div>
+<p>A typical setup:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-text">/lp group helper permission set chatalyst.panel true
+/lp group helper permission set chatalyst.command.mute true
+/lp group mod permission set chatalyst.command.kick true
+/lp group mod permission set chatalyst.command.ban true
+/lp group mod permission set chatalyst.command.history true
+/lp group admin permission set chatalyst.panel.features true</code></pre></div>
+<p>Rank protection works as in game: a moderator cannot punish someone of a higher rank from the panel, because the panel runs the moderator&#39;s own command.</p>
+<h3 id="losing-a-rank"><a class="anchor" href="#losing-a-rank" aria-hidden="true">#</a>Losing a rank</h3>
+<p>Permissions are checked on every request, not only at sign-in.</p>
+<ul>
+<li>If the staff member is in game, the panel uses their permissions of that moment. Remove a permission and the button stops working on the next click.</li>
+<li>If they are not in game, the panel asks LuckPerms every 30 seconds. Take the rank away and their session closes even if they never come back.</li>
+<li>A banned account loses its session.</li>
+</ul>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>Without LuckPerms the panel cannot check a player who is not in game. Their session still ends on its own after <code>Session_Minutes</code>, and it is read-only unless you turned on <code>Allow_Offline_Actions</code>.</p>
+</div>
+<h2 id="live-view"><a class="anchor" href="#live-view" aria-hidden="true">#</a>Live view</h2>
+<p>From a player&#39;s record, <strong>Live view</strong> shows what that player is doing right now without you joining the server: a top-down map of the blocks around them (24 blocks each way, refreshed every 2 seconds), the player as an arrow pointing where they look, and who or what is near them. Next to it are their world and coordinates, health, hunger, level, game mode, ping and active effects, and, with <code>chatalyst.command.invsee</code>, what they hold, wear and carry.</p>
+<p>The view has three modes. <strong>First person</strong> shows what the player sees, with the item they hold in the corner of the screen. <strong>Around</strong> lets you orbit the camera: the player is drawn as the real model with their skin, the armor they wear and what they carry in each hand, and so are the players near them. <strong>Map</strong> is the top-down view. Blocks keep their real shape (chains, lanterns, fences, stairs, slabs, torches), the sky follows the time of day in that world, and a line traces where the player walked in the last 90 seconds.</p>
+<p>It runs in real time: the player&#39;s position and where they look are refreshed five times a second and smoothed in between, and a block they place or break shows up in under a second. Over the picture you get their coordinates, heading, speed and what they are looking at; an amber tag appears when they move faster than walking allows or stay in the air too long. Those are hints for you to look closer, not a verdict. You can pause the view, go full screen, and freeze, mute, warn, kick or ban from right under it.</p>
+<p>Next to it, health, hunger and experience are drawn the way the game draws them, and the inventory uses the game&#39;s own layout: armor and off hand on one side, the backpack and the hotbar with the slot in use marked. Hover an item to read its name, enchantments, lore and durability.</p>
+<p>There are three ways to look, with a switch above the picture:</p>
+<ul>
+<li><strong>First person</strong> shows the world in 3D from the player&#39;s own eyes, turning as they turn, like spectating them.</li>
+<li><strong>Around</strong> is the same 3D world with the camera circling the player. Drag to turn it and use the wheel to zoom.</li>
+<li><strong>Map</strong> is the top-down view.</li>
+</ul>
+<p>Other players appear with their skin&#39;s face, and animals and monsters with a picture, so you can tell at a glance who and what is there.</p>
+<h3 id="real-textures"><a class="anchor" href="#real-textures" aria-hidden="true">#</a>Real textures</h3>
+<p>Out of the box the 3D view and the inventory use flat colours and short codes. To see the real block textures and item icons, set this in <code>config.yml</code> and restart:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Panel:
+  Textures:
+    Download: true</code></pre></div>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>The textures belong to Mojang, so Chatalyst does not ship them. With <code>Download: true</code> the plugin downloads the official Minecraft client for your version once, from Mojang&#39;s servers to your machine, unpacks the textures into <code>plugins/Chatalyst/panel-textures</code> and deletes the rest. Turn it on only if you accept the Minecraft EULA. It needs about 40 MB of download and a few MB on disk.</p>
+</div>
+<p>When the player is under a roof (a cave, the Nether, inside a build) the map shows the floor at their level instead of the surface. Areas that are not loaded show as black; the panel never loads chunks. It works for players on the server the panel runs on, and vanished staff stay hidden from anyone who cannot see them in game.</p>
+<h2 id="alerts-and-reports"><a class="anchor" href="#alerts-and-reports" aria-hidden="true">#</a>Alerts and reports</h2>
+<p><strong>Alerts</strong> lists what the detectors flagged, newest first: x-ray, autoclick, exploits, spam, filtered words and chat rules. Each one names the player and what was seen, with a button to open their record or go straight to their live view. It is the same thing staff see in game; nothing new is detected for the panel. Alerts are kept in memory, so the list starts empty after a restart.</p>
+<p><strong>Reports</strong> lists the open player reports. A staff member can take one, release it, and resolve or reject it with a closing note, exactly as with <code>/reports</code> in game.</p>
+<p>When a staff member acts from outside the game, a target who is protected against that punishment (<code>chatalyst.bypass.mute</code>, <code>chatalyst.bypass.ban</code> and so on, or an operator) is refused, just as in game.</p>
+<h2 id="using-it-from-your-own-panel"><a class="anchor" href="#using-it-from-your-own-panel" aria-hidden="true">#</a>Using it from your own panel</h2>
+<p>If you already run a panel or a bot on the same machine, it can use this one&#39;s API instead of making your staff open two panels. Set a long random value in <code>Service_Token</code> and send it in the <code>X-Chatalyst-Service</code> header, with the staff member&#39;s Minecraft UUID in <code>X-Chatalyst-Actor</code>. The call can do exactly what that player&#39;s permissions allow, and every action is written to the activity log under their name.</p>
+<p>It only works from <code>127.0.0.1</code>, and only with a token of 32 characters or more. Acting while the staff member is not in game also needs <code>Allow_Offline_Actions: true</code>.</p>
+<h2 id="staff-service-hours"><a class="anchor" href="#staff-service-hours" aria-hidden="true">#</a>Staff service hours</h2>
+<p>Turn on <code>Staff_Activity.Enabled</code> and Chatalyst counts, minute by minute, how long each staff member is online <strong>doing something</strong> and how long they are AFK. Moving, chatting and using commands all count as active, so a helper answering questions while standing still is still working; three minutes with none of that is AFK. It also counts time in staff mode and the sanctions each one gave that day.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Staff_Activity:
+  Enabled: false
+  Permission: &quot;chatalyst.channel.staff&quot;   # who counts as staff</code></pre></div>
+<p>Owners (<code>chatalyst.panel.audit</code>) see it in the <strong>Team</strong> view of the panel, for today, the last 7 days or the last 30. The same data is kept in <code>plugins/Chatalyst/staff-activity.json</code> (last 45 days, times in seconds), a plain file on purpose so your own tools can read it.</p>
+<h2 id="activity-log"><a class="anchor" href="#activity-log" aria-hidden="true">#</a>Activity log</h2>
+<p>Everything that happens in the panel is written down: who signed in and from which address, failed sign-in attempts, who signed out or lost their session, every action taken, every feature switched, every console command, and whose live view was opened by whom.</p>
+<p>Staff with <code>chatalyst.panel.audit</code> see it in the panel under <strong>Activity</strong>. Give that permission only to the owner rank. The log is kept in <code>plugins/Chatalyst/panel-audit.log</code>, so it survives restarts, and the same lines go to the server console with the <code>[Panel]</code> prefix.</p>
+<h2 id="in-game-or-out-of-game"><a class="anchor" href="#in-game-or-out-of-game" aria-hidden="true">#</a>In game or out of game</h2>
+<p>While the staff member is also connected to the server, every action runs as their own command and the reply goes to their in-game chat.</p>
+<p>When they are not connected, the panel is <strong>read-only</strong> by default: they can watch players, chat and history, but not act. To let trusted ranks act from outside, set <code>Allow_Offline_Actions: true</code> and give them <code>chatalyst.panel.offline</code>.</p>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p>Actions taken from outside the game run as the console. Protected players and operators are still refused, but the finer rank order (a moderator not touching an admin) is not checked. Give <code>chatalyst.panel.offline</code> only to ranks you trust with that.</p>
+</div>
+<h2 id="opening-it-to-your-staff"><a class="anchor" href="#opening-it-to-your-staff" aria-hidden="true">#</a>Opening it to your staff</h2>
+<p>With the default <code>Bind: &quot;127.0.0.1&quot;</code> the panel only answers on the server machine itself. That is the safe starting point: nobody on the internet can reach it.</p>
+<p>To let staff open it from their own devices you have three options, from safest to simplest.</p>
+<h3 id="behind-an-https-reverse-proxy-recommended"><a class="anchor" href="#behind-an-https-reverse-proxy-recommended" aria-hidden="true">#</a>Behind an HTTPS reverse proxy (recommended)</h3>
+<p>Keep <code>Bind: &quot;127.0.0.1&quot;</code> and let a web server on the same machine publish it with HTTPS. With <a href="https://caddyserver.com" rel="noopener">Caddy</a> this is the whole file:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-text">panel.example.com {
+    reverse_proxy 127.0.0.1:8765
+}</code></pre></div>
+<p>Then set:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Panel:
+  Public_Url: &quot;https://panel.example.com&quot;
+  Trust_Forwarded_For: true</code></pre></div>
+<p>A Cloudflare Tunnel or nginx works the same way. No extra port has to be opened in the firewall beyond 443.</p>
+<h3 id="through-a-vpn"><a class="anchor" href="#through-a-vpn" aria-hidden="true">#</a>Through a VPN</h3>
+<p>If your staff share a VPN (WireGuard, Tailscale), bind the panel to the VPN address of the machine and only people inside the VPN can reach it:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Panel:
+  Bind: &quot;10.8.0.1&quot;
+  Allowed_IPs: [&quot;10.8.0.&quot;]</code></pre></div>
+<h3 id="directly-on-a-port"><a class="anchor" href="#directly-on-a-port" aria-hidden="true">#</a>Directly on a port</h3>
+<p>Set <code>Bind: &quot;0.0.0.0&quot;</code> to listen on every address of the machine, and open the port (TCP <code>8765</code> by default) in your firewall or in your host&#39;s panel. Staff then open <code>http://your-server-ip:8765</code>.</p>
+<div class="callout callout-warning"><p class="callout-title">Warning</p><p>This is plain HTTP: the sign-in code and the session travel unencrypted. Use it only for testing or together with <code>Allowed_IPs</code>. On shared Minecraft hosting you can usually only use ports the host assigns you; ask them for an extra port and put it in <code>Port</code>.</p>
+</div>
+<h2 id="how-it-is-protected"><a class="anchor" href="#how-it-is-protected" aria-hidden="true">#</a>How it is protected</h2>
+<ul>
+<li><strong>No passwords.</strong> There is nothing to leak or reuse. Only someone who is in game with the right rank can get a code.</li>
+<li><strong>One-time codes.</strong> A code lasts 2 minutes, works once, and asking for a new one cancels the old one.</li>
+<li><strong>Guessing is blocked.</strong> Eight wrong codes from one address lock that address out for a minute.</li>
+<li><strong>Sessions are tied to the address.</strong> A copied session cookie does not work from another network. The cookie cannot be read by scripts and is never sent to other sites.</li>
+<li><strong>Other websites cannot act for you.</strong> Every change needs a header a foreign page cannot send, and the request must come from the panel itself.</li>
+<li><strong>Optional address list.</strong> With <code>Allowed_IPs</code>, anyone else cannot even load the sign-in page.</li>
+<li><strong>Everything is logged.</strong> Each sign-in and each action is written to the server console with the staff member&#39;s name and address, prefixed with <code>[Panel]</code>.</li>
+<li><strong>The dangerous parts are off.</strong> Console access and acting from outside the game need both a config switch and a permission nobody has by default.</li>
+</ul>
+<h2 id="commands"><a class="anchor" href="#commands" aria-hidden="true">#</a>Commands</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/chatalyst panel</code></td>
+<td>Gives you a one-time code to sign in. <code>/chatalyst web</code> does the same</td>
+</tr>
+<tr>
+<td><code>/chatalyst panel logout</code></td>
+<td>Closes your panel sessions</td>
+</tr>
+</tbody></table></div>
+<h2 id="troubleshooting"><a class="anchor" href="#troubleshooting" aria-hidden="true">#</a>Troubleshooting</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;The web panel is off&quot;</td>
+<td><code>Panel.Enabled</code> is <code>false</code>, or the port was taken at startup. Check the console for a <code>[Panel]</code> line</td>
+</tr>
+<tr>
+<td>The page does not load from outside</td>
+<td><code>Bind</code> is still <code>127.0.0.1</code>, the port is closed in the firewall, or your address is not in <code>Allowed_IPs</code></td>
+</tr>
+<tr>
+<td>&quot;That code is wrong or has expired&quot;</td>
+<td>More than 2 minutes passed, it was already used, or a newer code replaced it</td>
+</tr>
+<tr>
+<td>Signed out after switching from Wi-Fi to mobile data</td>
+<td><code>Lock_Session_To_IP</code> did its job. Ask for a new code</td>
+</tr>
+<tr>
+<td>Buttons are missing</td>
+<td>That rank lacks the permission for them</td>
+</tr>
+<tr>
+<td>&quot;Join the game to act&quot;</td>
+<td>You are not connected to the server and offline actions are off</td>
+</tr>
+</tbody></table></div>
+</article>
+      <nav class="pager"><a class="pager-prev" href="staff-suite.html"><span>Previous</span><strong>Staff suite</strong></a><a class="pager-next" href="reports.html"><span>Next</span><strong>Reports &amp; support</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

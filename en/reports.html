@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101011">
+  <title>Reports &amp; support · Chatalyst Docs</title>
+  <meta name="description" content="Let players report others to staff with /report, handle each report as a ticket, and answer &quot;is an admin online?&quot; with a private support chat.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/en/reports.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/reports.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/reports.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/reports.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Chatalyst Docs">
+  <meta property="og:title" content="Reports &amp; support">
+  <meta property="og:description" content="Let players report others to staff with /report, handle each report as a ticket, and answer &quot;is an admin online?&quot; with a private support chat.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/en/reports.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/documentation-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/CHATALYST_icono.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); document.documentElement.dataset.theme = theme === 'light' || theme === 'dark' ? theme : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (_) {} })();
+  </script>
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../en/" aria-label="Chatalyst">
+        <img class="brand-lockup" src="../theme/assets/CHATALYST_horizontal.svg" width="1040" height="334" alt="">
+        <span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../es/reports.html" hreflang="es" lang="es"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Moderation</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../en/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentation"><div class="nav-group"><p class="nav-group-title">Getting started</p><a class="nav-link" href="overview.html">What is Chatalyst</a><a class="nav-link" href="install.html">Install in 5 minutes</a><a class="nav-link" href="first-chat.html">Your first chat</a><a class="nav-link" href="features.html">Turn on extras</a><a class="nav-link" href="license.html">License &amp; activation</a><a class="nav-link" href="privacy.html">Privacy</a><a class="nav-link" href="upgrading.html">Updating</a><a class="nav-link" href="faq.html">FAQ</a><a class="nav-link" href="troubleshooting.html">Common problems</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Chat formats</a><a class="nav-link" href="channels.html">Channels</a><a class="nav-link" href="mentions.html">Mentions</a><a class="nav-link" href="private-messages.html">Private messages</a><a class="nav-link" href="nicknames.html">Colors &amp; nicknames</a><a class="nav-link" href="join-messages.html">Join, quit &amp; death messages</a><a class="nav-link" href="chat-filter.html">Filter, anti-spam &amp; anti-bot</a><a class="nav-link" href="rules-engine.html">Rules engine</a></div><div class="nav-group"><p class="nav-group-title">Moderation</p><a class="nav-link" href="punishments.html">Mutes, bans &amp; warnings</a><a class="nav-link" href="staff-suite.html">Staff suite</a><a class="nav-link" href="web-panel.html">Web panel</a><a class="nav-link is-active" aria-current="page" href="reports.html">Reports &amp; support</a><a class="nav-link" href="spying.html">Spy &amp; logs</a><a class="nav-link" href="anonymous.html">Anonymous mode</a><a class="nav-link" href="newcomers.html">Newcomers</a></div><div class="nav-group"><p class="nav-group-title">Optional extras</p><a class="nav-link" href="announcements.html">Announcements</a><a class="nav-link" href="mail.html">Mail</a><a class="nav-link" href="tags.html">Tags, titles &amp; effects</a><a class="nav-link" href="nametags.html">Tab list &amp; nametags</a><a class="nav-link" href="translation.html">Live translation</a><a class="nav-link" href="player-tools.html">Player tools</a><a class="nav-link" href="auto-responses.html">Auto responses</a><a class="nav-link" href="custom-commands.html">Custom commands</a><a class="nav-link" href="books.html">Books &amp; rules</a><a class="nav-link" href="economy.html">Balance top</a><a class="nav-link" href="market.html">Market &amp; trading</a><a class="nav-link" href="rentals.html">Rentals</a><a class="nav-link" href="gifts.html">Gifts</a><a class="nav-link" href="giveaways.html">Giveaways</a><a class="nav-link" href="marriage.html">Marriage</a><a class="nav-link" href="events.html">Scheduled events</a></div><div class="nav-group"><p class="nav-group-title">Network &amp; proxy</p><a class="nav-link" href="network.html">Proxy &amp; Redis networks</a><a class="nav-link" href="storage.html">Storage &amp; database</a></div><div class="nav-group"><p class="nav-group-title">Integrations</p><a class="nav-link" href="integrations.html">Integrations</a><a class="nav-link" href="discord-bot.html">Discord bot</a><a class="nav-link" href="store.html">Store, ranks &amp; Tebex</a></div><div class="nav-group"><p class="nav-group-title">Reference</p><a class="nav-link" href="commands.html">Commands</a><a class="nav-link" href="permissions.html">Permissions</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Configuration files</a><a class="nav-link" href="localization.html">Languages &amp; messages</a><a class="nav-link" href="compatibility.html">Compatibility &amp; conflicts</a><a class="nav-link" href="performance.html">Performance</a></div><div class="nav-group"><p class="nav-group-title">Developers</p><a class="nav-link" href="api.html">Developer API</a></div></nav>
+      <div class="sidebar-bottom"><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#turn-reports-on">Turn reports on</a></li><li class="toc-h2"><a href="#limits-against-spam">Limits against spam</a></li><li class="toc-h2"><a href="#for-players">For players</a></li><li class="toc-h2"><a href="#for-staff">For staff</a></li><li class="toc-h2"><a href="#escalate-a-ticket">Escalate a ticket</a></li><li class="toc-h2"><a href="#critical-tickets">Critical tickets</a></li><li class="toc-h2"><a href="#permissions">Permissions</a></li><li class="toc-h2"><a href="#reports-on-discord-the-web-panel-and-the-map">Reports on Discord, the web panel and the map</a></li><li class="toc-h2"><a href="#support-requests">Support requests</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Moderation</p><h1>Reports &amp; support</h1><p class="lead">Let players report others to staff with /report, handle each report as a ticket, and answer &quot;is an admin online?&quot; with a private support chat.</p></header>
+<article class="prose">
+<p>Reports let a player tell your staff about a problem with <code>/report &lt;player&gt; &lt;reason&gt;</code>. Each report becomes a numbered ticket. One staff member claims it, answers it and closes it, or passes it to a higher rank. The player can follow their ticket and reply.</p>
+<p>Support requests catch questions like &quot;any admin online?&quot; in chat and turn them into a private conversation with the right staff member.</p>
+<h2 id="turn-reports-on"><a class="anchor" href="#turn-reports-on" aria-hidden="true">#</a>Turn reports on</h2>
+<p>Reports ship off. In <code>moderation.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Reports:
+  Enabled: true</code></pre></div>
+<p>Then run <code>/cht reload</code>.</p>
+<h2 id="limits-against-spam"><a class="anchor" href="#limits-against-spam" aria-hidden="true">#</a>Limits against spam</h2>
+<p>All of these are in the <code>Reports</code> section of <code>moderation.yml</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Cooldown</code></td>
+<td><code>60</code></td>
+<td>Seconds a player waits between two reports.</td>
+</tr>
+<tr>
+<td><code>Reply_Cooldown</code></td>
+<td><code>5</code></td>
+<td>Seconds a player waits between two replies on their own ticket with <code>/ticket</code>. <code>0</code> = no wait.</td>
+</tr>
+<tr>
+<td><code>Max_Open_Per_Player</code></td>
+<td><code>0</code></td>
+<td>Open reports a player may have at once. <code>0</code> = no limit.</td>
+</tr>
+<tr>
+<td><code>Min_Reason_Length</code></td>
+<td><code>0</code></td>
+<td>Shortest reason accepted, in characters. <code>0</code> = no minimum.</td>
+</tr>
+<tr>
+<td><code>Max_Reason_Length</code></td>
+<td><code>512</code></td>
+<td>Longest reason kept.</td>
+</tr>
+<tr>
+<td><code>Max_Reply_Length</code></td>
+<td><code>512</code></td>
+<td>Longest reply kept.</td>
+</tr>
+<tr>
+<td><code>Max_Note_Length</code></td>
+<td><code>512</code></td>
+<td>Longest staff note kept.</td>
+</tr>
+<tr>
+<td><code>Require_Linked</code></td>
+<td><code>false</code></td>
+<td><code>true</code> = a player needs a linked Discord account (<code>/discord link</code>) to use <code>/report</code>.</td>
+</tr>
+</tbody></table></div>
+<p>A player also cannot open a second report against someone while the first one is still open.</p>
+<p>Example: ask for a real explanation and allow three open tickets per player.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Reports:
+  Enabled: true
+  Min_Reason_Length: 10
+  Max_Open_Per_Player: 3
+  Reply_Cooldown: 15</code></pre></div>
+<p>Staff with <code>chatalyst.report.bypass</code> (operators have it) skip both waits, the open-ticket limit, the duplicate check and the Discord link requirement.</p>
+<h2 id="for-players"><a class="anchor" href="#for-players" aria-hidden="true">#</a>For players</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/report &lt;player&gt; &lt;reason&gt;</code></td>
+<td>Sends a report to the staff. The player must be online.</td>
+</tr>
+<tr>
+<td><code>/ticket</code></td>
+<td>Lists your open tickets.</td>
+</tr>
+<tr>
+<td><code>/ticket &lt;id&gt;</code></td>
+<td>Shows the conversation of one of your tickets.</td>
+</tr>
+<tr>
+<td><code>/ticket &lt;id&gt; &lt;message&gt;</code></td>
+<td>Replies to staff on your ticket.</td>
+</tr>
+</tbody></table></div>
+<p>Players can only read and answer their own tickets. You can report a nickname: the ticket stores the real account for the staff.</p>
+<h2 id="for-staff"><a class="anchor" href="#for-staff" aria-hidden="true">#</a>For staff</h2>
+<p><code>/reports</code> opens a menu with the tickets you can handle. Click a ticket to claim it, set it to pending, escalate it, resolve it or reject it. Click the summary to read the whole conversation as a book.</p>
+<p>The same actions work as commands. <code>/reports help</code> lists them in game.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/reports info &lt;id&gt;</code></td>
+<td>Shows the details of a ticket.</td>
+</tr>
+<tr>
+<td><code>/reports claim &lt;id&gt;</code></td>
+<td>Puts the ticket in your name.</td>
+</tr>
+<tr>
+<td><code>/reports reply &lt;id&gt; &lt;message&gt;</code></td>
+<td>Answers the player. Replying to a free ticket claims it.</td>
+</tr>
+<tr>
+<td><code>/reports pending &lt;id&gt; [note]</code></td>
+<td>Waits for more information.</td>
+</tr>
+<tr>
+<td><code>/reports resolve &lt;id&gt; [note]</code></td>
+<td>Closes it as handled.</td>
+</tr>
+<tr>
+<td><code>/reports reject &lt;id&gt; [note]</code></td>
+<td>Closes it as not valid.</td>
+</tr>
+<tr>
+<td><code>/reports escalate &lt;id&gt; [reason]</code></td>
+<td>Passes it to the next level.</td>
+</tr>
+<tr>
+<td><code>/reports release &lt;id&gt;</code></td>
+<td>Frees it so someone else can take it.</td>
+</tr>
+<tr>
+<td><code>/reports reopen &lt;id&gt;</code></td>
+<td>Opens a closed ticket again.</td>
+</tr>
+<tr>
+<td><code>/reports priority &lt;id&gt;</code></td>
+<td>Marks or unmarks it as critical.</td>
+</tr>
+<tr>
+<td><code>/reports delete &lt;id&gt;</code></td>
+<td>Deletes it.</td>
+</tr>
+</tbody></table></div>
+<p>The Spanish words work too: <code>tomar</code>, <code>responder</code>, <code>espera</code>, <code>resolver</code>, <code>rechazar</code>, <code>escalar</code>, <code>soltar</code>, <code>reabrir</code>, <code>ver</code>, <code>prioridad</code> and <code>borrar</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Open</td>
+<td>Free, waiting for staff.</td>
+</tr>
+<tr>
+<td>Claimed</td>
+<td>A staff member is handling it.</td>
+</tr>
+<tr>
+<td>Pending</td>
+<td>Waiting for more information.</td>
+</tr>
+<tr>
+<td>Resolved / rejected</td>
+<td>Closed. Can be reopened later.</td>
+</tr>
+</tbody></table></div>
+<p><strong>One person per ticket.</strong> Once someone claims a ticket, nobody else can reply to it or change it until they release or escalate it. Only staff with <code>chatalyst.report.override</code> (operators by default) can take over someone else&#39;s ticket.</p>
+<p>The player gets a message in game when their ticket is claimed, set to pending, resolved, rejected, escalated or reopened, and when staff reply.</p>
+<h2 id="escalate-a-ticket"><a class="anchor" href="#escalate-a-ticket" aria-hidden="true">#</a>Escalate a ticket</h2>
+<p>A helper who cannot solve a case passes it up. The ticket becomes free again, and only staff with the permission of the new level can see it and claim it. The new level is alerted with a clickable <strong>Claim</strong> button.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Reports:
+  Escalation:
+    Enabled: true
+    Base_Name: &quot;Helper&quot;
+    Levels:
+      - Name: &quot;T-Mod&quot;
+        Permission: chatalyst.report.level.1
+      - Name: &quot;Mod&quot;
+        Permission: chatalyst.report.level.2
+      - Name: &quot;Admin&quot;
+        Permission: chatalyst.report.level.3</code></pre></div>
+<p><code>Base_Name</code> is level 0: everyone with <code>chatalyst.report.manage</code>. Rename the levels to your own ranks, and add or remove lines as you need.</p>
+<p>To set it up with LuckPerms:</p>
+<ol>
+<li>Give <code>chatalyst.report.manage</code> and <code>chatalyst.report.receive</code> to your lowest staff rank.</li>
+<li>Give <code>chatalyst.report.level.1</code> to the rank that handles level 1, <code>level.2</code> to the next one, and so on.</li>
+<li>Let higher ranks inherit from lower ones, so an admin also sees every lower level.</li>
+</ol>
+<div class="callout callout-note"><p class="callout-title">Note</p><p>The three <code>chatalyst.report.level</code> permissions and <code>chatalyst.report.override</code> belong to operators by default.</p>
+</div>
+<h2 id="critical-tickets"><a class="anchor" href="#critical-tickets" aria-hidden="true">#</a>Critical tickets</h2>
+<p><code>/reports priority &lt;id&gt;</code> moves a sensitive case, such as lost items or a removed rank, to the critical section. Only staff with <code>chatalyst.report.priority</code> see it and are alerted.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Allow_Delete</code></td>
+<td><code>true</code></td>
+<td><code>false</code> = nobody can delete tickets.</td>
+</tr>
+<tr>
+<td><code>Delete_High_Rank_Only</code></td>
+<td><code>true</code></td>
+<td><code>true</code> = only <code>chatalyst.report.priority</code> can delete. <code>false</code> = normal report staff can too.</td>
+</tr>
+</tbody></table></div>
+<h2 id="permissions"><a class="anchor" href="#permissions" aria-hidden="true">#</a>Permissions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Gives</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.command.report</code></td>
+<td>Use <code>/report</code> (everyone).</td>
+</tr>
+<tr>
+<td><code>chatalyst.command.ticket</code></td>
+<td>Use <code>/ticket</code> (everyone).</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.receive</code></td>
+<td>An alert, with a soft sound, when a report arrives.</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.manage</code></td>
+<td>Use <code>/reports</code>.</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.level.1</code> to <code>level.3</code></td>
+<td>Handle tickets escalated to that level.</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.priority</code></td>
+<td>See and handle critical tickets. Give it to high ranks only.</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.override</code></td>
+<td>Take over a ticket that someone else is handling.</td>
+</tr>
+<tr>
+<td><code>chatalyst.report.bypass</code></td>
+<td>Skip the player limits.</td>
+</tr>
+</tbody></table></div>
+<h2 id="reports-on-discord-the-web-panel-and-the-map"><a class="anchor" href="#reports-on-discord-the-web-panel-and-the-map" aria-hidden="true">#</a>Reports on Discord, the web panel and the map</h2>
+<ul>
+<li>With the <a href="discord-bot.html">Discord bot</a>, reports can go to a staff channel, where staff can type <code>!reports</code>, <code>!claim &lt;id&gt;</code>, <code>!reply &lt;id&gt; &lt;message&gt;</code> and more. The one-person rule also applies there. Players who linked their account get updates by private message.</li>
+<li>The <a href="web-panel.html">web panel</a> shows the open reports in its overview.</li>
+<li>With dynmap, open reports can show as markers on the map (<code>Dynmap.Reports.Enabled</code> in <code>integrations.yml</code>).</li>
+</ul>
+<h2 id="support-requests"><a class="anchor" href="#support-requests" aria-hidden="true">#</a>Support requests</h2>
+<p>When a player asks something like &quot;any admin?&quot; or &quot;I need a helper&quot; in the main chat, Chatalyst keeps it out of public chat and alerts the staff, starting with the lowest rank and moving up if nobody answers. The staff member who accepts it (<code>/support answer &lt;id&gt;</code>) gets a private chat with the player until <code>/support close</code>.</p>
+<p>It is off by default. In <code>network.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copy</button></div><pre><code class="language-yaml">Staff_Mentions:
+  Enabled: false
+  Require_At: false
+  Groups: [admin, administrador, helper, ayudante, mod, moderador, owner, soporte, staff, equipo]</code></pre></div>
+<p>Set <code>Enabled: true</code> and reload. It works on a single server and across a whole proxy network.</p>
+</article>
+      <nav class="pager"><a class="pager-prev" href="web-panel.html"><span>Previous</span><strong>Web panel</strong></a><a class="pager-next" href="spying.html"><span>Next</span><strong>Spy &amp; logs</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"en","root":"../","strings":{"siteName":"Chatalyst Docs","search":"Search","searchPlaceholder":"Search the docs…","noResults":"No results for","copy":"Copy","copied":"Copied","onThisPage":"On this page","previous":"Previous","next":"Next","menu":"Menu","close":"Close","themeLight":"Switch to light theme","themeDark":"Switch to dark theme","note":"Note","tip":"Tip","warning":"Warning","danger":"Danger","filter":"Filter…","home":"Home"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

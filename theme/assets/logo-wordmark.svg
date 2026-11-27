@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 464 96" role="img" aria-labelledby="title description">
+  <title id="title">Chatalyst</title>
+  <desc id="description">A chat bubble with a spark, followed by the Chatalyst name in custom geometric lettering.</desc>
+  <defs>
+    <linearGradient id="chat" x1="4" y1="3" x2="29" y2="29" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7B2CBF"/>
+      <stop offset=".48" stop-color="#9D4EDD"/>
+      <stop offset="1" stop-color="#C77DFF"/>
+    </linearGradient>
+  </defs>
+  <g transform="scale(3)">
+    <path d="M10 3h12a8 8 0 0 1 8 8v7a8 8 0 0 1-8 8h-9l-7 5v-8.1A8 8 0 0 1 2 16v-5a8 8 0 0 1 8-8Z" fill="url(#chat)"/>
+    <path d="m18 6 2.5 6.5L27 15l-6.5 2.5L18 24l-2.5-6.5L9 15l6.5-2.5Z" fill="#FBF2FF"/>
+  </g>
+  <g fill="none" stroke="#9D4EDD" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M146 28c-4-5-9-7-15-7-13 0-21 10-21 24s8 24 21 24c6 0 11-2 15-7"/>
+    <path d="M161 21v48m0-19c0-9 6-15 14-15s13 5 13 14v20"/>
+    <path d="M230 36v33m0-17c0-10-6-17-15-17s-15 7-15 17 6 17 15 17 15-7 15-17"/>
+    <path d="M248 25v34c0 7 3 10 10 10h3m-22-33h22"/>
+    <path d="M302 36v33m0-17c0-10-6-17-15-17s-15 7-15 17 6 17 15 17 15-7 15-17"/>
+    <path d="M318 21v39c0 6 2 9 7 9"/>
+    <path d="m336 36 13 31 13-31m-13 31-5 12c-2 5-5 7-10 7"/>
+    <path d="M401 39c-4-3-8-4-12-4-7 0-12 3-12 8 0 6 6 8 12 9 7 2 13 4 13 9 0 6-5 9-13 9-5 0-10-2-14-5"/>
+    <path d="M424 25v34c0 7 3 10 10 10h4m-23-33h23"/>
+  </g>
+</svg>

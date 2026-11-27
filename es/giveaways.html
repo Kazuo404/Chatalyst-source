@@ -1,0 +1,1354 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101011">
+  <title>Sorteos · Docs de Chatalyst</title>
+  <meta name="description" content="Un sorteo en directo que ve todo el servidor, con ruleta de cabezas, y /giveall para dar un premio a todos los conectados.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/giveaways.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Sorteos">
+  <meta property="og:description" content="Un sorteo en directo que ve todo el servidor, con ruleta de cabezas, y /giveall para dar un premio a todos los conectados.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/giveaways.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/documentation-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/CHATALYST_icono.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); document.documentElement.dataset.theme = theme === 'light' || theme === 'dark' ? theme : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (_) {} })();
+  </script>
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img class="brand-lockup" src="../theme/assets/CHATALYST_horizontal.svg" width="1040" height="334" alt="">
+        <span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/giveaways.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="web-panel.html">Panel web</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link is-active" aria-current="page" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#como-transcurre-un-sorteo">Cómo transcurre un sorteo</a></li><li class="toc-h3"><a href="#el-espectaculo-de-la-ruleta">El espectáculo de la ruleta</a></li><li class="toc-h3"><a href="#quien-participa">Quién participa</a></li><li class="toc-h3"><a href="#premios">Premios</a></li><li class="toc-h3"><a href="#unidades">Unidades</a></li><li class="toc-h3"><a href="#premios-hechos-en-el-juego">Premios hechos en el juego</a></li><li class="toc-h3"><a href="#sorteos-automaticos">Sorteos automáticos</a></li><li class="toc-h3"><a href="#rangos-como-premio">Rangos como premio</a></li><li class="toc-h2"><a href="#los-menus">Los menús</a></li><li class="toc-h3"><a href="#pantalla-de-confirmacion">Pantalla de confirmación</a></li><li class="toc-h3"><a href="#opciones-de-los-menus">Opciones de los menús</a></li><li class="toc-h2"><a href="#un-premio-para-todos">Un premio para todos</a></li><li class="toc-h3"><a href="#que-puedes-dar">Qué puedes dar</a></li><li class="toc-h3"><a href="#quien-lo-recibe">Quién lo recibe</a></li><li class="toc-h3"><a href="#ajustes">Ajustes</a></li><li class="toc-h2"><a href="#animaciones">Animaciones</a></li><li class="toc-h3"><a href="#estilos">Estilos</a></li><li class="toc-h3"><a href="#opciones">Opciones</a></li><li class="toc-h3"><a href="#animacion-por-premio">Animación por premio</a></li><li class="toc-h3"><a href="#vista-previa">Vista previa</a></li><li class="toc-h2"><a href="#sorteo-de-streamer">Sorteo de streamer</a></li><li class="toc-h3"><a href="#como-activarlo">Cómo activarlo</a></li><li class="toc-h3"><a href="#como-funciona">Cómo funciona</a></li><li class="toc-h3"><a href="#comandos-y-permisos-del-sorteo-de-streamer">Comandos y permisos del sorteo de streamer</a></li><li class="toc-h3"><a href="#opciones-del-sorteo-de-streamer">Opciones del sorteo de streamer</a></li><li class="toc-h3"><a href="#cuando-algo-sale-mal">Cuando algo sale mal</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Sorteos</h1><p class="lead">Un sorteo en directo que ve todo el servidor, con ruleta de cabezas, y /giveall para dar un premio a todos los conectados.</p></header>
+<article class="prose">
+<p>En Chatalyst un sorteo es un evento en directo. El staff lo lanza, todo el mundo recibe una cuenta atrás y luego se abre, a la vez para todos los jugadores que participan, una ruleta con sus cabezas. La rueda gira, frena con un tic cada vez más agudo y se para en el ganador, que se lleva un título, un anuncio, cohetes y el premio.</p>
+<p>Cuando no quieres ningún ganador, <a href="#un-premio-para-todos">/giveall</a> da un premio a todos los jugadores conectados. De fábrica el staff nunca gana un sorteo ni recibe los premios de <code>/giveall</code>, y nadie puede recibir daño mientras tiene la rueda en pantalla.</p>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>Los sorteos son un extra opcional y vienen apagados, con dos premios de ejemplo. Pon <code>Enabled: true</code> y ejecuta <code>/cht reload</code>. La configuración está en <code>plugins/Chatalyst/giveaway.yml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  Enabled: false
+  Command: &quot;giveaway&quot;
+  Command_Aliases:
+    - &quot;sorteo&quot;
+    - &quot;rifa&quot;
+    - &quot;raffle&quot;
+  Warmup_Seconds: 20
+  Countdown_Marks: [30, 20, 10, 5, 4, 3, 2, 1]
+  Ready_Seconds: 3
+  Spin_Seconds: 9
+  Winner_Seconds: 6
+  Reopen_If_Closed: true</code></pre></div>
+<p>El comando es <code>/giveaway</code> y <code>/sorteo</code> es su alias de fábrica: en esta página usamos <code>/sorteo</code>. El staff lo abre, elige una categoría, luego un premio y lo lanza. O escribe <code>/sorteo start &lt;id del premio&gt; [segundos] [unidades o cantidad] [ganadores:N]</code>, por ejemplo:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/sorteo start diamonds 30 5 ganadores:2</code></pre></div>
+<p>Eso lanza el premio de diamantes de fábrica a los 30 segundos, con 5 unidades para cada uno de 2 ganadores.</p>
+<p>Cada palabra del comando funciona en inglés y en español: <code>start</code> o <code>iniciar</code>, <code>all</code> o <code>todos</code>, <code>cancel</code> o <code>cancelar</code>, <code>list</code> o <code>lista</code>, <code>give</code> o <code>dar</code>.</p>
+<div class="callout callout-note"><p class="callout-title">Nota</p><p>Un servidor que ya tenía Chatalyst conserva su <code>giveaway.yml</code>. Ahí el comando principal sigue siendo <code>/sorteo</code>, los premios de ejemplo mantienen sus ids de antes y <code>All.Include_Staff</code> conserva el valor que tenga escrito. No se te cambia nada.</p>
+</div>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<h3 id="como-transcurre-un-sorteo"><a class="anchor" href="#como-transcurre-un-sorteo" aria-hidden="true">#</a>Cómo transcurre un sorteo</h3>
+<ol>
+<li><strong>Calentamiento.</strong> Se avisa a todos de que el sorteo va a empezar, con una línea en el chat, un título y una bossbar que se vacía, y una cuenta atrás en los últimos segundos.</li>
+<li><strong>Inicio.</strong> La ruleta se abre a la vez para todos los participantes y se activa la inmunidad.</li>
+<li><strong>Giro.</strong> Las cabezas pasan y la rueda frena; el sonido del tic sube de tono.</li>
+<li><strong>Ganador.</strong> Se elige en el último momento, al azar entre los participantes que siguen conectados. Después se entrega el premio y la inmunidad se retira unos segundos más tarde.</li>
+</ol>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Enciende los sorteos.</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>giveaway</code> / <code>sorteo</code>, <code>rifa</code>, <code>raffle</code></td>
+<td>Nombres del comando. Si otro plugin tiene un nombre, se salta; <code>/chatalyst:giveaway</code> siempre funciona.</td>
+</tr>
+<tr>
+<td><code>Warmup_Seconds</code></td>
+<td><code>20</code></td>
+<td>Tiempo entre el aviso y la apertura de la rueda. <code>0</code> empieza al momento.</td>
+</tr>
+<tr>
+<td><code>Countdown_Marks</code></td>
+<td><code>30, 20, 10, 5, 4, 3, 2, 1</code></td>
+<td>Segundos que se anuncian durante el calentamiento.</td>
+</tr>
+<tr>
+<td><code>Ready_Seconds</code></td>
+<td><code>3</code></td>
+<td>Pausa tras abrirse el menú, para que todos lean el premio.</td>
+</tr>
+<tr>
+<td><code>Spin_Seconds</code></td>
+<td><code>9</code></td>
+<td>Cuánto gira la rueda.</td>
+</tr>
+<tr>
+<td><code>Winner_Seconds</code></td>
+<td><code>6</code></td>
+<td>Cuánto se queda el ganador en pantalla.</td>
+</tr>
+<tr>
+<td><code>Reopen_If_Closed</code></td>
+<td><code>true</code></td>
+<td>Vuelve a abrir la ruleta a quien la cierre mientras gira.</td>
+</tr>
+<tr>
+<td><code>Immunity.Enabled</code></td>
+<td><code>true</code></td>
+<td>Sin daño, hambre ni fuego durante el sorteo.</td>
+</tr>
+<tr>
+<td><code>Immunity.Extra_Seconds</code></td>
+<td><code>5</code></td>
+<td>Protección extra tras anunciarse el ganador.</td>
+</tr>
+<tr>
+<td><code>Immunity.Cancel_Void</code></td>
+<td><code>true</code></td>
+<td>También anula el daño del vacío. Pon <code>false</code> si tu spawn está sobre el vacío.</td>
+</tr>
+<tr>
+<td><code>Firework</code></td>
+<td><code>true</code></td>
+<td>Un cohete inofensivo a los pies del ganador.</td>
+</tr>
+<tr>
+<td><code>Amount_Presets</code></td>
+<td><code>1000</code> … <code>100000</code></td>
+<td>Hasta 6 atajos de dinero en el menú.</td>
+</tr>
+<tr>
+<td><code>Notify_Discord</code></td>
+<td><code>true</code></td>
+<td>Publica el resultado en el canal de staff de Discord (necesita el canal de staff del <a href="discord-bot.html">bot de Discord</a>).</td>
+</tr>
+</tbody></table></div>
+<p><code>Sounds</code> fija el sonido de cada paso de la ruleta. Cada sonido se puede escribir corto, solo con su nombre, o largo, con su volumen y su tono:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  Sounds:
+    Enabled: true
+    Start: &quot;BLOCK_NOTE_BLOCK_BELL&quot;
+    Countdown: { Sound: &quot;BLOCK_NOTE_BLOCK_PLING&quot;, Volume: 1.0, Pitch: 1.2 }</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sonido</th>
+<th>Por defecto</th>
+<th>Cuándo suena</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Start</code></td>
+<td><code>BLOCK_NOTE_BLOCK_BELL</code></td>
+<td>Al empezar el calentamiento.</td>
+</tr>
+<tr>
+<td><code>Countdown</code></td>
+<td><code>BLOCK_NOTE_BLOCK_PLING</code>, tono <code>1.2</code></td>
+<td>En cada número de la cuenta atrás.</td>
+</tr>
+<tr>
+<td><code>Countdown_Final</code></td>
+<td>El sonido de <code>Countdown</code>, tono <code>1.6</code></td>
+<td>En los tres últimos números.</td>
+</tr>
+<tr>
+<td><code>Ready</code></td>
+<td>El sonido de <code>Countdown</code>, volumen <code>0.7</code>, tono <code>1.4</code></td>
+<td>Cada segundo entre que se abre la rueda y empieza a moverse.</td>
+</tr>
+<tr>
+<td><code>Tick</code> / <code>Tick_Final</code></td>
+<td><code>BLOCK_NOTE_BLOCK_HAT</code>, volumen <code>0.6</code> / <code>BLOCK_NOTE_BLOCK_PLING</code></td>
+<td>Cada paso de la rueda, y cada paso del último cuarto. Su tono sube de <code>Pitch_From</code> (<code>0.7</code>) a <code>Pitch_To</code> (<code>2.0</code>).</td>
+</tr>
+<tr>
+<td><code>Winner</code></td>
+<td><code>ENTITY_PLAYER_LEVELUP</code>, tono <code>1.2</code></td>
+<td>La fanfarria del ganador cuando <code>Show.Reveal.Enabled</code> es <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>Winner_Personal</code></td>
+<td><code>UI_TOAST_CHALLENGE_COMPLETE</code></td>
+<td>Solo lo oye el ganador.</td>
+</tr>
+<tr>
+<td><code>Extra_Winner</code></td>
+<td><code>minecraft:block.note_block.chime</code>, tono <code>1.2</code></td>
+<td>Uno por cada ganador extra, cada vez un poco más agudo.</td>
+</tr>
+</tbody></table></div>
+<p><code>Sound</code> es un nombre de Bukkit (<code>BLOCK_NOTE_BLOCK_BELL</code>) o una clave (<code>minecraft:block.bell.use</code>). También vale una clave de tu paquete de recursos. <code>Volume</code> va de 0 a 10 y <code>Pitch</code> de 0.5 a 2.</p>
+<h3 id="el-espectaculo-de-la-ruleta"><a class="anchor" href="#el-espectaculo-de-la-ruleta" aria-hidden="true">#</a>El espectáculo de la ruleta</h3>
+<p>El bloque <code>Show</code> decide cómo se ve el sorteo. Nunca cambia quién gana. Con <code>Show.Enabled: false</code> vuelve el sorteo sencillo.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Show.Enabled</code></td>
+<td><code>true</code></td>
+<td>Enciende todo el espectáculo.</td>
+</tr>
+<tr>
+<td><code>Show.Animated_Title</code></td>
+<td><code>true</code></td>
+<td>Anima el título de la ventana de la ruleta. Los jugadores de Bedrock no lo ven.</td>
+</tr>
+<tr>
+<td><code>Show.Suspense_Steps</code></td>
+<td><code>3</code></td>
+<td>Pasos muy lentos de «casi» al final del giro (0-3), cada uno con un latido. El giro no dura más.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Bar_Colors</code></td>
+<td><code>true</code></td>
+<td>La bossbar cambia de color según se acerca el sorteo.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Segment_Below_Seconds</code></td>
+<td><code>10</code></td>
+<td>La barra se divide en tramos en los últimos segundos. <code>0</code> es nunca.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Action_Bar</code></td>
+<td><code>true</code></td>
+<td>Muestra sobre la barra de acceso rápido cuántos participan.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Heartbeat</code> / <code>Heartbeat_Seconds</code> / <code>Heartbeat_Sound</code></td>
+<td><code>true</code> / <code>3</code> / <code>minecraft:entity.warden.heartbeat</code></td>
+<td>Un latido que se acelera en los últimos segundos.</td>
+</tr>
+<tr>
+<td><code>Show.Warmup.Animated_Countdown</code></td>
+<td><code>true</code></td>
+<td>El número de la cuenta atrás brilla.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Pulse_Markers</code></td>
+<td><code>true</code></td>
+<td>Las dos flechas laten en cada paso.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Progress</code></td>
+<td><code>true</code></td>
+<td>Una barra de progreso del giro.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Winner_Blink</code> / <code>Blink_Ticks</code></td>
+<td><code>true</code> / <code>6</code></td>
+<td>La cabeza del ganador parpadea.</td>
+</tr>
+<tr>
+<td><code>Show.Wheel.Winner_Row</code></td>
+<td><code>true</code></td>
+<td>Con varios ganadores, sus cabezas aparecen una a una bajo la ruleta.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Enabled</code></td>
+<td><code>true</code></td>
+<td>Enciende la revelación del ganador.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Title_Seconds</code></td>
+<td><code>3</code></td>
+<td>Cuánto dura el título animado del ganador.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Chat_Card</code></td>
+<td><code>true</code></td>
+<td>Una tarjeta de varias líneas en el chat en vez de una sola línea.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Fireworks</code></td>
+<td><code>4</code></td>
+<td>Cohetes inofensivos alrededor del ganador (0-5).</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Firework_Look</code></td>
+<td>seis colores, cinco formas</td>
+<td>Cómo son esos cohetes: <code>Colors</code>, <code>Fade_Colors</code>, <code>Type</code>, <code>Flicker</code>, <code>Trail</code> y <code>Rotate_Colors</code>, igual que en <a href="#animaciones">Animaciones</a>. <code>Radius</code> (<code>2.0</code>) es a qué distancia del ganador salen y <code>Stagger_Ticks</code> (<code>6</code>) es la pausa entre dos de ellos.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Spiral</code> / <code>Spiral_Seconds</code></td>
+<td><code>true</code> / <code>2</code></td>
+<td>Una espiral de partículas alrededor del ganador.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Spiral_Look</code></td>
+<td><code>DUST</code> en dos colores</td>
+<td>Las partículas de la espiral: <code>Type</code>, <code>Count</code>, <code>Color</code>, <code>Second_Color</code> y <code>Accent</code>, igual que en <a href="#animaciones">Animaciones</a>. <code>Turns</code> (<code>1.5</code>), <code>Height</code> (<code>2.2</code>) y <code>Radius</code> (<code>0.9</code>) fijan su forma.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Totem</code></td>
+<td><code>true</code></td>
+<td>La animación del tótem en el ganador.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Layer_Sounds</code></td>
+<td>4 sonidos</td>
+<td>Una línea por sonido: <code>&quot;sonido tono retraso-en-ticks volumen&quot;</code>. Solo el sonido es obligatorio.</td>
+</tr>
+<tr>
+<td><code>Show.Reveal.Extra_Winner_Delay_Ticks</code></td>
+<td><code>30</code></td>
+<td>Pausa entre un ganador y el siguiente. <code>0</code> los nombra a todos a la vez.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Title</code> / <code>Subtitle</code></td>
+<td><code>true</code></td>
+<td>El texto grande del centro de la pantalla y la línea de debajo.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Action_Bar</code></td>
+<td><code>true</code></td>
+<td>La línea de participantes sobre la barra de acceso rápido. También necesita <code>Show.Warmup.Action_Bar</code>.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Boss_Bar</code></td>
+<td><code>Enabled: true</code>, <code>Color: WHITE</code>, <code>Style: PROGRESS</code></td>
+<td>La barra de la cuenta atrás. Escribe <code>false</code> para ocultarla.</td>
+</tr>
+<tr>
+<td><code>Show.Messages.Chat</code></td>
+<td><code>true</code></td>
+<td>Las líneas del chat: el aviso y el ganador.</td>
+</tr>
+</tbody></table></div>
+<p>Los textos de esos mensajes están en los archivos de idioma (<code>giveaway.*</code> y <code>giveaway-show.*</code>). La configuración solo los enciende o los apaga.</p>
+<p>Un ganador en vanish nunca recibe efectos que los demás puedan ver.</p>
+<p>Para ver la ruleta y la revelación sin montar un sorteo, escribe <code>/sorteo vista &lt;id del premio&gt;</code> (o <code>/giveaway preview</code>). Solo la ves tú. El ganador es inventado, nadie participa y no se entrega nada. Cerrar la ruleta termina la vista previa.</p>
+<h3 id="quien-participa"><a class="anchor" href="#quien-participa" aria-hidden="true">#</a>Quién participa</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Participants.Exempt_Permission</code></td>
+<td><code>chatalyst.giveaway.exempt</code></td>
+<td>Quien tenga este permiso mira pero nunca sale sorteado.</td>
+</tr>
+<tr>
+<td><code>Participants.Exclude_Staff</code></td>
+<td><code>true</code></td>
+<td>El staff nunca sale sorteado.</td>
+</tr>
+<tr>
+<td><code>Participants.Staff_Permissions</code></td>
+<td>nodos de moderación de Chatalyst, vanilla, EssentialsX y LiteBans</td>
+<td>Quien tenga alguno cuenta como staff.</td>
+</tr>
+<tr>
+<td><code>Participants.Staff_Groups</code></td>
+<td><code>owner</code>, <code>admin</code>, <code>mod</code>, <code>helper</code>…</td>
+<td>Grupos principales de LuckPerms que cuentan como staff.</td>
+</tr>
+<tr>
+<td><code>Participants.Exclude_Vanished</code></td>
+<td><code>true</code></td>
+<td>Los jugadores en vanish no participan.</td>
+</tr>
+<tr>
+<td><code>Participants.Include_Afk</code></td>
+<td><code>false</code></td>
+<td>Los jugadores AFK no participan.</td>
+</tr>
+<tr>
+<td><code>Participants.Excluded_Worlds</code></td>
+<td><code>[]</code></td>
+<td>Mundos cuyos jugadores ni participan ni ven el menú.</td>
+</tr>
+<tr>
+<td><code>Participants.Win_Cooldown</code></td>
+<td><code>12h</code></td>
+<td>Quien ganó hace poco se salta el sorteo durante este tiempo. <code>&quot;0&quot;</code> es sin espera.</td>
+</tr>
+</tbody></table></div>
+<p>Los operadores siempre cuentan como staff. Los permisos de staff reconocen a un rango de staff se llame como se llame, incluso en otro idioma.</p>
+<h3 id="premios"><a class="anchor" href="#premios" aria-hidden="true">#</a>Premios</h3>
+<p>Cada premio está en <code>Giveaway_Prizes</code> y tiene un <code>Type</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Qué da</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ITEMS</code></td>
+<td>Objetos escritos en el archivo (<code>Material</code>, <code>Amount</code>, <code>Name</code>, <code>Lore</code>, <code>Enchantments</code>, <code>Model_Data</code>, <code>Glow</code>).</td>
+</tr>
+<tr>
+<td><code>COMMANDS</code></td>
+<td>Comandos de consola. <code>{player}</code> y <code>{uuid}</code> son el ganador.</td>
+</tr>
+<tr>
+<td><code>MONEY</code></td>
+<td>Dinero por Vault. La cantidad se escribe al lanzar el sorteo, como cifra (<code>50000</code>) o como franja (<code>15000-35000</code>) que se tira cada vez.</td>
+</tr>
+<tr>
+<td><code>STORE</code></td>
+<td>Un producto que ya vendes, por su id de <code>Store_Catalog</code> en <code>store.yml</code>. Ver <a href="store.html">Tienda, rangos y Tebex</a>.</td>
+</tr>
+<tr>
+<td><code>RANK</code></td>
+<td>Un rango. Si ese rango tiene Tebex activado, pasa por los mismos registros que una compra; si no, se escribe directamente en LuckPerms.</td>
+</tr>
+<tr>
+<td><code>PERMISSION</code></td>
+<td>Nodos de permiso de LuckPerms en <code>Permissions</code>, para una ventaja que no es un rango entero.</td>
+</tr>
+</tbody></table></div>
+<p>Cualquier premio puede llevar además <code>Commands</code> y <code>Permissions</code>. <code>Duration</code> (<code>7d</code>, <code>30d</code>, <code>12h</code> o <code>permanent</code>) dice cuánto duran el rango y los permisos. Este es uno de los premios de fábrica:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway_Prizes:
+  diamonds:
+    Category: items
+    Name: &quot;&lt;green&gt;&lt;bold&gt;Diamond stash&lt;/bold&gt;&lt;/green&gt;&quot;
+    Name_es: &quot;&lt;green&gt;&lt;bold&gt;Alijo de diamantes&lt;/bold&gt;&lt;/green&gt;&quot;
+    Type: ITEMS
+    Icon: DIAMOND
+    Glow: true
+    Description:
+      - &quot;&lt;gray&gt;32 diamonds and a netherite ingot&quot;
+    Description_es:
+      - &quot;&lt;gray&gt;32 diamantes y un lingote de netherita&quot;
+    Items:
+      - Material: DIAMOND
+        Amount: 32
+      - Material: NETHERITE_INGOT
+        Amount: 1</code></pre></div>
+<p>El id del premio (<code>diamonds</code>) es lo que escribes en <code>/sorteo start &lt;id&gt;</code>. Que sea corto, en minúsculas y definitivo. <code>Category</code> es la categoría del menú donde se guarda el premio.</p>
+<p>La lista de permisos de un premio también se edita en el juego: <code>/sorteo</code>, clic derecho en el premio, añadir con el libro y shift+clic para quitar. Al guardar se escribe <code>giveaway.yml</code> conservando sus comentarios.</p>
+<h3 id="unidades"><a class="anchor" href="#unidades" aria-hidden="true">#</a>Unidades</h3>
+<p>Al lanzar un premio puedes elegir cuántas unidades se dan, de 1 a 64. Funciona con dos tipos de premio:</p>
+<ul>
+<li>Premios <code>ITEMS</code>: cada montón se multiplica.</li>
+<li>Premios <code>COMMANDS</code> que tengan <code>{amount}</code> en algún comando. <code>{amount}</code> en <code>Name</code> o <code>Description</code> muestra el número elegido.</li>
+</ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Commands:
+  - &quot;crates give {player} legendary {amount}&quot;</code></pre></div>
+<p>En el menú, usa el botón de la cantidad (<strong>Amount</strong>) en la pantalla de lanzamiento. Por comando, escribe el número en el lugar que indican las tablas de abajo. Un premio <code>COMMANDS</code> sin <code>{amount}</code> no admite unidades.</p>
+<h3 id="premios-hechos-en-el-juego"><a class="anchor" href="#premios-hechos-en-el-juego" aria-hidden="true">#</a>Premios hechos en el juego</h3>
+<p>Puedes montar un premio sin tocar el archivo. <code>/sorteo crear &lt;id&gt; [nombre]</code> lo crea y abre un cofre donde metes los objetos.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/sorteo editar &lt;id&gt;</code></td>
+<td>Vuelve a abrir el cofre del premio.</td>
+</tr>
+<tr>
+<td><code>/sorteo nombre &lt;id&gt; &lt;texto&gt;</code></td>
+<td>Cambia el nombre visible.</td>
+</tr>
+<tr>
+<td><code>/sorteo descripcion &lt;id&gt; &lt;texto&gt;</code></td>
+<td>Añade una línea de descripción. Escribe <code>limpiar</code> como texto para borrarlas.</td>
+</tr>
+<tr>
+<td><code>/sorteo comando &lt;id&gt; agregar|quitar|lista [comando o número]</code></td>
+<td>Edita los comandos de consola (<code>{player}</code>, <code>{uuid}</code>).</td>
+</tr>
+<tr>
+<td><code>/sorteo icono &lt;id&gt;</code></td>
+<td>Usa como icono el objeto que llevas en la mano.</td>
+</tr>
+<tr>
+<td><code>/sorteo ganadores &lt;id&gt; &lt;n&gt;</code></td>
+<td>Ganadores por defecto (1-10).</td>
+</tr>
+<tr>
+<td><code>/sorteo ver &lt;id&gt;</code> / <code>/sorteo personalizados</code></td>
+<td>Muestra un premio o los lista todos.</td>
+</tr>
+<tr>
+<td><code>/sorteo borrar &lt;id&gt; confirmar</code></td>
+<td>Borra un premio.</td>
+</tr>
+<tr>
+<td><code>/sorteo historial [n]</code></td>
+<td>Muestra los últimos ganadores.</td>
+</tr>
+</tbody></table></div>
+<p>Todos piden <code>chatalyst.command.giveaway.admin</code>. Las palabras en inglés (<code>create</code>, <code>edit</code>, <code>name</code>, <code>delete</code>…) también funcionan.</p>
+<h3 id="sorteos-automaticos"><a class="anchor" href="#sorteos-automaticos" aria-hidden="true">#</a>Sorteos automáticos</h3>
+<p><code>Schedules</code> lanza sorteos solos. Cada entrada sale como mucho una vez por día y hora. El ejemplo de fábrica viene apagado:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  Time_Zone: server
+  Schedules:
+    weekend-example:
+      Enabled: false
+      Time: &quot;21:00&quot;
+      Days: [SAT, SUN]
+      Prize: diamonds
+      Winners: 2
+      Warmup_Seconds: 60
+      Min_Players: 5</code></pre></div>
+<p><code>Time_Zone: server</code> usa el reloj de la máquina donde corre el servidor. Para fijarla, escribe el nombre de una zona, como <code>Europe/Madrid</code>, <code>America/Mexico_City</code> o <code>UTC</code>. Un archivo que ya nombra una zona la conserva.</p>
+<p>Los días se escriben <code>MON, TUE, WED, THU, FRI, SAT, SUN</code> o, en español, <code>LUN, MAR, MIE, JUE, VIE, SAB, DOM</code>. También valen los nombres enteros (<code>MONDAY</code>, <code>SABADO</code>). Una lista vacía significa todos los días. En una red, pon cada horario en un solo servidor, o cada uno lanzará el suyo.</p>
+<h3 id="rangos-como-premio"><a class="anchor" href="#rangos-como-premio" aria-hidden="true">#</a>Rangos como premio</h3>
+<p>Con <code>Ranks.Auto_Detect: true</code>, los grupos de <code>Ranks.Names</code> (<code>vip</code>, <code>mvp++</code>, <code>legend</code>…) que existan en LuckPerms se ofrecen como premio automáticamente. Los grupos de <code>Ranks.Never</code> y cualquier grupo que dé un permiso de staff nunca se ofrecen. <code>Ranks.Duration</code> (por defecto <code>permanent</code>) es lo que dura un rango concedido directamente.</p>
+<p><code>/sorteo rangos</code> lista los rangos que se ofrecen. <code>/sorteo rango &lt;grupo&gt; &lt;duración|permanente|on|off|config&gt;</code> cambia uno: una duración como <code>30d</code>, <code>on</code> u <code>off</code> para ofrecerlo o no, o <code>config</code> para volver a lo que diga el archivo.</p>
+<h2 id="los-menus"><a class="anchor" href="#los-menus" aria-hidden="true">#</a>Los menús</h2>
+<p><code>Giveaway_Categories</code> agrupa los premios en el menú (kits, rangos, dinero, ventajas, objetos y personalizados). Cada premio dice su categoría con <code>Category</code>. Dos ids de categoría tienen un papel: los rangos detectados en LuckPerms van a <code>ranks</code> y los premios hechos en el juego van a <code>custom</code>. Las cartas se centran solas, respetan el orden del archivo y pasan a más páginas (anterior / siguiente) cuando no caben.</p>
+<p>El botón de estado enseña lo que está pasando (nada, cuenta atrás con sus segundos, repartiendo, ruleta girando) y se actualiza mientras el menú está abierto. Púlsalo para cancelar, si tienes el permiso.</p>
+<h3 id="pantalla-de-confirmacion"><a class="anchor" href="#pantalla-de-confirmacion" aria-hidden="true">#</a>Pantalla de confirmación</h3>
+<p>Antes de que empiece un sorteo o un premio para todos, un resumen enseña el premio con su icono, cuántas unidades o cuánto dinero, cuántos jugadores lo reciben ahora mismo, quién se queda fuera y por qué, la cuenta atrás y la animación. Tiene tres botones:</p>
+<ul>
+<li><strong>Lanzar</strong>: lo empieza. Sale en gris, con el motivo, cuando no lo recibiría nadie, hay otro sorteo en marcha o el premio no entrega nada.</li>
+<li><strong>Vista previa</strong>: reproduce la animación o la ruleta solo para ti y te devuelve a la pantalla. No se entrega nada.</li>
+<li><strong>Volver</strong>: regresa a la pantalla anterior.</li>
+</ul>
+<p>Pon <code>Giveaway_Menu.Confirm: false</code> para lanzar al momento.</p>
+<h3 id="opciones-de-los-menus"><a class="anchor" href="#opciones-de-los-menus" aria-hidden="true">#</a>Opciones de los menús</h3>
+<p>Todas van bajo <code>Giveaway_Menu</code> en <code>giveaway.yml</code>. Los huecos empiezan en 1.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>De fábrica</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Rows</code></td>
+<td><code>6</code></td>
+<td>Altura de la lista de premios, de 3 a 6 filas.</td>
+</tr>
+<tr>
+<td><code>Confirm</code></td>
+<td><code>true</code></td>
+<td>Enseña la pantalla de confirmación.</td>
+</tr>
+<tr>
+<td><code>Grid.Columns</code></td>
+<td><code>7</code></td>
+<td>Columnas que usan las cartas.</td>
+</tr>
+<tr>
+<td><code>Grid.Rows</code></td>
+<td><code>4</code></td>
+<td>Filas que usan las cartas.</td>
+</tr>
+<tr>
+<td><code>Buttons.Back</code></td>
+<td><code>46</code></td>
+<td>Hueco del botón de volver.</td>
+</tr>
+<tr>
+<td><code>Buttons.Previous</code></td>
+<td><code>48</code></td>
+<td>Hueco de página anterior.</td>
+</tr>
+<tr>
+<td><code>Buttons.Status</code></td>
+<td><code>50</code></td>
+<td>Hueco del botón de estado.</td>
+</tr>
+<tr>
+<td><code>Buttons.Next</code></td>
+<td><code>52</code></td>
+<td>Hueco de página siguiente.</td>
+</tr>
+<tr>
+<td><code>Buttons.Close</code></td>
+<td><code>54</code></td>
+<td>Hueco del botón de cerrar.</td>
+</tr>
+<tr>
+<td><code>Buttons.Everyone</code></td>
+<td><code>5</code></td>
+<td>Hueco del botón que cambia entre ruleta y para todos.</td>
+</tr>
+<tr>
+<td><code>Confirm_Screen.Back</code></td>
+<td><code>30</code></td>
+<td>Hueco de Volver en la confirmación.</td>
+</tr>
+<tr>
+<td><code>Confirm_Screen.Preview</code></td>
+<td><code>32</code></td>
+<td>Hueco de Vista previa.</td>
+</tr>
+<tr>
+<td><code>Confirm_Screen.Launch</code></td>
+<td><code>34</code></td>
+<td>Hueco de Lanzar.</td>
+</tr>
+<tr>
+<td><code>Items.Back.Material</code></td>
+<td><code>SPECTRAL_ARROW</code></td>
+<td>Objeto del botón de volver.</td>
+</tr>
+<tr>
+<td><code>Items.Close.Material</code></td>
+<td><code>BARRIER</code></td>
+<td>Objeto del botón de cerrar.</td>
+</tr>
+<tr>
+<td><code>Items.Status.Material</code></td>
+<td><code>AUTO</code></td>
+<td>Objeto del estado; con <code>AUTO</code> cambia según lo que pase.</td>
+</tr>
+<tr>
+<td><code>Items.Everyone.Material</code></td>
+<td><code>AUTO</code></td>
+<td>Objeto del cambio entre ruleta y para todos.</td>
+</tr>
+<tr>
+<td><code>Items.Previous.Material</code></td>
+<td><code>SPECTRAL_ARROW</code></td>
+<td>Objeto de página anterior.</td>
+</tr>
+<tr>
+<td><code>Items.Next.Material</code></td>
+<td><code>SPECTRAL_ARROW</code></td>
+<td>Objeto de página siguiente.</td>
+</tr>
+<tr>
+<td><code>Items.Launch.Material</code></td>
+<td><code>AUTO</code></td>
+<td>Objeto del botón de lanzar.</td>
+</tr>
+<tr>
+<td><code>Items.Preview.Material</code></td>
+<td><code>ENDER_EYE</code></td>
+<td>Objeto de la vista previa.</td>
+</tr>
+<tr>
+<td><code>Items.Filler.Material</code></td>
+<td><code>AIR</code></td>
+<td>Objeto que rellena los huecos vacíos; <code>AIR</code> es sin relleno.</td>
+</tr>
+<tr>
+<td><code>Items.&lt;botón&gt;.Model_Data</code></td>
+<td><code>0</code></td>
+<td>Custom model data para un paquete de recursos; <code>0</code> es ninguno.</td>
+</tr>
+</tbody></table></div>
+<p>Un material que no existe se avisa una vez en consola y se usa el de fábrica. Un hueco fuera del menú vuelve al suyo de fábrica. Si dos botones comparten hueco, o uno cae donde van las cartas o el resumen, toda esa pantalla usa los huecos de fábrica. Aplica los cambios con <code>/cht reload</code>.</p>
+<h2 id="un-premio-para-todos"><a class="anchor" href="#un-premio-para-todos" aria-hidden="true">#</a>Un premio para todos</h2>
+<p><code>/giveall</code> (también <code>/darall</code> y <code>/keyall</code>) da un premio a todos los jugadores conectados. Es lo que otros servidores llaman «keyall». Los jugadores no ven menú ni ruleta: corre una cuenta atrás, el premio llega delante de cada uno, en orden aleatorio, y se entrega. Todos siguen moviéndose mientras tanto. Cómo llega el premio lo decides tú: mira <a href="#animaciones">Animaciones</a>.</p>
+<p>Necesita los sorteos encendidos y <code>Giveaway.All.Enabled</code>, que viene en <code>true</code>.</p>
+<h3 id="que-puedes-dar"><a class="anchor" href="#que-puedes-dar" aria-hidden="true">#</a>Qué puedes dar</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Escribes</th>
+<th>Qué recibe cada uno</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/giveall</code></td>
+<td>Nada todavía. Abre el catálogo para que elijas un premio. Solo jugadores.</td>
+</tr>
+<tr>
+<td><code>/giveall &lt;id del premio&gt; [unidades o cantidad] [segundos]</code></td>
+<td>Un premio de tu catálogo.</td>
+</tr>
+<tr>
+<td><code>/giveall hand [cantidad] [segundos]</code></td>
+<td>Copias del objeto que tienes en la mano principal.</td>
+</tr>
+<tr>
+<td><code>/giveall money &lt;cantidad&gt; [segundos]</code></td>
+<td>Esa cantidad de dinero.</td>
+</tr>
+<tr>
+<td><code>/giveall cancel</code></td>
+<td>Detiene el que está en cuenta atrás.</td>
+</tr>
+<tr>
+<td><code>/giveall preview &lt;id del premio o hand&gt; [estilo]</code></td>
+<td>Nada. Reproduce la animación solo para ti. Mira <a href="#vista-previa">Vista previa</a>.</td>
+</tr>
+</tbody></table></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/giveall diamonds 3 15
+/giveall hand 2
+/giveall money 5000 30</code></pre></div>
+<ul>
+<li>La primera línea da 3 unidades del premio de diamantes tras una cuenta atrás de 15 segundos. Las unidades van <strong>antes</strong> que los segundos. En un premio de dinero del catálogo, escribe la cantidad en el lugar de las unidades.</li>
+<li>La segunda da a cada jugador 2 copias del objeto que sujetas, con su nombre, sus encantamientos y su descripción. Tú conservas el tuyo. Sin número, cada jugador recibe tantos como tengas en la mano. El máximo es 64 por jugador.</li>
+<li>La tercera paga 5000 a cada jugador a los 30 segundos. También vale una franja, como <code>1000-5000</code>, y a cada jugador le toca una cifra distinta dentro de ella. Necesita Vault y un plugin de economía.</li>
+</ul>
+<p>Si no escribes los segundos, la cuenta atrás dura <code>All.Warmup_Seconds</code>. Con <code>0</code> se da al momento.</p>
+<p>También valen las palabras en español: <code>mano</code>, <code>dinero</code>, <code>cancelar</code> y <code>vista</code>. Si uno de tus premios se llama <code>hand</code> o <code>money</code>, gana el premio: tu catálogo va antes que estas palabras. <code>/sorteo todos</code> hace lo mismo que <code>/giveall</code>.</p>
+<p><code>/giveall cancel</code> funciona durante la cuenta atrás. Cuando empieza la entrega dura unos segundos y ya no se puede parar, para que nadie se quede a medias.</p>
+<p>En el menú de <code>/sorteo</code>, el botón de arriba cambia entre un ganador por ruleta y dar a todos.</p>
+<div class="callout callout-warning"><p class="callout-title">Aviso</p><p><code>/giveall hand</code> crea objetos: cada jugador recibe una copia de lo que sujetas. Da <code>chatalyst.command.giveall.hand</code> solo a quien confíes ese poder.</p>
+</div>
+<h3 id="quien-lo-recibe"><a class="anchor" href="#quien-lo-recibe" aria-hidden="true">#</a>Quién lo recibe</h3>
+<p>De fábrica los operadores <strong>no</strong> lo reciben. Un premio para todos es un premio para tus jugadores. Tampoco lo recibe quien lo lanza, si es operador. Los moderadores y ayudantes sí lo reciben, como cualquier jugador.</p>
+<p>Al lanzarlo, el mensaje te dice cuántos jugadores lo reciben y cuántos de staff se quedan fuera, para que no parezca un fallo.</p>
+<p>Quién cuenta como staff:</p>
+<ul>
+<li>Los operadores.</li>
+<li>Quien tenga el permiso <code>chatalyst.giveall.staff</code>. Dáselo a un rango que también quieras dejar fuera.</li>
+<li>Con <code>All.Staff_Includes_Moderators: true</code>, también quien reconozcan las listas <code>Participants.Staff_Permissions</code> y <code>Participants.Staff_Groups</code> (mira <a href="#quien-participa">quién participa</a>). Úsalo si los moderadores y ayudantes tampoco deben recibir premios.</li>
+</ul>
+<p>Para que el staff reciba los premios como todo el mundo, cambia una línea en <code>giveaway.yml</code> y ejecuta <code>/cht reload</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  All:
+    Include_Staff: true</code></pre></div>
+<p>A un bot o a una cuenta de pruebas que no debe recibir nada, dale <code>chatalyst.giveall.exempt</code>. Se queda fuera diga lo que diga <code>Include_Staff</code>.</p>
+<p>Quien entre durante la cuenta atrás también lo recibe. Quien esté en vanish lo recibe sin ningún efecto visible. <code>Excluded_Worlds</code> y <code>Countdown_Marks</code> también se aplican aquí. <code>Win_Cooldown</code> y <code>chatalyst.giveaway.exempt</code> no: recibir esto no es ganar un sorteo.</p>
+<h3 id="ajustes"><a class="anchor" href="#ajustes" aria-hidden="true">#</a>Ajustes</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  All:
+    Enabled: true
+    Command: &quot;giveall&quot;
+    Command_Aliases:
+      - &quot;darall&quot;
+      - &quot;keyall&quot;
+    Warmup_Seconds: 10
+    Wave_Seconds: 4
+    Include_Staff: false
+    Include_Afk: true
+    Allowed_Kinds: [ITEMS, COMMANDS, MONEY, CUSTOM]
+    Allow_Hand: true
+    Allow_Money: true</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>All.Enabled</code></td>
+<td><code>true</code></td>
+<td>Enciende los premios para todos.</td>
+</tr>
+<tr>
+<td><code>All.Command</code> / <code>All.Command_Aliases</code></td>
+<td><code>giveall</code> / <code>darall</code>, <code>keyall</code></td>
+<td>Nombres del comando. Si otro plugin tiene un nombre, se salta.</td>
+</tr>
+<tr>
+<td><code>All.Warmup_Seconds</code></td>
+<td><code>10</code></td>
+<td>Cuenta atrás antes de que caiga el premio. <code>0</code> lo da al momento.</td>
+</tr>
+<tr>
+<td><code>All.Wave_Seconds</code></td>
+<td><code>4</code></td>
+<td>La entrega se reparte en más o menos este tiempo. Con el servidor muy lleno tarda algo más.</td>
+</tr>
+<tr>
+<td><code>All.Include_Staff</code></td>
+<td><code>false</code></td>
+<td>Los operadores se quedan fuera. Con <code>true</code> también lo reciben.</td>
+</tr>
+<tr>
+<td><code>All.Staff_Includes_Moderators</code></td>
+<td><code>false</code></td>
+<td>Los moderadores y ayudantes lo reciben. Con <code>true</code> también se quedan fuera.</td>
+</tr>
+<tr>
+<td><code>All.Include_Afk</code></td>
+<td><code>true</code></td>
+<td>Los jugadores AFK también lo reciben.</td>
+</tr>
+<tr>
+<td><code>All.Allowed_Kinds</code></td>
+<td><code>ITEMS, COMMANDS, MONEY, CUSTOM</code></td>
+<td>Tipos de premio que se pueden dar a todos. <code>CUSTOM</code> son los premios hechos en el juego. <code>RANK</code>, <code>STORE</code> y <code>PERMISSION</code> quedan fuera a propósito.</td>
+</tr>
+<tr>
+<td><code>All.Allow_Hand</code></td>
+<td><code>true</code></td>
+<td>Permite <code>/giveall hand</code>. Además necesita <code>ITEMS</code> en <code>Allowed_Kinds</code>.</td>
+</tr>
+<tr>
+<td><code>All.Allow_Money</code></td>
+<td><code>true</code></td>
+<td>Permite <code>/giveall money</code>. Además necesita <code>MONEY</code> en <code>Allowed_Kinds</code>.</td>
+</tr>
+<tr>
+<td><code>All.Effects.Display</code> / <code>Particles</code> / <code>Sounds</code></td>
+<td><code>true</code></td>
+<td>Interruptores generales del premio que llega (Bedrock no lo ve), las partículas y los sonidos. Apagado aquí es apagado para todos los premios.</td>
+</tr>
+<tr>
+<td><code>All.Animation</code></td>
+<td></td>
+<td>Cómo llega el premio, cómo se ve y cómo suena. Mira <a href="#animaciones">Animaciones</a>.</td>
+</tr>
+</tbody></table></div>
+<h2 id="animaciones"><a class="anchor" href="#animaciones" aria-hidden="true">#</a>Animaciones</h2>
+<p><code>Giveaway.All.Animation</code> decide cómo llega un premio para todos, cómo se ve y cómo suena. Nunca cambia quién recibe el premio ni cuándo. De fábrica hace lo que <code>/giveall</code> ha hecho siempre: el premio baja girando delante de cada jugador.</p>
+<h3 id="estilos"><a class="anchor" href="#estilos" aria-hidden="true">#</a>Estilos</h3>
+<p>Elige uno con <code>Animation.Style</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Estilo</th>
+<th>Qué ve el jugador</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SPIN_DOWN</code></td>
+<td>El premio baja girando delante de su cara y frena al llegar. Es el de fábrica.</td>
+</tr>
+<tr>
+<td><code>RAIN</code></td>
+<td>Varias copias pequeñas caen a su alrededor, una detrás de otra. La última cae delante de su cara y es la que recibe.</td>
+</tr>
+<tr>
+<td><code>BURST</code></td>
+<td>El premio aparece arriba, crece, se hincha y estalla en partículas.</td>
+</tr>
+<tr>
+<td><code>ORBIT</code></td>
+<td>El premio da vueltas a su alrededor en una espiral que se cierra, cada vuelta más abajo, hasta llegar a él.</td>
+</tr>
+<tr>
+<td><code>NONE</code></td>
+<td>Sin objeto y sin partículas. Solo los sonidos y los mensajes.</td>
+</tr>
+</tbody></table></div>
+<p>Con <code>SPIN_DOWN</code> y <code>BURST</code> el premio se queda delante de la cara del jugador aunque mire a otro lado. Con <code>RAIN</code> y <code>ORBIT</code> se queda donde empezó, así que el jugador puede girarse a mirarlo.</p>
+<h3 id="opciones"><a class="anchor" href="#opciones" aria-hidden="true">#</a>Opciones</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  All:
+    Animation:
+      Style: SPIN_DOWN
+      Duration_Ticks: 26
+      Height: 2.5
+      Distance: 1.1
+      Scale_From: 0.2
+      Scale_To: 0.7
+      Spin_Speed: 27.7
+      Glow: false
+      Glow_Color: WHITE</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Style</code></td>
+<td><code>SPIN_DOWN</code></td>
+<td>El estilo, de la tabla de arriba.</td>
+</tr>
+<tr>
+<td><code>Duration_Ticks</code></td>
+<td><code>26</code></td>
+<td>Cuánto tarda en llegar. 20 ticks son un segundo. El premio se entrega al acabar.</td>
+</tr>
+<tr>
+<td><code>Height</code></td>
+<td><code>2.5</code></td>
+<td>Bloques por encima de los ojos del jugador de donde sale el premio.</td>
+</tr>
+<tr>
+<td><code>Distance</code></td>
+<td><code>1.1</code></td>
+<td>Bloques por delante del jugador.</td>
+</tr>
+<tr>
+<td><code>Scale_From</code> / <code>Scale_To</code></td>
+<td><code>0.2</code> / <code>0.7</code></td>
+<td>Tamaño al aparecer y cuando ya ha crecido. <code>1.0</code> es el tamaño de un objeto en la mano.</td>
+</tr>
+<tr>
+<td><code>Spin_Speed</code></td>
+<td><code>27.7</code></td>
+<td>Grados que gira el premio por tick. Un número negativo lo gira al revés. <code>0</code> lo deja quieto.</td>
+</tr>
+<tr>
+<td><code>Glow</code> / <code>Glow_Color</code></td>
+<td><code>false</code> / <code>WHITE</code></td>
+<td>Un contorno alrededor del premio, y su color.</td>
+</tr>
+<tr>
+<td><code>Private_Display</code></td>
+<td><code>false</code></td>
+<td>Con <code>true</code>, solo el jugador al que va el premio lo ve, a él y a sus partículas. Útil en un spawn lleno.</td>
+</tr>
+<tr>
+<td><code>Rain_Copies</code></td>
+<td><code>6</code></td>
+<td>Solo <code>RAIN</code>: cuántas copias caen (2-12).</td>
+</tr>
+<tr>
+<td><code>Orbit_Turns</code></td>
+<td><code>2</code></td>
+<td>Solo <code>ORBIT</code>: vueltas enteras alrededor del jugador (1-6).</td>
+</tr>
+<tr>
+<td><code>Max_Entities</code></td>
+<td><code>150</code></td>
+<td>El máximo de objetos de premio vivos a la vez en todo el servidor. Cuando se llega al tope, los siguientes jugadores esperan su turno y la entrega tarda un poco más. No se puede poner por premio.</td>
+</tr>
+<tr>
+<td><code>Particles.Type</code></td>
+<td><code>DUST</code></td>
+<td>Un nombre de partícula de Bukkit. Las que necesitan un bloque o un objeto (<code>BLOCK</code>, <code>ITEM</code>) no se pueden usar.</td>
+</tr>
+<tr>
+<td><code>Particles.Count</code></td>
+<td><code>2</code></td>
+<td>Partículas por punto.</td>
+</tr>
+<tr>
+<td><code>Particles.Color</code> / <code>Second_Color</code></td>
+<td><code>&quot;#F5F5F5&quot;</code> / <code>&quot;#FFD166&quot;</code></td>
+<td>Los colores, para <code>DUST</code> y otras partículas con color.</td>
+</tr>
+<tr>
+<td><code>Particles.Accent</code></td>
+<td><code>END_ROD</code></td>
+<td>Una chispa que acompaña a cada partícula. <code>NONE</code> es sin chispa.</td>
+</tr>
+<tr>
+<td><code>Particles.Trail</code></td>
+<td><code>true</code></td>
+<td>Partículas mientras el premio viene de camino.</td>
+</tr>
+<tr>
+<td><code>Particles.On_Receive</code></td>
+<td><code>true</code></td>
+<td>Un estallido de partículas al entregarse el premio.</td>
+</tr>
+<tr>
+<td><code>Particles.Receive_Type</code> / <code>Receive_Count</code></td>
+<td><code>TOTEM_OF_UNDYING</code> / <code>14</code></td>
+<td>Las partículas de ese estallido.</td>
+</tr>
+<tr>
+<td><code>Sounds.Start</code></td>
+<td><code>BLOCK_NOTE_BLOCK_BELL</code></td>
+<td>Al anunciarse el premio.</td>
+</tr>
+<tr>
+<td><code>Sounds.Countdown</code></td>
+<td><code>BLOCK_NOTE_BLOCK_PLING</code></td>
+<td>En cada número de la cuenta atrás. Sube sola en los últimos diez segundos; <code>Pitch</code> desplaza toda la subida.</td>
+</tr>
+<tr>
+<td><code>Sounds.Note</code></td>
+<td><code>BLOCK_NOTE_BLOCK_CHIME</code>, volumen <code>0.8</code></td>
+<td>El acorde que oye cada jugador mientras llega el premio. <code>Pitch</code> desplaza el acorde.</td>
+</tr>
+<tr>
+<td><code>Sounds.Receive</code></td>
+<td><code>ENTITY_PLAYER_LEVELUP</code>, volumen <code>0.8</code>, tono <code>1.5</code></td>
+<td>Al entregarse el premio.</td>
+</tr>
+<tr>
+<td><code>Sounds.Finish</code></td>
+<td><code>UI_TOAST_CHALLENGE_COMPLETE</code>, volumen <code>0.8</code>, tono <code>1.1</code></td>
+<td>Cuando ya lo tiene todo el mundo.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Count</code></td>
+<td><code>8</code></td>
+<td>Cohetes inofensivos al final, sobre este máximo de jugadores al azar. <code>0</code> es ninguno.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Colors</code> / <code>Fade_Colors</code></td>
+<td><code>&quot;#F5F5F5&quot;</code>, <code>&quot;#FFD166&quot;</code> / <code>&quot;#C0C0C0&quot;</code></td>
+<td>Los colores de cada explosión y los colores a los que se desvanece.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Type</code></td>
+<td><code>BALL_LARGE</code></td>
+<td><code>BALL</code>, <code>BALL_LARGE</code>, <code>STAR</code>, <code>BURST</code> o <code>CREEPER</code>. Con una lista, cada cohete toma el siguiente.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Flicker</code> / <code>Trail</code></td>
+<td><code>true</code> / <code>true</code></td>
+<td>El centelleo tras la explosión, y la estela que deja.</td>
+</tr>
+<tr>
+<td><code>Fireworks.Rotate_Colors</code></td>
+<td><code>false</code></td>
+<td>Con <code>true</code>, cada cohete toma dos colores por turno en vez de llevarlos todos.</td>
+</tr>
+<tr>
+<td><code>Messages.Title</code> / <code>Subtitle</code></td>
+<td><code>true</code></td>
+<td>El texto grande del centro de la pantalla y la línea de debajo.</td>
+</tr>
+<tr>
+<td><code>Messages.Action_Bar</code></td>
+<td><code>true</code></td>
+<td>La línea sobre la barra de acceso rápido al entregarse el premio.</td>
+</tr>
+<tr>
+<td><code>Messages.Boss_Bar</code></td>
+<td><code>Enabled: true</code>, <code>Color: WHITE</code>, <code>Style: NOTCHED_20</code>, <code>Warm_Colors: true</code></td>
+<td>La barra de la cuenta atrás. Con <code>Warm_Colors</code> pasa a rosa y luego a amarillo según se vacía. Escribe <code>false</code> para ocultarla.</td>
+</tr>
+<tr>
+<td><code>Messages.Chat</code></td>
+<td><code>true</code></td>
+<td>El aviso y el resumen en el chat.</td>
+</tr>
+</tbody></table></div>
+<p>Unas notas sobre cómo se escriben los valores:</p>
+<ul>
+<li>Los <strong>sonidos</strong> se escriben cortos (<code>Start: &quot;BLOCK_NOTE_BLOCK_BELL&quot;</code>) o largos (<code>Start: { Sound: &quot;BLOCK_NOTE_BLOCK_BELL&quot;, Volume: 1.0, Pitch: 1.0 }</code>). <code>Volume</code> va de 0 a 10 y <code>Pitch</code> de 0.5 a 2.</li>
+<li>Los <strong>colores</strong> son un nombre (<code>WHITE</code>, <code>RED</code>, <code>GOLD</code>, <code>AQUA</code>, <code>LIME</code>, <code>PURPLE</code>, <code>ORANGE</code>, <code>PINK</code>…) o <code>&quot;#RRGGBB&quot;</code>. No quites las comillas: sin ellas YAML lee el <code>#</code> como un comentario.</li>
+<li>Los colores de la <strong>barra</strong> son <code>PINK</code>, <code>BLUE</code>, <code>RED</code>, <code>GREEN</code>, <code>YELLOW</code>, <code>PURPLE</code> o <code>WHITE</code>. Los estilos son <code>PROGRESS</code>, <code>NOTCHED_6</code>, <code>NOTCHED_10</code>, <code>NOTCHED_12</code> o <code>NOTCHED_20</code>.</li>
+<li>Los <strong>textos</strong> de los mensajes están en los archivos de idioma (<code>giveaway-all.*</code>), en los dos idiomas. La configuración solo los enciende o los apaga.</li>
+</ul>
+<p>Un valor mal escrito no rompe nada. Si una partícula, un sonido, un color o un estilo no existe, la consola lo dice una vez, con la ruta exacta de la opción, y se usa el valor de fábrica:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">giveaway.yml: Giveaway.All.Animation.Particles.Type 'SPARKLES' is not a known particle; using DUST</code></pre></div>
+<div class="callout callout-note"><p class="callout-title">Nota</p><p>Un <code>giveaway.yml</code> de antes de la 1.0.1 tiene <code>Sounds</code> y <code>Fireworks</code> directamente dentro de <code>All</code>. Siguen funcionando hasta que cambies los de <code>Animation</code>.</p>
+</div>
+<h3 id="animacion-por-premio"><a class="anchor" href="#animacion-por-premio" aria-hidden="true">#</a>Animación por premio</h3>
+<p>Cualquier premio de <code>Giveaway_Prizes</code> puede llevar su propia sección <code>Animation</code>, con las mismas claves. Escribe solo lo que cambia. Todo lo demás sale de <code>Giveaway.All.Animation</code>.</p>
+<p>Esta llave da vueltas alrededor del jugador con un contorno dorado antes de llegar a él:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway_Prizes:
+  keys:
+    Name: &quot;&lt;white&gt;5 legendary keys&quot;
+    Name_es: &quot;&lt;white&gt;5 llaves legendarias&quot;
+    Type: COMMANDS
+    Icon: TRIPWIRE_HOOK
+    Commands:
+      - &quot;crates give {player} legendary 5&quot;
+    Animation:
+      Style: ORBIT
+      Duration_Ticks: 50
+      Orbit_Turns: 3
+      Glow: true
+      Glow_Color: GOLD
+      Particles:
+        Color: GOLD
+        Second_Color: YELLOW
+      Sounds:
+        Receive: { Sound: &quot;BLOCK_ENDER_CHEST_OPEN&quot;, Volume: 1.0, Pitch: 1.4 }
+      Fireworks:
+        Colors: [GOLD, YELLOW]
+        Type: STAR</code></pre></div>
+<p>Cuando ese mismo premio se sortea en la ruleta, tres partes de su <code>Animation</code> cambian la revelación: <code>Fireworks</code> (los cohetes alrededor del ganador), <code>Particles</code> (la espiral) y <code>Sounds.Receive</code> (el sonido que solo oye el ganador). El resto de la sección no afecta a la ruleta.</p>
+<p>Los premios hechos en el juego, <code>/giveall hand</code> y <code>/giveall money</code> no tienen entrada en el archivo, así que usan la animación general.</p>
+<h3 id="vista-previa"><a class="anchor" href="#vista-previa" aria-hidden="true">#</a>Vista previa</h3>
+<p><code>/giveall preview &lt;id del premio o hand&gt; [estilo]</code> reproduce la animación entera solo para ti. No se entrega nada, nadie más la ve ni la oye, no se avisa al servidor y no hay cuenta atrás.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">text</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-text">/giveall preview keys
+/giveall preview diamonds rain
+/giveall preview hand orbit</code></pre></div>
+<ul>
+<li>La primera línea enseña el premio <code>keys</code> con su propia animación.</li>
+<li>La segunda enseña el premio de diamantes con el estilo <code>RAIN</code>, solo esa vez. Sirve para comparar estilos sin tocar el archivo.</li>
+<li>La tercera enseña el objeto de tu mano llegando con <code>ORBIT</code>.</li>
+</ul>
+<p>Pide <code>chatalyst.command.giveall.preview</code>. También valen las palabras en español <code>previa</code> y <code>vista</code>. Después de editar <code>giveaway.yml</code>, ejecuta <code>/cht reload</code> y vuelve a mirar la vista previa.</p>
+<p>Para la ruleta, <code>/sorteo vista &lt;id del premio&gt;</code> te enseña la rueda y la revelación solo a ti. Mira <a href="#el-espectaculo-de-la-ruleta">el espectáculo de la ruleta</a>.</p>
+<h2 id="sorteo-de-streamer"><a class="anchor" href="#sorteo-de-streamer" aria-hidden="true">#</a>Sorteo de streamer</h2>
+<p>Un streamer sortea <strong>sus propios objetos</strong>: un paquete de llaves que alguien le dio, una espada, una caja de shulker llena. No se crea nada ni sale del catálogo. Los objetos salen del inventario del streamer, esperan en depósito y van a los ganadores.</p>
+<h3 id="como-activarlo"><a class="anchor" href="#como-activarlo" aria-hidden="true">#</a>Cómo activarlo</h3>
+<p>Viene apagado. Los sorteos también tienen que estar encendidos. Pon esto en <code>giveaway.yml</code>, ejecuta <code>/cht reload</code> y da <code>chatalyst.giveaway.streamer</code> a tu rango de streamer:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Giveaway:
+  Enabled: true
+  Streamer:
+    Enabled: true</code></pre></div>
+<h3 id="como-funciona"><a class="anchor" href="#como-funciona" aria-hidden="true">#</a>Cómo funciona</h3>
+<ol>
+<li>El streamer escribe <code>/streamgiveaway</code> (también <code>/sgiveaway</code>, <code>/sorteostream</code>). Se abre un cofre.</li>
+<li>Un clic en un objeto de su inventario mete el montón entero en el cofre. Mayús+clic en un objeto del cofre lo recupera.</li>
+<li>Abajo elige el número de ganadores, el tiempo de inscripción y cómo se entra, y pulsa <strong>Lanzar</strong>. Un resumen muestra los montones, los ganadores y cuántos conectados pueden participar. <strong>Confirmar y lanzar</strong> lo pone en marcha.</li>
+<li>Se avisa a todo el servidor, con cada objeto en la lista. Pasa el ratón por un objeto para ver su descripción real. Una barra hace la cuenta atrás.</li>
+<li>Al acabar el tiempo, la ruleta gira una vez por ganador. Los montones se reparten por turnos entre los ganadores, en el orden en que se metieron. Nunca hay más ganadores que montones o participantes.</li>
+</ol>
+<p>Con <code>Entry: JOIN</code>, los jugadores pulsan el botón del chat o escriben <code>/streamgiveaway join</code>. Con <code>Entry: ALL</code>, participan todos los conectados con <code>chatalyst.giveaway.join</code>. El streamer nunca participa en el suyo, y a los jugadores en vanish no se les sortea.</p>
+<p>Solo hay un sorteo a la vez: el de streamer, la ruleta y <code>/giveall</code> se esperan entre sí.</p>
+<h3 id="comandos-y-permisos-del-sorteo-de-streamer"><a class="anchor" href="#comandos-y-permisos-del-sorteo-de-streamer" aria-hidden="true">#</a>Comandos y permisos del sorteo de streamer</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Quién</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/streamgiveaway</code></td>
+<td><code>chatalyst.giveaway.streamer</code> (nadie de fábrica)</td>
+<td>Abre el cofre.</td>
+</tr>
+<tr>
+<td><code>/streamgiveaway join</code></td>
+<td><code>chatalyst.giveaway.join</code> (todos)</td>
+<td>Entra en el sorteo.</td>
+</tr>
+<tr>
+<td><code>/streamgiveaway claim</code></td>
+<td>todos</td>
+<td>Recoge los objetos que te esperan.</td>
+</tr>
+<tr>
+<td><code>/streamgiveaway cancel</code></td>
+<td>el streamer, o <code>chatalyst.giveaway.admin</code> (op)</td>
+<td>Cancela el que está en marcha. Todo lo no ganado vuelve. Funciona desde la consola.</td>
+</tr>
+</tbody></table></div>
+<h3 id="opciones-del-sorteo-de-streamer"><a class="anchor" href="#opciones-del-sorteo-de-streamer" aria-hidden="true">#</a>Opciones del sorteo de streamer</h3>
+<p>Todas en <code>Giveaway.Streamer</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>De fábrica</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Enciende los sorteos de streamer.</td>
+</tr>
+<tr>
+<td><code>Command</code> / <code>Command_Aliases</code></td>
+<td><code>streamgiveaway</code> / <code>sgiveaway</code>, <code>sorteostream</code></td>
+<td>Nombres del comando. Un nombre que ya tiene otro plugin se salta.</td>
+</tr>
+<tr>
+<td><code>Max_Stacks</code></td>
+<td><code>27</code></td>
+<td>Montones que caben en el cofre (1-45).</td>
+</tr>
+<tr>
+<td><code>Max_Winners</code></td>
+<td><code>5</code></td>
+<td>Máximo de ganadores que puede elegir el streamer.</td>
+</tr>
+<tr>
+<td><code>Durations_Seconds</code></td>
+<td><code>30, 60, 120, 300</code></td>
+<td>Tiempos de inscripción a elegir. El primero sale marcado.</td>
+</tr>
+<tr>
+<td><code>Entry</code></td>
+<td><code>JOIN</code></td>
+<td><code>JOIN</code> o <code>ALL</code>. El streamer puede cambiarlo en el cofre.</td>
+</tr>
+<tr>
+<td><code>Min_Participants</code></td>
+<td><code>2</code></td>
+<td>Con menos, se cancela y todo vuelve.</td>
+</tr>
+<tr>
+<td><code>Cooldown_Seconds</code></td>
+<td><code>300</code></td>
+<td>Espera entre dos lanzamientos del mismo streamer.</td>
+</tr>
+<tr>
+<td><code>Blocked_Materials</code></td>
+<td>bedrock, barrera, bloques de comandos, bloques de estructura, jigsaw, palo de depuración, luz</td>
+<td>Objetos que no se pueden sortear. Las cajas de shulker con contenido sí.</td>
+</tr>
+</tbody></table></div>
+<p>Los botones del cofre se cambian en <code>Giveaway_Menu</code>: <code>Streamer_Screen</code> y <code>Streamer_Confirm_Screen</code> dicen su columna (1-9) en la fila de abajo, e <code>Items.Stream_*</code> su material y <code>Model_Data</code>.</p>
+<h3 id="cuando-algo-sale-mal"><a class="anchor" href="#cuando-algo-sale-mal" aria-hidden="true">#</a>Cuando algo sale mal</h3>
+<p>Los objetos se guardan en disco antes de salir del inventario, así cada montón está siempre en un solo sitio.</p>
+<ul>
+<li>Cerrar el cofre sin lanzar, <strong>Cancelar</strong>, morir o desconectarse con el cofre abierto: todo vuelve.</li>
+<li>El streamer se va con el sorteo en marcha: se cancela y todo lo no ganado vuelve a él.</li>
+<li><code>/cht reload</code>, un reinicio o una caída: lo que no se había ganado vuelve al streamer, y lo ganado sigue siendo del ganador.</li>
+<li>Un jugador en la pantalla de muerte recibe sus objetos al reaparecer.</li>
+<li>Inventario lleno o jugador desconectado: los objetos esperan, sin plazo. Se le avisa al entrar y los recoge con <code>/streamgiveaway claim</code>.</li>
+<li>Con la función apagada, <code>/streamgiveaway claim</code> sigue funcionando mientras quede algo pendiente.</li>
+</ul>
+<p>Cada sorteo de streamer deja líneas en la consola: quién lo lanzó, qué objetos, quién recibió qué y qué se devolvió.</p>
+<div class="callout callout-note"><p class="callout-title">Nota</p><p>Los objetos esperan en el servidor donde se sortearon. En una red, se recogen allí.</p>
+</div>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Permiso (por defecto)</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/giveaway</code> (<code>/sorteo</code>, <code>/rifa</code>, <code>/raffle</code>)</td>
+<td><code>chatalyst.command.giveaway</code> (true)</td>
+<td>Los jugadores ven el estado o vuelven a abrir la rueda en marcha. El staff abre el menú.</td>
+</tr>
+<tr>
+<td><code>/sorteo start &lt;id&gt; [segundos] [unidades o cantidad] [ganadores:N]</code></td>
+<td><code>chatalyst.command.giveaway.admin</code> (op)</td>
+<td>Lanza un sorteo. El cuarto valor es la cantidad de dinero en premios de dinero; en los demás, las unidades.</td>
+</tr>
+<tr>
+<td><code>/sorteo cancel</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Cancela el sorteo en marcha o la cuenta atrás del premio para todos.</td>
+</tr>
+<tr>
+<td><code>/sorteo list</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Lista los premios y cualquier problema que tengan.</td>
+</tr>
+<tr>
+<td><code>/sorteo give &lt;jugador&gt; &lt;id&gt; [unidades o cantidad]</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Entrega un premio a mano.</td>
+</tr>
+<tr>
+<td><code>/sorteo status</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Muestra el sorteo en marcha o el último ganador.</td>
+</tr>
+<tr>
+<td><code>/sorteo vista &lt;id&gt;</code></td>
+<td><code>chatalyst.command.giveaway.admin</code></td>
+<td>Te enseña la ruleta y la revelación solo a ti, con un ganador inventado.</td>
+</tr>
+<tr>
+<td><code>/giveall</code> y <code>/giveall &lt;id&gt; [unidades o cantidad] [segundos]</code> (<code>/darall</code>, <code>/keyall</code>)</td>
+<td><code>chatalyst.command.giveall</code> (op)</td>
+<td>Abre el menú de dar a todos, o da a todos un premio del catálogo.</td>
+</tr>
+<tr>
+<td><code>/giveall hand [cantidad] [segundos]</code></td>
+<td><code>chatalyst.command.giveall.hand</code> (op)</td>
+<td>Da a todos copias del objeto de tu mano.</td>
+</tr>
+<tr>
+<td><code>/giveall money &lt;cantidad&gt; [segundos]</code></td>
+<td><code>chatalyst.command.giveall.money</code> (op)</td>
+<td>Da a todos esa cantidad de dinero.</td>
+</tr>
+<tr>
+<td><code>/giveall cancel</code></td>
+<td><code>chatalyst.command.giveall.cancel</code> (op)</td>
+<td>Detiene un premio para todos durante su cuenta atrás.</td>
+</tr>
+<tr>
+<td><code>/giveall preview &lt;id o hand&gt; [estilo]</code></td>
+<td><code>chatalyst.command.giveall.preview</code> (op)</td>
+<td>Reproduce la animación solo para ti. No se entrega nada.</td>
+</tr>
+</tbody></table></div>
+<p>Otros tres permisos deciden quién recibe y quién gana:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permiso</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.giveall.staff</code></td>
+<td>op</td>
+<td>Cuenta como staff en <code>/giveall</code>. Se queda fuera salvo que <code>All.Include_Staff</code> sea <code>true</code>.</td>
+</tr>
+<tr>
+<td><code>chatalyst.giveall.exempt</code></td>
+<td>false</td>
+<td>Nunca recibe un premio de <code>/giveall</code>, sea staff o no. Para bots y cuentas de pruebas.</td>
+</tr>
+<tr>
+<td><code>chatalyst.giveaway.exempt</code></td>
+<td>false</td>
+<td>Nunca sale como ganador de una ruleta.</td>
+</tr>
+</tbody></table></div>
+<p><code>chatalyst.command.giveaway.admin</code> incluye los cinco permisos de <code>/giveall</code> y <code>chatalyst.giveall.staff</code>. Quien ya llevaba los sorteos lo conserva todo.</p>
+<p>Los permisos de <code>/giveall</code> te dejan repartir menos que el paquete entero. Un moderador con solo <code>chatalyst.command.giveall</code> puede dar a todos premios del catálogo, pero no puede lanzar una ruleta, editar premios, repartir el objeto de su mano ni dar dinero. Añade encima <code>.hand</code>, <code>.money</code>, <code>.cancel</code> y <code>.preview</code>, uno a uno, según te convenga. Son extras: dalos junto con <code>chatalyst.command.giveall</code>, que es el que hace que el comando esté disponible.</p>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>Si el ganador está en la pantalla de muerte, recibe el premio al reaparecer.</li>
+<li>Si el ganador se desconecta, recibe el premio cuando vuelve. Si antes se reinicia el servidor, la consola muestra el comando <code>/sorteo give</code> que debe ejecutar el staff.</li>
+<li>Los objetos que no caben en el inventario del ganador caen a sus pies.</li>
+<li>Los premios <code>RANK</code> y <code>PERMISSION</code> necesitan LuckPerms. <code>MONEY</code> y <code>/giveall money</code> necesitan Vault.</li>
+<li>Un premio de <code>/giveall hand</code> o <code>/giveall money</code> no se guarda en el catálogo. Si un jugador se desconecta antes de recibirlo, lo recibe al volver, pero solo hasta el siguiente reinicio: la consola lo avisa y el staff lo entrega a mano.</li>
+<li><code>/giveall hand</code> da como mucho 64 del objeto a cada jugador. Solo lo puede usar un jugador: la consola no tiene mano.</li>
+<li><code>/giveall cancel</code> no puede parar una entrega que ya ha empezado.</li>
+<li>Los jugadores de Bedrock no ven el premio que llega, sea cual sea el estilo. Reciben las partículas, los sonidos y los mensajes.</li>
+<li>La vista previa de la ruleta no incluye la animación del tótem, que no se puede enseñar a un solo jugador. Si empieza un sorteo de verdad mientras miras una vista previa, la sustituye.</li>
+<li>Solo puedes ver una vista previa a la vez. Si el servidor ya está en <code>Max_Entities</code>, <code>/giveall preview</code> te pide que lo intentes en unos segundos.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="gifts.html"><span>Anterior</span><strong>Regalos</strong></a><a class="pager-next" href="marriage.html"><span>Siguiente</span><strong>Matrimonios</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>

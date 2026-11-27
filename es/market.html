@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101011">
+  <title>Mercado e intercambios · Docs de Chatalyst</title>
+  <meta name="description" content="Una casa de subastas integrada con depósito, compra directa o trueque, intercambios donde nada se mueve hasta que ambos aceptan y anuncios de tiendas.">
+  <link rel="canonical" href="https://kazuo404.github.io/Chatalyst-source/es/market.html">
+  <link rel="alternate" hreflang="en" href="https://kazuo404.github.io/Chatalyst-source/en/market.html">
+  <link rel="alternate" hreflang="es" href="https://kazuo404.github.io/Chatalyst-source/es/market.html">
+  <link rel="alternate" hreflang="x-default" href="https://kazuo404.github.io/Chatalyst-source/en/market.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Docs de Chatalyst">
+  <meta property="og:title" content="Mercado e intercambios">
+  <meta property="og:description" content="Una casa de subastas integrada con depósito, compra directa o trueque, intercambios donde nada se mueve hasta que ambos aceptan y anuncios de tiendas.">
+  <meta property="og:url" content="https://kazuo404.github.io/Chatalyst-source/es/market.html">
+  <meta property="og:image" content="https://kazuo404.github.io/Chatalyst-source/theme/assets/documentation-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../theme/assets/CHATALYST_icono.svg">
+  <script>
+    (() => { try { const theme = localStorage.getItem('chatalyst-theme'); document.documentElement.dataset.theme = theme === 'light' || theme === 'dark' ? theme : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (_) {} })();
+  </script>
+  <link rel="stylesheet" href="../theme/theme.css">
+</head>
+<body class="is-doc">
+  <a class="skip-link" href="#main-content"><span class="en">Skip to content</span><span class="es">Saltar al contenido</span></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../es/" aria-label="Chatalyst">
+        <img class="brand-lockup" src="../theme/assets/CHATALYST_horizontal.svg" width="1040" height="334" alt="">
+        <span class="brand-docs">Docs</span>
+      </a>
+      <button class="search-trigger" type="button" aria-haspopup="dialog" aria-controls="search-dialog" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <span class="search-label" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></span><kbd>Ctrl K</kbd>
+      </button>
+      <div class="header-actions">
+        <a class="community-link" href="https://discord.gg/uWTNeBmMT3">Discord <span aria-hidden="true">↗</span></a>
+        <a class="button button-primary store-link" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span><span aria-hidden="true">↗</span></a>
+        <a class="language-switch" href="../en/market.html" hreflang="en" lang="en"><span class="en" lang="es">ES<span class="sr-only"> — Español</span></span><span class="es" lang="en">EN<span class="sr-only"> — English</span></span></a>
+        <fieldset class="theme-control">
+          <legend class="sr-only"><span class="en">Color theme</span><span class="es">Tema de color</span></legend>
+          <label><input id="theme-light" name="theme" type="radio" value="light"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span><span class="sr-only" data-i18n="themeLight"><span class="en">Light theme</span><span class="es">Tema claro</span></span></label>
+          <label><input id="theme-dark" name="theme" type="radio" value="dark"><span class="theme-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg></span><span class="sr-only" data-i18n="themeDark"><span class="en">Dark theme</span><span class="es">Tema oscuro</span></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </header>
+  <input class="menu-state" type="checkbox" id="menu-state" aria-controls="sidebar" aria-labelledby="menu-label">
+  <label class="menu-toggle" for="menu-state"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span id="menu-label" data-i18n="menu"><span class="en">Menu</span><span class="es">Menú</span></span><span class="menu-close-label" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></span><span class="mobile-crumb">Extras opcionales</span></label>
+  <label class="drawer-scrim" for="menu-state" aria-hidden="true"></label>
+  <div class="site-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top"><a href="../es/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span class="en">Documentation</span><span class="es">Documentación</span></a></div>
+      <nav class="wiki-nav" aria-label="Documentación"><div class="nav-group"><p class="nav-group-title">Empezar</p><a class="nav-link" href="overview.html">Qué es Chatalyst</a><a class="nav-link" href="install.html">Instalación en 5 minutos</a><a class="nav-link" href="first-chat.html">Tu primer chat</a><a class="nav-link" href="features.html">Activar extras</a><a class="nav-link" href="license.html">Licencia y activación</a><a class="nav-link" href="privacy.html">Privacidad</a><a class="nav-link" href="upgrading.html">Actualizar</a><a class="nav-link" href="faq.html">Preguntas frecuentes</a><a class="nav-link" href="troubleshooting.html">Problemas comunes</a></div><div class="nav-group"><p class="nav-group-title">Chat</p><a class="nav-link" href="formats.html">Formatos de chat</a><a class="nav-link" href="channels.html">Canales</a><a class="nav-link" href="mentions.html">Menciones</a><a class="nav-link" href="private-messages.html">Mensajes privados</a><a class="nav-link" href="nicknames.html">Colores y apodos</a><a class="nav-link" href="join-messages.html">Mensajes de entrada, salida y muerte</a><a class="nav-link" href="chat-filter.html">Filtro, antispam y antibot</a><a class="nav-link" href="rules-engine.html">Motor de reglas</a></div><div class="nav-group"><p class="nav-group-title">Moderación</p><a class="nav-link" href="punishments.html">Muteos, baneos y avisos</a><a class="nav-link" href="staff-suite.html">Suite de staff</a><a class="nav-link" href="web-panel.html">Panel web</a><a class="nav-link" href="reports.html">Reportes y soporte</a><a class="nav-link" href="spying.html">Espía y registros</a><a class="nav-link" href="anonymous.html">Modo anónimo</a><a class="nav-link" href="newcomers.html">Recién llegados</a></div><div class="nav-group"><p class="nav-group-title">Extras opcionales</p><a class="nav-link" href="announcements.html">Anuncios</a><a class="nav-link" href="mail.html">Correo</a><a class="nav-link" href="tags.html">Tags, títulos y efectos</a><a class="nav-link" href="nametags.html">Tab y nametags</a><a class="nav-link" href="translation.html">Traducción en vivo</a><a class="nav-link" href="player-tools.html">Herramientas del jugador</a><a class="nav-link" href="auto-responses.html">Respuestas automáticas</a><a class="nav-link" href="custom-commands.html">Comandos personalizados</a><a class="nav-link" href="books.html">Libros y normas</a><a class="nav-link" href="economy.html">Ranking de dinero</a><a class="nav-link is-active" aria-current="page" href="market.html">Mercado e intercambios</a><a class="nav-link" href="rentals.html">Alquileres</a><a class="nav-link" href="gifts.html">Regalos</a><a class="nav-link" href="giveaways.html">Sorteos</a><a class="nav-link" href="marriage.html">Matrimonios</a><a class="nav-link" href="events.html">Eventos programados</a></div><div class="nav-group"><p class="nav-group-title">Red y proxy</p><a class="nav-link" href="network.html">Redes con proxy y Redis</a><a class="nav-link" href="storage.html">Almacenamiento y base de datos</a></div><div class="nav-group"><p class="nav-group-title">Integraciones</p><a class="nav-link" href="integrations.html">Integraciones</a><a class="nav-link" href="discord-bot.html">Bot de Discord</a><a class="nav-link" href="store.html">Tienda, rangos y Tebex</a></div><div class="nav-group"><p class="nav-group-title">Referencia</p><a class="nav-link" href="commands.html">Comandos</a><a class="nav-link" href="permissions.html">Permisos</a><a class="nav-link" href="placeholders.html">Placeholders</a><a class="nav-link" href="variables.html">Variables</a><a class="nav-link" href="configuration.html">Archivos de configuración</a><a class="nav-link" href="localization.html">Idiomas y mensajes</a><a class="nav-link" href="compatibility.html">Compatibilidad y conflictos</a><a class="nav-link" href="performance.html">Rendimiento</a></div><div class="nav-group"><p class="nav-group-title">Desarrolladores</p><a class="nav-link" href="api.html">API para desarrolladores</a></div></nav>
+      <div class="sidebar-bottom"><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Join us on Discord</span><span class="es">Únete a Discord</span> <span aria-hidden="true">↗</span></a><a class="mobile-store" href="https://builtbybit.com/resources/chatalyst-chat-moderation-suite.135516/" target="_blank" rel="noopener"><span class="en">Get Chatalyst</span><span class="es">Conseguir Chatalyst</span> <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <aside class="page-toc"><details class="toc-details" open><summary class="toc-title" data-i18n="onThisPage"><span class="en">On this page</span><span class="es">En esta página</span></summary><ul class="toc"><li class="toc-h2"><a href="#como-se-activa">Cómo se activa</a></li><li class="toc-h2"><a href="#configuracion">Configuración</a></li><li class="toc-h3"><a href="#casa-de-subastas">Casa de subastas</a></li><li class="toc-h3"><a href="#objetos-que-no-se-pueden-vender">Objetos que no se pueden vender</a></li><li class="toc-h3"><a href="#nombres-resaltados">Nombres resaltados</a></li><li class="toc-h3"><a href="#como-funciona-una-venta">Cómo funciona una venta</a></li><li class="toc-h3"><a href="#intercambio-directo">Intercambio directo</a></li><li class="toc-h3"><a href="#plugins-de-tienda-externos">Plugins de tienda externos</a></li><li class="toc-h2"><a href="#comandos-y-permisos">Comandos y permisos</a></li><li class="toc-h2"><a href="#limites">Límites</a></li></ul></details></aside>
+    <main class="main-content" id="main-content" tabindex="-1">
+      <header class="doc-header"><p class="crumb">Extras opcionales</p><h1>Mercado e intercambios</h1><p class="lead">Una casa de subastas integrada con depósito, compra directa o trueque, intercambios donde nada se mueve hasta que ambos aceptan y anuncios de tiendas.</p></header>
+<article class="prose">
+<p>Chatalyst cubre el comercio entre jugadores de tres formas:</p>
+<ul>
+<li><strong>Casa de subastas</strong> (<code>/ah</code>): los jugadores ponen objetos a la venta o en subasta. El objeto queda en depósito al momento y la oferta se anuncia en el canal de comercio con botones de comprar y pujar.</li>
+<li><strong>Intercambio directo</strong> (<code>/trade</code>): dos jugadores abren una ventana compartida, ponen objetos y dinero, y nada se mueve hasta que los dos confirman.</li>
+<li><strong>Anuncios de tiendas externas</strong>: si usas AuctionHouse, QuickShop o un plugin parecido, Chatalyst puede anunciar sus ofertas en los canales de comercio y subastas.</li>
+</ul>
+<p>Las tres vienen <strong>apagadas</strong>. El dinero necesita <a href="https://www.spigotmc.org/resources/vault.34315/" rel="noopener">Vault</a> y un plugin de economía.</p>
+<h2 id="como-se-activa"><a class="anchor" href="#como-se-activa" aria-hidden="true">#</a>Cómo se activa</h2>
+<p>En <code>plugins/Chatalyst/economy.yml</code>, pon <code>Market.Enabled: true</code> y/o <code>Trade.Enabled: true</code> y ejecuta <code>/cht reload</code>. Enciende también los <a href="channels.html">canales</a> <code>trade</code> y <code>auction</code> si quieres que los anuncios se vean (se encienden solos al detectar un plugin de mercado compatible).</p>
+<h2 id="configuracion"><a class="anchor" href="#configuracion" aria-hidden="true">#</a>Configuración</h2>
+<h3 id="casa-de-subastas"><a class="anchor" href="#casa-de-subastas" aria-hidden="true">#</a>Casa de subastas</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Market:
+  Enabled: false
+  Defer_To_Plugins: true
+  # Channels that receive the announcements (local only, never proxied).
+  Sale_Channel: trade
+  Auction_Channel: auction
+  Max_Listings: 10       # active listings per player (chatalyst.market.bypasslimit ignores it)
+  Listing_Days: 7        # sales expire after this many days (item returns to the seller)
+  Instant_Buy: true
+  Tax_Percent: 0</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Enciende la casa de subastas integrada.</td>
+</tr>
+<tr>
+<td><code>Defer_To_Plugins</code></td>
+<td><code>true</code></td>
+<td>Se aparta si hay instalado un plugin de mercado dedicado.</td>
+</tr>
+<tr>
+<td><code>Sale_Channel</code> / <code>Auction_Channel</code></td>
+<td><code>trade</code> / <code>auction</code></td>
+<td>Canales que reciben los anuncios.</td>
+</tr>
+<tr>
+<td><code>Max_Listings</code></td>
+<td><code>10</code></td>
+<td>Ofertas activas por jugador. Da <code>chatalyst.market.limit.&lt;número&gt;</code> para que un rango tenga más; gana el mayor.</td>
+</tr>
+<tr>
+<td><code>Listing_Days</code></td>
+<td><code>7</code></td>
+<td>Días hasta que caduca una venta y el objeto vuelve al vendedor.</td>
+</tr>
+<tr>
+<td><code>Max_Stash</code></td>
+<td><code>54</code></td>
+<td>Montones de objetos que pueden esperar en <code>/ah claim</code>. Si se llena, se rechazan compras e intercambios nuevos hasta que el jugador recoja algo.</td>
+</tr>
+<tr>
+<td><code>Instant_Buy</code></td>
+<td><code>true</code></td>
+<td>El comprador paga el precio publicado. Con <code>false</code> se abre una negociación con el vendedor conectado.</td>
+</tr>
+<tr>
+<td><code>Allow_Item_Offers</code></td>
+<td><code>true</code></td>
+<td>En una negociación, el comprador puede ofrecer objetos en lugar de dinero, o además del dinero.</td>
+</tr>
+<tr>
+<td><code>Tax_Percent</code></td>
+<td><code>0</code></td>
+<td>El vendedor recibe el precio menos este porcentaje. La diferencia desaparece de la economía.</td>
+</tr>
+<tr>
+<td><code>Listing_Fee.Amount</code> / <code>Percent</code></td>
+<td><code>0</code> / <code>false</code></td>
+<td>Comisión por publicar. Con <code>Percent: true</code>, la cantidad es un porcentaje del precio.</td>
+</tr>
+<tr>
+<td><code>Prices.Min_Sale</code>, <code>Max_Sale</code>, <code>Min_Start_Bid</code>, <code>Max_Start_Bid</code>, <code>Max_Buy_Now</code></td>
+<td><code>0</code></td>
+<td>Límites de precio. <code>0</code> es sin límite.</td>
+</tr>
+<tr>
+<td><code>Auction.Default_Minutes</code></td>
+<td><code>60</code></td>
+<td>Duración de la subasta si el vendedor no pone una.</td>
+</tr>
+<tr>
+<td><code>Auction.Max_Minutes</code></td>
+<td><code>1440</code></td>
+<td>Duración máxima de una subasta.</td>
+</tr>
+<tr>
+<td><code>Auction.Min_Increment_Percent</code></td>
+<td><code>5</code></td>
+<td>Cada puja tiene que superar la anterior al menos en este porcentaje.</td>
+</tr>
+<tr>
+<td><code>Auction.Anti_Snipe.Window_Seconds</code> / <code>Extend_Seconds</code></td>
+<td><code>30</code> / <code>30</code></td>
+<td>Una puja en los últimos segundos alarga la subasta. <code>0</code> lo apaga.</td>
+</tr>
+<tr>
+<td><code>Blocked_Worlds</code></td>
+<td><code>[]</code></td>
+<td>Mundos donde no se puede usar <code>/ah</code>.</td>
+</tr>
+<tr>
+<td><code>Block_Bedrock_Players</code></td>
+<td><code>false</code></td>
+<td>Deja fuera a los jugadores de Bedrock.</td>
+</tr>
+<tr>
+<td><code>Watchlist_Max</code></td>
+<td><code>45</code></td>
+<td>Ofertas guardadas por jugador.</td>
+</tr>
+<tr>
+<td><code>Security.Click_Cooldown_Ms</code>, <code>Claim_Cooldown_Ms</code>, <code>Listing_Cooldown_Ms</code></td>
+<td><code>250</code> / <code>1000</code> / <code>3000</code></td>
+<td>Esperas cortas contra el spam de clics.</td>
+</tr>
+<tr>
+<td><code>Security.Log_Admin_Actions</code></td>
+<td><code>true</code></td>
+<td>Registra las acciones del staff, que se ven con <code>/ah log</code>.</td>
+</tr>
+<tr>
+<td><code>Highlight.Enabled</code></td>
+<td><code>false</code></td>
+<td>Colorea el nombre del producto de los vendedores con un permiso de resaltado.</td>
+</tr>
+<tr>
+<td><code>Sound.Enabled</code></td>
+<td><code>true</code></td>
+<td>Suena una campanilla a quien recibe los anuncios del mercado.</td>
+</tr>
+</tbody></table></div>
+<h3 id="objetos-que-no-se-pueden-vender"><a class="anchor" href="#objetos-que-no-se-pueden-vender" aria-hidden="true">#</a>Objetos que no se pueden vender</h3>
+<p><code>Blocked</code> enumera lo que la casa de subastas rechaza. De fábrica bloquea objetos de administrador:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Blocked:
+    Materials: [bedrock, barrier, command_block, chain_command_block, repeating_command_block,
+      structure_block, structure_void, jigsaw, debug_stick, light, knowledge_book]
+    Name_Contains: []
+    Lore_Contains: []
+    Data_Keys: []
+    As_Whitelist: false
+    Allow_Damaged: true
+    Allow_Repaired: true</code></pre></div>
+<p><code>Name_Contains</code> y <code>Lore_Contains</code> bloquean palabras del nombre o de la descripción del objeto. <code>Data_Keys</code> bloquea objetos con datos de otro plugin (<code>plugin:clave</code> o solo <code>plugin</code>). Con <code>As_Whitelist: true</code>, <strong>solo</strong> se pueden vender los materiales de la lista.</p>
+<h3 id="nombres-resaltados"><a class="anchor" href="#nombres-resaltados" aria-hidden="true">#</a>Nombres resaltados</h3>
+<p><code>Highlight.Ranks</code> empareja un permiso con un color. Gana el primer permiso que tenga el vendedor:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">  Highlight:
+    Enabled: false
+    Ranks:
+      - Permission: chatalyst.market.highlight.mvp
+        Color: &quot;&lt;yellow&gt;&quot;
+      - Permission: chatalyst.market.highlight.vip
+        Color: &quot;&lt;white&gt;&quot;</code></pre></div>
+<p>Puedes usar tu propio color hexadecimal o un degradado. Con un degradado, normalmente se usa el primer color.</p>
+<h3 id="como-funciona-una-venta"><a class="anchor" href="#como-funciona-una-venta" aria-hidden="true">#</a>Cómo funciona una venta</h3>
+<ol>
+<li>El vendedor coge el objeto en la mano y ejecuta <code>/ah sell &lt;precio&gt;</code>, o <code>/ah auction &lt;puja inicial&gt; [minutos] [compra ya]</code>. <code>/ah publish</code> abre en su lugar una ventana de publicación con controles exactos de precio, una descripción y un lanzamiento programado opcional.</li>
+<li>El objeto sale del inventario del vendedor y espera en depósito. La oferta se anuncia con la descripción del objeto y los botones.</li>
+<li>Con <code>Instant_Buy: true</code>, el comprador paga el precio publicado. Con <code>false</code>, <code>/ah buy &lt;id&gt;</code> abre una negociación con el vendedor conectado: el comprador puede ofrecer dinero, objetos o ambos, cualquier cambio anula las dos confirmaciones y el trato solo se cierra cuando los dos aceptan. Si el vendedor no está conectado, la venta se cierra al precio publicado.</li>
+<li>Las subastas reciben pujas con <code>/ah bid &lt;id&gt; &lt;cantidad&gt;</code>. Al terminar, se cobra al ganador y recibe el objeto. Si el pago falla, el objeto vuelve al vendedor.</li>
+<li>Lo que no cabe en un inventario, o es de un jugador desconectado, espera en <code>/ah claim</code>.</li>
+</ol>
+<p><code>/ah sell &lt;compra ya&gt; &lt;puja inicial&gt;</code> crea una subasta que además se puede comprar al momento.</p>
+<p><code>/ah</code> abre un buscador con las ofertas.</p>
+<h3 id="intercambio-directo"><a class="anchor" href="#intercambio-directo" aria-hidden="true">#</a>Intercambio directo</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Trade:
+  Enabled: false
+  Allow_Money: true          # let each side add money (needs Vault); false = items only
+  Request_Timeout_Seconds: 60</code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Por defecto</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enabled</code></td>
+<td><code>false</code></td>
+<td>Enciende <code>/trade</code>.</td>
+</tr>
+<tr>
+<td><code>Allow_Money</code></td>
+<td><code>true</code></td>
+<td>Cada lado puede poner dinero. <code>false</code> = solo objetos (no hace falta Vault).</td>
+</tr>
+<tr>
+<td><code>Request_Timeout_Seconds</code></td>
+<td><code>60</code></td>
+<td>Cuánto dura abierta una petición de intercambio.</td>
+</tr>
+</tbody></table></div>
+<p>Los dos jugadores tienen que estar conectados en el mismo servidor. Cualquier cambio anula las dos confirmaciones. Si alguien se desconecta o cancela, cada objeto vuelve a su dueño. La entrega pasa por el alijo, así que un inventario lleno nunca tira objetos al suelo.</p>
+<h3 id="plugins-de-tienda-externos"><a class="anchor" href="#plugins-de-tienda-externos" aria-hidden="true">#</a>Plugins de tienda externos</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">yaml</span><button class="copy-btn" type="button">Copiar</button></div><pre><code class="language-yaml">Trade_Plugins:
+  Announce:
+    Enabled: false
+    Cooldown_Seconds: 60
+    # &quot;&lt;command without slash&gt;&quot;: &lt;channel that receives the announcement&gt;
+    Commands:
+      ah sell: auction
+      auc sell: auction
+      auction sell: auction
+      auctionhouse sell: auction
+      crazyauctions sell: auction
+      qs create: trade
+      quickshop create: trade</code></pre></div>
+<p>Con <code>Enabled: true</code>, cuando un jugador ejecuta uno de estos comandos Chatalyst lo anuncia en el canal indicado, en el idioma de cada lector y con una espera por jugador. Entre los plugins detectados están AuctionHouse, zAuctionHouse, CrazyAuctions, PlayerAuctions, AuctionMaster, QuickShop, ChestShop, ShopGUI+, EconomyShopGUI, DynamicShop y BossShopPro.</p>
+<h2 id="comandos-y-permisos"><a class="anchor" href="#comandos-y-permisos" aria-hidden="true">#</a>Comandos y permisos</h2>
+<p><code>/ah</code> también responde a <code>/auctionhouse</code>, <code>/subastas</code> y <code>/subasta</code>. Todos los comandos de jugador de abajo piden <code>chatalyst.command.market</code> (todos).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/ah</code></td>
+<td>Abre la casa de subastas.</td>
+</tr>
+<tr>
+<td><code>/ah publish</code></td>
+<td>Abre la ventana de publicación.</td>
+</tr>
+<tr>
+<td><code>/ah sell &lt;precio&gt;</code></td>
+<td>Vende el objeto de la mano.</td>
+</tr>
+<tr>
+<td><code>/ah sell &lt;compra ya&gt; &lt;puja inicial&gt;</code></td>
+<td>Una subasta que además se puede comprar al momento.</td>
+</tr>
+<tr>
+<td><code>/ah auction &lt;puja inicial&gt; [minutos] [compra ya]</code></td>
+<td>Subasta el objeto de la mano.</td>
+</tr>
+<tr>
+<td><code>/ah buy &lt;id&gt;</code> / <code>/ah bid &lt;id&gt; &lt;cantidad&gt;</code></td>
+<td>Compra o puja.</td>
+</tr>
+<tr>
+<td><code>/ah buynow &lt;id&gt;</code></td>
+<td>Compra una subasta al momento.</td>
+</tr>
+<tr>
+<td><code>/ah search &lt;texto&gt;</code></td>
+<td>Busca entre las ofertas.</td>
+</tr>
+<tr>
+<td><code>/ah watch &lt;id&gt;</code> / <code>/ah watchlist</code></td>
+<td>Guarda una oferta / enseña las guardadas.</td>
+</tr>
+<tr>
+<td><code>/ah bids</code> / <code>/ah active</code></td>
+<td>Tus pujas / tus ofertas.</td>
+</tr>
+<tr>
+<td><code>/ah cancel &lt;id&gt;</code></td>
+<td>Cancela tu oferta.</td>
+</tr>
+<tr>
+<td><code>/ah claim</code></td>
+<td>Recoge lo que te espera.</td>
+</tr>
+<tr>
+<td><code>/ah history</code></td>
+<td>Tus últimas operaciones.</td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando de staff</th>
+<th>Permiso (por defecto)</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/ah ban &lt;jugador&gt; [30m|2h|7d] [motivo]</code></td>
+<td><code>chatalyst.market.admin</code> (op)</td>
+<td>Veta a un jugador de la casa de subastas.</td>
+</tr>
+<tr>
+<td><code>/ah unban &lt;jugador&gt;</code></td>
+<td><code>chatalyst.market.admin</code></td>
+<td>Quita ese veto.</td>
+</tr>
+<tr>
+<td><code>/ah log</code></td>
+<td><code>chatalyst.market.admin</code></td>
+<td>Enseña las últimas acciones del staff.</td>
+</tr>
+<tr>
+<td><code>/ah credits list|retry &lt;id&gt;|paid &lt;id&gt;</code></td>
+<td><code>chatalyst.market.reconcile</code> (op)</td>
+<td>Regulariza los reembolsos pendientes.</td>
+</tr>
+<tr>
+<td><code>/ah settlements list|paid &lt;id&gt;|unpaid &lt;id&gt;</code></td>
+<td><code>chatalyst.market.reconcile</code></td>
+<td>Resuelve un pago interrumpido por una caída. Revisa antes los registros de tu economía.</td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comando de intercambio</th>
+<th>Permiso (por defecto)</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/trade &lt;jugador&gt;</code> (<code>/intercambio</code>, <code>/intercambiar</code>)</td>
+<td><code>chatalyst.command.trade</code> (true)</td>
+<td>Pide un intercambio.</td>
+</tr>
+<tr>
+<td><code>/trade accept [jugador]</code> / <code>/trade deny</code></td>
+<td><code>chatalyst.command.trade</code></td>
+<td>Responde a una petición.</td>
+</tr>
+<tr>
+<td><code>/trade settlements list|paid &lt;id&gt;|unpaid &lt;id&gt;</code></td>
+<td><code>chatalyst.market.reconcile</code> (op)</td>
+<td>Resuelve un intercambio con dinero interrumpido por una caída.</td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permiso</th>
+<th>Por defecto</th>
+<th>Qué permite</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chatalyst.market.bypasslimit</code></td>
+<td>op</td>
+<td>Sin límite de ofertas activas.</td>
+</tr>
+<tr>
+<td><code>chatalyst.market.manage</code></td>
+<td>op</td>
+<td>Cancelar la oferta de cualquiera.</td>
+</tr>
+<tr>
+<td><code>chatalyst.market.reconcile</code></td>
+<td>op</td>
+<td>Usar las herramientas de regularización (credits, settlements): mueven dinero a mano, así que conviene reservarlas al dueño.</td>
+</tr>
+<tr>
+<td><code>chatalyst.market.highlight.vip</code> / <code>.mvp</code></td>
+<td>false</td>
+<td>Nombres de producto resaltados.</td>
+</tr>
+</tbody></table></div>
+<h2 id="limites"><a class="anchor" href="#limites" aria-hidden="true">#</a>Límites</h2>
+<ul>
+<li>La casa de subastas es por servidor a propósito, incluso con base de datos compartida: las ofertas, los alijos, el historial y los anuncios nunca cruzan el proxy, así que un objeto no se puede comprar desde dos servidores a la vez.</li>
+<li>Una negociación (<code>Instant_Buy: false</code>) solo es posible mientras el vendedor está conectado.</li>
+<li>Los anuncios de tiendas externas salen cuando se ejecuta el comando. Una oferta que el otro plugin rechace puede anunciarse igual; sube <code>Cooldown_Seconds</code> para mantener el canal tranquilo.</li>
+</ul>
+</article>
+      <nav class="pager"><a class="pager-prev" href="economy.html"><span>Anterior</span><strong>Ranking de dinero</strong></a><a class="pager-next" href="rentals.html"><span>Siguiente</span><strong>Alquileres</strong></a></nav>
+      <footer class="site-footer"><span>© 2026 DevKazuo</span><a href="https://discord.gg/uWTNeBmMT3"><span class="en">Let's talk on Discord</span><span class="es">Hablemos en Discord</span> <span aria-hidden="true">↗</span></a></footer>
+    </main>
+  </div>
+  <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+    <h2 class="sr-only" id="search-title" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></h2>
+    <div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><label class="sr-only" for="search-input" data-i18n="search"><span class="en">Search documentation</span><span class="es">Buscar documentación</span></label><input id="search-input" type="search" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results"><button class="search-close" type="button" data-i18n="close"><span class="en">Close</span><span class="es">Cerrar</span></button></div>
+    <p class="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="search-results" role="listbox"></ul>
+    <div class="search-help" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> <span class="en">Navigate</span><span class="es">Navegar</span></span><span><kbd>↵</kbd> <span class="en">Open</span><span class="es">Abrir</span></span><span><kbd>esc</kbd> <span class="en">Close</span><span class="es">Cerrar</span></span></div>
+    <template id="search-error"><span class="en">Search couldn’t load. Check your connection, then reopen search to try again.</span><span class="es">No se pudo cargar la búsqueda. Revisa tu conexión y vuelve a abrirla para intentarlo de nuevo.</span></template>
+    <template id="search-loading"><span class="en">Loading documentation…</span><span class="es">Cargando documentación…</span></template>
+    <template id="copy-error"><span class="en">Select the code to copy it manually.</span><span class="es">Selecciona el código para copiarlo manualmente.</span></template>
+  </dialog>
+  <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+  <script>window.WIKI = {"lang":"es","root":"../","strings":{"siteName":"Docs de Chatalyst","search":"Buscar","searchPlaceholder":"Buscar en la documentación…","noResults":"Sin resultados para","copy":"Copiar","copied":"Copiado","onThisPage":"En esta página","previous":"Anterior","next":"Siguiente","menu":"Menú","close":"Cerrar","themeLight":"Cambiar a tema claro","themeDark":"Cambiar a tema oscuro","note":"Nota","tip":"Consejo","warning":"Aviso","danger":"Peligro","filter":"Filtrar…","home":"Inicio"}};</script>
+  <script src="../theme/theme.js" defer></script>
+</body>
+</html>
